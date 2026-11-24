@@ -1,0 +1,488 @@
+{
+  "version": 1,
+  "description": "Mappa per problema: percorsi canonici delle funzioni, test e rischi.",
+  "features": [
+    {
+      "id": "nodi",
+      "title": "Nodi, selezione e Undo",
+      "aliases": [
+        "nodo",
+        "undo",
+        "redo",
+        "selezione",
+        "clipboard",
+        "copia",
+        "incolla"
+      ],
+      "common": [
+        "packages/map-core/index.js"
+      ],
+      "desktop": [
+        "apps/desktop-shared/editor/state.js",
+        "apps/desktop-shared/editor/app-selection-clipboard.js",
+        "apps/desktop-shared/editor/app-context-find.js",
+        "apps/desktop-shared/editor/app-bind-ui.js",
+        "apps/desktop-shared/editor/app.js",
+        "apps/desktop-shared/editor/layout-text-controls.js",
+        "apps/desktop-shared/editor/layout-tab-order.js"
+      ],
+      "android": [
+        "apps/android/editor/state.js",
+        "apps/android/editor/app-selection-clipboard.js",
+        "apps/android/editor/app-context-find.js",
+        "apps/android/editor/app-bind-ui.js",
+        "apps/android/editor/app.js"
+      ],
+      "tests": [
+        "packages/editor-ui/tests/state-undo-layout-regression.test.js"
+      ],
+      "warning": "Preservare ID, Undo, schema dei nodi e payload clipboard interno."
+    },
+    {
+      "id": "layout",
+      "title": "Disposizione Oraria, Bilanciata e Fluida",
+      "aliases": [
+        "oraria",
+        "bilanciata",
+        "fluida",
+        "radiale",
+        "disposizione",
+        "spaziatura"
+      ],
+      "common": [
+        "packages/map-core/index.js",
+        "packages/editor-ui/continuation-layout.js"
+      ],
+      "desktop": [
+        "apps/desktop-shared/editor/layout.js",
+        "apps/desktop-shared/editor/layout-ui-controls.js",
+        "apps/desktop-shared/editor/layout-navigation.js"
+      ],
+      "android": [
+        "apps/android/editor/layout.js"
+      ],
+      "tests": [
+        "packages/map-core/tests/layout.test.js",
+        "packages/map-core/tests/virtual-user-layout-rich-markdown.test.js"
+      ],
+      "warning": "Non cambiare ordine o lato dei rami."
+    },
+    {
+      "id": "drag",
+      "title": "Spostamento dei rami e trascinamento",
+      "aliases": [
+        "trascinamento",
+        "spostare rami",
+        "drag drop",
+        "riordinare rami",
+        "cambio lato"
+      ],
+      "common": [
+        "packages/editor-ui/drag-preview.js"
+      ],
+      "desktop": [
+        "apps/desktop-shared/editor/study-canvas-interactions.js",
+        "apps/desktop-shared/editor/study-interactions.js"
+      ],
+      "android": [
+        "apps/android/editor/study-canvas-interactions.js",
+        "apps/android/editor/study-interactions.js"
+      ],
+      "tests": [
+        "packages/editor-ui/tests/fluid-virtual-1000-users.test.js",
+        "packages/editor-ui/tests/fluid-layout-and-drag.test.js"
+      ],
+      "warning": "Non rompere gerarchia, Undo e aggancio."
+    },
+    {
+      "id": "schermo",
+      "title": "Zoom, nitidezza e Canvas",
+      "aliases": [
+        "zoom",
+        "nitidezza",
+        "dpi",
+        "canvas",
+        "rendering",
+        "camera"
+      ],
+      "common": [
+        "packages/editor-ui/graphics.js"
+      ],
+      "desktop": [
+        "apps/desktop-shared/editor/renderer.js",
+        "apps/desktop-shared/editor/fast-canvas.js"
+      ],
+      "android": [
+        "apps/android/editor/renderer.js"
+      ],
+      "tests": [
+        "scripts/release/test_windows_dpi_sharpness.py"
+      ],
+      "warning": "Distinguere problemi DPI da stili dei nodi."
+    },
+    {
+      "id": "file",
+      "title": "Import, export, XMind e Markdown",
+      "aliases": [
+        "xmind",
+        "markdown",
+        "opml",
+        "importazione",
+        "esportazione",
+        "import",
+        "export"
+      ],
+      "common": [
+        "packages/map-core/index.js",
+        "packages/editor-ui/export-hub-core.js"
+      ],
+      "desktop": [
+        "apps/desktop-shared/editor/io.js",
+        "apps/desktop-shared/editor/text-import.js"
+      ],
+      "android": [
+        "apps/android/editor/io.js"
+      ],
+      "tests": [
+        "packages/map-core/tests/markdown.test.js",
+        "packages/map-core/tests/markdown-export-preflight.test.js",
+        "packages/editor-ui/tests/opml-platform-deep-parity-20261031.test.js"
+      ],
+      "warning": "Verificare sempre un'esportazione seguita da reimportazione."
+    },
+    {
+      "id": "salvataggi",
+      "title": "Salvataggi, backup e recupero",
+      "aliases": [
+        "salvataggio",
+        "autosave",
+        "salva",
+        "backup",
+        "recupero",
+        "recovery"
+      ],
+      "common": [
+        "packages/editor-ui/workspace-recovery.js"
+      ],
+      "desktop": [
+        "apps/desktop-shared/editor/saving.js",
+        "apps/desktop-shared/editor/version-history.js",
+        "apps/desktop-shared/editor/workspace-save-queue.js",
+        "apps/desktop-shared/src/workspace_recovery.go"
+      ],
+      "android": [
+        "apps/android/editor/io.js",
+        "apps/android/native/app/src/main/java/it/neuromap/architect/preview/WorkspaceRecoveryStore.java"
+      ],
+      "tests": [
+        "packages/editor-ui/tests/workspace-autosave-race.test.js",
+        "packages/editor-ui/tests/workspace-recovery-integrity.test.js"
+      ],
+      "warning": "Non perdere dati salvati o backup vecchi."
+    },
+    {
+      "id": "cloud",
+      "title": "Cloud, OAuth e sincronizzazione",
+      "aliases": [
+        "sincronizzazione",
+        "sync",
+        "google drive",
+        "dropbox",
+        "onedrive",
+        "oauth"
+      ],
+      "common": [
+        "packages/cloud-sync/core.js",
+        "packages/cloud-sync/providers.js",
+        "packages/cloud-sync/oauth-pkce.js"
+      ],
+      "desktop": [
+        "apps/desktop-shared/src/cloud_sync_ui.js",
+        "apps/desktop-shared/src/cloud_oauth.go"
+      ],
+      "android": [
+        "apps/android/native/app/src/main/java/it/neuromap/architect/preview/GlaukaCloudAndroidPkce.java"
+      ],
+      "tests": [
+        "packages/cloud-sync/tests",
+        "packages/editor-ui/tests/cloud-sync-revision-safety.test.js"
+      ],
+      "warning": "Non cancellare versioni remote risolvendo conflitti."
+    },
+    {
+      "id": "ai",
+      "title": "AI, modelli e licenze",
+      "aliases": [
+        "intelligenza artificiale",
+        "ai review",
+        "modelli",
+        "llama"
+      ],
+      "common": [
+        "packages/editor-ui/ai-workflows.js",
+        "packages/editor-ui/ai-review-core.js",
+        "packages/editor-ui/ai-studio.js",
+        "packages/editor-ui/ai-studio-mount.js",
+        "packages/editor-ui/ai-studio-open.js",
+        "packages/editor-ui/ai-studio-methods.js",
+        "packages/editor-ui/ai-studio-mount-panel.js",
+        "packages/editor-ui/ai-studio-mount-connections.js"
+      ],
+      "desktop": [
+        "apps/desktop-shared/editor/ai-client.js"
+      ],
+      "android": [
+        "apps/android/editor/ai-client.js",
+        "apps/android/native/app/src/main/java/it/neuromap/architect/preview/AndroidAiHostPolicy.java"
+      ],
+      "tests": [
+        "packages/editor-ui/tests/ai-workflows.test.js",
+        "packages/editor-ui/tests/android-release-guard.test.js"
+      ],
+      "warning": "Mai inserire chiavi segrete o aggirare licenze."
+    },
+    {
+      "id": "studio",
+      "title": "Flashcard, quiz e ripasso",
+      "aliases": [
+        "flashcard",
+        "quiz",
+        "ripasso",
+        "srs",
+        "studiare"
+      ],
+      "common": [
+        "packages/editor-ui/study-today.js",
+        "packages/editor-ui/editor-shared/navigation-flashcards.js"
+      ],
+      "desktop": [
+        "apps/desktop-shared/editor/study-interactions.js",
+        "apps/desktop-shared/editor/learn-core.js"
+      ],
+      "android": [
+        "apps/android/editor/study-interactions.js"
+      ],
+      "tests": [
+        "packages/editor-ui/tests/v81-flashcard-srs.test.js"
+      ],
+      "warning": "Conservare storico e legami ai nodi."
+    },
+    {
+      "id": "viste",
+      "title": "Kanban, Timeline e viste alternative",
+      "aliases": [
+        "kanban",
+        "timeline",
+        "organigramma",
+        "flowchart"
+      ],
+      "common": [
+        "packages/editor-ui/linked-views.js",
+        "packages/editor-ui/view-core.js"
+      ],
+      "desktop": [
+        "apps/desktop-shared/editor/workspace-view-metadata.js"
+      ],
+      "android": [
+        "apps/android/editor/startup.js",
+        "apps/android/editor/state.js",
+        "scripts/release/prepare.py"
+      ],
+      "tests": [
+        "packages/editor-ui/tests/linked-views-dom.test.js",
+        "packages/editor-ui/tests/linked-views-android-mobile.test.js",
+        "packages/editor-ui/tests/view-workspace-persistence.test.js"
+      ],
+      "warning": "Le viste condividono dati: non spostare senza test. Su Android niente split/dual pane."
+    },
+    {
+      "id": "documenti",
+      "title": "Documenti PDF e OCR",
+      "aliases": [
+        "pdf",
+        "ocr",
+        "pdfjs",
+        "scansione"
+      ],
+      "common": [],
+      "desktop": [
+        "apps/desktop-shared/editor/pdfjs-adapter.js",
+        "apps/desktop-shared/editor/ocr-core.js",
+        "apps/desktop-shared/editor/document-import-core.js"
+      ],
+      "android": [],
+      "tests": [
+        "scripts/release/test_pdfjs_vendor.py",
+        "scripts/release/test_ocr_vendor.py"
+      ],
+      "warning": "Non assumere che l'OCR desktop sia su Android."
+    },
+    {
+      "id": "immagini",
+      "title": "Icone, SVG e illustrazioni",
+      "aliases": [
+        "svg",
+        "icone",
+        "illustrazioni"
+      ],
+      "common": [
+        "packages/editor-ui/object-gallery-parts-glauka.js",
+        "packages/editor-ui/editor-shared/media-icon-core.js"
+      ],
+      "desktop": [
+        "apps/desktop-shared/editor/media.js"
+      ],
+      "android": [
+        "apps/android/editor/media.js"
+      ],
+      "tests": [
+        "packages/editor-ui/tests/editor-shared-slices-parity.test.js"
+      ],
+      "warning": "Non modificare risorse generate o URL locali."
+    },
+    {
+      "id": "interfaccia",
+      "title": "Interfaccia, pannelli e temi",
+      "aliases": [
+        "pannelli",
+        "bussola",
+        "menu",
+        "finestra creativa",
+        "temi",
+        "ui"
+      ],
+      "common": [
+        "packages/editor-ui/workspace-chrome.js",
+        "packages/editor-ui/workspace-skins.js"
+      ],
+      "desktop": [
+        "apps/desktop-shared/editor/shell-home.js",
+        "apps/desktop-shared/editor/shell.js"
+      ],
+      "android": [
+        "apps/android/editor/shell.js"
+      ],
+      "tests": [
+        "packages/editor-ui/tests/right-panels-polish.test.js",
+        "packages/editor-ui/tests/workspace-panel-coordinator.test.js"
+      ],
+      "warning": "Desktop e Android hanno schermi differenti."
+    },
+    {
+      "id": "lingue",
+      "title": "Lingua e traduzioni della UI",
+      "aliases": [
+        "lingua",
+        "traduzione",
+        "localizzazione",
+        "inglese",
+        "italiano"
+      ],
+      "common": [
+        "packages/editor-ui/localization.js"
+      ],
+      "desktop": [
+        "apps/desktop-shared/editor/shell-dictionary.js",
+        "apps/desktop-shared/editor/shell-product-locale.js"
+      ],
+      "android": [
+        "apps/android/editor/shell-dictionary.js",
+        "apps/android/editor/shell-product-locale.js"
+      ],
+      "tests": [
+        "scripts/release/test_interface_locales.py"
+      ],
+      "warning": "Non tradurre i contenuti personali delle mappe."
+    },
+    {
+      "id": "windows",
+      "title": "Installer ed EXE Windows",
+      "aliases": [
+        "exe",
+        "installer",
+        "webview2",
+        "windows build"
+      ],
+      "common": [],
+      "desktop": [
+        "apps/windows/README.md",
+        "scripts/release/build_desktop.py",
+        "scripts/release/build_windows_local.ps1",
+        "apps/desktop-shared/src/main.go"
+      ],
+      "android": [],
+      "tests": [
+        "scripts/release/test_windows_distribution_metadata.py"
+      ],
+      "warning": "Una prova JS non certifica un EXE Windows."
+    },
+    {
+      "id": "macos",
+      "title": "App e DMG macOS",
+      "aliases": [
+        "mac",
+        "dmg",
+        "swift",
+        "apple"
+      ],
+      "common": [],
+      "desktop": [
+        "apps/macos/README.md",
+        "apps/macos/native/main.swift",
+        "scripts/release/build_desktop.py",
+        "scripts/release/macos_artifacts.py"
+      ],
+      "android": [],
+      "tests": [
+        "scripts/release/test_macos_artifacts.py"
+      ],
+      "warning": "Firma e DMG vanno verificati su Mac."
+    },
+    {
+      "id": "android",
+      "title": "APK, Gradle e WebView Android",
+      "aliases": [
+        "apk",
+        "gradle",
+        "webview",
+        "touch",
+        "java"
+      ],
+      "common": [],
+      "desktop": [],
+      "android": [
+        "apps/android/native/app/src/main/java/it/neuromap/architect/preview/MainActivity.java",
+        "apps/android/native/app/build.gradle",
+        "scripts/release/build_android_local.py",
+        "apps/android/editor/sources.json"
+      ],
+      "tests": [
+        "scripts/release/test_android_native_reports.py",
+        "packages/editor-ui/tests/android-release-guard.test.js"
+      ],
+      "warning": "Servono build Gradle e prove reali per la release."
+    },
+    {
+      "id": "sito",
+      "title": "Sito e pagina Download",
+      "aliases": [
+        "website",
+        "landing page",
+        "pricing",
+        "download"
+      ],
+      "common": [],
+      "desktop": [
+        "apps/website/index.html",
+        "apps/website/app.js",
+        "apps/website/styles.css",
+        "scripts/release/package_website_preview.py"
+      ],
+      "android": [],
+      "tests": [
+        "scripts/release/test_package_website_preview.py"
+      ],
+      "warning": "Il sito non è la build desktop o Android."
+    }
+  ]
+}

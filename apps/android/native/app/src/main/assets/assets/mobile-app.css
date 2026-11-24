@@ -1,0 +1,2022 @@
+/* Android app chrome is independent of the old desktop ribbon and Orbit skin. */
+body.glauka-mobile-app {
+  --glauka-app-ink: #20233f;
+  --glauka-app-line: #dcd6e8;
+  --glauka-app-paper: #fff;
+  --glauka-app-soft: #f7f5fc;
+  --glauka-app-selected: #eee8ff;
+  --glauka-app-muted: #625871;
+  --glauka-app-accent: #6441df;
+  --mobile-bottom: calc(66px + env(safe-area-inset-bottom, 0px));
+  /* Shared dialogs read --nm-skin-*. Android has no desktop skin, so without
+     these tokens every window falls through to a dark hex fallback. */
+  --nm-skin-surface: var(--glauka-app-paper);
+  --nm-skin-top: var(--glauka-app-soft);
+  --nm-skin-ink: var(--glauka-app-ink);
+  --nm-skin-muted: var(--glauka-app-muted);
+  --nm-skin-stroke: var(--glauka-app-line);
+  --nm-skin-radius: 12px;
+  --nm-skin-shadow: 0 12px 40px #19103522;
+  --nm-theme-focus: var(--glauka-app-accent);
+  --nm-type-micro: 11px;
+  --nm-type-caption: 12px;
+  --nm-type-label: 13px;
+  --nm-type-control: 14px;
+  --nm-type-section: 16px;
+  --nm-type-dialog: 20px;
+  --nm-type-title: 24px;
+  --nm-theme-action: var(--glauka-app-accent);
+  --nm-theme-on-action: #fff;
+  --nm-ui-border: var(--glauka-app-line);
+  --nm-ui-surface: var(--glauka-app-paper);
+  --nm-ui-ink: var(--glauka-app-ink);
+  --nm-navigation-hover: var(--glauka-app-selected);
+}
+body.glauka-mobile-app:not([data-gl-android-theme="dark"])[data-gl-android-accent="cyan"] {
+  --glauka-app-accent: #126e9c;
+  --glauka-app-selected: #e2f2fa;
+  --glauka-app-soft: #f2f8fc;
+}
+body.glauka-mobile-app:not([data-gl-android-theme="dark"])[data-gl-android-accent="amber"] {
+  --glauka-app-accent: #946012;
+  --glauka-app-selected: #f9edda;
+  --glauka-app-soft: #fcf8f0;
+}
+body.glauka-mobile-app[data-gl-android-theme="dark"] {
+  --glauka-app-ink: #eef2ff;
+  --glauka-app-line: #2d364d;
+  --glauka-app-paper: #151925;
+  --glauka-app-soft: #1c2233;
+  --glauka-app-selected: #2a2448;
+  --glauka-app-muted: #94a3b8;
+  --glauka-app-accent: #7c5ce7;
+  --nm-skin-surface: #151925;
+  --nm-skin-top: #1c2233;
+  --nm-skin-ink: #eef2ff;
+  --nm-skin-muted: #94a3b8;
+  --nm-skin-stroke: #2d364d;
+  --nm-skin-shadow: 0 14px 44px rgba(0, 0, 0, 0.55);
+  --nm-ui-border: #2d364d;
+  --nm-ui-surface: #151925;
+  --nm-ui-ink: #eef2ff;
+  color-scheme: dark;
+}
+body.glauka-mobile-app[data-gl-android-theme="dark"][data-gl-android-accent="cyan"] {
+  --glauka-app-accent: #38bdf8;
+  --glauka-app-selected: #16324a;
+}
+body.glauka-mobile-app[data-gl-android-theme="dark"][data-gl-android-accent="amber"] {
+  --glauka-app-accent: #f59e0b;
+  --glauka-app-selected: #382b16;
+}
+body.glauka-mobile-app .tab-close-btn {
+  width: 48px;
+  height: 48px;
+  margin: 0;
+}
+body.glauka-mobile-app
+  :is(
+    .top-chrome,
+    #mobile-dock,
+    .hud-bottom-left,
+    .hud-bottom-right,
+    #nm-android-menu-rail,
+    .dropdown-panel,
+    #context-menu
+  ) {
+  display: none !important;
+}
+#glauka-app-header,
+#glauka-app-dock {
+  box-sizing: border-box;
+  position: fixed;
+  inset-inline: 0;
+  z-index: 92;
+  background: var(--glauka-app-paper);
+  color: var(--glauka-app-ink);
+  font-family: "Glauka Sans", system-ui, sans-serif;
+}
+#glauka-app-header {
+  top: 0;
+  min-height: 58px;
+  padding: calc(6px + env(safe-area-inset-top, 0px)) 12px 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 1px solid var(--glauka-app-line);
+}
+#glauka-app-header button,
+#glauka-app-dock button {
+  box-sizing: border-box;
+  border: 0;
+  box-shadow: none;
+  touch-action: manipulation;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+#glauka-app-header svg,
+#glauka-app-dock svg,
+.glauka-app-action svg,
+.glauka-app-project svg {
+  width: 23px;
+  height: 23px;
+  flex: none;
+}
+#glauka-app-header .glauka-project-switch {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  gap: 1px 9px;
+  align-items: center;
+  min-width: 0;
+  flex: 1;
+  text-align: start;
+  min-height: 46px;
+  padding: 3px 4px;
+}
+.glauka-project-switch > svg {
+  grid-row: 1/3;
+  color: var(--glauka-app-accent);
+}
+.glauka-project-switch > span {
+  font-size: 10px;
+  color: var(--glauka-app-muted);
+  line-height: 1.3;
+}
+.glauka-project-switch > strong {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.glauka-icon-button {
+  display: grid !important;
+  place-items: center;
+  width: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  border: 0;
+  border-radius: 14px;
+  background: transparent;
+  color: var(--glauka-app-ink);
+  touch-action: manipulation;
+}
+.glauka-icon-button > span {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.glauka-icon-button svg {
+  width: 22px;
+  height: 22px;
+}
+#glauka-app-header button:disabled {
+  opacity: 0.3;
+}
+#glauka-app-dock {
+  bottom: 0;
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  padding: 6px max(6px, env(safe-area-inset-left, 0px))
+    calc(6px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--glauka-app-line);
+  min-height: 66px;
+}
+body.glauka-mobile-app #glauka-app-dock button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 0 !important;
+  min-height: 52px !important;
+  flex: 1 !important;
+  border: 0 !important;
+  border-radius: 14px !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  color: var(--glauka-app-muted) !important;
+  padding: 4px 2px !important;
+  font-size: 11px !important;
+  line-height: 1.25 !important;
+}
+body.glauka-mobile-app #glauka-app-dock #glauka-add-open[aria-expanded="true"] {
+  background: var(--glauka-app-selected) !important;
+  color: var(--glauka-app-accent) !important;
+}
+body.glauka-mobile-app #glauka-app-dock #glauka-map-fit {
+  color: var(--glauka-app-accent) !important;
+}
+/* Compact Views chip above the dock — replaces the old header picker. */
+#glauka-views-open.glauka-views-chip {
+  position: fixed;
+  left: max(12px, env(safe-area-inset-left, 0px));
+  bottom: calc(var(--mobile-bottom, 66px) + 10px);
+  z-index: 93;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 8px 14px 8px 12px;
+  border: 1px solid var(--glauka-app-line);
+  border-radius: 999px;
+  background: var(--glauka-app-paper);
+  color: var(--glauka-app-ink);
+  box-shadow: 0 8px 24px #19103522;
+  font: 600 13px/1.2 "Glauka Sans", system-ui, sans-serif;
+  touch-action: manipulation;
+  cursor: pointer;
+}
+#glauka-views-open.glauka-views-chip svg {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--glauka-app-accent);
+  stroke-width: 2.2;
+}
+#glauka-views-open.glauka-views-chip[aria-expanded="true"],
+#glauka-views-open.glauka-views-chip:active {
+  background: var(--glauka-app-selected);
+  color: var(--glauka-app-accent);
+}
+body.glauka-mobile-app.nm-linked-view-open #glauka-views-open,
+body.glauka-mobile-app.glauka-keyboard-open #glauka-views-open {
+  display: none !important;
+}
+body.glauka-mobile-app #glauka-app-dock button:active,
+body.glauka-mobile-app #glauka-app-header button:active {
+  background: var(--glauka-app-selected) !important;
+}
+body.glauka-mobile-app #glauka-app-dock button[aria-expanded="true"] {
+  background: var(--glauka-app-selected) !important;
+  color: var(--glauka-app-accent) !important;
+}
+#glauka-app-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 2100;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  background: #14102566;
+  padding: 12px 12px calc(12px + env(safe-area-inset-bottom, 0px));
+  box-sizing: border-box;
+  overscroll-behavior: contain;
+}
+#glauka-app-sheet[hidden],
+#glauka-style-scrim[hidden] {
+  display: none !important;
+}
+.glauka-sheet-panel {
+  background: var(--glauka-app-paper);
+  color: var(--glauka-app-ink);
+  width: 100%;
+  max-width: 560px;
+  max-height: calc(100vh - 90px);
+  max-height: calc(100dvh - 90px);
+  border-radius: 26px;
+  box-shadow: 0 12px 50px #19103533;
+  padding: 8px 10px 12px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.glauka-sheet-handle {
+  width: 34px;
+  height: 4px;
+  border-radius: 3px;
+  background: #ddd6eb;
+  margin: 2px auto 5px;
+  flex-shrink: 0;
+}
+.glauka-sheet-panel > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 2px 8px 8px;
+  flex: none;
+}
+#glauka-sheet-title {
+  font: 700 18px/1.3 system-ui;
+  margin: 0;
+}
+#glauka-sheet-content {
+  overflow: auto;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  min-height: 0;
+}
+.glauka-app-action,
+.glauka-app-project {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  text-align: start;
+  border: 0;
+  border-radius: 14px;
+  min-height: 54px;
+  padding: 12px 14px;
+  background: transparent;
+  color: inherit;
+  font: 500 14px/1.4 system-ui;
+  touch-action: manipulation;
+  cursor: pointer;
+}
+.glauka-app-action svg,
+.glauka-app-project svg {
+  color: var(--glauka-app-accent);
+}
+.glauka-recent-file {
+  justify-content: flex-start;
+}
+.glauka-recent-file > span {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.glauka-recent-meta {
+  flex: 0 0 auto;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--glauka-app-soft);
+  border: 1px solid var(--glauka-app-line);
+  color: var(--glauka-app-muted);
+}
+.glauka-app-action:active,
+.glauka-app-project:active,
+.glauka-app-project[aria-current="true"] {
+  background: var(--glauka-app-selected);
+}
+/* View actions have 28px standalone SVGs: no pill, icon border or internal padding.
+   Applies to the dedicated Views sheet and the Views section of Options. */
+.glauka-app-action.glauka-linked-view-action {
+  min-height: 54px;
+  gap: 14px;
+  padding: 9px 12px;
+}
+.glauka-app-action.glauka-linked-view-action > svg {
+  box-sizing: content-box;
+  display: block;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #6943c4;
+  stroke-width: 2.2;
+}
+.glauka-app-action.glauka-linked-view-action[aria-current="true"] {
+  background: #f5f0ff;
+  color: #43238f;
+  font-weight: 650;
+}
+.glauka-app-action.glauka-linked-view-action[aria-current="true"] > svg {
+  color: #5632b4;
+}
+.glauka-app-action.glauka-linked-view-action:focus-visible {
+  outline: 2px solid var(--glauka-app-accent, #6441df);
+  outline-offset: -2px;
+}
+.glauka-app-action.danger {
+  color: #b73557;
+}
+.glauka-app-action.danger svg {
+  color: inherit;
+}
+.glauka-app-project > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+#glauka-style-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 112;
+  background: #14102555;
+}
+body.glauka-mobile-app #inspector-sidebar {
+  box-sizing: border-box !important;
+  position: fixed !important;
+  inset: auto 12px calc(var(--mobile-bottom) + 10px) !important;
+  width: calc(100% - 24px) !important;
+  max-width: 560px !important;
+  max-height: min(62dvh, calc(100dvh - var(--mobile-bottom) - 80px)) !important;
+  min-height: 0 !important;
+  height: auto !important;
+  margin-inline: auto;
+  z-index: 122 !important;
+  transform: none !important;
+  border: 1px solid var(--glauka-app-line) !important;
+  border-radius: 24px !important;
+  background: var(--glauka-app-paper) !important;
+  color: var(--glauka-app-ink) !important;
+  box-shadow: 0 10px 40px #19103533 !important;
+  overflow: auto !important;
+  padding: 12px !important;
+  touch-action: pan-y !important;
+}
+body.glauka-mobile-app #inspector-sidebar.collapsed {
+  display: none !important;
+}
+body.glauka-mobile-app
+  #inspector-sidebar
+  :is(.inspector-header, .inspector-section, .segmented-group) {
+  background: var(--glauka-app-soft) !important;
+  color: var(--glauka-app-ink) !important;
+  border-color: var(--glauka-app-line) !important;
+  box-shadow: none !important;
+}
+body.glauka-mobile-app
+  #inspector-sidebar
+  :is(
+    .inspector-section-label,
+    .inspector-title,
+    .inspector-control-row,
+    label
+  ) {
+  color: var(--glauka-app-ink) !important;
+}
+body.glauka-mobile-app
+  #inspector-sidebar
+  :is(select, input:not([type="range"]):not([type="color"]), button):not(.color-swatch) {
+  background: var(--glauka-app-paper) !important;
+  color: var(--glauka-app-ink) !important;
+  border-color: var(--glauka-app-line) !important;
+}
+body.glauka-mobile-app #inspector-sidebar button.active:not(.color-swatch) {
+  background: var(--glauka-app-selected) !important;
+  color: var(--glauka-app-accent) !important;
+}
+/* Both top and bottom were set on this toast, stretching it into a full-height pill. */
+body.glauka-mobile-app #toast-notification {
+  box-sizing: border-box !important;
+  position: fixed !important;
+  inset: auto 16px calc(var(--mobile-bottom) + 12px) !important;
+  transform: none !important;
+  width: auto !important;
+  max-width: 560px !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: 120px !important;
+  margin-inline: auto;
+  display: flex !important;
+  align-items: center !important;
+  border: 0 !important;
+  border-radius: 14px !important;
+  padding: 12px 16px !important;
+  background: #25213b !important;
+  color: #fff !important;
+  font: 500 13px/1.45 system-ui !important;
+  box-shadow: 0 4px 18px #13102233 !important;
+  overflow: hidden;
+  z-index: 2300 !important;
+}
+body.glauka-mobile-app #toast-notification.hidden {
+  display: none !important;
+}
+body.glauka-mobile-app #toast-badge {
+  display: none !important;
+}
+body.glauka-mobile-app #toast-text {
+  overflow-wrap: anywhere;
+}
+body.glauka-mobile-app #mobile-feedback {
+  box-sizing: border-box;
+  inset: auto 16px calc(var(--mobile-bottom) + 12px) !important;
+  max-height: 120px;
+  height: auto;
+  min-height: 0;
+  background: #25213b;
+  color: #fff;
+  font: 500 13px/1.45 system-ui;
+  border-radius: 14px;
+  padding: 12px 16px;
+  z-index: 2300;
+}
+body.glauka-mobile-app #nm74-overlay {
+  align-items: flex-end !important;
+  justify-content: center !important;
+  padding: 12px 12px calc(12px + env(safe-area-inset-bottom, 0px)) !important;
+  background: #14102566 !important;
+}
+body.glauka-mobile-app #nm74-overlay .nm74-sheet {
+  box-sizing: border-box;
+  width: 100% !important;
+  max-width: 720px !important;
+  height: min(85dvh, 800px) !important;
+  max-height: calc(100dvh - 40px) !important;
+  border: 0 !important;
+  border-radius: 26px !important;
+  background: var(--glauka-app-paper) !important;
+  color: var(--glauka-app-ink) !important;
+  box-shadow: 0 12px 50px #19103533 !important;
+}
+body.glauka-mobile-app .nm74-head {
+  background: var(--glauka-app-paper) !important;
+  border-color: var(--glauka-app-line) !important;
+  color: var(--glauka-app-ink) !important;
+  padding: 14px 16px !important;
+}
+body.glauka-mobile-app .nm74-head h2 {
+  font-size: 17px !important;
+  color: var(--glauka-app-ink) !important;
+}
+body.glauka-mobile-app .nm74-close {
+  border: 0 !important;
+  background: var(--glauka-app-soft) !important;
+  color: var(--glauka-app-ink) !important;
+}
+body.glauka-mobile-app .nm74-nav {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  gap: 7px !important;
+  padding: 10px 14px !important;
+  border-color: var(--glauka-app-line) !important;
+  scrollbar-width: none;
+}
+body.glauka-mobile-app .nm74-tab {
+  flex: 0 0 auto !important;
+  min-height: 40px !important;
+  padding: 8px 12px !important;
+  background: var(--glauka-app-soft) !important;
+  border: 1px solid var(--glauka-app-line) !important;
+  border-radius: 12px !important;
+  color: var(--glauka-app-muted) !important;
+}
+body.glauka-mobile-app .nm74-tab.active {
+  background: var(--glauka-app-selected) !important;
+  border-color: var(--glauka-app-accent) !important;
+  color: var(--glauka-app-accent) !important;
+}
+body.glauka-mobile-app .nm74-content {
+  background: var(--glauka-app-paper) !important;
+  color: var(--glauka-app-ink) !important;
+  padding: 14px 16px !important;
+}
+body.glauka-mobile-app .nm74-content :is(input, select, textarea) {
+  background: var(--glauka-app-paper) !important;
+  color: var(--glauka-app-ink) !important;
+  border-color: var(--glauka-app-line) !important;
+  border-radius: 12px !important;
+}
+body.glauka-mobile-app
+  .nm74-content
+  :is(.nm74-hint, .nm74-field > span, .nm74-result) {
+  color: var(--glauka-app-muted) !important;
+}
+body.glauka-mobile-app .nm74-status {
+  background: var(--glauka-app-soft) !important;
+  color: var(--glauka-app-muted) !important;
+  border-color: var(--glauka-app-line) !important;
+}
+body.glauka-mobile-app
+  :is(.nm-android-shade, .v4-backdrop, .nm54-backdrop, .nm62-shade) {
+  align-items: flex-end !important;
+  justify-content: center;
+  padding: 12px !important;
+  background: #14102566;
+}
+body.glauka-mobile-app :is(.nm-android-import, .nm62-modal, .nm54-modal) {
+  box-sizing: border-box;
+  max-width: 560px !important;
+  width: 100% !important;
+  max-height: 85dvh !important;
+  border-radius: 24px !important;
+}
+body.glauka-mobile-app #nm-android-command-overlay {
+  align-items: flex-end !important;
+}
+body.glauka-mobile-app #nm-android-command-overlay .nm-android-command-panel {
+  max-height: 85dvh;
+}
+body.glauka-mobile-app kbd {
+  display: none !important;
+}
+@media (max-height: 480px) {
+  #glauka-app-header {
+    min-height: 48px;
+    padding-block: 2px;
+  }
+  #glauka-app-dock {
+    min-height: 54px;
+    padding-block: 2px;
+  }
+  body.glauka-mobile-app {
+    --mobile-bottom: 54px;
+  }
+  #glauka-app-dock button {
+    min-height: 46px !important;
+  }
+  .glauka-sheet-panel {
+    max-height: calc(100dvh - 28px);
+  }
+}
+body.glauka-mobile-app :is(.nm-android-import, .nm62-modal, .nm54-modal) {
+  background: var(--glauka-app-paper) !important;
+  color: var(--glauka-app-ink) !important;
+  border-color: var(--glauka-app-line) !important;
+  box-shadow: 0 12px 50px #19103533 !important;
+}
+body.glauka-mobile-app
+  :is(.nm-android-import, .nm62-modal, .nm54-modal)
+  :is(h2, strong, label) {
+  color: var(--glauka-app-ink) !important;
+}
+body.glauka-mobile-app :is(.nm62-small, .nm62-note, .nm-android-import p) {
+  color: var(--glauka-app-muted) !important;
+}
+body.glauka-mobile-app
+  :is(.nm-android-import, .nm62-modal, .nm54-modal)
+  :is(input, select, textarea, button:not(.primary):not([aria-selected="true"])) {
+  color: var(--glauka-app-ink) !important;
+  background: var(--glauka-app-soft) !important;
+  border-color: var(--glauka-app-line) !important;
+}
+body.glauka-mobile-app .nm62-tile.active {
+  background: var(--glauka-app-selected) !important;
+  border-color: var(--glauka-app-accent) !important;
+}
+body.glauka-mobile-app #v6-show-layout {
+  display: none !important;
+}
+body.glauka-mobile-app #glauka-sheet-content .hud-bottom-left {
+  box-sizing: border-box;
+  display: block !important;
+  position: static !important;
+  inset: auto !important;
+  transform: none !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
+  padding: 8px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: var(--glauka-app-paper) !important;
+  color: var(--glauka-app-ink) !important;
+  box-shadow: none !important;
+}
+body.glauka-mobile-app
+  #glauka-sheet-content
+  .hud-bottom-left
+  :is(label, .hud-title, .hud-badge) {
+  color: var(--glauka-app-muted) !important;
+}
+body.glauka-mobile-app #glauka-sheet-content .hud-bottom-left > button {
+  display: none !important;
+}
+body.glauka-mobile-app
+  #glauka-sheet-content
+  .hud-bottom-left
+  :is(strong, span) {
+  color: var(--glauka-app-ink) !important;
+}
+body.glauka-mobile-app #glauka-sheet-content #v6-hide-layout {
+  display: none !important;
+}
+body.glauka-mobile-app #find-overlay {
+  box-sizing: border-box !important;
+  position: fixed !important;
+  inset: calc(64px + env(safe-area-inset-top, 0px)) 12px auto !important;
+  transform: none !important;
+  width: calc(100% - 24px) !important;
+  max-width: 560px !important;
+  max-height: 70dvh !important;
+  margin-inline: auto;
+  background: var(--glauka-app-paper) !important;
+  color: var(--glauka-app-ink) !important;
+  border: 1px solid var(--glauka-app-line) !important;
+  border-radius: 22px !important;
+  box-shadow: 0 8px 32px #19103533 !important;
+  z-index: 140;
+}
+body.glauka-mobile-app
+  #find-overlay
+  :is(.find-title, .find-result, #find-close) {
+  color: var(--glauka-app-ink) !important;
+}
+body.glauka-mobile-app #find-overlay #find-query {
+  background: var(--glauka-app-soft) !important;
+  color: var(--glauka-app-ink) !important;
+  border-color: var(--glauka-app-line) !important;
+}
+body.glauka-mobile-app #find-overlay .find-hint {
+  display: none !important;
+}
+
+/* Mobile surfaces share one palette, including portable tools that inject CSS late.
+   Canvas, authored rich text, images and colour swatches keep their own colours. */
+body.glauka-mobile-app
+  :is(
+    #glauka-app-sheet,
+    #inspector-sidebar,
+    #nm74-overlay,
+    #nm-android-command-overlay,
+    .nm-android-import,
+    .nm-creative-dialog,
+    .nm54-modal,
+    .nm62-modal,
+    .nm6-modal,
+    .v4-modal,
+    #nm-decision-panel,
+    #find-overlay,
+    #nm-ai-studio
+  ) {
+  --text-primary: var(--glauka-app-ink);
+  --text-secondary: var(--glauka-app-muted);
+  --text-muted: var(--glauka-app-muted);
+  --bg-panel-solid: var(--glauka-app-paper);
+  --bg-panel: var(--glauka-app-paper);
+  --bg-hover: var(--glauka-app-soft);
+  --border-subtle: var(--glauka-app-line);
+  --nm-ui-surface: var(--glauka-app-paper);
+  --nm-ui-top: var(--glauka-app-soft);
+  --nm-ui-ink: var(--glauka-app-ink);
+  --nm-ui-muted: var(--glauka-app-muted);
+  --nm-ui-line: var(--glauka-app-line);
+  --nm-ui-hover: var(--glauka-app-selected);
+  --nm-ui-accent: var(--glauka-app-accent);
+  --gl-mobile-accent: var(--glauka-app-accent);
+  --gl-mobile-ink: var(--glauka-app-ink);
+  --gl-mobile-muted: var(--glauka-app-muted);
+  --gl-mobile-paper: var(--glauka-app-paper);
+  --gl-mobile-soft: var(--glauka-app-soft);
+  --gl-mobile-line: var(--glauka-app-line);
+}
+body.glauka-mobile-app:not([data-gl-android-theme="dark"])
+  :is(
+    #glauka-app-sheet,
+    #inspector-sidebar,
+    #nm74-overlay,
+    #nm-android-command-overlay,
+    .nm-android-import,
+    .nm-creative-dialog,
+    .nm54-modal,
+    .nm62-modal,
+    .nm6-modal,
+    .v4-modal,
+    #nm-decision-panel,
+    #find-overlay,
+    #nm-ai-studio,
+    #nm-map-share,
+    #gl-settings-center
+  ) {
+  color-scheme: light;
+}
+body.glauka-mobile-app[data-gl-android-theme="dark"]
+  :is(
+    #glauka-app-sheet,
+    #inspector-sidebar,
+    #nm74-overlay,
+    #nm-android-command-overlay,
+    .nm-android-import,
+    .nm-creative-dialog,
+    .nm54-modal,
+    .nm62-modal,
+    .nm6-modal,
+    .v4-modal,
+    #nm-decision-panel,
+    #find-overlay,
+    #nm-ai-studio,
+    #nm-map-share,
+    #gl-settings-center
+  ) {
+  color-scheme: dark;
+}
+body.glauka-mobile-app
+  :is(
+    #glauka-sheet-content,
+    #inspector-sidebar,
+    #nm74-overlay,
+    #nm-android-command-overlay,
+    .nm-android-import,
+    .nm-creative-dialog,
+    .nm54-modal,
+    .nm62-modal,
+    .nm6-modal,
+    .v4-modal,
+    #nm-decision-panel,
+    #find-overlay,
+    #nm-ai-studio
+  )
+  :is(
+    h1,
+    h2,
+    h3,
+    h4,
+    p,
+    span,
+    strong,
+    small,
+    label,
+    legend,
+    summary,
+    output,
+    option
+  ):not(
+    [data-glauka-user-content],
+    [data-glauka-user-content] *,
+    .nm-theme-preview,
+    .nm-theme-preview *
+  ) {
+  color: inherit !important;
+}
+body.glauka-mobile-app
+  :is(
+    #glauka-sheet-content,
+    #inspector-sidebar,
+    #nm74-overlay,
+    #nm-android-command-overlay,
+    .nm-android-import,
+    .nm-creative-dialog,
+    .nm54-modal,
+    .nm62-modal,
+    .nm6-modal,
+    .v4-modal,
+    #nm-decision-panel,
+    #find-overlay,
+    #nm-ai-studio
+  )
+  :is(
+    button:not(.ocr-primary):not(.nm74-primary):not(.nm-share-primary):not(.nm-decision-primary):not(.nm-decision-danger):not(.primary):not(.v4-primary):not(.btn-primary):not([aria-pressed="true"]):not([aria-selected="true"]),
+    select,
+    textarea,
+    input:not(
+      :where([type="range"], [type="color"], [type="checkbox"], [type="radio"])
+    )
+  ):not(.color-swatch, .nm-theme-swatch) {
+  color: var(--glauka-app-ink) !important;
+  background: var(--glauka-app-paper) !important;
+  border-color: var(--glauka-app-line) !important;
+  box-shadow: none !important;
+}
+body.glauka-mobile-app:not([data-gl-android-theme="dark"])
+  :is(#glauka-sheet-content, #inspector-sidebar, #nm74-overlay, .nm54-modal, .nm62-modal, .nm6-modal, .v4-modal, #nm-ai-studio, #nm-map-share, #gl-settings-center)
+  :is(button, select, textarea, input) {
+  color-scheme: light !important;
+}
+body.glauka-mobile-app #glauka-sheet-content .nm-settings-panel #nm-layout-modes .nm-mode-icon {
+  background: var(--glauka-app-soft) !important;
+  border-color: var(--glauka-app-line) !important;
+}
+body.glauka-mobile-app #glauka-sheet-content .nm-settings-panel #nm-layout-modes button[aria-pressed="true"] .nm-mode-icon {
+  background: var(--glauka-app-paper) !important;
+  border-color: var(--glauka-app-accent) !important;
+}
+body.glauka-mobile-app
+  :is(
+    #glauka-sheet-content,
+    #inspector-sidebar,
+    #nm74-overlay,
+    #nm-android-command-overlay,
+    .nm-android-import,
+    .nm-creative-dialog,
+    .nm54-modal,
+    .nm62-modal,
+    .nm6-modal,
+    .v4-modal,
+    #nm-decision-panel,
+    #find-overlay,
+    #nm-ai-studio
+  )
+  :is(input, textarea)::placeholder {
+  color: var(--glauka-app-muted) !important;
+  opacity: 1;
+}
+body.glauka-mobile-app
+  :is(
+    #glauka-sheet-content,
+    #inspector-sidebar,
+    #nm74-overlay,
+    #nm-android-command-overlay,
+    .nm-android-import,
+    .nm-creative-dialog,
+    .nm54-modal,
+    .nm62-modal,
+    .nm6-modal,
+    .v4-modal,
+    #nm-decision-panel,
+    #find-overlay,
+    #nm-ai-studio
+  )
+  :is(button, select, input, textarea, summary):focus-visible {
+  outline: 2px solid var(--glauka-app-accent) !important;
+  outline-offset: 2px !important;
+}
+body.glauka-mobile-app
+  :is(
+    #glauka-sheet-content,
+    #inspector-sidebar,
+    #nm74-overlay,
+    #nm-android-command-overlay,
+    .nm-android-import,
+    .nm-creative-dialog,
+    .nm54-modal,
+    .nm62-modal,
+    .nm6-modal,
+    .v4-modal,
+    #nm-decision-panel,
+    #find-overlay,
+    #nm-ai-studio
+  )
+  :is(input[type="range"], input[type="checkbox"], input[type="radio"]) {
+  accent-color: var(--glauka-app-accent) !important;
+}
+/* The old HUD is now a vertical form, not a shrinking flex row. */
+body.glauka-mobile-app #glauka-sheet-content .hud-bottom-left > * {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  flex-shrink: 0;
+}
+body.glauka-mobile-app
+  #glauka-sheet-content
+  .hud-bottom-left
+  :is(
+    .nm-settings-sticky-header,
+    .hud-header,
+    .nm-settings-toolbar,
+    .nm-settings-section,
+    #nm-layout-modes,
+    .nm-layout-hint,
+    #nm-distribution-controls,
+    #nm620-layout-forecast,
+    .slider-row,
+    .nm54-hud-wrap
+  ) {
+  background: var(--glauka-app-paper) !important;
+  color: var(--glauka-app-ink) !important;
+  border-color: var(--glauka-app-line) !important;
+  box-shadow: none !important;
+  min-width: 0;
+  max-width: 100%;
+}
+body.glauka-mobile-app #glauka-sheet-content .nm-settings-sticky-header {
+  position: static !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+body.glauka-mobile-app #glauka-sheet-content .hud-header {
+  display: none;
+}
+body.glauka-mobile-app #glauka-sheet-content .nm-settings-section {
+  margin: 12px 0;
+  padding: 14px 10px;
+  border-radius: 14px;
+}
+body.glauka-mobile-app
+  #glauka-sheet-content
+  :is(.nm-settings-toolbar, .nm-settings-toolbar label) {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  width: 100%;
+}
+body.glauka-mobile-app
+  #glauka-sheet-content
+  .nm-settings-toolbar
+  :is(button, select) {
+  width: 100%;
+  min-height: 44px;
+  font-size: 14px;
+  white-space: normal;
+}
+body.glauka-mobile-app #glauka-sheet-content #nm-layout-modes {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+}
+body.glauka-mobile-app #glauka-sheet-content #nm-layout-modes button {
+  min-height: 78px;
+  padding: 9px 5px;
+  font-size: 12px;
+}
+body.glauka-mobile-app
+  #glauka-sheet-content
+  :is(.nm-layout-hint, #nm620-layout-forecast) {
+  background: var(--glauka-app-soft) !important;
+  color: var(--glauka-app-muted) !important;
+}
+body.glauka-mobile-app
+  #glauka-sheet-content
+  :is(.nm-settings-section, .slider-row) {
+  overflow-wrap: normal;
+  word-break: normal;
+}
+body.glauka-mobile-app
+  #glauka-sheet-content
+  :is(.nm-setting-control, .nm54-row) {
+  gap: 8px;
+  font-size: 13px;
+}
+body.glauka-mobile-app
+  #glauka-sheet-content
+  :is(.nm-setting-control, .nm54-row)
+  :is(small, span, label) {
+  font-size: 13px;
+  overflow-wrap: normal;
+}
+/* Portable tools render in the same sheet, even when their own styles load on tap. */
+body.glauka-mobile-app
+  #nm74-overlay
+  :is(
+    .nm75-panel,
+    .nm76-panel,
+    .nm82-dashboard,
+    .nm80-panel,
+    .nm75-col,
+    .nm75-preview,
+    .nm76-row,
+    .nm76-meta,
+    .nm82-card,
+    .nm74-pagechip,
+    .nm74-pdftext,
+    .nm74-image,
+    .nm74-issue,
+    .nm74-confirm,
+    .nm74-results,
+    .nm74-result
+  ) {
+  color: var(--glauka-app-ink) !important;
+  background: var(--glauka-app-soft) !important;
+  border-color: var(--glauka-app-line) !important;
+}
+body.glauka-mobile-app
+  #nm74-overlay
+  :is(.nm75-panel, .nm76-panel, .nm82-dashboard, .nm80-panel) {
+  background: var(--glauka-app-paper) !important;
+}
+body.glauka-mobile-app
+  :is(
+    .nm-android-commands-panel,
+    .nm-creative-dialog,
+    .v4-modal,
+    #nm-decision-panel
+  ) {
+  background: var(--glauka-app-paper) !important;
+  color: var(--glauka-app-ink) !important;
+  border-color: var(--glauka-app-line) !important;
+  box-shadow: 0 12px 50px #19103533 !important;
+}
+/* QA-001: this track is a div, so the button paper rule never reaches it.
+   Android does not define --nm-skin-top, and creative-tools.css then
+   falls back to #1b2b45. Keep the track on the same light sheet. */
+body.glauka-mobile-app #nm-creative-library-tabs {
+  background: var(--glauka-app-soft) !important;
+  color: var(--glauka-app-ink) !important;
+  border: 1px solid var(--glauka-app-line) !important;
+}
+body.glauka-mobile-app #nm-creative-library-hub #nm-creative-library-tabs button:not([aria-selected="true"]) {
+  background: transparent !important;
+  border-color: transparent !important;
+  color: var(--glauka-app-muted) !important;
+  min-height: 44px;
+}
+body.glauka-mobile-app #nm-creative-library-hub #nm-creative-library-tabs button[aria-selected="true"],
+body.glauka-mobile-app #nm-creative-library-hub .nm-creative-symbol-placement button[aria-pressed="true"] {
+  background: var(--glauka-app-selected) !important;
+  color: var(--glauka-app-accent) !important;
+  border-color: var(--glauka-app-accent) !important;
+}
+body.glauka-mobile-app #nm-creative-library-hub .nm-creative-symbol-placement {
+  background: var(--glauka-app-soft) !important;
+  border-color: var(--glauka-app-line) !important;
+}
+body.glauka-mobile-app #nm-creative-library-hub .nm-creative-symbol-placement button:not([aria-pressed="true"]) {
+  background: transparent !important;
+  border-color: transparent !important;
+  color: var(--glauka-app-muted) !important;
+}
+body.glauka-mobile-app #nm-creative-library-hub button#gl-library-ai {
+  background: var(--glauka-app-selected) !important;
+  border-color: var(--glauka-app-accent) !important;
+  color: var(--glauka-app-ink) !important;
+}
+body.glauka-mobile-app #nm-creative-library-hub .gl-library-ai-icon,
+body.glauka-mobile-app #nm-creative-library-hub .gl-library-ai-pill {
+  background: var(--glauka-app-paper) !important;
+  color: var(--glauka-app-accent) !important;
+  border-color: var(--glauka-app-line) !important;
+}
+body.glauka-mobile-app
+  #inspector-sidebar
+  :is(
+    .nm-settings-toolbar,
+    .nm-settings-accordion,
+    .nm-settings-section,
+    .nm-theme-picker,
+    .nm-theme-group,
+    .inspector-header,
+    details,
+    summary
+  ) {
+  background: var(--glauka-app-paper) !important;
+  color: var(--glauka-app-ink) !important;
+  border-color: var(--glauka-app-line) !important;
+}
+body.glauka-mobile-app
+  :is(
+    .v4-modal,
+    .nm54-modal,
+    .nm62-modal,
+    .nm6-modal,
+    .nm-creative-dialog,
+    #nm-decision-panel
+  )
+  :is(
+    header,
+    footer,
+    .v4-modal-head,
+    .v4-modal-foot,
+    .nm54-head,
+    .nm54-tabs,
+    .nm-decision-head,
+    .nm-decision-desc,
+    .nm6-card,
+    .nm6-small,
+    .nm6-desc
+  ) {
+  color: var(--glauka-app-ink) !important;
+  background: var(--glauka-app-paper) !important;
+  border-color: var(--glauka-app-line) !important;
+}
+body.glauka-mobile-app
+  :is(
+    #glauka-sheet-content,
+    #inspector-sidebar,
+    #nm74-overlay,
+    #nm-android-command-overlay,
+    .nm-android-import,
+    .nm-creative-dialog,
+    .nm54-modal,
+    .nm62-modal,
+    .nm6-modal,
+    .v4-modal,
+    #nm-decision-panel
+  )
+  :is(
+    button.active,
+    button[aria-pressed="true"],
+    button[aria-selected="true"],
+    button[aria-checked="true"]
+  ):not(.color-swatch, .nm-theme-swatch) {
+  background: var(--glauka-app-selected) !important;
+  color: #4c299f !important;
+  border-color: #bca8eb !important;
+}
+body.glauka-mobile-app
+  :is(
+    #nm74-overlay,
+    .v4-modal,
+    .nm54-modal,
+    .nm6-modal,
+    .nm-creative-dialog,
+    #nm-decision-panel
+  )
+  :is(
+    button.nm74-primary,
+    button.v4-primary,
+    button.nm6-primary,
+    button.primary,
+    .nm-decision-confirm
+  ) {
+  background: var(--glauka-app-accent) !important;
+  color: #fff !important;
+  border-color: var(--glauka-app-accent) !important;
+}
+@media (min-width: 480px) {
+  body.glauka-mobile-app #glauka-sheet-content #nm-layout-modes {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+body.glauka-mobile-app #nm74-overlay .nm74-nav .nm74-tab {
+  color: var(--glauka-app-ink) !important;
+  background: var(--glauka-app-soft) !important;
+  border-color: var(--glauka-app-line) !important;
+  box-shadow: none !important;
+}
+body.glauka-mobile-app #nm74-overlay .nm74-nav .nm74-tab[aria-selected="true"] {
+  background: var(--glauka-app-selected) !important;
+  color: #4c299f !important;
+  border-color: #bca8eb !important;
+}
+body.glauka-mobile-app
+  :is(
+    .nm-creative-shade,
+    .nm-android-commands-shade,
+    .nm-decision-overlay,
+    .nm-android-shade,
+    .v4-backdrop,
+    .nm54-backdrop,
+    .nm62-shade
+  ) {
+  background: #14102566 !important;
+}
+body.glauka-mobile-app
+  #nm74-overlay
+  :is(.nm75-scroll, .nm75-preview pre, .nm75-preview code) {
+  background: var(--glauka-app-soft) !important;
+  color: var(--glauka-app-ink) !important;
+  border-color: var(--glauka-app-line) !important;
+}
+body.glauka-mobile-app #nm74-overlay .nm75-preview a {
+  color: #5433b5 !important;
+}
+body.glauka-mobile-app
+  #glauka-sheet-content
+  #nm-layout-modes
+  button[aria-pressed="true"] {
+  background: var(--glauka-app-selected) !important;
+  color: #4c299f !important;
+  border-color: #bca8eb !important;
+}
+body.glauka-mobile-app
+  :is(
+    #nm74-overlay,
+    #inspector-sidebar,
+    #glauka-sheet-content,
+    .nm54-modal,
+    .nm62-modal,
+    .nm6-modal,
+    .v4-modal,
+    .nm-creative-dialog
+  )
+  :is(input[type="checkbox"], input[type="radio"]) {
+  background: var(--glauka-app-paper) !important;
+  color: var(--glauka-app-ink) !important;
+}
+#glauka-ai-scrim[hidden] {
+  display: none;
+}
+#glauka-ai-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 2090;
+  background: rgba(17, 12, 41, 0.34);
+  backdrop-filter: blur(4px);
+}
+body.glauka-mobile-app :is(#nm-ai-minimize, .nm-panel-preview-toggle, #nm-help-tooltip) {
+  display: none !important;
+}
+body.glauka-mobile-app :is(#nm-ai-studio, #ai-explain-panel) {
+  inset: auto 12px max(12px, env(safe-area-inset-bottom)) !important;
+  width: calc(100% - 24px) !important;
+  max-width: 560px !important;
+  max-height: min(86dvh, calc(100dvh - 24px - env(safe-area-inset-bottom))) !important;
+  margin-inline: auto !important;
+  background: var(--glauka-app-paper) !important;
+  color: var(--glauka-app-ink) !important;
+  border: 1px solid var(--glauka-app-line) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 20px 56px rgba(17, 12, 41, 0.24) !important;
+  z-index: 2100 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+body.glauka-mobile-app :is(#nm-ai-studio.hidden, #ai-explain-panel.hidden) {
+  display: none !important;
+}
+body.glauka-mobile-app
+  #nm-ai-studio
+  :is(
+    header,
+    .nm-ai-body,
+    section,
+    details,
+    .nm-ai-connection-card,
+    .nm-ai-action-card,
+    .nm-ai-preview-rows > div
+  ) {
+  color: var(--glauka-app-ink) !important;
+  background: var(--glauka-app-paper) !important;
+  border-color: var(--glauka-app-line) !important;
+}
+body.glauka-mobile-app #nm-ai-studio > header {
+  flex: 0 0 auto !important;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  height: auto !important;
+  min-height: 56px !important;
+  padding: 14px 16px 12px !important;
+  background: var(--glauka-app-paper) !important;
+  border-bottom: 1px solid var(--glauka-app-line) !important;
+}
+body.glauka-mobile-app #nm-ai-studio > header > strong {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  line-height: 1.25 !important;
+  color: var(--glauka-app-ink) !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+body.glauka-mobile-app #nm-ai-studio > header .nm-panel-header-actions {
+  flex: 0 0 auto !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+body.glauka-mobile-app #nm-ai-studio > header #nm-ai-close {
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
+  padding: 0 !important;
+  border-radius: 12px !important;
+  display: inline-grid !important;
+  place-items: center !important;
+  background: var(--glauka-app-soft) !important;
+  color: var(--glauka-app-ink) !important;
+  border: 1px solid var(--glauka-app-line) !important;
+}
+body.glauka-mobile-app #nm-ai-studio > .nm-ai-service-bar {
+  flex: 0 0 auto !important;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  padding: 10px 16px !important;
+  background: var(--glauka-app-soft) !important;
+  border-bottom: 1px solid var(--glauka-app-line) !important;
+}
+body.glauka-mobile-app #nm-ai-studio > .nm-ai-service-bar > .nm-ai-service-summary {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  padding: 6px 11px !important;
+  border-radius: 999px !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  background: var(--glauka-app-paper) !important;
+  color: var(--glauka-app-muted) !important;
+  border: 1px solid var(--glauka-app-line) !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+body.glauka-mobile-app #nm-ai-studio > .nm-ai-service-bar > #nm-ai-connections-open {
+  flex: 0 0 auto !important;
+  min-height: 38px !important;
+  padding: 6px 12px !important;
+  border-radius: 999px !important;
+  font-size: 12.5px !important;
+  font-weight: 650 !important;
+  white-space: nowrap !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  background: var(--glauka-app-paper) !important;
+  color: var(--glauka-app-ink) !important;
+  border: 1px solid var(--glauka-app-line) !important;
+}
+body.glauka-mobile-app #nm-ai-studio.is-connections > .nm-ai-service-bar > #nm-ai-connections-open {
+  background: var(--glauka-app-selected) !important;
+  color: var(--glauka-app-accent) !important;
+  border-color: color-mix(in srgb, var(--glauka-app-accent) 42%, var(--glauka-app-line)) !important;
+}
+body.glauka-mobile-app #nm-ai-studio > .nm-ai-body {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding: 14px 16px 20px !important;
+  overscroll-behavior: contain !important;
+  -webkit-overflow-scrolling: touch;
+}
+body.glauka-mobile-app #nm-ai-studio.minimized :is(.nm-ai-service-bar, .nm-ai-body) {
+  display: flex !important;
+}
+body.glauka-mobile-app #nm-ai-studio .nm-ai-task-group-grid,
+body.glauka-mobile-app #nm-ai-studio .nm-ai-more-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 9px !important;
+}
+body.glauka-mobile-app #nm-ai-studio .nm-ai-task-group-grid > button,
+body.glauka-mobile-app #nm-ai-studio .nm-ai-more-grid > button {
+  min-width: 0 !important;
+  min-height: 76px !important;
+  padding: 12px !important;
+  border-radius: 14px !important;
+  background: var(--glauka-app-paper) !important;
+  color: var(--glauka-app-ink) !important;
+  border: 1px solid var(--glauka-app-line) !important;
+  gap: 8px !important;
+}
+body.glauka-mobile-app #nm-ai-studio .nm-ai-task-group-grid > button:last-child:nth-child(odd),
+body.glauka-mobile-app #nm-ai-studio .nm-ai-more-grid > button:last-child:nth-child(odd) {
+  grid-column: 1 / -1 !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  min-height: 54px !important;
+}
+body.glauka-mobile-app #nm-ai-studio.is-connections #nm-ai-connections {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+}
+body.glauka-mobile-app #nm-ai-studio #nm-ai-connections > #nm-ai-connections-back {
+  align-self: flex-start !important;
+  min-height: 40px !important;
+  padding: 7px 14px !important;
+  border-radius: 10px !important;
+  font-size: 13px !important;
+  font-weight: 650 !important;
+  background: var(--glauka-app-soft) !important;
+  color: var(--glauka-app-ink) !important;
+  border: 1px solid var(--glauka-app-line) !important;
+}
+body.glauka-mobile-app #nm-ai-studio .nm-ai-connection-card {
+  padding: 14px !important;
+  border-radius: 14px !important;
+  gap: 8px 12px !important;
+  background: var(--glauka-app-soft) !important;
+  border: 1px solid var(--glauka-app-line) !important;
+}
+body.glauka-mobile-app #nm-ai-studio .nm-ai-connection-card button {
+  min-height: 40px !important;
+  padding: 6px 14px !important;
+  border-radius: 10px !important;
+  font-weight: 650 !important;
+}
+body.glauka-mobile-app #ai-explain-panel {
+  z-index: 2150 !important;
+  padding: 16px !important;
+  gap: 10px !important;
+}
+body.glauka-mobile-app #ai-explain-panel .v4-buttons {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+}
+body.glauka-mobile-app #ai-explain-panel .v4-buttons > button {
+  flex: 1 1 140px !important;
+  min-height: 44px !important;
+  border-radius: 12px !important;
+}
+body.glauka-mobile-app #nm-ai-studio .nm-ai-listen-target {
+  color: var(--glauka-app-ink) !important;
+}
+body.glauka-mobile-app #nm-ai-studio #nm-ai-listen-play {
+  background: var(--glauka-app-accent) !important;
+  color: #fff !important;
+  border-color: var(--glauka-app-accent) !important;
+}
+body.glauka-mobile-app #nm-ai-voice-dialog label,
+body.glauka-mobile-app #nm-ai-voice-dialog p {
+  color: var(--glauka-app-muted) !important;
+}
+body.glauka-mobile-app #nm-ai-voice-dialog :is(input:not([type="checkbox"]), select) {
+  background: var(--glauka-app-soft) !important;
+  color: var(--glauka-app-ink) !important;
+  border: 1px solid var(--glauka-app-line) !important;
+  border-radius: 10px !important;
+  min-height: 44px !important;
+}
+body.glauka-mobile-app #nm-ai-voice-dialog button {
+  min-height: 44px !important;
+  border-radius: 10px !important;
+  background: var(--glauka-app-soft) !important;
+  color: var(--glauka-app-ink) !important;
+  border: 1px solid var(--glauka-app-line) !important;
+}
+body.glauka-mobile-app .nm-creative-shade {
+  padding: max(10px, env(safe-area-inset-top)) 12px calc(12px + env(safe-area-inset-bottom)) !important;
+  box-sizing: border-box !important;
+  background: rgba(17, 12, 41, 0.36) !important;
+  backdrop-filter: blur(4px);
+}
+body.glauka-mobile-app :is(.nm-creative-dialog, #nm-chart-dialog .nm-creative-dialog, #nm-formula-dialog .nm-creative-dialog, #nm-wordart-dialog .nm-creative-dialog) {
+  width: min(100%, 560px) !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  max-height: calc(100dvh - 24px - env(safe-area-inset-bottom)) !important;
+  margin-inline: auto !important;
+  overflow-x: hidden !important;
+}
+body.glauka-mobile-app :is(.nm-creative-dialog, #nm-ai-voice-dialog, #nm-ai-studio) :is(#nm-ai-voice-save, #nm-formula-insert, #nm-chart-save, #nm-wordart-insert, #nm-object-art-apply, .btn-primary) {
+  background: var(--glauka-app-accent) !important;
+  color: #fff !important;
+  border-color: var(--glauka-app-accent) !important;
+}
+body.glauka-mobile-app .nm-creative-dialog * {
+  min-width: 0;
+  box-sizing: border-box;
+}
+body.glauka-mobile-app .nm-creative-dialog .nm-chart-footer {
+  border-top: 1px solid var(--glauka-app-line) !important;
+  padding: 12px 14px !important;
+  background: var(--glauka-app-paper) !important;
+}
+body.glauka-mobile-app #nm74-overlay .nm74-content {
+  padding-bottom: 18px !important;
+}
+body.glauka-mobile-app
+  #nm-ai-studio
+  :is(.nm-ai-indicator, .nm-ai-quota, #nm-ai-status, del) {
+  color: var(--glauka-app-muted) !important;
+}
+body.glauka-mobile-app #nm-ai-studio a {
+  color: #5433b5 !important;
+}
+body.glauka-mobile-app
+  #ai-explain-panel
+  :is(.v4-explain-text, .v4-modal-head, .v4-buttons, button) {
+  color: var(--glauka-app-ink) !important;
+  background: var(--glauka-app-paper) !important;
+  border-color: var(--glauka-app-line) !important;
+}
+body.glauka-mobile-app
+  :is(.nm6-modal, .v4-modal, .nm54-modal, .nm62-modal, .nm-creative-dialog) {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+body.glauka-mobile-app .nm-creative-dialog input[type="color"] {
+  background: var(--glauka-app-paper) !important;
+}
+body.glauka-mobile-app #nm-decision-panel .nm-decision-primary {
+  color: #fff !important;
+  background: var(--glauka-app-accent) !important;
+  border-color: var(--glauka-app-accent) !important;
+}
+body.glauka-mobile-app #nm-decision-panel .nm-decision-danger {
+  color: #92253f !important;
+  background: #fff1f4 !important;
+  border-color: #e6b5c0 !important;
+}
+body.glauka-mobile-app
+  .v4-modal
+  :is(
+    .v4-filter-row,
+    .v4-caption,
+    .flash-empty,
+    .flash-hint,
+    .flash-breadcrumb,
+    .flash-note,
+    .flash-heading,
+    .flash-eyebrow
+  ) {
+  color: var(--glauka-app-ink) !important;
+}
+/* Symbol drawer stays inside the visible viewport while the keyboard is open. */
+body.glauka-mobile-app #nm62-assets.nm-marker-shelf {
+  position: fixed !important;
+  inset: auto !important;
+  top: var(--glauka-visible-top, 0px) !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  height: var(--glauka-visible-height, 100dvh) !important;
+  box-sizing: border-box !important;
+  padding: 12px !important;
+  display: flex;
+  align-items: flex-end !important;
+  justify-content: center;
+  z-index: 2200 !important;
+  background: #14102566 !important;
+}
+body.glauka-mobile-app #nm62-assets.nm-marker-shelf.hidden {
+  display: none !important;
+}
+body.glauka-mobile-app #nm62-assets.nm-marker-shelf .nm62-modal {
+  width: 100% !important;
+  max-width: 560px !important;
+  max-height: calc(var(--glauka-visible-height, 100dvh) - 24px) !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  display: flex;
+  flex-direction: column;
+}
+body.glauka-mobile-app #nm62-assets #nm62-gallery-root {
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+body.glauka-mobile-app
+  #nm62-assets
+  :is(.nm62-head, .nm62-actions, .nm-marker-filters, #nm-marker-selected) {
+  flex-shrink: 0;
+}
+body.glauka-mobile-app #nm62-assets .nm62-head {
+  gap: 8px;
+  align-items: flex-start;
+}
+body.glauka-mobile-app #nm62-assets .nm62-head h2 {
+  margin: 0;
+  font-size: 16px;
+}
+body.glauka-mobile-app #nm62-assets .nm62-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+body.glauka-mobile-app #nm62-assets .nm-marker-filters {
+  gap: 6px;
+}
+body.glauka-mobile-app.glauka-keyboard-open #glauka-app-dock {
+  display: none !important;
+}
+/* Scope is available on demand, not a permanent wall above text formatting. */
+body.glauka-mobile-app #inspector-sidebar .nm-settings-sticky-header {
+  position: static !important;
+  margin: 0 !important;
+  padding: 0 10px 10px !important;
+  box-sizing: border-box;
+  background: #fff !important;
+  box-shadow: none !important;
+}
+body.glauka-mobile-app #inspector-sidebar .glauka-scope-options {
+  margin: 0 0 10px;
+  border: 1px solid var(--glauka-app-line);
+  border-radius: 12px;
+  background: var(--glauka-app-soft) !important;
+  color: var(--glauka-app-ink) !important;
+}
+body.glauka-mobile-app #inspector-sidebar .glauka-scope-options > summary {
+  padding: 11px;
+  min-height: 44px;
+  box-sizing: border-box;
+  font-size: 12px;
+  line-height: 1.5;
+  cursor: pointer;
+  background: transparent !important;
+}
+body.glauka-mobile-app
+  #inspector-sidebar
+  .glauka-scope-options:not([open])
+  > .nm-settings-toolbar {
+  display: none !important;
+}
+body.glauka-mobile-app
+  #inspector-sidebar
+  .glauka-scope-options
+  .nm-settings-toolbar {
+  position: static !important;
+  margin: 0;
+  padding: 10px;
+  border: 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+body.glauka-mobile-app
+  #inspector-sidebar
+  .glauka-scope-options
+  .nm-settings-default-button {
+  grid-column: 1/-1;
+}
+body.glauka-mobile-app #inspector-sidebar #inspector-node-badge {
+  background: var(--glauka-app-selected) !important;
+  color: #4c299f !important;
+  border-color: #c8b9eb !important;
+  max-width: 48%;
+  font-size: 12px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+body.glauka-mobile-app #v5-selection-hint {
+  display: none !important;
+}
+/* A grouped catalogue, followed by one focused tool at a time. */
+body.glauka-mobile-app #nm74-overlay .nm74-nav {
+  display: block !important;
+  flex: 1 1 auto !important;
+  min-height: 0;
+  overflow: auto !important;
+  padding: 4px 14px 14px !important;
+}
+body.glauka-mobile-app
+  #nm74-overlay
+  :is(.nm74-nav, .nm74-content, .nm74-tools-back)[hidden] {
+  display: none !important;
+}
+body.glauka-mobile-app #nm74-overlay .nm74-tool-group {
+  margin: 0 0 20px;
+  border: 0;
+  background: transparent !important;
+}
+body.glauka-mobile-app #nm74-overlay .nm74-tool-group h3 {
+  font: 700 13px/1.4 system-ui;
+  margin: 12px 0 8px;
+  color: var(--glauka-app-muted) !important;
+}
+body.glauka-mobile-app #nm74-overlay .nm74-nav .nm74-tab {
+  display: grid !important;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 3px 10px;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  min-height: 68px !important;
+  padding: 12px !important;
+  margin: 6px 0;
+  text-align: start;
+  white-space: normal;
+  border-radius: 14px !important;
+}
+body.glauka-mobile-app #nm74-overlay .nm74-tab .nm74-tool-icon {
+  grid-row: 1/3;
+  align-self: center;
+  font-size: 22px;
+  color: var(--glauka-app-accent) !important;
+}
+body.glauka-mobile-app #nm74-overlay .nm74-tab strong {
+  font-size: 14px;
+  line-height: 1.4;
+}
+body.glauka-mobile-app #nm74-overlay .nm74-tab small {
+  font: 400 12px/1.5 system-ui;
+  color: var(--glauka-app-muted) !important;
+}
+body.glauka-mobile-app #nm74-overlay .nm74-tools-back {
+  min-height: 44px;
+  padding: 6px 8px !important;
+  font-size: 13px !important;
+  flex-shrink: 0;
+}
+body.glauka-mobile-app #nm74-overlay .nm74-head h2 {
+  flex: 1;
+  min-width: 0;
+}
+body.glauka-mobile-app #inspector-sidebar .glauka-map-background {
+  margin: 8px 0;
+  border: 1px solid var(--glauka-app-line);
+  border-radius: 12px;
+  background: #fff !important;
+}
+body.glauka-mobile-app #inspector-sidebar .glauka-map-background > summary {
+  min-height: 44px;
+  padding: 12px;
+  box-sizing: border-box;
+  font: 600 13px/1.5 system-ui;
+  cursor: pointer;
+}
+body.glauka-mobile-app
+  #inspector-sidebar
+  .glauka-map-background:not([open])
+  .nm-theme-picker {
+  display: none !important;
+}
+body.glauka-mobile-app
+  #inspector-sidebar
+  .glauka-map-background
+  .nm-theme-picker {
+  margin: 0;
+  border: 0;
+}
+body.glauka-mobile-app #inspector-sidebar #nm54-wrap-label {
+  color:var(--glauka-app-ink)!important;
+}
+body.glauka-mobile-app #nm74-overlay .nm74-nav {
+ touch-action:pan-y!important;scroll-snap-type:none!important;overscroll-behavior:contain!important;
+}
+body.glauka-mobile-app #nm74-overlay .nm74-nav .nm74-tab {text-align:start!important}
+body.glauka-mobile-app #inspector-sidebar :is(.nm54-row,.nm54-control,.nm-setting-control,.nm70-inspector-body) {
+ color:var(--glauka-app-ink)!important;
+}
+body.glauka-mobile-app #inspector-sidebar .nm54-muted {color:var(--glauka-app-muted)!important}
+
+/* Text editing uses compact touch controls, not a second desktop ribbon. */
+body.glauka-mobile-app #inspector-sidebar [hidden]{display:none!important}
+body.glauka-mobile-app #inspector-sidebar #nm-creative-launcher{display:none!important}
+body.glauka-mobile-app .glauka-font-row{display:grid;grid-template-columns:minmax(0,1fr) 82px;gap:8px;margin:12px 0 8px}
+body.glauka-mobile-app .glauka-font-row input,body.glauka-mobile-app .glauka-font-row select{min-width:0;width:100%;min-height:44px;padding:8px;border:1px solid #d9d3e5;border-radius:10px;background:#fff;color:#272334;font:inherit}
+body.glauka-mobile-app #nm-text-emphasis{display:flex;flex-wrap:wrap;align-items:center;gap:5px}
+body.glauka-mobile-app #nm-text-emphasis button,body.glauka-mobile-app .glauka-text-color,body.glauka-mobile-app .glauka-text-more>summary{min-width:42px;min-height:42px;padding:9px;border-radius:9px;border:1px solid #ded9e8;background:#fff;color:#332750;text-align:center;font-size:18px;box-sizing:border-box}
+body.glauka-mobile-app .glauka-text-color{position:relative;color:var(--glauka-text-color)!important;font-weight:700;text-decoration:underline;text-decoration-thickness:3px}
+body.glauka-mobile-app .glauka-text-color input{position:absolute;inset:0;opacity:0;width:100%;height:100%}
+body.glauka-mobile-app .glauka-text-more>summary{list-style:none;cursor:pointer}
+body.glauka-mobile-app .glauka-text-more[open]{flex-basis:100%}
+body.glauka-mobile-app .glauka-text-menu:not(.glauka-text-menu-portal){position:static;display:grid;gap:6px;padding:8px;background:#fff;border:1px solid #ded9e8;border-radius:12px}
+body.glauka-mobile-app .glauka-text-menu button{width:100%;text-align:left!important;font-size:14px!important}
+body.glauka-mobile-app .glauka-paragraph-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin:8px 0 12px}
+body.glauka-mobile-app .glauka-paragraph-row select{width:100%;min-width:0;min-height:44px;padding:7px;border:1px solid #d9d3e5;border-radius:10px;background:#fff;color:#272334;font:inherit;font-size:13px}
+body.glauka-mobile-app .glauka-text-wrapping{padding:10px 0;color:#534b64}
+body.glauka-mobile-app .glauka-text-wrapping summary{min-height:36px;font-size:14px}
+body.glauka-mobile-app #nm-text-emphasis button[aria-pressed="true"]{background:#eee8ff;color:#542bc7;border-color:#aa96e7;box-shadow:inset 0 0 0 1px #aa96e7}
+body.glauka-mobile-app .glauka-node-shape-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:8px;margin:8px 0;font-size:13px;color:#534b64}
+body.glauka-mobile-app .glauka-node-shape-row select{min-width:0;min-height:44px;border:1px solid #d9d3e5;border-radius:10px;background:#fff;color:#272334;padding:7px;font:inherit}
+body.glauka-mobile-app .nm74-primary-tools{display:grid;gap:10px}
+body.glauka-mobile-app .nm74-experimental-links{display:grid;gap:18px}
+
+body.glauka-mobile-app .glauka-app-section-title{margin:14px 3px 3px;font-size:12px;font-weight:700;color:var(--glauka-app-accent);line-height:1.4}body.glauka-mobile-app .glauka-app-section-title:first-child{margin-top:2px}body.glauka-mobile-app .glauka-app-note{margin:3px 4px 7px;font-size:12px;line-height:1.5;color:var(--glauka-app-muted)}
+
+/* Android background controls belong to one expandable group. */
+body.glauka-mobile-app #inspector-sidebar .glauka-map-background:not([open])
+  :is(.nm-theme-picker, #nm-map-refinements) { display:none!important; }
+body.glauka-mobile-app #inspector-sidebar .glauka-map-background #nm-map-refinements {
+  box-sizing:border-box;margin:8px 12px 10px;padding:12px 0 0;
+  border:0;border-top:1px solid var(--glauka-app-line);border-radius:0;
+  background:transparent!important;box-shadow:none!important;
+}
+body.glauka-mobile-app #inspector-sidebar .glauka-map-background #nm-map-refinements > h3 {
+  display:none!important;
+}
+body.glauka-mobile-app #inspector-sidebar .glauka-map-background #nm-map-refinements label {
+  gap:8px;margin:10px 0;font:500 13px/1.4 system-ui;flex-wrap:wrap;
+}
+body.glauka-mobile-app #inspector-sidebar .glauka-map-background #nm-map-refinements select {
+  min-height:44px;max-width:58%;font-size:14px;
+}
+body.glauka-mobile-app #inspector-sidebar .glauka-map-background #nm-map-refinements input[type="range"] {
+  width:42%;min-height:44px;flex:1 1 120px;
+}
+body.glauka-mobile-app #inspector-sidebar .glauka-map-background #nm-map-refinements p {
+  margin:6px 0 0;font:12px/1.45 system-ui;
+}
+/* Branch appearance is separate from the radial layout alternative. */
+body.glauka-mobile-app #inspector-sidebar #nm54-style-grid {
+  gap:7px!important;
+}
+body.glauka-mobile-app #inspector-sidebar #nm54-style-grid .nm54-style {
+  min-height:56px!important;padding:9px!important;white-space:normal;
+  font:600 13px/1.25 system-ui!important;overflow-wrap:anywhere;
+}
+body.glauka-mobile-app #inspector-sidebar #nm54-style-grid .glauka-radial-heading {
+  grid-column:1/-1;margin:5px 0 0;color:var(--glauka-app-muted);
+  font:700 12px/1.4 system-ui;
+}
+body.glauka-mobile-app #inspector-sidebar #nm54-style-grid .nm54-style[data-style="radial"] {
+  grid-column:1/-1;min-height:48px!important;
+}
+body.glauka-mobile-app #inspector-sidebar .nm54-control {
+  margin:10px 0;padding-top:9px;
+}
+
+/* QA-002: the same study windows keep a navy card in their own stylesheet.
+   Android defines --nm-skin-* as the light sheet, so this one rule covers
+   every map background without repainting picture markers or primary actions. */
+body.glauka-mobile-app :is(
+  #nm-ocr .ocr-window,
+  #nm-visual-study .nm-vs-box,
+  #nm75-overlay .nm75-dialog,
+  #nm76-overlay .nm76-dialog,
+  #nm82-overlay .nm82-dialog,
+  #nm-quality74 .nm-quality-window,
+  #nm-anki .nm-anki-box,
+  #nm-capture .nm-capture-box,
+  #nm-doc-import .nm-di-window,
+  #nm-exchange .nm-exchange-window,
+  #nm-v73-share .nm-v73-window,
+  #nm-v73-share .nm-v73-group,
+  #nm-knowledge-panel .nm-sl2,
+  #nm616-compare
+){
+  background:var(--nm-skin-surface)!important;
+  color:var(--nm-skin-ink)!important;
+  border-color:var(--nm-skin-stroke)!important;
+}
+body.glauka-mobile-app :is(
+  #nm-ocr,
+  #nm-visual-study,
+  #nm75-overlay,
+  #nm76-overlay,
+  #nm82-overlay,
+  #nm-quality74,
+  #nm-anki,
+  #nm-capture,
+  #nm-doc-import,
+  #nm-exchange,
+  #nm-v73-share,
+  #nm-knowledge-panel,
+  #nm616-compare,
+  .nm75-panel,
+  .nm76-panel,
+  .nm82-dashboard
+) :is(
+  button:not([aria-pressed="true"]):not([aria-selected="true"]),
+  input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="file"]):not([type="range"]),
+  select,
+  textarea,
+  .nm82-card,
+  .nm76-row,
+  .nm76-meta,
+  .nm-quality-entry,
+  .nm-di-preview,
+  .nm-exchange-report,
+  .nm75-preview,
+  .nm75-preview pre,
+  .nm75-preview code,
+  .nm616-compare-item,
+  .nm-kn-edit,
+  .ocr-warning,
+  .ocr-region-tools
+):not(.ocr-primary, .primary, .nm-di-apply, .nm-capture-primary, .v4-primary){
+  background:var(--nm-skin-top)!important;
+  color:var(--nm-skin-ink)!important;
+  border-color:var(--nm-skin-stroke)!important;
+}
+body.glauka-mobile-app #nm-visual-study .nm-vs-image button{
+  background:#134f9f!important;color:#fff!important;border:2px solid #76d8ff!important;
+}
+body.glauka-mobile-app #nm-visual-study .nm-vs-image button[data-revealed="true"]{
+  background:#116850!important;border-color:#9cf2bf!important;
+}
+body.glauka-mobile-app #nm-ocr .ocr-boxes button{
+  background:#ffbb3310!important;color:transparent!important;border:1px solid #c24b16!important;
+}
+body.glauka-mobile-app :is(
+  #nm616-compare header,
+  #nm616-compare footer,
+  #nm616-compare .nm616-compare-side,
+  #nm616-compare .nm616-compare-head
+){
+  background:var(--nm-skin-top)!important;
+  color:var(--nm-skin-ink)!important;
+  border-color:var(--nm-skin-stroke)!important;
+}
+body.glauka-mobile-app .nm82-dashboard{color:var(--nm-skin-ink)!important}
+body.glauka-mobile-app :is(.nm6-modal,.nm-home-screen,.nm-decision-panel){
+  background:var(--nm-skin-surface)!important;
+  color:var(--nm-skin-ink)!important;
+  border-color:var(--nm-skin-stroke)!important;
+}
+body.glauka-mobile-app :is(.nm6-modal,.nm-home-screen,.nm-decision-panel) :is(button,input,select,textarea):not(.nm-decision-primary,.nm-decision-danger,.v4-primary){
+  background:var(--nm-skin-top)!important;
+  color:var(--nm-skin-ink)!important;
+  border-color:var(--nm-skin-stroke)!important;
+}
+body.glauka-mobile-app .nm-decision-primary{
+  background:var(--nm-theme-action)!important;
+  color:var(--nm-theme-on-action)!important;
+  border-color:var(--nm-theme-action)!important;
+}
+body.glauka-mobile-app :is(
+  #nm-ocr,
+  #nm-visual-study,
+  #nm-anki,
+  #nm-capture,
+  #nm-doc-import,
+  #nm-quality74
+) :is(.ocr-primary, button.primary, .nm-di-apply, .nm-capture-primary){
+  background:var(--nm-theme-action)!important;
+  color:var(--nm-theme-on-action)!important;
+  border-color:var(--nm-theme-action)!important;
+}
+body.glauka-mobile-app :is(
+  #nm-ocr,
+  #nm-visual-study,
+  #nm75-overlay,
+  #nm76-overlay,
+  #nm82-overlay,
+  #nm-quality74,
+  #nm-anki
+) :is(.ocr-hint, .nm75-muted, .nm76-muted, .nm82-muted, small){
+  color:var(--nm-skin-muted)!important;
+}
+
+/* Private Android workspace: show a concise, theme-aware backup reminder. */
+body.glauka-mobile-app .glauka-backup-hint {
+  font: 500 12px/1.55 system-ui, sans-serif;
+  color: var(--glauka-app-muted, #667085);
+  padding: 10px 12px;
+  margin: 0 0 10px;
+  border: 1px solid var(--glauka-app-line, #d4dbe4);
+  border-radius: 11px;
+  background: var(--glauka-app-panel, transparent);
+  overflow-wrap: anywhere;
+}
+
+/* Options have semantic groups; preserve a full reachable bottom row. */
+#glauka-sheet-content.glauka-options-menu{padding-bottom:max(20px,env(safe-area-inset-bottom));scroll-padding-block:12px}
+.glauka-options-menu .glauka-app-action{min-height:48px;padding:10px 12px;gap:12px;border-radius:10px}
+.glauka-options-menu .glauka-app-action:not(.glauka-linked-view-action) svg{width:23px;height:23px;flex-shrink:0}
+.glauka-options-menu .glauka-app-section-title{margin:14px 12px 4px;font-size:12px;font-weight:700;opacity:.75}
+
+/* Match the scope and scrolling sections; the title stays inside the panel. */
+body.glauka-mobile-app #inspector-sidebar .nm-settings-sticky-header > .inspector-header {
+  margin: 0 !important;
+  padding: 10px 0 !important;
+  border: 0 !important;
+}

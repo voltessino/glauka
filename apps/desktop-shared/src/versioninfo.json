@@ -1,0 +1,32 @@
+{
+  "FixedFileInfo": {
+    "FileVersion": {
+      "Major": 1,
+      "Minor": 0,
+      "Patch": 4,
+      "Build": 0
+    },
+    "ProductVersion": {
+      "Major": 1,
+      "Minor": 0,
+      "Patch": 4,
+      "Build": 0
+    }
+  },
+  "StringFileInfo": {
+    "CompanyName": "Glauka",
+    "FileDescription": "Glauka Desktop",
+    "FileVersion": "1.0.4",
+    "ProductVersion": "1.0.4",
+    "ProductName": "Glauka",
+    "OriginalFilename": "Glauka.exe"
+  },
+  "VarFileInfo": {
+    "Translation": {
+      "LangID": "0409",
+      "CharsetID": "04B0"
+    }
+  },
+  "IconPath": "resources/icon.ico",
+  "ManifestPath": "resources/dpi-aware.manifest"
+}

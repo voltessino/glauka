@@ -1,0 +1,1126 @@
+/* Shared chrome palette, including legacy dialogs and their nested cards.
+   This layer never recolors the document canvas or authored previews.
+   Specificity deliberately wins over legacy fixed colors, including inline ones. */
+body[data-nm-skin] {
+  color-scheme: dark;
+  --bg-panel: var(--nm-skin-surface);
+  --bg-panel-solid: var(--nm-skin-surface);
+  --bg-hover: var(--nm-skin-top);
+  --border-subtle: var(--nm-skin-stroke);
+  --border-focus: var(--nm-theme-focus);
+  --text-primary: var(--nm-skin-ink);
+  --text-secondary: var(--nm-skin-muted);
+  --text-muted: var(--nm-skin-muted);
+  --nm-theme-focus: #b5a6ff;
+  --nm-theme-action: #6654ca;
+  --nm-theme-on-action: #ffffff;
+  --nm-theme-danger: #ffb1b9;
+  --nm-ui-accent: var(--nm-theme-focus);
+  --nm-orbit-accent: var(--nm-theme-focus);
+  --nm-chrome-accent: var(--nm-theme-focus);
+  --gv-ease-out:cubic-bezier(.16,1,.3,1);
+  --gv-motion-fast:120ms;
+  --gv-motion-normal:160ms;
+  --gv-canvas-focus:var(--nm-theme-action);
+  --gv-canvas-focus-halo:color-mix(in srgb, var(--nm-theme-action) 40%, transparent);
+  --gv-canvas-hover:color-mix(in srgb, var(--nm-theme-action) 24%, transparent);
+  --gv-canvas-drop-valid:color-mix(in srgb, var(--nm-theme-action) 28%, #1c8f62);
+  --gv-canvas-drop-invalid:var(--nm-theme-danger);
+  --gv-canvas-badge-surface:color-mix(in srgb, var(--nm-skin-top) 88%, var(--nm-theme-action));
+  --gv-canvas-badge-text:var(--nm-skin-ink);
+}
+/* Prisma Vivo and Minimal both render light native selects and scrollbars.
+   The default desktop root is dark; without this declaration, native menus
+   can stay navy even when the controls themselves have light backgrounds. */
+body:is([data-nm-skin="prisma"], [data-nm-skin="minimal"]) {
+  color-scheme: light;
+}
+body[data-nm-skin="minimal"] {
+  --nm-theme-focus: #6042bc;
+  --nm-theme-action: #6042bc;
+  --nm-theme-danger: #ad2039;
+}
+body[data-nm-skin="cyber"] {
+  --nm-theme-focus: #bcda7a;
+  --nm-theme-action: #416319;
+}
+body[data-nm-skin="graphite"] {
+  --nm-theme-focus: #ccd0e4;
+  --nm-theme-action: #515b89;
+}
+body[data-nm-skin="aurora"] {
+  --nm-theme-focus: #a7dce5;
+  --nm-theme-action: #376679;
+}
+body[data-nm-skin="glass"] {
+  --nm-theme-focus: #c3dcff;
+  --nm-theme-action: #435e96;
+}
+body[data-nm-skin="neon"] {
+  --nm-theme-focus: #e8aaff;
+  --nm-theme-action: #9241af;
+}
+body[data-nm-skin="purple"] {
+  --nm-theme-focus: #d4b5ff;
+  --nm-theme-action: #7950bd;
+}
+body:is([data-nm-skin="classic"], [data-nm-skin="orbit"]) {
+  --nm-theme-focus: #86ceff;
+  --nm-theme-action: #245ead;
+}
+body[data-nm-skin="minimal"][data-nm-skin-contrast="high"] {
+  --nm-skin-muted: #27394e;
+  --nm-chrome-edge: #20334d;
+}
+body.nm-workspace-v2[data-nm-skin] {
+  --nm-ui-accent: var(--nm-theme-focus);
+  --nm-ui-line: var(--nm-skin-stroke);
+  --nm-ui-hover: color-mix(in srgb, var(--nm-theme-focus) 16%, var(--nm-skin-surface));
+}
+/* All top-level chrome roots share inherited text. Backdrops keep their
+   translucency; only their foreground cards receive a solid surface.
+   The startup screen is excluded: it keeps the contrast chosen at open. */
+body[data-nm-skin] > :not(canvas, script, style, #inline-editor-container, #glauka-startup) {
+  color: var(--nm-skin-ink);
+}
+body.nm-workspace-v2[data-nm-skin]
+  > :not(canvas, script, style, #inline-editor-container, #glauka-startup)
+  :where(*):not(
+    :where(
+      svg,
+      svg *,
+      canvas,
+      .nm-theme-content,
+      .nm-theme-content *,
+      #nm-view-overlay,
+      #nm-view-overlay *,
+      #nm67-notes-preview,
+      #nm67-notes-preview *,
+      .nm-sl-page,
+      .nm-sl-page *,
+      .nm-crop-stage,
+      .nm-crop-stage *,
+      .color-swatch,
+      .color-swatch *,
+      .nm-theme-swatch,
+      .nm-theme-swatch *,
+      .nm-theme-preview,
+      .nm-theme-preview *,
+      .nm-highlighter-sample,
+      button[data-primary="true"],
+      button[data-primary="true"] *,
+      #gl-history-dialog,
+      #gl-history-dialog *,
+      #nm-save-status-modal,
+      #nm-save-status-modal *,
+      #nm-map-share,
+      #nm-map-share *,
+      .nm-radar-kpi,
+      .nm-radar-kpi *,
+      .nm-radar-card .nm-radar-badge
+    )
+  ) {
+  color: var(--nm-skin-ink) !important;
+  border-color: var(--nm-skin-stroke);
+  /* Palette switches are atomic: no white text lingering over a light field. */
+  transition-property: transform, opacity, box-shadow !important;
+}
+/* Neutral structure inside menus and dialogs. Exclusions are authored content,
+   actual color samples, crop guides and the product mark. */
+body.nm-workspace-v2[data-nm-skin]
+  > :not(canvas, script, style, #inline-editor-container, #glauka-startup)
+  :where(
+    div,
+    section,
+    article,
+    fieldset,
+    details,
+    header,
+    footer,
+    aside,
+    nav,
+    form,
+    dl,
+    dt,
+    dd,
+    p,
+    ul,
+    ol,
+    li,
+    pre,
+    blockquote,
+    table,
+    thead,
+    tbody,
+    tr,
+    td,
+    th,
+    code,
+    kbd,
+    .counter-pill,
+    .hud-badge,
+    .nm-ux-chip,
+    #nm-ux-autosave-state
+  ):not(
+    :where(
+      svg *,
+      .nm-theme-content,
+      .nm-theme-content *,
+      #nm-view-overlay,
+      #nm-view-overlay *,
+      #nm67-notes-preview,
+      #nm67-notes-preview *,
+      .nm-sl-page,
+      .nm-sl-page *,
+      .nm-crop-stage,
+      .nm-crop-stage *,
+      .color-swatch,
+      .color-swatch *,
+      .nm-theme-swatch,
+      .nm-theme-swatch *,
+      .nm-theme-preview,
+      .nm-theme-preview *,
+      .nm6-hero,
+      .brand-icon,
+      .nm-menu-symbol,
+      .nm-ui-palette-icon,
+      .nm-ui-info-icon,
+      #nm620-forecast-right-bar,
+      #nm620-forecast-left-bar,
+      button *,
+      #gl-history-dialog,
+      #gl-history-dialog *,
+      #nm-save-status-modal,
+      #nm-save-status-modal *,
+      #nm-map-share,
+      #nm-map-share *
+    )
+  ) {
+  background: var(--nm-skin-surface) !important;
+  border-color: var(--nm-skin-stroke) !important;
+  box-shadow: none;
+}
+body.nm-workspace-v2[data-nm-skin]
+  :is(
+    .glass-panel,
+    .dropdown-panel,
+    .nm-view-popup,
+    #nm-ai-studio,
+    #nm-learn-panel,
+    #nm-knowledge-panel,
+    #nm-insert-panel,
+    #nm614-navigation-flyout,
+    #nm-list-menu,
+    #nm-help-tooltip,
+    #nm7-guide-dialog,
+    #nm616-compare,
+    #nm616-lightbox,
+    #nm-drawing-toolbar
+  ) {
+  background: var(--nm-skin-surface) !important;
+  color: var(--nm-skin-ink) !important;
+  border-color: var(--nm-skin-stroke) !important;
+}
+body.nm-workspace-v2[data-nm-skin]
+  :is(
+    .nm6-modal,
+    .v4-modal,
+    .modal-card,
+    .nm-creative-panel,
+    .nm-export-dialog,
+    .nm76-dialog,
+    .nm75-dialog,
+    .nm54-modal,
+    .nm62-modal,
+    .nm611-modal,
+    .nm-decision-dialog,
+    #nm-orbit-command-dialog
+  ) {
+  background: var(--nm-skin-surface) !important;
+  border-color: var(--nm-skin-stroke) !important;
+  box-shadow: var(--nm-skin-shadow) !important;
+}
+body.nm-workspace-v2[data-nm-skin]
+  > :not(canvas, script, style, #inline-editor-container, #glauka-startup)
+  :where(
+    button,
+    select,
+    textarea,
+    input:not([type="color"]):not([type="range"]):not([type="checkbox"]):not(
+        [type="radio"]
+      )
+  ):not(:where(.color-swatch, .nm-theme-swatch, .nm-theme-content *, .nm-home-screen *, #nm-view-overlay, #nm-view-overlay *, .nm-save-action-btn[data-primary="true"], #gl-history-recover, .gl-history-item[aria-pressed="true"], .nm-radar-kpi, .nm-radar-card, #nm-map-share *)) {
+  color: var(--nm-skin-ink) !important;
+  background: var(--nm-skin-top) !important;
+  border-color: var(--nm-skin-stroke) !important;
+}
+body.nm-workspace-v2[data-nm-skin] :is(input, textarea)::placeholder {
+  color: var(--nm-skin-muted) !important;
+  opacity: 1;
+}
+body.nm-workspace-v2[data-nm-skin] select option {
+  background: var(--nm-skin-surface);
+  color: var(--nm-skin-ink);
+}
+body.nm-workspace-v2[data-nm-skin]
+  input:is([type="range"], [type="checkbox"], [type="radio"]) {
+  accent-color: var(--nm-theme-focus) !important;
+}
+body.nm-workspace-v2[data-nm-skin]
+  > :not(canvas, script, style, #inline-editor-container, #glauka-startup)
+  :is(
+    p,
+    small,
+    label,
+    output,
+    kbd,
+    .dropdown-section-title,
+    .nm6-desc,
+    .nm6-small,
+    .spotlight-path,
+    .spotlight-tab,
+    .nm-home-empty,
+    .nm-home-template-hint
+  ):not(:where(.nm-theme-content *, #nm67-notes-preview *, .nm-sl-page *, #nm-view-overlay, #nm-view-overlay *, button[data-primary="true"] *, #gl-history-dialog, #gl-history-dialog *, #nm-save-status-modal, #nm-save-status-modal *, #nm-map-share, #nm-map-share *)) {
+  color: var(--nm-skin-muted) !important;
+}
+/* Visible, accessible selection in every palette. Children inherit the same
+   selected surface, so no pale label can remain over the active action. */
+body.nm-workspace-v2[data-nm-skin]
+  :is(button, [role="button"], .dropdown-item, .ctx-item)
+  :is(span, strong, small, svg):not(
+    :where(.nm-theme-preview, .nm-theme-preview *)
+  ) {
+  color: inherit !important;
+}
+body.nm-workspace-v2[data-nm-skin]
+  :is(button, .dropdown-item, .ctx-item):hover:not(:disabled):not(#nm-view-overlay *):not(.nm-learn-current):not([aria-checked="true"]) {
+  border-color: var(--nm-theme-focus) !important;
+  background: var(--nm-ui-hover) !important;
+}
+body.nm-workspace-v2[data-nm-skin]
+  > :not(canvas, script, style, #inline-editor-container, #glauka-startup)
+  :is(
+    button[aria-pressed="true"],
+    button[aria-selected="true"],
+    button[aria-checked="true"],
+    .tab-item.active,
+    #nm614-right-dock > button[aria-expanded="true"],
+    .v4-primary,
+    .btn-primary,
+    .nm6-cta,
+    #nm-ai-apply
+  ) {
+  background: var(--nm-theme-action) !important;
+  color: var(--nm-theme-on-action) !important;
+  border-color: var(--nm-theme-focus) !important;
+}
+body.nm-workspace-v2[data-nm-skin]
+  > :not(canvas, script, style, #inline-editor-container, #glauka-startup)
+  :is(
+    button[aria-pressed="true"],
+    button[aria-selected="true"],
+    button[aria-checked="true"],
+    .tab-item.active,
+    #nm614-right-dock > button[aria-expanded="true"],
+    .v4-primary,
+    .btn-primary,
+    .nm6-cta,
+    #nm-ai-apply
+  )
+  :where(*):not(:where(.nm-theme-preview, .nm-theme-preview *)) {
+  color: var(--nm-theme-on-action) !important;
+  background: transparent !important;
+}
+body.nm-workspace-v2[data-nm-skin]
+  :is(button, input, select, textarea, summary, a):focus-visible {
+  outline-color: var(--nm-theme-focus) !important;
+}
+body.nm-workspace-v2[data-nm-skin] #nm-view-overlay :is(button, summary):focus-visible {
+  outline: 2px solid var(--nm-theme-action) !important;
+  outline-offset: 2px !important;
+}
+body.nm-workspace-v2[data-nm-skin]
+  :is(.nm6-eyebrow, .nm-ui-palette-icon, .nm-ui-info-icon) {
+  color: var(--nm-theme-focus) !important;
+}
+body.nm-workspace-v2[data-nm-skin] .nm-ui-palette-icon {
+  background: var(--nm-theme-focus) !important;
+}
+/* Native select arrows use currentColor and therefore follow the palette too. */
+body.nm-workspace-v2[data-nm-skin]
+  #nm-ui-skin-settings.nm6-skiptranslate
+  select {
+  appearance: auto;
+  -webkit-appearance: auto;
+  background-image: none !important;
+}
+/* Illustrations describe the chosen structure without a dark thumbnail tile. */
+body.nm-workspace-v2[data-nm-skin]
+  :is(
+    .nm-home-choice-preview,
+    .nm-home-preview-art,
+    #nm-layout-modes button,
+    .nm-view-choice
+  )
+  svg {
+  color: inherit;
+  background: transparent;
+}
+body.nm-workspace-v2[data-nm-skin]
+  :is(.nm-home-choice-preview, .nm-home-preview-art) {
+  background: var(--nm-skin-top) !important;
+  border-color: var(--nm-skin-stroke) !important;
+}
+body.nm-workspace-v2[data-nm-skin]
+  :is(.nm-home-choice-preview, .nm-home-preview-art)
+  :is(rect, path, line, circle) {
+  stroke: var(--nm-theme-focus);
+}
+body.nm-workspace-v2[data-nm-skin]
+  :is(.nm-home-choice-preview, .nm-home-preview-art)
+  rect {
+  fill: var(--nm-skin-top);
+}
+body.nm-workspace-v2[data-nm-skin]
+  :is(.nm-home-choice-preview, .nm-home-preview-art)
+  text {
+  fill: var(--nm-skin-ink);
+}
+body.nm-workspace-v2[data-nm-skin] .spotlight-item.active {
+  background: var(--nm-skin-top) !important;
+  outline: 1px solid var(--nm-theme-focus);
+}
+body.nm-workspace-v2[data-nm-skin]
+  :is(.nm-error, [role="alert"], [aria-invalid="true"]) {
+  color: var(--nm-theme-danger) !important;
+}
+body.nm-workspace-v2[data-nm-skin] > button {
+  background: var(--nm-skin-surface) !important;
+  color: var(--nm-skin-ink) !important;
+  border-color: var(--nm-skin-stroke) !important;
+}
+body.nm-workspace-v2[data-nm-skin] .topbar .toolbar-group button.btn-ui {
+  background: transparent !important;
+  border-color: transparent !important;
+}
+
+/* The surrounding shade follows the theme as well, without dimming its card. */
+body.nm-workspace-v2[data-nm-skin]
+  :is(
+    .nm6-shade,
+    .v4-backdrop,
+    .modal-backdrop,
+    .nm-creative-shade,
+    .nm-export-shade,
+    .nm54-backdrop,
+    .nm62-shade,
+    .nm611-cover,
+    .nm-decision-overlay,
+    .nm67-notes-shade,
+    #nm-orbit-command-overlay,
+    #nm75-overlay,
+    #nm76-overlay,
+    #nm82-overlay
+  ) {
+  background: var(--nm-skin-top) !important;
+  background: color-mix(
+    in srgb,
+    var(--nm-skin-top) 85%,
+    transparent
+  ) !important;
+}
+
+body.nm-workspace-v2[data-nm-skin]
+  > :not(canvas, script, style, #inline-editor-container, #glauka-startup)
+  .topbar
+  .toolbar-group
+  button.btn-ui {
+  background: transparent !important;
+  border-color: transparent !important;
+}
+body.nm-workspace-v2[data-nm-skin]
+  > :not(canvas, script, style, #inline-editor-container, #glauka-startup)
+  .topbar
+  .toolbar-group
+  button.btn-ui:is(:hover, [aria-expanded="true"]) {
+  background: var(--nm-ui-hover) !important;
+  border-color: var(--nm-theme-focus) !important;
+  color: var(--nm-skin-ink) !important;
+}
+body.nm-workspace-v2[data-nm-skin]
+  > :not(canvas, script, style, #inline-editor-container, #glauka-startup)
+  .dropdown-panel
+  button {
+  background: transparent !important;
+}
+body.nm-workspace-v2[data-nm-skin]
+  > :not(canvas, script, style, #inline-editor-container, #glauka-startup)
+  .dropdown-panel
+  button:hover:not(:disabled) {
+  background: var(--nm-skin-top) !important;
+}
+body.nm-workspace-v2[data-nm-skin] #inline-editor-input {
+  background: color-mix(in srgb, var(--nm-skin-surface) 88%, transparent) !important;
+  color: var(--nm-skin-ink) !important;
+  border-color: var(--nm-theme-focus) !important;
+}
+
+body.nm-workspace-v2[data-nm-skin] #nm616-compare::before {
+  background: color-mix(in srgb, var(--nm-skin-top) 85%, transparent);
+}
+/* The minimap is interface chrome, not an exported document background.
+   Its transparent canvas retains the real branch colors over this surface. */
+body.nm-workspace-v2[data-nm-skin] #nm616-map {
+  background: var(--nm-skin-top) !important;
+}
+
+body[data-nm-skin="prisma"] {
+  color-scheme: light;
+  --nm-theme-focus: #6441df;
+  --nm-theme-action: #6441df;
+  --nm-theme-danger: #ad2039;
+}
+body[data-nm-skin="prisma"][data-nm-skin-contrast="high"] {
+  --nm-skin-muted: #353044;
+  --nm-chrome-edge: #40344f;
+}
+
+/* Theme finishing controls apply to every desktop UI skin, not map nodes. */
+body[data-nm-skin][data-nm-orbit-accent="cyan"] {
+  --nm-theme-focus: #7ad7f2; --nm-theme-action: #187aa3;
+}
+body[data-nm-skin][data-nm-orbit-accent="violet"] {
+  --nm-theme-focus: #b99bff; --nm-theme-action: #7046c9;
+}
+body[data-nm-skin][data-nm-orbit-accent="amber"] {
+  --nm-theme-focus: #ffca82; --nm-theme-action: #a16b28;
+}
+/* Light skins require dark high-contrast accents. */
+body:is([data-nm-skin="prisma"],[data-nm-skin="minimal"])[data-nm-orbit-accent="cyan"] {
+  --nm-theme-focus: #146fa1; --nm-theme-action: #146fa1;
+}
+body:is([data-nm-skin="prisma"],[data-nm-skin="minimal"])[data-nm-orbit-accent="violet"] {
+  --nm-theme-focus: #6441df; --nm-theme-action: #6441df;
+}
+body:is([data-nm-skin="prisma"],[data-nm-skin="minimal"])[data-nm-orbit-accent="amber"] {
+  --nm-theme-focus: #96600d; --nm-theme-action: #96600d;
+}
+body.nm-workspace-v2[data-nm-skin][data-nm-orbit-density="compact"] :is(.tab-bar,.toolbar-group){
+  gap: 4px;
+}
+body.nm-workspace-v2[data-nm-skin][data-nm-orbit-density="compact"] :is(.tab-action-btn,.v4-tool-btn,.toolbar-group .btn-ui){
+  padding: 5px 7px;
+}
+body.nm-workspace-v2[data-nm-skin][data-nm-orbit-density="compact"] :is(.inspector-section,.nm70-inspector-body){
+  padding: 9px;
+}
+body.nm-workspace-v2[data-nm-skin][data-nm-orbit-density="compact"] .dropdown-item{
+  padding-top: 5px; padding-bottom: 5px;
+}
+
+/* Prisma Vivo is Glauka's classic appearance: one clean menu surface, not a
+   colored card behind every command. Keep hover, focus and current selection
+   discoverable, but preserve actual form fields and color swatches. */
+body.nm-workspace-v2[data-nm-skin="prisma"]
+  :is(.dropdown-panel, #context-menu, #nm-orbit-command-results, .glauka-text-menu-portal) {
+  background: var(--nm-skin-surface) !important;
+  border-color: var(--nm-skin-stroke) !important;
+}
+body.nm-workspace-v2[data-nm-skin="prisma"]
+  :is(.dropdown-panel, #context-menu, #nm-orbit-command-results, .glauka-text-menu-portal)
+  :is(.dropdown-item, .ctx-item, .nm-orbit-command-result, .export-Format-chip, button) {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  color: var(--nm-skin-ink) !important;
+}
+body.nm-workspace-v2[data-nm-skin="prisma"]
+  :is(.dropdown-panel, #context-menu, #nm-orbit-command-results, .glauka-text-menu-portal)
+  :is(.dropdown-item, .ctx-item, .nm-orbit-command-result, .export-Format-chip, button)
+  :is(span, strong, small, svg) {
+  background: transparent !important;
+  box-shadow: none !important;
+  color: inherit !important;
+}
+/* Shared legacy chrome styles gave EVERY nested div a filled surface. A menu
+   should visually group commands, not fragment into nested mini-panels. */
+body.nm-workspace-v2[data-nm-skin="prisma"]
+  :is(.dropdown-panel, #context-menu, #nm-orbit-command-results, .glauka-text-menu-portal)
+  :is(div, section, p, span, small, strong, kbd):not(
+    .dropdown-divider, .color-swatch, .nm-theme-swatch, .nm-theme-preview
+  ) {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+body.nm-workspace-v2[data-nm-skin="prisma"]
+  :is(.dropdown-panel, #context-menu, .glauka-text-menu-portal)
+  :is(.kbd-key, .counter-pill) {
+  padding-inline: 3px;
+  border-color: transparent !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--nm-skin-muted) !important;
+}
+body.nm-workspace-v2[data-nm-skin="prisma"]
+  :is(.dropdown-panel, #context-menu, #nm-orbit-command-results, .glauka-text-menu-portal)
+  :is(.dropdown-item, .ctx-item, .nm-orbit-command-result, .export-Format-chip, button):is(:hover, :focus-visible, [aria-selected="true"], [aria-current="true"], [aria-pressed="true"]):not(:disabled) {
+  background: #f1ecfc !important;
+  color: var(--nm-skin-ink) !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+body.nm-workspace-v2[data-nm-skin="prisma"]
+  :is(.dropdown-panel, #context-menu, #nm-orbit-command-results, .glauka-text-menu-portal)
+  :is(.dropdown-item, .ctx-item, .nm-orbit-command-result, .export-Format-chip, button):focus-visible {
+  outline: 2px solid var(--nm-theme-focus) !important;
+  outline-offset: -2px;
+}
+body.nm-workspace-v2[data-nm-skin="prisma"]
+  :is(.dropdown-panel, #context-menu)
+  :is(.dropdown-section-title, .nm-orbit-command-group) {
+  background: transparent !important;
+  color: var(--nm-skin-muted) !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+/* Destructive actions are distinguished by text and a gentle hover, not a
+   persistent bright-red tile. */
+body.nm-workspace-v2[data-nm-skin="prisma"]
+  :is(.dropdown-panel, #context-menu)
+  :is(.nm-ux-danger, .ctx-item-danger):not(:hover):not(:focus-visible) {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+body.nm-workspace-v2[data-nm-skin="prisma"]
+  :is(.dropdown-panel, #context-menu)
+  :is(.nm-ux-danger, .ctx-item-danger):is(:hover, :focus-visible) {
+  background: #fff0f2 !important;
+  color: #9b2441 !important;
+  border-color: transparent !important;
+}
+
+/* Glauka palette contract — Compass/Bussola and its nested navigation.
+   Historical navigation layers used fixed blue/violet even on light themes.
+   These rules target CHROME ONLY, not the minimap canvas, map branch dots,
+   user-authored colors, illustration previews or document exports. */
+body.nm-workspace-v2[data-nm-skin] {
+  --nm-navigation-surface: var(--nm-skin-surface);
+  --nm-navigation-control: var(--nm-skin-top);
+  --nm-navigation-hover: color-mix(in srgb, var(--nm-skin-surface) 89%, var(--nm-theme-focus));
+}
+body.nm-workspace-v2[data-nm-skin]
+  :is(#nm614-navigation-flyout, #nm616-navigation, #nm616-minimap-shell, #nm-workspace-rail) {
+  color: var(--nm-skin-ink) !important;
+}
+body.nm-workspace-v2[data-nm-skin]
+  :is(#nm614-navigation-flyout, #nm616-navigation, #nm616-minimap-shell)
+  :is(.nm616-nav-card, #nm616-nav-disclosure, #nm616-context, .nm616-nav-heading, #nm616-nav-options, #nm616-nav-branches) {
+  color: var(--nm-skin-ink) !important;
+  border-color: var(--nm-skin-stroke) !important;
+}
+body.nm-workspace-v2[data-nm-skin]
+  :is(#nm614-navigation-flyout, #nm616-navigation)
+  :is(.nm616-nav-card, #nm616-context, #nm616-nav-options, #nm616-nav-branches, .nm616-nav-heading) {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+body.nm-workspace-v2[data-nm-skin]
+  :is(#nm614-navigation-flyout, #nm616-navigation, #nm616-minimap-shell)
+  :is(#nm616-nav-caption, #nm616-nav-status, .nm616-branch-count, #nm616-nav-options > summary,
+      .nm7-nav-label, .nm616-context-hint) {
+  color: var(--nm-skin-muted) !important;
+}
+body.nm-workspace-v2[data-nm-skin] #nm616-navigation
+  :where(button, #nm616-nav-disclosure > summary),
+body.nm-workspace-v2[data-nm-skin] #nm616-minimap-shell
+  :where(button, #nm616-nav-disclosure > summary) {
+  color: var(--nm-skin-ink) !important;
+  background: var(--nm-navigation-control) !important;
+  border-color: var(--nm-skin-stroke) !important;
+  box-shadow: none !important;
+}
+body.nm-workspace-v2[data-nm-skin] #nm616-navigation
+  :where(button, #nm616-nav-disclosure > summary):hover:not(:disabled),
+body.nm-workspace-v2[data-nm-skin] #nm616-minimap-shell button:hover:not(:disabled) {
+  color: var(--nm-skin-ink) !important;
+  background: var(--nm-navigation-hover) !important;
+  border-color: var(--nm-theme-focus) !important;
+}
+body.nm-workspace-v2[data-nm-skin] #nm616-navigation
+  :where(button, #nm616-nav-disclosure > summary):focus-visible,
+body.nm-workspace-v2[data-nm-skin] #nm616-minimap-shell button:focus-visible,
+body.nm-workspace-v2[data-nm-skin] #nm614-open-navigation:focus-visible {
+  outline: 2px solid var(--nm-theme-focus) !important;
+  outline-offset: 2px;
+}
+body.nm-workspace-v2[data-nm-skin] #nm616-navigation #nm616-nav-focus,
+body.nm-workspace-v2[data-nm-skin] #nm616-navigation button[aria-pressed="true"] {
+  color: var(--nm-theme-on-action) !important;
+  background: var(--nm-theme-action) !important;
+  border-color: var(--nm-theme-focus) !important;
+}
+body.nm-workspace-v2[data-nm-skin] #nm616-navigation
+  :is(#nm616-nav-focus, button[aria-pressed="true"]):is(:hover, :focus-visible) {
+  color: var(--nm-theme-on-action) !important;
+  background: var(--nm-theme-action) !important;
+  border-color: var(--nm-theme-focus) !important;
+}
+/* Docked Compass flyout: Isola / Minimappa stay secondary outline twins, not solid action pills. */
+body.nm-workspace-v2[data-nm-skin] #nm614-navigation-flyout #nm616-navigation
+  :is(#nm616-nav-focus, #nm616-nav-map-toggle, #nm616-nav-restore),
+body.nm-workspace-v2[data-nm-skin] #nm614-navigation-flyout #nm616-navigation
+  :is(#nm616-nav-focus, #nm616-nav-map-toggle, #nm616-nav-restore)[aria-pressed="true"],
+body.nm-workspace-v2[data-nm-skin] #nm614-navigation-flyout #nm616-navigation
+  :is(#nm616-nav-focus, #nm616-nav-map-toggle, #nm616-nav-restore):is(:hover, :focus-visible) {
+  color: var(--nm-skin-ink) !important;
+  background: transparent !important;
+  border-color: var(--nm-skin-stroke) !important;
+  box-shadow: none !important;
+}
+body.nm-workspace-v2[data-nm-skin] #nm614-navigation-flyout #nm616-navigation
+  :is(#nm616-nav-focus, #nm616-nav-map-toggle)[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--nm-theme-action) 14%, transparent) !important;
+  border-color: var(--nm-theme-focus) !important;
+}
+body.nm-workspace-v2[data-nm-skin] #nm616-navigation
+  :where(button, #nm616-nav-disclosure > summary) :is(span, strong, small) {
+  color: inherit !important;
+  background: transparent !important;
+}
+body.nm-workspace-v2[data-nm-skin] #nm614-navigation-flyout
+  :is(.nm614-fly-title, .nm614-fly-title > strong, .nm616-crumb, #nm616-context-path, label) {
+  color: var(--nm-skin-ink) !important;
+}
+body.nm-workspace-v2[data-nm-skin] #nm614-navigation-flyout
+  :is(select, input:not([type="color"]), .nm7-advanced-navigation button) {
+  background: var(--nm-navigation-control) !important;
+  color: var(--nm-skin-ink) !important;
+  border-color: var(--nm-skin-stroke) !important;
+}
+body.nm-workspace-v2[data-nm-skin] #nm614-navigation-flyout
+  :is(select, input, button):focus-visible {
+  outline: 2px solid var(--nm-theme-focus) !important;
+  outline-offset: 2px;
+}
+/* The Compass button itself must match the surrounding dock, including its
+   pressed/expanded indicator; avoid a purple sliver in Cyber, Graphite, etc. */
+body.nm-workspace-v2[data-nm-skin] #nm614-right-dock > #nm614-open-navigation {
+  color: var(--nm-skin-ink) !important;
+}
+body.nm-workspace-v2[data-nm-skin] #nm614-right-dock > #nm614-open-navigation:is(:hover,[aria-expanded="true"]) {
+  color: var(--nm-skin-ink) !important;
+  background: var(--nm-navigation-hover) !important;
+  border-color: var(--nm-theme-focus) !important;
+  box-shadow: inset 3px 0 var(--nm-theme-focus) !important;
+}
+body.nm-workspace-v2[data-nm-skin] #nm614-right-dock > #nm614-open-navigation[aria-expanded="true"]::after {
+  background: var(--nm-theme-focus) !important;
+  box-shadow: none !important;
+}
+/* Every dock command gets the same understated directional accent as Compass.
+   Hover is transient; expanded/pressed state keeps the existing theme contract. */
+body.nm-workspace-v2[data-nm-skin] #nm614-right-dock > button:hover:not(:disabled),
+body.nm-workspace-v2[data-nm-skin] #nm614-right-dock > button:focus-visible {
+  border-color: var(--nm-theme-focus) !important;
+  background: var(--nm-navigation-hover) !important;
+  box-shadow: inset 3px 0 var(--nm-theme-focus) !important;
+}
+@media (prefers-reduced-motion: no-preference) {
+  body.nm-workspace-v2[data-nm-skin] #nm614-right-dock > button {
+    transition: background-color .14s ease, border-color .14s ease, box-shadow .14s ease;
+  }
+}
+
+/* Compass layout is one surface. Generic chrome rules fill every div/details/nav
+   with an opaque card; neutralize only structural descendants of this flyout.
+   Real buttons, selectors, focus indicators and the detached minimap retain
+   their intentional theme surfaces. */
+body.nm-workspace-v2[data-nm-skin] #nm614-navigation-flyout
+  :is(div, section, nav, details, header, footer) {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+/* Level and order are label wrappers reused by Compass.
+   Only Compass makes them full-width unframed rows; source styles now
+   inherit the active palette instead of retaining fixed navy values. */
+body.nm-workspace-v2[data-nm-skin] #nm614-navigation-flyout #nm7-advanced-navigation
+  :is(label.nm69-nav-level, label.nm612-nav-order) {
+  /* Generic chrome changes all labels to ink; this caption stays muted. */
+  color: var(--nm-skin-muted) !important;
+}
+body.nm-workspace-v2[data-nm-skin] #nm614-navigation-flyout
+  :is(.nm69-nav-level, .nm612-nav-order) > span {
+  background: transparent !important;
+  color: var(--nm-skin-muted) !important;
+}
+body.nm-workspace-v2[data-nm-skin] #nm614-navigation-flyout
+  :is(#nm69-nav-level, #nm612-nav-order) {
+  box-sizing: border-box;
+  background: var(--nm-navigation-control) !important;
+  background-image: none !important;
+  border: 1px solid var(--nm-skin-stroke) !important;
+  box-shadow: none !important;
+  color: var(--nm-skin-ink) !important;
+  min-width: 0;
+  width: 100%;
+}
+body.nm-workspace-v2[data-nm-skin] #nm614-navigation-flyout
+  :is(#nm69-nav-level, #nm612-nav-order) option {
+  background: var(--nm-skin-surface);
+  color: var(--nm-skin-ink);
+}
+/* Breadcrumbs are navigation text, not a series of filled mini-buttons. */
+body.nm-workspace-v2[data-nm-skin] #nm614-navigation-flyout
+  #nm616-context-path .nm616-crumb {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  color: var(--nm-skin-muted) !important;
+}
+body.nm-workspace-v2[data-nm-skin] #nm614-navigation-flyout
+  #nm616-context-path .nm616-crumb:last-child {
+  color: var(--nm-skin-ink) !important;
+}
+body.nm-workspace-v2[data-nm-skin] #nm614-navigation-flyout
+  #nm616-context-path .nm616-crumb:not(:disabled):is(:hover, :focus-visible) {
+  background: var(--nm-navigation-hover) !important;
+  color: var(--nm-skin-ink) !important;
+  border-color: var(--nm-theme-focus) !important;
+}
+
+/* Image selection has a dedicated inspector: do not show node typography,
+   scope, colours, and the redundant "Text and style" header underneath. */
+#inspector-sidebar[data-nm-selection="image"] > :not(#image-controls):not(.nm-panel-body),
+#inspector-sidebar[data-nm-selection="image"] > .nm-panel-body > :not(#image-controls) {
+  display: none !important;
+}
+/* Prisma Vivo remains a clean menu: controls are readable, but the navigation
+   panel is not partitioned into a stack of dark/pink mini-cards. */
+body.nm-workspace-v2[data-nm-skin="prisma"] #nm614-navigation-flyout
+  :is(.nm616-nav-card,#nm616-nav-branches,#nm616-nav-options) {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+body[data-nm-skin="prisma"][data-nm-skin-contrast="high"] {
+  --nm-skin-stroke: #40344f;
+}
+
+/* Nested cards within the getting-started dialog and study controls
+   must win over the broad legacy 'li/div = opaque surface' reset above.
+   These are CHROME cards, never project content or user-authored previews. */
+body.nm-workspace-v2[data-nm-skin] #nm7-guide-dialog li {
+  background: var(--nm-skin-top) !important;
+  border-color: var(--nm-skin-stroke) !important;
+}
+body.nm-workspace-v2[data-nm-skin] #nm7-guide-dialog li strong {
+  color: var(--nm-skin-ink) !important;
+}
+body.nm-workspace-v2[data-nm-skin] #nm7-guide-dialog
+  :is(li p, .nm7-help-note) {
+  color: var(--nm-skin-muted) !important;
+}
+body.nm-workspace-v2[data-nm-skin] #nm-learn-panel
+  :is(.nm-learn-summary, .nm-learn-answer) {
+  background: var(--nm-skin-top) !important;
+  border-color: var(--nm-skin-stroke) !important;
+}
+body.nm-workspace-v2[data-nm-skin] #nm-learn-panel .nm-learn-current,
+body.nm-workspace-v2[data-nm-skin] #nm-view-picker-gallery .nm-view-choice[aria-checked="true"] {
+  background: var(--nm-theme-action) !important;
+  color: #fff !important;
+  border-color: var(--nm-theme-focus) !important;
+}
+body.nm-workspace-v2[data-nm-skin] #nm-view-picker-gallery
+  .nm-view-choice[aria-checked="true"] small {
+  color: inherit !important;
+}
+
+/* Shared interface dialogs: replace legacy dark-only backgrounds with the same
+   palette, while leaving illustrations, map previews and canvas data untouched. */
+body.nm-workspace-v2[data-nm-skin]
+  :is(.nm-export-dialog, .nm-creative-dialog, .nm-settings-panel) {
+  --accent: var(--nm-theme-focus);
+  --bg-canvas: var(--nm-skin-top);
+  --bg-panel-solid: var(--nm-skin-surface);
+  --bg-hover: var(--nm-skin-top);
+  --border-subtle: var(--nm-skin-stroke);
+  --text-primary: var(--nm-skin-ink);
+  --text-secondary: var(--nm-skin-muted);
+  color: var(--nm-skin-ink) !important;
+}
+body.nm-workspace-v2[data-nm-skin]
+  :is(.nm-export-dialog, .nm-creative-dialog) {
+  background: var(--nm-skin-surface) !important;
+  border-color: var(--nm-skin-stroke) !important;
+}
+body.nm-workspace-v2[data-nm-skin]
+  .nm-export-dialog :is(.nm-export-segments, .nm-export-note, .nm-export-select),
+body.nm-workspace-v2[data-nm-skin]
+  .nm-settings-panel :is(.nm-settings-toolbar, .nm-settings-section) {
+  color: var(--nm-skin-ink) !important;
+  background: var(--nm-skin-top) !important;
+  border-color: var(--nm-skin-stroke) !important;
+}
+body.nm-workspace-v2[data-nm-skin]
+  .nm-export-dialog :is(.nm-export-label, .nm-export-heading p, .nm-export-note,
+    .nm-export-status),
+body.nm-workspace-v2[data-nm-skin]
+  .nm-settings-panel :is(.nm-settings-toolbar small, .nm-settings-section > small) {
+  color: var(--nm-skin-muted) !important;
+}
+body.nm-workspace-v2[data-nm-skin]
+  .nm-creative-dialog :is(button, input:not([type="color"]), textarea),
+body.nm-workspace-v2[data-nm-skin]
+  .nm-settings-panel :is(.nm-settings-toolbar select, .nm-settings-default-button) {
+  background: var(--nm-skin-top) !important;
+  color: var(--nm-skin-ink) !important;
+  border-color: var(--nm-skin-stroke) !important;
+}
+body.nm-workspace-v2[data-nm-skin]
+  .nm-export-dialog :is(.nm-export-run, .nm-export-segments button[aria-pressed="true"]) {
+  background: var(--nm-theme-action) !important;
+  color: var(--nm-theme-on-action) !important;
+  border-color: var(--nm-theme-focus) !important;
+}
+body.nm-workspace-v2[data-nm-skin]
+  :is(.nm-export-dialog, .nm-creative-dialog, .nm-settings-panel)
+  :is(button, select, textarea, input):focus-visible {
+  outline: 2px solid var(--nm-theme-focus) !important;
+  outline-offset: 2px;
+}
+/* Keep color chips, formula previews, authored content and physical map-node
+   colors excluded: their own colors carry meaning beyond the interface skin. */
+
+
+/* Glauka Creative surfaces: use the live UI skin, not baked-in dark colors.
+   A formula's SVG and user-selected paint colors are deliberately excluded. */
+body.nm-workspace-v2[data-nm-skin]
+  :is(.nm-creative-dialog,#nm-drawing-toolbar) {
+  background:var(--nm-skin-surface)!important;
+  color:var(--nm-skin-ink)!important;
+  border-color:var(--nm-skin-stroke)!important;
+  box-shadow:var(--nm-skin-shadow,0 18px 50px #0004)!important;
+}
+body.nm-workspace-v2[data-nm-skin]
+  :is(.nm-creative-dialog,#nm-drawing-toolbar)
+  :is(header,h2,label,strong,.nm-draw-header) {
+  color:var(--nm-skin-ink)!important;
+}
+body.nm-workspace-v2[data-nm-skin]
+  :is(.nm-creative-dialog,#nm-drawing-toolbar)
+  :is(input:not([type="color"]),textarea,select) {
+  background:var(--nm-skin-top)!important;
+  color:var(--nm-skin-ink)!important;
+  border-color:var(--nm-skin-stroke)!important;
+}
+body.nm-workspace-v2[data-nm-skin]
+  :is(.nm-creative-dialog,#nm-drawing-toolbar)
+  :is(button:not([aria-selected="true"]):not([aria-pressed="true"]),.nm-library-grid article) {
+  background:var(--nm-skin-top)!important;
+  color:var(--nm-skin-ink)!important;
+  border-color:var(--nm-skin-stroke)!important;
+}
+body.nm-workspace-v2[data-nm-skin]
+  :is(.nm-creative-dialog,#nm-drawing-toolbar)
+  :is(button, input, textarea, select):focus-visible {
+  outline:2px solid var(--nm-theme-focus)!important;
+  outline-offset:2px;
+}
+body.nm-workspace-v2[data-nm-skin]
+  :is(#nm-formula-preview,.nm-creative-dialog .nm-formula-preview) {
+  background:var(--nm-skin-top)!important;
+  border:1px solid var(--nm-skin-stroke)!important;
+  color:var(--nm-skin-ink)!important;
+}
+body.nm-workspace-v2[data-nm-skin]
+  #nm-drawing-toolbar :is(small,.nm-draw-help),
+body.nm-workspace-v2[data-nm-skin]
+  .nm-creative-dialog :is(p,small,output) {
+  color:var(--nm-skin-muted)!important;
+}
+body.nm-workspace-v2[data-nm-skin]
+  #nm-drawing-toolbar .nm-drawing-tools button[aria-pressed="true"],
+body.nm-workspace-v2[data-nm-skin]
+  #nm-creative-library-tabs button[aria-selected="true"],
+body.nm-workspace-v2[data-nm-skin]
+  #nm-creative-library-content .nm-creative-library-glyph[aria-pressed="true"] {
+  background:color-mix(in srgb,var(--nm-theme-focus) 16%,var(--nm-skin-surface))!important;
+  border-color:var(--nm-theme-focus)!important;
+  color:var(--nm-skin-ink)!important;
+}
+body.nm-workspace-v2[data-nm-skin]
+  :is(#nm-formula-insert,#nm-object-art-apply) {
+  background:var(--nm-theme-action)!important;
+  color:var(--nm-theme-on-action)!important;
+  border-color:var(--nm-theme-action)!important;
+}
+/* The colour pickers and mathematical drawing are authored content;
+   changing chrome skins must not recolor them. */
+
+/* Final chrome override: the shared theme contracts color every structural div.
+   The utilities are transparent grouping elements, not extra colored cards. */
+body.nm-workspace-v2[data-nm-skin].gl-browser-chrome .tab-bar{
+ background:var(--nm-skin-top)!important;
+}
+body.nm-workspace-v2[data-nm-skin].gl-browser-chrome .tab-bar :is(
+ .brand-Mini,.gl-chrome-utilities,.gl-chrome-more,.nm6-actions
+){
+ background:transparent!important;border-color:transparent!important;box-shadow:none!important;
+}
+body.nm-workspace-v2[data-nm-skin].gl-browser-chrome .tab-bar .gl-chrome-more-menu{
+ background:var(--nm-skin-surface)!important;
+ border-color:var(--nm-skin-stroke)!important;
+}
+body.nm-workspace-v2[data-nm-skin].gl-browser-chrome .tab-bar .tab-item.active{
+ background:var(--nm-skin-surface)!important;
+ border-color:var(--nm-skin-stroke)!important;
+ border-bottom-color:var(--nm-theme-focus)!important;
+}
+body.nm-workspace-v2[data-nm-skin].gl-browser-chrome .tab-bar .tab-item:not(.active){
+ background:transparent!important;border-color:transparent!important;
+}
+body.nm-workspace-v2[data-nm-skin] #nm54-style-grid .nm54-style{
+ background:var(--nm-skin-top)!important;
+ border-color:var(--nm-skin-stroke)!important;
+}
+body.nm-workspace-v2[data-nm-skin] #nm54-style-grid .nm54-style[aria-pressed="true"]{
+ background:var(--nm-navigation-hover)!important;border-color:var(--nm-theme-focus)!important;
+}
+
+/* QA-002/003: these study and import windows shipped a fixed navy card.
+   The dim scrim stays. The card, fields and ordinary buttons follow the
+   skin that is active now, including a change made while the window is open.
+   Marker dots on a picture and primary actions keep their own colour. */
+body.nm-workspace-v2[data-nm-skin] :is(
+  #nm-ocr .ocr-window,
+  #nm-visual-study .nm-vs-box,
+  #nm75-overlay .nm75-dialog,
+  #nm76-overlay .nm76-dialog,
+  #nm82-overlay .nm82-dialog,
+  #nm-quality74 .nm-quality-window,
+  #nm-anki .nm-anki-box,
+  #nm-capture .nm-capture-box,
+  #nm-doc-import .nm-di-window,
+  #nm-exchange .nm-exchange-window,
+  #nm-v73-share .nm-v73-window,
+  #nm-v73-share .nm-v73-group,
+  #nm-knowledge-panel .nm-sl2,
+  #nm616-compare
+){
+  background:var(--nm-skin-surface)!important;
+  color:var(--nm-skin-ink)!important;
+  border-color:var(--nm-skin-stroke)!important;
+}
+body.nm-workspace-v2[data-nm-skin] :is(
+  #nm-ocr,
+  #nm-visual-study,
+  #nm75-overlay,
+  #nm76-overlay,
+  #nm82-overlay,
+  #nm-quality74,
+  #nm-anki,
+  #nm-capture,
+  #nm-doc-import,
+  #nm-exchange,
+  #nm-v73-share,
+  #nm-knowledge-panel,
+  #nm616-compare,
+  .nm75-panel,
+  .nm76-panel,
+  .nm82-dashboard
+) :is(
+  button,
+  input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="file"]):not([type="range"]),
+  select,
+  textarea,
+  .nm82-card,
+  .nm76-row,
+  .nm76-meta,
+  .nm-quality-entry,
+  .nm-di-preview,
+  .nm-exchange-report,
+  .nm75-preview,
+  .nm75-preview pre,
+  .nm75-preview code,
+  .nm616-compare-item,
+  .nm-kn-edit,
+  .ocr-warning,
+  .ocr-region-tools
+):not(.ocr-primary, .primary, .nm-di-apply, .nm-capture-primary, .v4-primary, .nm-radar-kpi, .nm-radar-card){
+  background:var(--nm-skin-top)!important;
+  color:var(--nm-skin-ink)!important;
+  border-color:var(--nm-skin-stroke)!important;
+}
+body.nm-workspace-v2[data-nm-skin] #nm-visual-study .nm-vs-image button{
+  background:#134f9f!important;color:#fff!important;border:2px solid #76d8ff!important;
+}
+body.nm-workspace-v2[data-nm-skin] #nm-visual-study .nm-vs-image button[data-revealed="true"]{
+  background:#116850!important;border-color:#9cf2bf!important;
+}
+body.nm-workspace-v2[data-nm-skin] #nm-ocr .ocr-boxes button{
+  background:#ffbb3310!important;color:transparent!important;border:1px solid #c24b16!important;
+}
+body.nm-workspace-v2[data-nm-skin] :is(
+  #nm616-compare header,
+  #nm616-compare footer,
+  #nm616-compare .nm616-compare-side,
+  #nm616-compare .nm616-compare-head
+){
+  background:var(--nm-skin-top)!important;
+  color:var(--nm-skin-ink)!important;
+  border-color:var(--nm-skin-stroke)!important;
+}
+body.nm-workspace-v2[data-nm-skin] .nm82-dashboard{color:var(--nm-skin-ink)!important}
+body.nm-workspace-v2[data-nm-skin] :is(.nm6-modal,.nm-home-screen,.nm-decision-panel){
+  background:var(--nm-skin-surface)!important;
+  color:var(--nm-skin-ink)!important;
+  border-color:var(--nm-skin-stroke)!important;
+}
+body.nm-workspace-v2[data-nm-skin] :is(.nm6-modal,.nm-home-screen,.nm-decision-panel) :is(button,input,select,textarea):not(.nm-decision-primary,.nm-decision-danger,.v4-primary){
+  background:var(--nm-skin-top)!important;
+  color:var(--nm-skin-ink)!important;
+  border-color:var(--nm-skin-stroke)!important;
+}
+body.nm-workspace-v2[data-nm-skin] .nm-decision-primary{
+  background:var(--nm-theme-action)!important;
+  color:var(--nm-theme-on-action)!important;
+  border-color:var(--nm-theme-action)!important;
+}
+body.nm-workspace-v2[data-nm-skin] :is(.nm-decision-desc,.nm6-desc,.nm-home-screen small){
+  color:var(--nm-skin-muted)!important;
+}
+body.nm-workspace-v2[data-nm-skin] :is(
+  #nm-ocr,
+  #nm-visual-study,
+  #nm75-overlay,
+  #nm76-overlay,
+  #nm82-overlay,
+  #nm-quality74,
+  #nm-anki,
+  #nm-capture,
+  #nm-doc-import,
+  #nm-exchange,
+  #nm-v73-share
+) :is(.ocr-primary, button.primary, .nm-di-apply, .nm-capture-primary){
+  background:var(--nm-theme-action)!important;
+  color:var(--nm-theme-on-action)!important;
+  border-color:var(--nm-theme-action)!important;
+}
+body.nm-workspace-v2[data-nm-skin] :is(
+  #nm-ocr,
+  #nm-visual-study,
+  #nm75-overlay,
+  #nm76-overlay,
+  #nm82-overlay,
+  #nm-quality74,
+  #nm-anki,
+  #nm-capture,
+  #nm-doc-import,
+  #nm-exchange,
+  #nm-v73-share,
+  #nm616-compare
+) :is(.ocr-hint, .nm75-muted, .nm76-muted, .nm82-muted, small){
+  color:var(--nm-skin-muted)!important;
+}

@@ -1,0 +1,166 @@
+/* NeuroMap Orbit — opt-in universal desktop/Web chrome.
+   ONLY presentation surfaces: never touch canvas, SVG map content, node colors or image pixels.
+   Accent, density and appearance are stored separately from all .neuromap files. */
+body.nm-orbit-workspace {
+  --nm-orbit-rgb: 94,215,255;
+  --nm-orbit-secondary-rgb: 160,111,255;
+  --nm-orbit-accent: var(--nm-theme-focus,#76dcff);
+  --nm-orbit-glass: rgba(16,27,51,.94);
+  --nm-orbit-panel: var(--nm-skin-top,#101d36);
+  --nm-orbit-line: var(--nm-skin-stroke,rgba(102,160,229,.34));
+  --nm-orbit-ink: var(--nm-skin-ink,#f2f7ff);
+  --nm-orbit-muted: var(--nm-skin-muted,#b6c6e4);
+}
+body.nm-orbit-workspace[data-nm-orbit-accent="cyan"] { --nm-orbit-accent:var(--nm-theme-focus,#76dcff); }
+body.nm-orbit-workspace[data-nm-orbit-accent="violet"] {
+  --nm-orbit-rgb: 177,140,255;
+  --nm-orbit-secondary-rgb: 97,200,255;
+  --nm-orbit-accent: var(--nm-theme-focus,#c4a7ff);
+}
+body.nm-orbit-workspace[data-nm-orbit-accent="amber"] {
+  --nm-orbit-rgb: 255,178,103;
+  --nm-orbit-secondary-rgb: 246,110,172;
+  --nm-orbit-accent: var(--nm-theme-focus,#ffd19c);
+}
+body.nm-orbit-workspace .top-chrome {
+  background: var(--nm-skin-top,#101d36);
+  border-bottom: 1px solid var(--nm-orbit-line);
+  box-shadow: 0 10px 34px rgba(0,6,24,.34),inset 0 1px rgba(255,255,255,.05);
+  backdrop-filter: blur(18px);
+}
+body.nm-orbit-workspace .tab-bar { gap: 9px; }
+body.nm-orbit-workspace .brand-icon {
+  filter: drop-shadow(0 0 10px color-mix(in srgb,var(--nm-theme-focus,#76dcff) 35%,transparent));
+}
+body.nm-orbit-workspace .brand-name { color: var(--nm-orbit-ink); letter-spacing:.01em; }
+body.nm-orbit-workspace .tab-item {
+  border-radius: 12px;
+  border: 1px solid var(--nm-skin-stroke,rgba(120,154,218,.23));
+  background: var(--nm-skin-top,#1c2848);
+  color: var(--nm-orbit-muted);
+  transition: background .16s,border-color .16s,box-shadow .16s;
+}
+body.nm-orbit-workspace .tab-item.active {
+  background: color-mix(in srgb,var(--nm-skin-surface,#07142f) 84%,var(--nm-theme-focus,#76dcff));
+  border-color: var(--nm-theme-focus,#76dcff);
+  color: var(--nm-skin-ink,#fff);
+  box-shadow: 0 0 0 1px color-mix(in srgb,var(--nm-theme-focus,#76dcff) 20%,transparent);
+}
+body.nm-orbit-workspace .tab-action-btn {
+  border-radius: 10px;
+  border: 1px solid var(--nm-skin-stroke,rgba(113,150,215,.34));
+  background: var(--nm-skin-top,#1e2e50);
+  color: var(--nm-orbit-ink);
+  transition: background .16s,box-shadow .16s,border-color .16s;
+}
+body.nm-orbit-workspace .tab-action-btn:hover,
+body.nm-orbit-workspace .v4-tool-btn:hover {
+  border-color: var(--nm-theme-focus,#76dcff);
+  background: color-mix(in srgb,var(--nm-skin-top,#101d36) 82%,var(--nm-theme-focus,#76dcff));
+}
+body.nm-orbit-workspace .topbar.nm-ribbon {
+  background: var(--nm-skin-top,#101d36);
+  border-bottom: 1px solid var(--nm-skin-stroke,rgba(102,160,229,.34));
+  backdrop-filter: blur(16px);
+}
+body.nm-orbit-workspace :is(.toolbar-group.glass-panel,.v4-toolstrip,.status-pill,.zoom-bar) {
+  border: 1px solid var(--nm-skin-stroke,rgba(102,160,229,.34));
+  border-radius: 13px;
+  background: var(--nm-skin-surface,rgba(25,39,70,.77));
+  box-shadow: inset 0 1px rgba(255,255,255,.045);
+}
+body.nm-orbit-workspace .dropdown-panel,
+body.nm-orbit-workspace #context-menu,
+body.nm-orbit-workspace #find-overlay {
+  border-radius: 16px;
+  border: 1px solid var(--nm-skin-stroke,rgba(102,160,229,.36));
+  background: var(--nm-skin-surface,#172a49);
+  color: var(--nm-orbit-ink);
+  box-shadow: 0 20px 55px rgba(0,4,19,.66);
+}
+body.nm-orbit-workspace :is(.dropdown-item,.ctx-item):hover {
+  background: color-mix(in srgb,var(--nm-skin-top,#101d36) 86%,var(--nm-theme-focus,#76dcff));
+}
+body.nm-orbit-workspace #inspector-sidebar {
+  border: 1px solid var(--nm-skin-stroke,rgba(102,160,229,.39));
+  border-radius: 18px;
+  background: var(--nm-skin-surface,#142542);
+  box-shadow: 0 22px 64px rgba(0,5,24,.53),inset 0 1px rgba(255,255,255,.06);
+}
+body.nm-orbit-workspace .inspector-header {
+  border-bottom: 1px solid var(--nm-skin-stroke,rgba(102,160,229,.33));
+  background: var(--nm-skin-top,#1d3457);
+}
+body.nm-orbit-workspace #inspector-sidebar .inspector-section {
+  border-radius: 13px;
+  border: 1px solid var(--nm-skin-stroke,rgba(119,156,222,.18));
+  background: var(--nm-skin-top,rgba(27,40,69,.35));
+}
+body.nm-orbit-workspace #inspector-sidebar .inspector-section-label {
+  color: var(--nm-orbit-accent);
+}
+body.nm-orbit-workspace #inspector-sidebar input[type="range"],
+body.nm-orbit-workspace input[type="range"] { accent-color: var(--nm-orbit-accent); }
+body.nm-orbit-workspace :is(.hud-bottom-left,.hud-bottom-right .glass-panel,#nm616-minimap-shell,#nm616-navigation .nm616-nav-card) {
+  border-color: var(--nm-skin-stroke,rgba(102,160,229,.30));
+  background: var(--nm-skin-surface,rgba(15,28,53,.90));
+  box-shadow: 0 12px 33px rgba(0,3,18,.29);
+}
+body.nm-orbit-workspace :is(#nm-view-overlay,#nm616-context,#nm616-compare,#nm616-lightbox) {
+  border-color: var(--nm-skin-stroke,rgba(102,160,229,.35));
+}
+body.nm-orbit-workspace :is(button,select,input,textarea):focus-visible {
+  outline: 2px solid var(--nm-orbit-accent);
+  outline-offset: 2px;
+}
+body.nm-orbit-workspace[data-nm-orbit-density="compact"] .tab-bar { gap: 4px; }
+body.nm-orbit-workspace[data-nm-orbit-density="compact"] .tab-action-btn { padding: 5px 8px; }
+body.nm-orbit-workspace[data-nm-orbit-density="compact"] :is(.v4-tool-btn,.toolbar-group .btn-ui) { padding: 4px 7px; }
+body.nm-orbit-workspace[data-nm-orbit-density="compact"] .inspector-section { padding: 10px; }
+body.nm-orbit-workspace[data-nm-orbit-density="compact"] .dropdown-item { padding-top: 6px; padding-bottom: 6px; }
+
+/* Install UI is interactive and independent from map styles. */
+#nm-orbit-desktop-settings {
+  border: 1px solid var(--nm-skin-stroke,rgba(125,160,226,.26));
+  background: var(--nm-skin-surface,rgba(29,41,72,.48));
+  border-radius: 13px; padding: 12px;
+  display: flex; flex-direction: column; gap: 9px; margin: 9px 0;
+}
+#nm-orbit-desktop-settings[hidden]{display:none!important}
+#nm-orbit-desktop-settings .nm-orbit-heading { color: var(--nm-theme-focus,#76dcff); font: 700 12px system-ui; }
+#nm-orbit-desktop-settings .nm-orbit-description { margin:0; color:var(--nm-skin-muted,#b9c9e6); font: 12px/1.4 system-ui; }
+#nm-orbit-desktop-settings .nm-orbit-fields { display:grid; grid-template-columns:repeat(2,minmax(0,1fr));gap:8px; }
+#nm-orbit-desktop-settings label { display:flex;flex-direction:column;gap:5px;color:var(--nm-skin-ink,#d4def4);font:11px system-ui; }
+#nm-orbit-desktop-settings select { min-width:0;width:100%;background:var(--nm-skin-top,#101e37);color:var(--nm-skin-ink,#eef5ff);border:1px solid var(--nm-skin-stroke,#60759b);border-radius:9px;padding:9px;font:12px system-ui; }
+#nm-orbit-desktop-settings button { cursor:pointer;color:var(--nm-skin-ink,#eef5ff);border:1px solid var(--nm-skin-stroke,#6684ad);background:var(--nm-skin-top,#233957);border-radius:10px;padding:10px;font:700 12px system-ui; }
+#nm-orbit-desktop-settings button[aria-pressed="true"] { background:var(--nm-theme-action,#6654ca);color:var(--nm-theme-on-action,#fff);border-color:var(--nm-theme-focus,#76dcff); }
+#nm-orbit-desktop-settings .nm-orbit-hint {font:10px/1.4 system-ui;color:var(--nm-skin-muted,#a7bcd8);}
+#nm-orbit-command-trigger { white-space:nowrap; }
+
+/* Command Deck: reusable existing controls, never a parallel editor or private API. */
+#nm-orbit-command-overlay[hidden] {display:none!important}
+#nm-orbit-command-overlay {position:fixed;inset:0;z-index:6100;background:rgba(2,7,21,.70);backdrop-filter:blur(10px);display:flex;align-items:flex-start;justify-content:center;padding:clamp(56px,11vh,125px) 16px 24px;box-sizing:border-box;}
+#nm-orbit-command-dialog {box-sizing:border-box;width:min(620px,100%);max-height:min(75dvh,680px);display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--nm-skin-stroke,rgba(120,185,255,.50));border-radius:18px;background:var(--nm-skin-surface,#182849);box-shadow:0 28px 90px #000b;color:var(--nm-skin-ink,#eaf3ff);font:13px system-ui;}
+#nm-orbit-command-dialog header {display:flex;align-items:center;justify-content:space-between;gap:10px;padding:15px 18px;border-bottom:1px solid var(--nm-skin-stroke,#34476c);}
+#nm-orbit-command-dialog h2 {font:750 15px system-ui;margin:0}
+#nm-orbit-command-dialog button {border-radius:10px;border:1px solid var(--nm-skin-stroke,#55759d);background:var(--nm-skin-top,#203558);color:var(--nm-skin-ink,#eff6ff);padding:8px 10px;cursor:pointer;font:650 12px system-ui}
+#nm-orbit-command-dialog #nm-orbit-command-search {box-sizing:border-box;margin:12px 15px;padding:14px 15px;width:calc(100% - 30px);border:1px solid var(--nm-skin-stroke,#6c94c3);border-radius:11px;background:var(--nm-skin-top,#081a33);color:var(--nm-skin-ink,#f3f7ff);font:14px system-ui}
+#nm-orbit-command-results {overflow-y:auto;padding:2px 12px 14px;min-height:50px;overscroll-behavior:contain;}
+#nm-orbit-command-results .nm-orbit-command-result {display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;box-sizing:border-box;width:100%;margin-top:4px;padding:12px 14px;background:transparent;border:1px solid transparent;border-radius:10px;color:var(--nm-skin-ink,#e6edff);cursor:pointer;}
+#nm-orbit-command-results .nm-orbit-command-result:hover,
+#nm-orbit-command-results .nm-orbit-command-result[aria-selected="true"] {background:color-mix(in srgb,var(--nm-skin-surface,#14243e) 82%,var(--nm-theme-focus,#76dcff));border-color:var(--nm-theme-focus,#76dcff);}
+#nm-orbit-command-results .nm-orbit-command-result small {color:var(--nm-skin-muted,#aabbd8);font:11px system-ui}
+#nm-orbit-command-results .nm-orbit-command-group {margin:12px 9px 3px;color:var(--nm-theme-focus,#8de7ff);text-transform:uppercase;letter-spacing:.1em;font:700 10px system-ui}
+#nm-orbit-command-status {padding:7px 18px 13px;color:var(--nm-skin-muted,#b4c6e5);font:11px system-ui}
+#nm-orbit-command-overlay :is(button,input):focus-visible {outline:2px solid var(--nm-theme-focus,#a6e7ff);outline-offset:2px;}
+@media(max-width:900px){
+  body.nm-orbit-workspace .tab-bar {gap:4px}
+  #nm-orbit-desktop-settings .nm-orbit-fields {grid-template-columns:minmax(0,1fr)}
+  #nm-orbit-command-trigger {font-size:0}
+  #nm-orbit-command-trigger::before {content:"⌘";font-size:14px}
+}
+@media(prefers-reduced-motion:reduce){
+  body.nm-orbit-workspace .tab-item,
+  body.nm-orbit-workspace .tab-action-btn,
+  #nm-orbit-command-dialog button {transition:none!important;animation:none!important}
+}

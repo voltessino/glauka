@@ -1,0 +1,94 @@
+/* Touch-friendly language controls; diagram geometry remains LTR. */
+.glauka-language-field select {
+  min-height: 44px;
+  background: var(--nm-theme-panel, #fff);
+  color: var(--nm-theme-text, #17213b);
+  border: 1px solid var(--nm-skin-stroke, #c9bdf2);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font: inherit;
+  max-width: 100%;
+  width: 100%;
+}
+.glauka-language-field select:focus-visible {
+  outline: 2px solid var(--nm-theme-accent, #8061df);
+  outline-offset: 2px;
+}
+.glauka-language-field label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+#nm6-welcome .glauka-language-field {
+  margin: 0 0 18px;
+  padding: 0 0 14px;
+  border-top: 0;
+  border-bottom: 1px solid #c9bdf2;
+}
+#nm6-welcome .nm6-hero svg {
+  width: 100%;
+  height: 100%;
+}
+#nm74-overlay .glauka-language-field {
+  flex-shrink: 0;
+  padding: 12px 16px;
+  margin: 0;
+}
+html[dir="rtl"] .nm74-sheet,
+html[dir="rtl"] .nm-android-command-panel {
+  direction: rtl;
+  text-align: start;
+}
+html[dir="rtl"] #tabs-list,
+html[dir="rtl"] #mindmap-canvas {
+  direction: ltr;
+}
+#nm6-welcome .nm6-modal {
+  background: #fff;
+  color: #17213b;
+  border-color: #d9cff3;
+  box-shadow: 0 20px 70px #39216b33;
+}
+#nm6-welcome .nm6-title {
+  color: #201340;
+}
+#nm6-welcome .nm6-desc,
+#nm6-welcome .nm6-small {
+  color: #52617c;
+}
+#nm6-welcome .nm6-eyebrow {
+  color: #6441df;
+}
+#nm6-welcome .nm6-ghost {
+  background: #f5f1ff;
+  color: #4c2d9d;
+  border-color: #d6c9f2;
+}
+#glauka-mobile-loading svg {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 18px;
+  display: block;
+}
+.nm6-shade,
+.nm6-modal,
+.glauka-language-field select {
+  box-sizing: border-box;
+}
+#nm6-welcome .nm6-modal {
+  width: 100%;
+  max-width: 660px;
+  min-width: 0;
+}
+
+/* mobile.css also sets modal widths with !important; keep this inside the safe area. */
+#nm6-welcome.nm6-shade {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#nm6-welcome .nm6-modal {
+  width: min(660px, 100%) !important;
+  max-width: 100% !important;
+  min-width: 0;
+}

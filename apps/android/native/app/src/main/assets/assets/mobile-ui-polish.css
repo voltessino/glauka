@@ -1,0 +1,255 @@
+/* Glauka Android: consistent accessible surfaces, without Orbit.
+ * Keep map and node colors untouched; only app controls use these semantic tokens.
+ * This stylesheet intentionally follows the legacy Android CSS so that dark
+ * hard-coded modal styles cannot leave white text on white sheets.
+ */
+:root {
+  --gl-mobile-accent: var(--nm-ui-accent, var(--nm-theme-focus, var(--accent-indigo, #6441df)));
+  --gl-mobile-ink: #24223a;
+  --gl-mobile-muted: #5d5b70;
+  --gl-mobile-paper: #fff;
+  --gl-mobile-soft: #f7f5fc;
+  --gl-mobile-line: #d9d4e5;
+}
+body.glauka-mobile-app[data-gl-android-theme="dark"] {
+  --gl-mobile-accent: var(--glauka-app-accent, #7c5ce7);
+  --gl-mobile-ink: #eef2ff;
+  --gl-mobile-muted: #94a3b8;
+  --gl-mobile-paper: #151925;
+  --gl-mobile-soft: #1c2233;
+  --gl-mobile-line: #2d364d;
+  color-scheme: dark;
+}
+body.glauka-mobile-app[data-gl-android-theme="dark"] :is(
+  #nm74-overlay .nm74-sheet,
+  .nm-android-commands-panel,
+  .nm-android-import,
+  .nm54-modal,
+  .nm62-modal,
+  .v4-modal,
+  .nm6-modal,
+  #inspector-sidebar :is(input, select, textarea)
+) {
+  color-scheme: dark !important;
+}
+#nm74-overlay .nm74-sheet,
+.nm-android-commands-panel,
+.nm-android-import,
+.nm54-modal,
+.nm62-modal,
+.v4-modal,
+.nm6-modal {
+  color: var(--gl-mobile-ink) !important;
+  background: var(--gl-mobile-paper) !important;
+  border: 1px solid var(--gl-mobile-line) !important;
+  box-shadow: 0 22px 65px #1a173952 !important;
+  color-scheme: light;
+}
+#nm74-overlay .nm74-sheet :is(h1,h2,h3,strong),
+.nm-android-commands-panel :is(h1,h2,h3),
+.nm-android-import :is(h1,h2,h3) {
+  color: var(--gl-mobile-ink) !important;
+}
+#nm74-overlay .nm74-field > span,
+#nm74-overlay .nm74-hint,
+#nm74-overlay .nm74-head,
+#nm74-overlay .nm74-confirm,
+#nm74-overlay .nm74-result,
+.nm-android-commands-panel header p,
+.nm-android-import p {
+  color: var(--gl-mobile-muted) !important;
+}
+#nm74-overlay .nm74-content,
+#nm74-overlay .nm74-nav { background: transparent !important; }
+#nm74-overlay :is(input:not([type=checkbox]):not([type=radio]):not([type=file]),textarea,select),
+#nm-android-command-query,
+.nm-android-import :is(input,textarea,select) {
+  background: var(--gl-mobile-paper) !important;
+  color: var(--gl-mobile-ink) !important;
+  border: 1px solid var(--gl-mobile-line) !important;
+  caret-color: var(--gl-mobile-accent) !important;
+}
+#nm74-overlay :is(input,textarea)::placeholder,
+.nm-android-import :is(input,textarea)::placeholder {
+  color: #817a91 !important;
+  opacity: 1 !important;
+}
+#nm74-overlay :is(button,select,input,textarea):focus-visible {
+  outline: 3px solid var(--gl-mobile-accent) !important;
+  outline-offset: 2px !important;
+}
+#nm74-overlay .nm74-nav .nm74-tab {
+  background: var(--gl-mobile-soft) !important;
+  border: 1px solid var(--gl-mobile-line) !important;
+  color: var(--gl-mobile-ink) !important;
+}
+#nm74-overlay .nm74-nav .nm74-tab[aria-selected=true] {
+  color: #fff !important;
+  background: var(--gl-mobile-accent) !important;
+  border-color: var(--gl-mobile-accent) !important;
+  box-shadow: none !important;
+}
+#nm74-overlay .nm74-primary,
+#nm74-overlay .nm74-actions .nm74-primary,
+#nm74-launch,
+#nm-android-command-open {
+  color: #fff !important;
+  background: var(--gl-mobile-accent) !important;
+  border-color: var(--gl-mobile-accent) !important;
+  box-shadow: none !important;
+}
+#nm74-overlay .nm74-actions button:not(.nm74-primary),
+#nm74-overlay .nm74-close,
+#nm-android-command-close {
+  color: var(--gl-mobile-ink) !important;
+  background: var(--gl-mobile-soft) !important;
+  border-color: var(--gl-mobile-line) !important;
+}
+#nm74-overlay .nm74-results,
+#nm74-overlay .nm74-result,
+#nm74-overlay .nm74-issue,
+#nm74-overlay .nm74-confirm,
+#nm74-overlay .nm74-status,
+.nm-android-command-search,
+.nm-android-command-item,
+.nm-android-preview-card,
+#nm-android-import-status {
+  color: var(--gl-mobile-ink) !important;
+  background: var(--gl-mobile-soft) !important;
+  border: 1px solid var(--gl-mobile-line) !important;
+}
+#nm74-overlay .nm74-outline {border-bottom-color:var(--gl-mobile-line)!important;color:var(--gl-mobile-ink)!important}
+#nm74-overlay .nm74-status:empty {display:none!important}
+#nm74-overlay .nm74-status {color:var(--gl-mobile-muted)!important}
+#nm74-overlay .nm74-confirm {color:var(--gl-mobile-ink)!important}
+#nm74-overlay input[type=checkbox] {accent-color:var(--gl-mobile-accent)!important}
+#nm74-overlay .nm74-file-field {
+  display:flex!important;flex-direction:column;gap:8px!important;
+  padding:12px!important;border:1px solid var(--gl-mobile-line)!important;
+  background:var(--gl-mobile-soft)!important;border-radius:14px!important;
+}
+#nm74-overlay .nm74-native-file {
+  position:absolute!important;width:1px!important;height:1px!important;
+  overflow:hidden!important;opacity:0!important;pointer-events:none!important;
+  padding:0!important;margin:0!important;
+}
+#nm74-overlay .nm74-file-pick {
+  display:flex!important;gap:9px!important;align-items:center!important;justify-content:center!important;
+  width:100%!important;min-height:48px!important;
+  color:var(--gl-mobile-accent)!important;background:white!important;
+  border:1px solid var(--gl-mobile-accent)!important;
+  font-size:14px!important;font-weight:700!important;border-radius:11px!important;
+}
+#nm74-overlay .nm74-file-name {
+  display:block!important;color:var(--gl-mobile-muted)!important;
+  overflow-wrap:anywhere;font-size:12px!important;line-height:1.5!important;
+}
+#nm74-overlay .nm74-file-pick:active {background:#ece6ff!important}
+.nm-android-commands-panel .nm-android-command-item,
+.nm-android-commands-panel #nm-android-command-query {color:var(--gl-mobile-ink)!important}
+.nm-android-commands-panel .nm-android-command-group {color:var(--gl-mobile-accent)!important}
+.nm-android-commands-panel .nm-android-command-empty {color:var(--gl-mobile-muted)!important}
+/* Inspector inherits the same light paper as its containing style sheet. */
+#inspector-sidebar:not(.collapsed) {
+  --text-primary:var(--gl-mobile-ink);
+  --text-secondary:var(--gl-mobile-muted);
+  --text-muted:var(--gl-mobile-muted);
+}
+#inspector-sidebar :is(input,select,textarea) {color:var(--gl-mobile-ink);background:#fff;color-scheme:light}
+#inspector-sidebar :is(input,select,textarea)::placeholder {color:#766f89}
+#inspector-sidebar .inspector-section-label,
+#inspector-sidebar .nm54-hint {color:var(--gl-mobile-muted)}
+#inspector-sidebar :is(button,select,input):focus-visible {outline:2px solid var(--gl-mobile-accent);outline-offset:2px}
+/* The selection actions sit above the dock and never obstruct open dialogs. */
+#gl-mobile-node-actions[hidden] {display:none!important}
+#gl-mobile-node-actions {
+  position:fixed;z-index:95;
+  inset:auto max(10px,env(safe-area-inset-right,0px)) calc(var(--mobile-bottom,77px) + 9px)
+        max(10px,env(safe-area-inset-left,0px));
+  display:flex;align-items:center;gap:7px;max-width:650px;margin-inline:auto;
+  padding:8px;border:1px solid var(--gl-mobile-line);border-radius:15px;
+  background:var(--gl-mobile-paper);color:var(--gl-mobile-ink);
+  box-shadow:0 9px 30px #17133238;
+  box-sizing:border-box;
+}
+#gl-mobile-node-actions .gl-node-name {flex:1 1 auto;min-width:0;font-size:12px;font-weight:700;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-inline:5px}
+#gl-mobile-node-actions button {min-height:44px;min-width:44px;display:inline-flex;align-items:center;
+  justify-content:center;gap:5px;padding:6px 10px;border-radius:10px;
+  border:1px solid var(--gl-mobile-line);background:var(--gl-mobile-soft);
+  color:var(--gl-mobile-ink);font:600 12px system-ui,sans-serif;touch-action:manipulation}
+#gl-mobile-node-actions .gl-node-edit {color:var(--gl-mobile-accent);border-color:var(--gl-mobile-accent)}
+#gl-mobile-node-actions .gl-node-delete {color:#9a2042;border-color:#efc4d1;background:#fff5f8}
+#gl-mobile-node-actions button:focus-visible {outline:2px solid var(--gl-mobile-accent);outline-offset:2px}
+@media(min-width:851px){#gl-mobile-node-actions{display:none!important}}
+@media(max-width:380px){#gl-mobile-node-actions .gl-node-name{max-width:95px}#gl-mobile-node-actions button{padding:6px 7px}}
+@media(prefers-reduced-motion:reduce){#gl-mobile-node-actions *{transition:none!important;animation:none!important}}
+
+/* Match the actual light map/interface when users select a light background.
+   Dark backgrounds keep the shared desktop theme's configured semantics. */
+body.nm-workspace-v2.nm-android-light #inspector-sidebar,
+body.nm-workspace-v2.nm-android-light #inspector-sidebar .nm-settings-toolbar {
+  --nm-ui-surface:var(--gl-mobile-paper);
+  --nm-ui-top:var(--gl-mobile-paper);
+  --nm-ui-ink:var(--gl-mobile-ink);
+  --nm-ui-muted:var(--gl-mobile-muted);
+  --nm-ui-line:var(--gl-mobile-line);
+  --nm-ui-hover:var(--gl-mobile-soft);
+  --nm-ui-accent:var(--gl-mobile-accent);
+  background:var(--gl-mobile-paper)!important;
+  color:var(--gl-mobile-ink)!important;
+}
+body.nm-workspace-v2.nm-android-light #inspector-sidebar .nm-settings-toolbar label,
+body.nm-workspace-v2.nm-android-light #inspector-sidebar .inspector-section-label {
+  color:var(--gl-mobile-muted)!important;
+}
+
+/* Language is a fixed, high-contrast preference below the scrollable tools. */
+#nm74-overlay .nm74-locale-footer {
+  flex:0 0 auto!important;display:flex!important;flex-direction:column!important;
+  padding:11px 4px 2px!important;gap:8px!important;
+  border-top:1px solid var(--gl-mobile-line)!important;
+  color:var(--gl-mobile-ink)!important;font-size:13px!important;font-weight:700!important;
+}
+#nm74-overlay .nm74-tool-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--glauka-app-selected, #eee8ff);
+  color: var(--glauka-app-accent, var(--gl-mobile-accent));
+  flex: none;
+}
+#nm74-overlay .nm74-tab[aria-selected=true] .nm74-tool-icon {
+  background: rgba(255,255,255,.2);
+  color: #fff;
+}
+#nm74-overlay .nm74-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+#nm74-overlay .nm74-kpi-card {
+  display: grid;
+  gap: 2px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--gl-mobile-soft);
+  border: 1px solid var(--gl-mobile-line);
+}
+#nm74-overlay .nm74-kpi-card strong {
+  font-size: 20px;
+  line-height: 1.1;
+  color: var(--gl-mobile-ink);
+}
+#nm74-overlay .nm74-kpi-card small {
+  font-size: 11.5px;
+  color: var(--gl-mobile-muted);
+}
+#nm74-overlay #nm74-locale {
+  width:100%!important;min-height:46px!important;
+  padding:9px 12px!important;background:var(--gl-mobile-paper)!important;
+  color:var(--gl-mobile-ink)!important;border:1px solid var(--gl-mobile-line)!important;
+  border-radius:10px!important;font-size:16px!important;
+}

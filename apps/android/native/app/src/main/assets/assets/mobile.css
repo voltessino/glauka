@@ -1,0 +1,69 @@
+/* NeuroMap Android Touch Edition: presentation-only adaptations */
+@media(max-width:850px){
+  :root{--mobile-bottom:calc(77px + env(safe-area-inset-bottom,0px))}
+  html,body{overscroll-behavior:none;touch-action:none}
+  #mindmap-canvas{touch-action:none;bottom:0}
+  .top-chrome{max-height:155px;overflow:visible}
+  .tab-bar{height:43px;flex-wrap:nowrap;overflow:auto;gap:6px;padding:5px 8px;background:rgba(9,13,24,.97)}
+  .brand-Mini{display:none!important}
+  .tab-item{font-size:12px;min-width:88px;max-width:130px;padding:6px 9px}
+  .tabs-list{gap:5px}
+  .topbar{padding:5px 7px;justify-content:flex-start;gap:5px;max-height:105px;overflow-y:auto;flex-wrap:nowrap;align-items:flex-start;scrollbar-width:none}
+  .toolbar-group{flex:1 0 auto;flex-wrap:nowrap;overflow-x:auto;max-width:100%;padding:3px 5px;gap:3px;min-height:40px;scrollbar-width:none}
+  .toolbar-group::-webkit-scrollbar,.tab-bar::-webkit-scrollbar,.topbar::-webkit-scrollbar{display:none}
+  .menu-trigger{font-size:12px!important;padding:5px!important}
+  .divider-v,.toolbar-group .toolbar-caption,.toolbar-group .tool-label,.toolbar-group .btn-text-label{display:none!important}
+  .toolbar-group button{min-width:30px;min-height:32px;flex-shrink:0}
+  .status-pill{display:none!important}
+  .v4-toolstrip{flex-shrink:0;gap:2px;padding:3px 6px}
+  .v4-tool-btn{padding:6px!important;min-height:33px}
+  .v4-tool-btn span{display:none}
+  #btn-toggle-inspector{padding:5px!important;min-height:32px}
+  #btn-toggle-inspector span{display:none}
+  #mobile-dock{display:flex!important;position:fixed;z-index:43;bottom:0;left:0;right:0;min-height:70px;padding:7px max(9px,env(safe-area-inset-left,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(9px,env(safe-area-inset-right,0px));background:rgba(11,16,32,.98);border-top:1px solid rgba(148,163,184,.25);gap:4px;justify-content:space-around;box-shadow:0 -8px 30px rgba(0,0,0,.4)}
+  #mobile-dock button{background:rgba(37,48,81,.85);color:#f1f5f9;border:1px solid rgba(148,163,184,.18);border-radius:11px;flex:1;display:flex;min-width:0;max-width:90px;flex-direction:column;align-items:center;justify-content:center;font-size:23px;line-height:1.1;gap:4px;padding:5px 1px;touch-action:manipulation}
+  #mobile-dock button:active{background:#5148b7}
+  #mobile-dock button small{font-size:10px;color:#c9d4ea;font-weight:600;white-space:nowrap}
+  #inspector-sidebar,#style-inspector,.style-inspector,.inspector-panel,#inspector{max-width:min(100vw,420px)!important;width:min(100vw,420px)!important;max-height:calc(100dvh - 95px)!important;overflow:auto!important;bottom:var(--mobile-bottom)!important;top:auto!important;right:0!important}
+  #context-menu,.dropdown-panel{max-height:62dvh!important;overflow:auto!important;max-width:min(93vw,360px)!important}
+  .v4-backdrop,.nm54-backdrop,.nm62-shade{padding:6px!important;z-index:100!important;align-items:center}
+  .v4-modal,.nm54-modal,.nm62-modal,.nm6-modal{max-width:98vw!important;width:98vw!important;max-height:calc(100dvh - 26px)!important;overflow:auto!important;border-radius:16px!important;padding:14px!important}
+  #nm6-license-modal .nm6-dialog{max-width:96vw}
+  input,textarea,select{font-size:16px!important}
+  .v4-input,.nm54-searchbar input{min-width:0}
+  #toast-notification{bottom:calc(var(--mobile-bottom) + 6px)!important;max-width:95vw}
+  #threshold-widget,#balance-widget,.balance-container{bottom:calc(var(--mobile-bottom) + 6px)!important}
+  #editor-input,.node-text-editor{font-size:16px!important}
+  #mobile-feedback{position:fixed;bottom:calc(var(--mobile-bottom) + 10px);left:10px;right:10px;text-align:center;z-index:99;background:#212c4b;color:white;border-radius:14px;padding:11px;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+}
+@media(min-width:851px){#mobile-dock{display:none!important}}
+
+/* Android 0.2: Canvas has keyboard focus for shortcuts, but must never show
+   Android WebView's large orange touch highlight / browser focus ring. */
+html,body,#mindmap-canvas{ -webkit-tap-highlight-color:transparent!important; }
+#mindmap-canvas,#mindmap-canvas:focus,#mindmap-canvas:focus-visible{outline:none!important;box-shadow:none!important;border:0!important}
+#mindmap-canvas{ -webkit-user-select:none;user-select:none; }
+button,a,[role=button]{-webkit-tap-highlight-color:transparent}
+@media(max-width:850px){
+  #nm6-plan-modal.nm6-shade{display:flex;justify-content:center;align-items:flex-start;overflow-y:auto;overscroll-behavior:contain;
+    padding:calc(env(safe-area-inset-top,0px) + 12px) 12px calc(env(safe-area-inset-bottom,0px) + 18px)!important;}
+  #nm6-plan-modal.nm6-shade.hidden{display:none!important}
+  #nm6-plan-modal .nm6-modal{flex:0 0 auto;box-sizing:border-box;width:100%!important;max-width:100%!important;
+    max-height:none!important;min-height:0!important;overflow:visible!important;padding:18px!important;
+    margin:0 auto!important;border-radius:18px!important;}
+  #nm6-plan-modal .nm6-head{position:sticky;top:-12px;z-index:2;background:var(--nm-skin-panel, #fff);
+    padding:4px 0 12px;margin:-4px 0 14px;border-radius:10px}
+  #nm6-plan-modal .nm6-title{font-size:clamp(21px,5.7vw,28px)!important;line-height:1.15}
+  #nm6-plan-modal .nm6-desc{font-size:13px;line-height:1.4;margin-bottom:8px}
+  #nm6-plan-modal .nm6-form{padding:14px}
+  #nm6-plan-modal .nm6-fieldrow{display:grid;grid-template-columns:1fr;gap:10px}
+  #nm6-plan-modal .nm6-fieldrow input{width:100%;font-size:16px}
+  #nm6-plan-modal .nm6-cta{min-height:46px;width:100%;font-size:15px}
+  #nm6-plan-modal .nm6-close{min-width:44px;min-height:44px}
+}
+
+@media(max-width:850px){
+  html,body{touch-action:pan-x pan-y!important}
+  #mindmap-canvas{touch-action:none!important}
+  #nm6-plan-modal,#nm6-plan-modal *{touch-action:pan-y!important}
+}

@@ -1,0 +1,240 @@
+{
+  "schema": "NeuroMapArchitect-SingleTab-v6",
+  "savedAt": "2026-11-10T00:00:00.000Z",
+  "thresholdY": 500,
+  "balanceBias": 50,
+  "compactness": 125,
+  "branchGapX": 30,
+  "strokeScale": 1.15,
+  "activeThemeId": "prisma",
+  "typographyPreset": "uniform",
+  "typographyScale": 1,
+  "branchStyle": "neon",
+  "defaultLabelWrapChars": 48,
+  "wrapCustom": false,
+  "root": {
+    "id": "website-views-00",
+    "parentId": null,
+    "text": "Giardino condiviso",
+    "children": [
+      {
+        "id": "website-views-01",
+        "parentId": "website-views-00",
+        "text": "Visione",
+        "children": [
+          {
+            "id": "website-views-02",
+            "parentId": "website-views-01",
+            "text": "Un angolo verde",
+            "children": [],
+            "fontSize": 17,
+            "fontWeight": 500,
+            "fontFamily": "Inter",
+            "nodeShape": "outline",
+            "color": "#7c3aed",
+            "colorIndex": 0
+          },
+          {
+            "id": "website-views-03",
+            "parentId": "website-views-01",
+            "text": "Per il quartiere",
+            "children": [],
+            "fontSize": 17,
+            "fontWeight": 500,
+            "fontFamily": "Inter",
+            "nodeShape": "outline",
+            "color": "#7c3aed",
+            "colorIndex": 0
+          }
+        ],
+        "fontSize": 22,
+        "fontWeight": 700,
+        "fontFamily": "Inter",
+        "nodeShape": "card",
+        "color": "#7c3aed",
+        "colorIndex": 0,
+        "illustration": {
+          "name": "flat-idea",
+          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"240\" viewBox=\"0 0 240 240\"><defs>\n      <radialGradient id=\"nm-med-halo\"><stop stop-color=\"#a7bddc\" stop-opacity=\".25\"/><stop offset=\".74\" stop-color=\"#84a7cf\" stop-opacity=\".07\"/><stop offset=\"1\" stop-color=\"#9abbe1\" stop-opacity=\"0\"/></radialGradient>\n      <linearGradient id=\"nm-oa-paper\" x2=\"1\" y2=\"1\"><stop stop-color=\"#fff5d4\"/><stop offset=\".48\" stop-color=\"#e9c780\"/><stop offset=\"1\" stop-color=\"#b7894f\"/></linearGradient>\n      <linearGradient id=\"nm-oa-wood\"><stop stop-color=\"#80512e\"/><stop offset=\".33\" stop-color=\"#ffe4a6\"/><stop offset=\".67\" stop-color=\"#b78645\"/><stop offset=\"1\" stop-color=\"#6c3e2b\"/></linearGradient>\n      <linearGradient id=\"nm-oa-clay\" x2=\"1\" y2=\"1\"><stop stop-color=\"#ffd6a9\"/><stop offset=\".27\" stop-color=\"#d58d5a\"/><stop offset=\".68\" stop-color=\"#9d4a39\"/><stop offset=\"1\" stop-color=\"#563246\"/></linearGradient>\n      <linearGradient id=\"nm-oa-gold\" x2=\"1\" y2=\"1\"><stop stop-color=\"#fff0af\"/><stop offset=\".26\" stop-color=\"#e4bd70\"/><stop offset=\".57\" stop-color=\"#95632c\"/><stop offset=\".8\" stop-color=\"#e7c483\"/><stop offset=\"1\" stop-color=\"#754829\"/></linearGradient>\n      <linearGradient id=\"nm-oa-sky\" x2=\"1\" y2=\"1\"><stop stop-color=\"#75b5ad\"/><stop offset=\".59\" stop-color=\"#315a7c\"/><stop offset=\"1\" stop-color=\"#25344e\"/></linearGradient>\n    </defs><circle cx=\"120\" cy=\"118\" r=\"101\" fill=\"none\" stroke=\"#b09df5\" stroke-opacity=\".27\" stroke-width=\"1.5\"/><circle cx=\"120\" cy=\"118\" r=\"84\" fill=\"url(#nm-med-halo)\" opacity=\".65\"/><g transform=\"translate(15 15) scale(4.375)\"><circle fill=\"#FFF59D\" cx=\"24\" cy=\"22\" r=\"20\" />\n    <path fill=\"#FBC02D\" d=\"M37,22c0-7.7-6.6-13.8-14.5-12.9c-6,0.7-10.8,5.5-11.4,11.5c-0.5,4.6,1.4,8.7,4.6,11.3 c1.4,1.2,2.3,2.9,2.3,4.8V37h12v-0.1c0-1.8,0.8-3.6,2.2-4.8C35.1,29.7,37,26.1,37,22z\" />\n    <path fill=\"#FFF59D\" d=\"M30.6,20.2l-3-2c-0.3-0.2-0.8-0.2-1.1,0L24,19.8l-2.4-1.6c-0.3-0.2-0.8-0.2-1.1,0l-3,2 c-0.2,0.2-0.4,0.4-0.4,0.7s0,0.6,0.2,0.8l3.8,4.7V37h2V26c0-0.2-0.1-0.4-0.2-0.6l-3.3-4.1l1.5-1l2.4,1.6c0.3,0.2,0.8,0.2,1.1,0 l2.4-1.6l1.5,1l-3.3,4.1C25.1,25.6,25,25.8,25,26v11h2V26.4l3.8-4.7c0.2-0.2,0.3-0.5,0.2-0.8S30.8,20.3,30.6,20.2z\" />\n    <circle fill=\"#5C6BC0\" cx=\"24\" cy=\"44\" r=\"3\" />\n    <path fill=\"#9FA8DA\" d=\"M26,45h-4c-2.2,0-4-1.8-4-4v-5h12v5C30,43.2,28.2,45,26,45z\" />\n    <g fill=\"#5C6BC0\">\n        <path d=\"M30,41l-11.6,1.6c0.3,0.7,0.9,1.4,1.6,1.8l9.4-1.3C29.8,42.5,30,41.8,30,41z\" />\n        <polygon points=\"18,38.7 18,40.7 30,39 30,37\" />\n    </g>\n</g></svg>"
+        }
+      },
+      {
+        "id": "website-views-04",
+        "parentId": "website-views-00",
+        "text": "Progetto",
+        "children": [
+          {
+            "id": "website-views-05",
+            "parentId": "website-views-04",
+            "text": "Erbe e fiori",
+            "children": [],
+            "fontSize": 17,
+            "fontWeight": 500,
+            "fontFamily": "Inter",
+            "nodeShape": "outline",
+            "color": "#0d9488",
+            "colorIndex": 1,
+            "illustration": {
+              "name": "lc-flower-2",
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"240\" viewBox=\"0 0 240 240\"><defs>\n      <radialGradient id=\"nm-med-halo\"><stop stop-color=\"#a7bddc\" stop-opacity=\".25\"/><stop offset=\".74\" stop-color=\"#84a7cf\" stop-opacity=\".07\"/><stop offset=\"1\" stop-color=\"#9abbe1\" stop-opacity=\"0\"/></radialGradient>\n      <linearGradient id=\"nm-oa-paper\" x2=\"1\" y2=\"1\"><stop stop-color=\"#fff5d4\"/><stop offset=\".48\" stop-color=\"#e9c780\"/><stop offset=\"1\" stop-color=\"#b7894f\"/></linearGradient>\n      <linearGradient id=\"nm-oa-wood\"><stop stop-color=\"#80512e\"/><stop offset=\".33\" stop-color=\"#ffe4a6\"/><stop offset=\".67\" stop-color=\"#b78645\"/><stop offset=\"1\" stop-color=\"#6c3e2b\"/></linearGradient>\n      <linearGradient id=\"nm-oa-clay\" x2=\"1\" y2=\"1\"><stop stop-color=\"#ffd6a9\"/><stop offset=\".27\" stop-color=\"#d58d5a\"/><stop offset=\".68\" stop-color=\"#9d4a39\"/><stop offset=\"1\" stop-color=\"#563246\"/></linearGradient>\n      <linearGradient id=\"nm-oa-gold\" x2=\"1\" y2=\"1\"><stop stop-color=\"#fff0af\"/><stop offset=\".26\" stop-color=\"#e4bd70\"/><stop offset=\".57\" stop-color=\"#95632c\"/><stop offset=\".8\" stop-color=\"#e7c483\"/><stop offset=\"1\" stop-color=\"#754829\"/></linearGradient>\n      <linearGradient id=\"nm-oa-sky\" x2=\"1\" y2=\"1\"><stop stop-color=\"#75b5ad\"/><stop offset=\".59\" stop-color=\"#315a7c\"/><stop offset=\"1\" stop-color=\"#25344e\"/></linearGradient>\n    </defs><circle cx=\"120\" cy=\"118\" r=\"101\" fill=\"none\" stroke=\"#84b9cb\" stroke-opacity=\".27\" stroke-width=\"1.5\"/><circle cx=\"120\" cy=\"118\" r=\"84\" fill=\"url(#nm-med-halo)\" opacity=\".65\"/><g transform=\"translate(15 15) scale(4.375)\"><g transform=\"scale(2)\" fill=\"none\" stroke=\"#4d9da4\" stroke-width=\"1.35\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 5a3 3 0 1 1 3 3m-3-3a3 3 0 1 0-3 3m3-3v1M9 8a3 3 0 1 0 3 3M9 8h1m5 0a3 3 0 1 1-3 3m3-3h-1m-2 3v-1\" /> <circle cx=\"12\" cy=\"8\" r=\"2\" /> <path d=\"M12 10v12\" /> <path d=\"M12 22c4.2 0 7-1.667 7-5-4.2 0-7 1.667-7 5Z\" /> <path d=\"M12 22c-4.2 0-7-1.667-7-5 4.2 0 7 1.667 7 5Z\" /></g></g></svg>"
+            }
+          },
+          {
+            "id": "website-views-06",
+            "parentId": "website-views-04",
+            "text": "Acqua e luce",
+            "children": [],
+            "fontSize": 17,
+            "fontWeight": 500,
+            "fontFamily": "Inter",
+            "nodeShape": "outline",
+            "color": "#0d9488",
+            "colorIndex": 1,
+            "illustration": {
+              "name": "lc-droplets",
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"240\" viewBox=\"0 0 240 240\"><defs>\n      <radialGradient id=\"nm-med-halo\"><stop stop-color=\"#a7bddc\" stop-opacity=\".25\"/><stop offset=\".74\" stop-color=\"#84a7cf\" stop-opacity=\".07\"/><stop offset=\"1\" stop-color=\"#9abbe1\" stop-opacity=\"0\"/></radialGradient>\n      <linearGradient id=\"nm-oa-paper\" x2=\"1\" y2=\"1\"><stop stop-color=\"#fff5d4\"/><stop offset=\".48\" stop-color=\"#e9c780\"/><stop offset=\"1\" stop-color=\"#b7894f\"/></linearGradient>\n      <linearGradient id=\"nm-oa-wood\"><stop stop-color=\"#80512e\"/><stop offset=\".33\" stop-color=\"#ffe4a6\"/><stop offset=\".67\" stop-color=\"#b78645\"/><stop offset=\"1\" stop-color=\"#6c3e2b\"/></linearGradient>\n      <linearGradient id=\"nm-oa-clay\" x2=\"1\" y2=\"1\"><stop stop-color=\"#ffd6a9\"/><stop offset=\".27\" stop-color=\"#d58d5a\"/><stop offset=\".68\" stop-color=\"#9d4a39\"/><stop offset=\"1\" stop-color=\"#563246\"/></linearGradient>\n      <linearGradient id=\"nm-oa-gold\" x2=\"1\" y2=\"1\"><stop stop-color=\"#fff0af\"/><stop offset=\".26\" stop-color=\"#e4bd70\"/><stop offset=\".57\" stop-color=\"#95632c\"/><stop offset=\".8\" stop-color=\"#e7c483\"/><stop offset=\"1\" stop-color=\"#754829\"/></linearGradient>\n      <linearGradient id=\"nm-oa-sky\" x2=\"1\" y2=\"1\"><stop stop-color=\"#75b5ad\"/><stop offset=\".59\" stop-color=\"#315a7c\"/><stop offset=\"1\" stop-color=\"#25344e\"/></linearGradient>\n    </defs><circle cx=\"120\" cy=\"118\" r=\"101\" fill=\"none\" stroke=\"#7ac6ed\" stroke-opacity=\".27\" stroke-width=\"1.5\"/><circle cx=\"120\" cy=\"118\" r=\"84\" fill=\"url(#nm-med-halo)\" opacity=\".65\"/><g transform=\"translate(15 15) scale(4.375)\"><g transform=\"scale(2)\" fill=\"none\" stroke=\"#538ac8\" stroke-width=\"1.35\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05z\" /> <path d=\"M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97\" /></g></g></svg>"
+            }
+          }
+        ],
+        "fontSize": 22,
+        "fontWeight": 700,
+        "fontFamily": "Inter",
+        "nodeShape": "card",
+        "color": "#0d9488",
+        "colorIndex": 1,
+        "illustration": {
+          "name": "gl-sun-rays",
+          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"240\" viewBox=\"0 0 240 240\"><defs>\n      <radialGradient id=\"nm-med-halo\"><stop stop-color=\"#a7bddc\" stop-opacity=\".25\"/><stop offset=\".74\" stop-color=\"#84a7cf\" stop-opacity=\".07\"/><stop offset=\"1\" stop-color=\"#9abbe1\" stop-opacity=\"0\"/></radialGradient>\n      <linearGradient id=\"nm-oa-paper\" x2=\"1\" y2=\"1\"><stop stop-color=\"#fff5d4\"/><stop offset=\".48\" stop-color=\"#e9c780\"/><stop offset=\"1\" stop-color=\"#b7894f\"/></linearGradient>\n      <linearGradient id=\"nm-oa-wood\"><stop stop-color=\"#80512e\"/><stop offset=\".33\" stop-color=\"#ffe4a6\"/><stop offset=\".67\" stop-color=\"#b78645\"/><stop offset=\"1\" stop-color=\"#6c3e2b\"/></linearGradient>\n      <linearGradient id=\"nm-oa-clay\" x2=\"1\" y2=\"1\"><stop stop-color=\"#ffd6a9\"/><stop offset=\".27\" stop-color=\"#d58d5a\"/><stop offset=\".68\" stop-color=\"#9d4a39\"/><stop offset=\"1\" stop-color=\"#563246\"/></linearGradient>\n      <linearGradient id=\"nm-oa-gold\" x2=\"1\" y2=\"1\"><stop stop-color=\"#fff0af\"/><stop offset=\".26\" stop-color=\"#e4bd70\"/><stop offset=\".57\" stop-color=\"#95632c\"/><stop offset=\".8\" stop-color=\"#e7c483\"/><stop offset=\"1\" stop-color=\"#754829\"/></linearGradient>\n      <linearGradient id=\"nm-oa-sky\" x2=\"1\" y2=\"1\"><stop stop-color=\"#75b5ad\"/><stop offset=\".59\" stop-color=\"#315a7c\"/><stop offset=\"1\" stop-color=\"#25344e\"/></linearGradient>\n    </defs><circle cx=\"120\" cy=\"118\" r=\"101\" fill=\"none\" stroke=\"#91c58d\" stroke-opacity=\".27\" stroke-width=\"1.5\"/><circle cx=\"120\" cy=\"118\" r=\"84\" fill=\"url(#nm-med-halo)\" opacity=\".65\"/><g transform=\"translate(15 15) scale(4.375)\"><path d=\"M18 24a6 6 0 1 0 12 0a6 6 0 1 0-12 0 M24 4v8 M24 36v8 M4 24h8 M36 24h8 M10 10l6 6 M32 32l6 6 M38 10l-6 6 M16 32l-6 6\" fill=\"none\" stroke=\"#4ade80\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>"
+        }
+      },
+      {
+        "id": "website-views-07",
+        "parentId": "website-views-00",
+        "text": "Attività",
+        "children": [
+          {
+            "id": "website-views-08",
+            "parentId": "website-views-07",
+            "text": "Preparare il terreno",
+            "children": [],
+            "taskStatus": "done",
+            "startDate": "2026-10-30",
+            "dueDate": "2026-11-02",
+            "fontSize": 17,
+            "fontWeight": 500,
+            "fontFamily": "Inter",
+            "nodeShape": "outline",
+            "color": "#d97706",
+            "colorIndex": 2
+          },
+          {
+            "id": "website-views-09",
+            "parentId": "website-views-07",
+            "text": "Piantare insieme",
+            "children": [],
+            "taskStatus": "doing",
+            "startDate": "2026-11-07",
+            "dueDate": "2026-11-11",
+            "fontSize": 17,
+            "fontWeight": 500,
+            "fontFamily": "Inter",
+            "nodeShape": "outline",
+            "color": "#d97706",
+            "colorIndex": 2
+          }
+        ],
+        "fontSize": 22,
+        "fontWeight": 700,
+        "fontFamily": "Inter",
+        "nodeShape": "card",
+        "color": "#d97706",
+        "colorIndex": 2,
+        "illustration": {
+          "name": "flat-process",
+          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"240\" viewBox=\"0 0 240 240\"><defs>\n      <radialGradient id=\"nm-med-halo\"><stop stop-color=\"#a7bddc\" stop-opacity=\".25\"/><stop offset=\".74\" stop-color=\"#84a7cf\" stop-opacity=\".07\"/><stop offset=\"1\" stop-color=\"#9abbe1\" stop-opacity=\"0\"/></radialGradient>\n      <linearGradient id=\"nm-oa-paper\" x2=\"1\" y2=\"1\"><stop stop-color=\"#fff5d4\"/><stop offset=\".48\" stop-color=\"#e9c780\"/><stop offset=\"1\" stop-color=\"#b7894f\"/></linearGradient>\n      <linearGradient id=\"nm-oa-wood\"><stop stop-color=\"#80512e\"/><stop offset=\".33\" stop-color=\"#ffe4a6\"/><stop offset=\".67\" stop-color=\"#b78645\"/><stop offset=\"1\" stop-color=\"#6c3e2b\"/></linearGradient>\n      <linearGradient id=\"nm-oa-clay\" x2=\"1\" y2=\"1\"><stop stop-color=\"#ffd6a9\"/><stop offset=\".27\" stop-color=\"#d58d5a\"/><stop offset=\".68\" stop-color=\"#9d4a39\"/><stop offset=\"1\" stop-color=\"#563246\"/></linearGradient>\n      <linearGradient id=\"nm-oa-gold\" x2=\"1\" y2=\"1\"><stop stop-color=\"#fff0af\"/><stop offset=\".26\" stop-color=\"#e4bd70\"/><stop offset=\".57\" stop-color=\"#95632c\"/><stop offset=\".8\" stop-color=\"#e7c483\"/><stop offset=\"1\" stop-color=\"#754829\"/></linearGradient>\n      <linearGradient id=\"nm-oa-sky\" x2=\"1\" y2=\"1\"><stop stop-color=\"#75b5ad\"/><stop offset=\".59\" stop-color=\"#315a7c\"/><stop offset=\"1\" stop-color=\"#25344e\"/></linearGradient>\n    </defs><circle cx=\"120\" cy=\"118\" r=\"101\" fill=\"none\" stroke=\"#b09df5\" stroke-opacity=\".27\" stroke-width=\"1.5\"/><circle cx=\"120\" cy=\"118\" r=\"84\" fill=\"url(#nm-med-halo)\" opacity=\".65\"/><g transform=\"translate(15 15) scale(4.375)\"><g fill=\"#9C27B0\">\n        <polygon points=\"31,8 42.9,9.6 33.1,19.4\" />\n        <polygon points=\"17,40 5.1,38.4 14.9,28.6\" />\n        <polygon points=\"8,17 9.6,5.1 19.4,14.9\" />\n        <path d=\"M9.3,21.2L5.1,22C5,22.7,5,23.3,5,24c0,4.6,1.6,9,4.6,12.4l3-2.6C10.3,31.1,9,27.6,9,24 C9,23.1,9.1,22.1,9.3,21.2z\" />\n        <path d=\"M24,5c-5.4,0-10.2,2.3-13.7,5.9l2.8,2.8C15.9,10.8,19.7,9,24,9c0.9,0,1.9,0.1,2.8,0.3l0.7-3.9 C26.4,5.1,25.2,5,24,5z\" />\n        <path d=\"M38.7,26.8l4.2-0.8c0.1-0.7,0.1-1.3,0.1-2c0-4.4-1.5-8.7-4.3-12.1l-3.1,2.5c2.2,2.7,3.4,6.1,3.4,9.5 C39,24.9,38.9,25.9,38.7,26.8z\" />\n        <path d=\"M34.9,34.3C32.1,37.2,28.3,39,24,39c-0.9,0-1.9-0.1-2.8-0.3l-0.7,3.9c1.2,0.2,2.4,0.3,3.5,0.3 c5.4,0,10.2-2.3,13.7-5.9L34.9,34.3z\" />\n        <polygon points=\"40,31 38.4,42.9 28.6,33.1\" />\n    </g>\n</g></svg>"
+        }
+      },
+      {
+        "id": "website-views-10",
+        "parentId": "website-views-00",
+        "text": "Comunità",
+        "children": [
+          {
+            "id": "website-views-11",
+            "parentId": "website-views-10",
+            "text": "Laboratorio",
+            "children": [],
+            "taskStatus": "todo",
+            "startDate": "2026-11-16",
+            "dueDate": "2026-11-17",
+            "fontSize": 17,
+            "fontWeight": 500,
+            "fontFamily": "Inter",
+            "nodeShape": "outline",
+            "color": "#db2777",
+            "colorIndex": 3
+          },
+          {
+            "id": "website-views-12",
+            "parentId": "website-views-10",
+            "text": "Inaugurazione",
+            "children": [],
+            "taskStatus": "todo",
+            "startDate": "2026-11-21",
+            "dueDate": "2026-11-22",
+            "fontSize": 17,
+            "fontWeight": 500,
+            "fontFamily": "Inter",
+            "nodeShape": "outline",
+            "color": "#db2777",
+            "colorIndex": 3
+          }
+        ],
+        "fontSize": 22,
+        "fontWeight": 700,
+        "fontFamily": "Inter",
+        "nodeShape": "card",
+        "color": "#db2777",
+        "colorIndex": 3,
+        "illustration": {
+          "name": "flat-home",
+          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"240\" viewBox=\"0 0 240 240\"><defs>\n      <radialGradient id=\"nm-med-halo\"><stop stop-color=\"#a7bddc\" stop-opacity=\".25\"/><stop offset=\".74\" stop-color=\"#84a7cf\" stop-opacity=\".07\"/><stop offset=\"1\" stop-color=\"#9abbe1\" stop-opacity=\"0\"/></radialGradient>\n      <linearGradient id=\"nm-oa-paper\" x2=\"1\" y2=\"1\"><stop stop-color=\"#fff5d4\"/><stop offset=\".48\" stop-color=\"#e9c780\"/><stop offset=\"1\" stop-color=\"#b7894f\"/></linearGradient>\n      <linearGradient id=\"nm-oa-wood\"><stop stop-color=\"#80512e\"/><stop offset=\".33\" stop-color=\"#ffe4a6\"/><stop offset=\".67\" stop-color=\"#b78645\"/><stop offset=\"1\" stop-color=\"#6c3e2b\"/></linearGradient>\n      <linearGradient id=\"nm-oa-clay\" x2=\"1\" y2=\"1\"><stop stop-color=\"#ffd6a9\"/><stop offset=\".27\" stop-color=\"#d58d5a\"/><stop offset=\".68\" stop-color=\"#9d4a39\"/><stop offset=\"1\" stop-color=\"#563246\"/></linearGradient>\n      <linearGradient id=\"nm-oa-gold\" x2=\"1\" y2=\"1\"><stop stop-color=\"#fff0af\"/><stop offset=\".26\" stop-color=\"#e4bd70\"/><stop offset=\".57\" stop-color=\"#95632c\"/><stop offset=\".8\" stop-color=\"#e7c483\"/><stop offset=\"1\" stop-color=\"#754829\"/></linearGradient>\n      <linearGradient id=\"nm-oa-sky\" x2=\"1\" y2=\"1\"><stop stop-color=\"#75b5ad\"/><stop offset=\".59\" stop-color=\"#315a7c\"/><stop offset=\"1\" stop-color=\"#25344e\"/></linearGradient>\n    </defs><circle cx=\"120\" cy=\"118\" r=\"101\" fill=\"none\" stroke=\"#7ac6ed\" stroke-opacity=\".27\" stroke-width=\"1.5\"/><circle cx=\"120\" cy=\"118\" r=\"84\" fill=\"url(#nm-med-halo)\" opacity=\".65\"/><g transform=\"translate(15 15) scale(4.375)\"><polygon fill=\"#E8EAF6\" points=\"42,39 6,39 6,23 24,6 42,23\" />\n    <g fill=\"#C5CAE9\">\n        <polygon points=\"39,21 34,16 34,9 39,9\" />\n        <rect x=\"6\" y=\"39\" width=\"36\" height=\"5\" />\n    </g>\n    <polygon fill=\"#B71C1C\" points=\"24,4.3 4,22.9 6,25.1 24,8.4 42,25.1 44,22.9\" />\n    <rect x=\"18\" y=\"28\" fill=\"#D84315\" width=\"12\" height=\"16\" />\n    <rect x=\"21\" y=\"17\" fill=\"#01579B\" width=\"6\" height=\"6\" />\n    <path fill=\"#FF8A65\" d=\"M27.5,35.5c-0.3,0-0.5,0.2-0.5,0.5v2c0,0.3,0.2,0.5,0.5,0.5S28,38.3,28,38v-2C28,35.7,27.8,35.5,27.5,35.5z\" />\n</g></svg>"
+        }
+      }
+    ],
+    "layoutMode": "balanced",
+    "viewAppearance": {
+      "version": 1,
+      "modes": {
+        "timeline": {
+          "preset": "roadmap",
+          "timeScale": "days"
+        }
+      }
+    },
+    "fontSize": 28,
+    "fontWeight": 700,
+    "fontFamily": "Inter",
+    "nodeShape": "pill",
+    "color": "#7c3aed",
+    "colorIndex": 0,
+    "objectArt": {
+      "id": "gl-leaf-plant",
+      "size": 140
+    }
+  },
+  "images": [],
+  "relationships": [
+    {
+      "id": "website-planting-step",
+      "fromId": "website-views-08",
+      "toId": "website-views-09",
+      "kind": "sequence",
+      "label": "poi",
+      "color": "#0d9488"
+    }
+  ],
+  "studyCards": [],
+  "learningAttempts": [],
+  "learningPlan": null
+}

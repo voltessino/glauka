@@ -1,0 +1,581 @@
+{
+  "schema": "NeuroMapArchitect-SingleTab-v6",
+  "savedAt": "2026-11-19T08:00:00.000Z",
+  "thresholdY": 500,
+  "balanceBias": 50,
+  "compactness": 70,
+  "branchGapX": 30,
+  "strokeScale": 1.05,
+  "activeThemeId": "white",
+  "typographyPreset": "uniform",
+  "typographyScale": 1,
+  "branchStyle": "xmind8",
+  "defaultLabelWrapChars": 48,
+  "wrapCustom": false,
+  "root": {
+    "id": "nervous-00",
+    "parentId": null,
+    "text": "Sistema nervoso",
+    "layoutMode": "balanced",
+    "objectArt": {
+      "id": "brain",
+      "size": 150
+    },
+    "fontSize": 21,
+    "fontWeight": 700,
+    "fontFamily": "Inter",
+    "children": [
+      {
+        "id": "nervous-01",
+        "parentId": "nervous-00",
+        "text": "Sistema centrale (SNC)",
+        "children": [
+          {
+            "id": "nervous-02",
+            "parentId": "nervous-01",
+            "text": "Encefalo",
+            "children": [
+              {
+                "id": "nervous-03",
+                "parentId": "nervous-02",
+                "text": "Corteccia cerebrale",
+                "children": [],
+                "fontSize": 14,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "plain",
+                "color": "#6366f1",
+                "colorIndex": 0
+              },
+              {
+                "id": "nervous-04",
+                "parentId": "nervous-02",
+                "text": "Cervelletto e tronco",
+                "children": [],
+                "fontSize": 14,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "plain",
+                "color": "#6366f1",
+                "colorIndex": 0
+              }
+            ],
+            "fontSize": 15,
+            "fontWeight": 600,
+            "fontFamily": "Inter",
+            "nodeShape": "plain",
+            "color": "#6366f1",
+            "colorIndex": 0
+          },
+          {
+            "id": "nervous-05",
+            "parentId": "nervous-01",
+            "text": "Midollo spinale",
+            "children": [
+              {
+                "id": "nervous-06",
+                "parentId": "nervous-05",
+                "text": "Vie ascendenti e discendenti",
+                "children": [],
+                "fontSize": 14,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "plain",
+                "color": "#6366f1",
+                "colorIndex": 0
+              },
+              {
+                "id": "nervous-07",
+                "parentId": "nervous-05",
+                "text": "Riflessi spinali",
+                "children": [],
+                "fontSize": 14,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "plain",
+                "color": "#6366f1",
+                "colorIndex": 0
+              }
+            ],
+            "fontSize": 15,
+            "fontWeight": 600,
+            "fontFamily": "Inter",
+            "nodeShape": "plain",
+            "color": "#6366f1",
+            "colorIndex": 0
+          }
+        ],
+        "fontSize": 20,
+        "fontWeight": 700,
+        "fontFamily": "Inter",
+        "nodeShape": "card",
+        "color": "#6366f1",
+        "colorIndex": 0,
+        "illustration": {
+          "name": "lc-brain",
+          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"240\" viewBox=\"0 0 240 240\"><defs>\n      <radialGradient id=\"nm-med-halo\"><stop stop-color=\"#a7bddc\" stop-opacity=\".25\"/><stop offset=\".74\" stop-color=\"#84a7cf\" stop-opacity=\".07\"/><stop offset=\"1\" stop-color=\"#9abbe1\" stop-opacity=\"0\"/></radialGradient>\n    </defs><circle cx=\"120\" cy=\"118\" r=\"101\" fill=\"none\" stroke=\"#e59caa\" stroke-opacity=\".27\" stroke-width=\"1.5\"/><circle cx=\"120\" cy=\"118\" r=\"84\" fill=\"url(#nm-med-halo)\" opacity=\".65\"/><g transform=\"translate(15 15) scale(4.375)\"><g transform=\"scale(2)\" fill=\"none\" stroke=\"#bf729a\" stroke-width=\"1.35\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 18V5\" /> <path d=\"M15 13a4.17 4.17 0 01-3-4 4.17 4.17 0 01-3 4\" /> <path d=\"M17.707 6.294A3 3 0 1012 5a3 3 0 10-5.707 1.294\" /> <path d=\"M17.996 5.125a4 4 0 012.526 5.77\" /> <path d=\"M18 18a4 4 0 002-7.465\" /> <path d=\"M19.967 17.482a4 4 0 11-7.967.517 4 4 0 11-7.967-.517\" /> <path d=\"M6 18a4 4 0 01-2-7.465\" /> <path d=\"M6.004 5.125a4 4 0 00-2.526 5.77\" /></g></g></svg>"
+        }
+      },
+      {
+        "id": "nervous-08",
+        "parentId": "nervous-00",
+        "text": "Neuroni e sinapsi",
+        "children": [
+          {
+            "id": "nervous-09",
+            "parentId": "nervous-08",
+            "text": "Struttura del neurone",
+            "children": [
+              {
+                "id": "nervous-10",
+                "parentId": "nervous-09",
+                "text": "Dendriti e soma",
+                "children": [],
+                "fontSize": 14,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "plain",
+                "color": "#0891b2",
+                "colorIndex": 1
+              },
+              {
+                "id": "nervous-11",
+                "parentId": "nervous-09",
+                "text": "Assone e mielina",
+                "children": [],
+                "fontSize": 14,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "plain",
+                "color": "#0891b2",
+                "colorIndex": 1
+              }
+            ],
+            "fontSize": 15,
+            "fontWeight": 600,
+            "fontFamily": "Inter",
+            "nodeShape": "plain",
+            "color": "#0891b2",
+            "colorIndex": 1
+          },
+          {
+            "id": "nervous-12",
+            "parentId": "nervous-08",
+            "text": "Impulso elettrico",
+            "children": [
+              {
+                "id": "nervous-13",
+                "parentId": "nervous-12",
+                "text": "Potenziale d’azione",
+                "children": [],
+                "fontSize": 14,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "plain",
+                "color": "#0891b2",
+                "colorIndex": 1
+              },
+              {
+                "id": "nervous-14",
+                "parentId": "nervous-12",
+                "text": "Neurotrasmettitori",
+                "children": [],
+                "fontSize": 14,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "plain",
+                "color": "#0891b2",
+                "colorIndex": 1
+              }
+            ],
+            "fontSize": 15,
+            "fontWeight": 600,
+            "fontFamily": "Inter",
+            "nodeShape": "plain",
+            "color": "#0891b2",
+            "colorIndex": 1
+          }
+        ],
+        "fontSize": 20,
+        "fontWeight": 700,
+        "fontFamily": "Inter",
+        "nodeShape": "card",
+        "color": "#0891b2",
+        "colorIndex": 1,
+        "illustration": {
+          "name": "lc-brain-circuit",
+          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"240\" viewBox=\"0 0 240 240\"><defs>\n      <radialGradient id=\"nm-med-halo\"><stop stop-color=\"#a7bddc\" stop-opacity=\".25\"/><stop offset=\".74\" stop-color=\"#84a7cf\" stop-opacity=\".07\"/><stop offset=\"1\" stop-color=\"#9abbe1\" stop-opacity=\"0\"/></radialGradient>\n    </defs><circle cx=\"120\" cy=\"118\" r=\"101\" fill=\"none\" stroke=\"#e59caa\" stroke-opacity=\".27\" stroke-width=\"1.5\"/><circle cx=\"120\" cy=\"118\" r=\"84\" fill=\"url(#nm-med-halo)\" opacity=\".65\"/><g transform=\"translate(15 15) scale(4.375)\"><g transform=\"scale(2)\" fill=\"none\" stroke=\"#bf729a\" stroke-width=\"1.35\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 13h4\" /> <path d=\"M12 18h6a2 2 0 012 2v1\" /> <path d=\"M12 8h8\" /> <path d=\"M12 9a4.17 4.17 0 01-3 4\" /> <path d=\"M16 8V5a2 2 0 012-2\" /> <path d=\"M6 18a4 4 0 01-2-7.465\" /> <path d=\"M6.004 5.125a4 4 0 00-2.526 5.77\" /> <path d=\"M6.294 6.294A3 3 0 1112 5v13a4 4 0 11-7.967-.518\" /> <circle cx=\"16\" cy=\"13\" r=\"0.5\" fill=\"currentColor\" /> <circle cx=\"18\" cy=\"3\" r=\"0.5\" fill=\"currentColor\" /> <circle cx=\"20\" cy=\"21\" r=\"0.5\" fill=\"currentColor\" /> <circle cx=\"20\" cy=\"8\" r=\"0.5\" fill=\"currentColor\" /></g></g></svg>"
+        }
+      },
+      {
+        "id": "nervous-15",
+        "parentId": "nervous-00",
+        "text": "Sistema autonomo",
+        "children": [
+          {
+            "id": "nervous-16",
+            "parentId": "nervous-15",
+            "text": "Simpatico",
+            "children": [
+              {
+                "id": "nervous-17",
+                "parentId": "nervous-16",
+                "text": "Risposta di allerta",
+                "children": [],
+                "fontSize": 14,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "plain",
+                "color": "#059669",
+                "colorIndex": 2
+              },
+              {
+                "id": "nervous-18",
+                "parentId": "nervous-16",
+                "text": "Aumenta battito e respiro",
+                "children": [],
+                "fontSize": 14,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "plain",
+                "color": "#059669",
+                "colorIndex": 2
+              }
+            ],
+            "fontSize": 15,
+            "fontWeight": 600,
+            "fontFamily": "Inter",
+            "nodeShape": "plain",
+            "color": "#059669",
+            "colorIndex": 2
+          },
+          {
+            "id": "nervous-19",
+            "parentId": "nervous-15",
+            "text": "Parasimpatico",
+            "children": [
+              {
+                "id": "nervous-20",
+                "parentId": "nervous-19",
+                "text": "Recupero e riposo",
+                "children": [],
+                "fontSize": 14,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "plain",
+                "color": "#059669",
+                "colorIndex": 2
+              },
+              {
+                "id": "nervous-21",
+                "parentId": "nervous-19",
+                "text": "Rallenta il battito",
+                "children": [],
+                "fontSize": 14,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "plain",
+                "color": "#059669",
+                "colorIndex": 2
+              }
+            ],
+            "fontSize": 15,
+            "fontWeight": 600,
+            "fontFamily": "Inter",
+            "nodeShape": "plain",
+            "color": "#059669",
+            "colorIndex": 2
+          }
+        ],
+        "fontSize": 20,
+        "fontWeight": 700,
+        "fontFamily": "Inter",
+        "nodeShape": "card",
+        "color": "#059669",
+        "colorIndex": 2,
+        "illustration": {
+          "name": "gl-ecg-chart",
+          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"240\" viewBox=\"0 0 240 240\"><defs>\n      <radialGradient id=\"nm-med-halo\"><stop stop-color=\"#a7bddc\" stop-opacity=\".25\"/><stop offset=\".74\" stop-color=\"#84a7cf\" stop-opacity=\".07\"/><stop offset=\"1\" stop-color=\"#9abbe1\" stop-opacity=\"0\"/></radialGradient>\n    </defs><circle cx=\"120\" cy=\"118\" r=\"101\" fill=\"none\" stroke=\"#7ac6ed\" stroke-opacity=\".27\" stroke-width=\"1.5\"/><circle cx=\"120\" cy=\"118\" r=\"84\" fill=\"url(#nm-med-halo)\" opacity=\".65\"/><g transform=\"translate(15 15) scale(4.375)\"><path d=\"M5 13h38v24H5z M8 25h9l4-7 5 15 4-12 3 4h7\" fill=\"none\" stroke=\"#38bdf8\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>"
+        }
+      },
+      {
+        "id": "nervous-22",
+        "parentId": "nervous-00",
+        "text": "Sistema periferico (SNP)",
+        "children": [
+          {
+            "id": "nervous-23",
+            "parentId": "nervous-22",
+            "text": "Nervi cranici e spinali",
+            "children": [
+              {
+                "id": "nervous-24",
+                "parentId": "nervous-23",
+                "text": "12 paia cranici",
+                "children": [],
+                "fontSize": 14,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "plain",
+                "color": "#db2777",
+                "colorIndex": 3
+              },
+              {
+                "id": "nervous-25",
+                "parentId": "nervous-23",
+                "text": "31 paia spinali",
+                "children": [],
+                "fontSize": 14,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "plain",
+                "color": "#db2777",
+                "colorIndex": 3
+              }
+            ],
+            "fontSize": 15,
+            "fontWeight": 600,
+            "fontFamily": "Inter",
+            "nodeShape": "plain",
+            "color": "#db2777",
+            "colorIndex": 3
+          },
+          {
+            "id": "nervous-26",
+            "parentId": "nervous-22",
+            "text": "Gangli e recettori",
+            "children": [
+              {
+                "id": "nervous-27",
+                "parentId": "nervous-26",
+                "text": "Vie afferenti sensitive",
+                "children": [],
+                "fontSize": 14,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "plain",
+                "color": "#db2777",
+                "colorIndex": 3
+              },
+              {
+                "id": "nervous-28",
+                "parentId": "nervous-26",
+                "text": "Vie efferenti motorie",
+                "children": [],
+                "fontSize": 14,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "plain",
+                "color": "#db2777",
+                "colorIndex": 3
+              }
+            ],
+            "fontSize": 15,
+            "fontWeight": 600,
+            "fontFamily": "Inter",
+            "nodeShape": "plain",
+            "color": "#db2777",
+            "colorIndex": 3
+          }
+        ],
+        "fontSize": 20,
+        "fontWeight": 700,
+        "fontFamily": "Inter",
+        "nodeShape": "card",
+        "color": "#db2777",
+        "colorIndex": 3,
+        "illustration": {
+          "name": "gl-compass-points",
+          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"240\" viewBox=\"0 0 240 240\"><defs>\n      <radialGradient id=\"nm-med-halo\"><stop stop-color=\"#a7bddc\" stop-opacity=\".25\"/><stop offset=\".74\" stop-color=\"#84a7cf\" stop-opacity=\".07\"/><stop offset=\"1\" stop-color=\"#9abbe1\" stop-opacity=\"0\"/></radialGradient>\n    </defs><circle cx=\"120\" cy=\"118\" r=\"101\" fill=\"none\" stroke=\"#84b9cb\" stroke-opacity=\".27\" stroke-width=\"1.5\"/><circle cx=\"120\" cy=\"118\" r=\"84\" fill=\"url(#nm-med-halo)\" opacity=\".65\"/><g transform=\"translate(15 15) scale(4.375)\"><path d=\"M24 5a19 19 0 1 0 0 38a19 19 0 1 0 0-38 M29 18l-5 15-5-6z\" fill=\"none\" stroke=\"#22d3ee\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>"
+        }
+      },
+      {
+        "id": "nervous-29",
+        "parentId": "nervous-00",
+        "text": "Funzioni cognitive",
+        "children": [
+          {
+            "id": "nervous-30",
+            "parentId": "nervous-29",
+            "text": "Memoria e attenzione",
+            "children": [
+              {
+                "id": "nervous-31",
+                "parentId": "nervous-30",
+                "text": "Ippocampo e consolidamento",
+                "children": [],
+                "fontSize": 14,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "plain",
+                "color": "#d97706",
+                "colorIndex": 4
+              },
+              {
+                "id": "nervous-32",
+                "parentId": "nervous-30",
+                "text": "Corteccia prefrontale",
+                "children": [],
+                "fontSize": 14,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "plain",
+                "color": "#d97706",
+                "colorIndex": 4
+              }
+            ],
+            "fontSize": 15,
+            "fontWeight": 600,
+            "fontFamily": "Inter",
+            "nodeShape": "plain",
+            "color": "#d97706",
+            "colorIndex": 4
+          },
+          {
+            "id": "nervous-33",
+            "parentId": "nervous-29",
+            "text": "Linguaggio e logica",
+            "children": [
+              {
+                "id": "nervous-34",
+                "parentId": "nervous-33",
+                "text": "Aree di Broca e Wernicke",
+                "children": [],
+                "fontSize": 14,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "plain",
+                "color": "#d97706",
+                "colorIndex": 4
+              },
+              {
+                "id": "nervous-35",
+                "parentId": "nervous-33",
+                "text": "Integrazione associativa",
+                "children": [],
+                "fontSize": 14,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "plain",
+                "color": "#d97706",
+                "colorIndex": 4
+              }
+            ],
+            "fontSize": 15,
+            "fontWeight": 600,
+            "fontFamily": "Inter",
+            "nodeShape": "plain",
+            "color": "#d97706",
+            "colorIndex": 4
+          }
+        ],
+        "fontSize": 20,
+        "fontWeight": 700,
+        "fontFamily": "Inter",
+        "nodeShape": "card",
+        "color": "#d97706",
+        "colorIndex": 4,
+        "illustration": {
+          "name": "lc-brain-cog",
+          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"240\" viewBox=\"0 0 240 240\"><defs>\n      <radialGradient id=\"nm-med-halo\"><stop stop-color=\"#a7bddc\" stop-opacity=\".25\"/><stop offset=\".74\" stop-color=\"#84a7cf\" stop-opacity=\".07\"/><stop offset=\"1\" stop-color=\"#9abbe1\" stop-opacity=\"0\"/></radialGradient>\n    </defs><circle cx=\"120\" cy=\"118\" r=\"101\" fill=\"none\" stroke=\"#e59caa\" stroke-opacity=\".27\" stroke-width=\"1.5\"/><circle cx=\"120\" cy=\"118\" r=\"84\" fill=\"url(#nm-med-halo)\" opacity=\".65\"/><g transform=\"translate(15 15) scale(4.375)\"><g transform=\"scale(2)\" fill=\"none\" stroke=\"#bf729a\" stroke-width=\"1.35\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m10.852 14.772-.383.923\" /> <path d=\"m10.852 9.228-.383-.923\" /> <path d=\"m13.148 14.772.382.924\" /> <path d=\"m13.53 8.305-.382.923\" /> <path d=\"m14.772 10.852.923-.383\" /> <path d=\"m14.772 13.148.923.383\" /> <path d=\"M17.997 5.125a4 4 0 012.526 5.77\" /> <path d=\"M18 18a4 4 0 002-7.464\" /> <path d=\"M4.033 17.483A4 4 0 0011.46 20c.184-.31.896-.31 1.076 0a4 4 0 007.43-2.517\" /> <path d=\"M6 18a4 4 0 01-2-7.464\" /> <path d=\"M6.002 5.125a4 4 0 00-2.525 5.77\" /> <path d=\"M6.293 6.294a3 3 0 01-.287-1.098l-.004-.07a3 3 0 015.968-.543c.05.02.057.01.059 0a3 3 0 015.968.542l-.004.071a3 3 0 01-.287 1.098\" /> <path d=\"m9.228 10.852-.923-.383\" /> <path d=\"m9.228 13.148-.923.383\" /> <circle cx=\"12\" cy=\"12\" r=\"3\" /></g></g></svg>"
+        }
+      },
+      {
+        "id": "nervous-36",
+        "parentId": "nervous-00",
+        "text": "Controllo motorio",
+        "children": [
+          {
+            "id": "nervous-37",
+            "parentId": "nervous-36",
+            "text": "Movimento volontario",
+            "children": [
+              {
+                "id": "nervous-38",
+                "parentId": "nervous-37",
+                "text": "Via piramidale",
+                "children": [],
+                "fontSize": 14,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "plain",
+                "color": "#e11d48",
+                "colorIndex": 5
+              },
+              {
+                "id": "nervous-39",
+                "parentId": "nervous-37",
+                "text": "Giunzione neuromuscolare",
+                "children": [],
+                "fontSize": 14,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "plain",
+                "color": "#e11d48",
+                "colorIndex": 5
+              }
+            ],
+            "fontSize": 15,
+            "fontWeight": 600,
+            "fontFamily": "Inter",
+            "nodeShape": "plain",
+            "color": "#e11d48",
+            "colorIndex": 5
+          },
+          {
+            "id": "nervous-40",
+            "parentId": "nervous-36",
+            "text": "Equilibrio e postura",
+            "children": [
+              {
+                "id": "nervous-41",
+                "parentId": "nervous-40",
+                "text": "Coordinazione cerebellare",
+                "children": [],
+                "fontSize": 14,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "plain",
+                "color": "#e11d48",
+                "colorIndex": 5
+              },
+              {
+                "id": "nervous-42",
+                "parentId": "nervous-40",
+                "text": "Sistema vestibolare",
+                "children": [],
+                "fontSize": 14,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "plain",
+                "color": "#e11d48",
+                "colorIndex": 5
+              }
+            ],
+            "fontSize": 15,
+            "fontWeight": 600,
+            "fontFamily": "Inter",
+            "nodeShape": "plain",
+            "color": "#e11d48",
+            "colorIndex": 5
+          }
+        ],
+        "fontSize": 20,
+        "fontWeight": 700,
+        "fontFamily": "Inter",
+        "nodeShape": "card",
+        "color": "#e11d48",
+        "colorIndex": 5,
+        "illustration": {
+          "name": "flat-idea",
+          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"240\" viewBox=\"0 0 240 240\"><defs>\n      <radialGradient id=\"nm-med-halo\"><stop stop-color=\"#a7bddc\" stop-opacity=\".25\"/><stop offset=\".74\" stop-color=\"#84a7cf\" stop-opacity=\".07\"/><stop offset=\"1\" stop-color=\"#9abbe1\" stop-opacity=\"0\"/></radialGradient>\n    </defs><circle cx=\"120\" cy=\"118\" r=\"101\" fill=\"none\" stroke=\"#b09df5\" stroke-opacity=\".27\" stroke-width=\"1.5\"/><circle cx=\"120\" cy=\"118\" r=\"84\" fill=\"url(#nm-med-halo)\" opacity=\".65\"/><g transform=\"translate(15 15) scale(4.375)\"><circle fill=\"#FFF59D\" cx=\"24\" cy=\"22\" r=\"20\" />\n    <path fill=\"#FBC02D\" d=\"M37,22c0-7.7-6.6-13.8-14.5-12.9c-6,0.7-10.8,5.5-11.4,11.5c-0.5,4.6,1.4,8.7,4.6,11.3 c1.4,1.2,2.3,2.9,2.3,4.8V37h12v-0.1c0-1.8,0.8-3.6,2.2-4.8C35.1,29.7,37,26.1,37,22z\" />\n    <path fill=\"#FFF59D\" d=\"M30.6,20.2l-3-2c-0.3-0.2-0.8-0.2-1.1,0L24,19.8l-2.4-1.6c-0.3-0.2-0.8-0.2-1.1,0l-3,2 c-0.2,0.2-0.4,0.4-0.4,0.7s0,0.6,0.2,0.8l3.8,4.7V37h2V26c0-0.2-0.1-0.4-0.2-0.6l-3.3-4.1l1.5-1l2.4,1.6c0.3,0.2,0.8,0.2,1.1,0 l2.4-1.6l1.5,1l-3.3,4.1C25.1,25.6,25,25.8,25,26v11h2V26.4l3.8-4.7c0.2-0.2,0.3-0.5,0.2-0.8S30.8,20.3,30.6,20.2z\" />\n    <circle fill=\"#5C6BC0\" cx=\"24\" cy=\"44\" r=\"3\" />\n    <path fill=\"#9FA8DA\" d=\"M26,45h-4c-2.2,0-4-1.8-4-4v-5h12v5C30,43.2,28.2,45,26,45z\" />\n    <g fill=\"#5C6BC0\">\n        <path d=\"M30,41l-11.6,1.6c0.3,0.7,0.9,1.4,1.6,1.8l9.4-1.3C29.8,42.5,30,41.8,30,41z\" />\n        <polygon points=\"18,38.7 18,40.7 30,39 30,37\" />\n    </g>\n</g></svg>"
+        }
+      }
+    ]
+  },
+  "images": [],
+  "relationships": [],
+  "studyCards": [],
+  "learningAttempts": [],
+  "learningPlan": null
+}

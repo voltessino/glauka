@@ -1,0 +1,613 @@
+{
+  "schema": "NeuroMapArchitect-SingleTab-v6",
+  "savedAt": "2026-11-18T22:00:00.000Z",
+  "thresholdY": 500,
+  "balanceBias": 50,
+  "compactness": 80,
+  "branchGapX": 34,
+  "strokeScale": 1.25,
+  "activeThemeId": "midnight",
+  "typographyPreset": "uniform",
+  "typographyScale": 1,
+  "branchStyle": "neon",
+  "defaultLabelWrapChars": 48,
+  "wrapCustom": false,
+  "root": {
+    "id": "website-project-00",
+    "parentId": null,
+    "text": "Dall’idea al progetto",
+    "layoutMode": "balanced",
+    "objectArt": {
+      "id": "gl-compass-points",
+      "size": 138
+    },
+    "fontSize": 22,
+    "fontWeight": 700,
+    "fontFamily": "Inter",
+    "children": [
+      {
+        "id": "website-project-01",
+        "parentId": "website-project-00",
+        "text": "L’obiettivo",
+        "children": [
+          {
+            "id": "website-project-02",
+            "parentId": "website-project-01",
+            "text": "Il risultato",
+            "children": [
+              {
+                "id": "website-project-19",
+                "parentId": "website-project-02",
+                "text": "Valore misurabile",
+                "children": [],
+                "fontSize": 15,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "outline",
+                "color": "#a78bfa",
+                "colorIndex": 0
+              },
+              {
+                "id": "website-project-20",
+                "parentId": "website-project-02",
+                "text": "Criteri di successo",
+                "children": [],
+                "fontSize": 15,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "outline",
+                "color": "#a78bfa",
+                "colorIndex": 0
+              }
+            ],
+            "fontSize": 16,
+            "fontWeight": 600,
+            "fontFamily": "Inter",
+            "nodeShape": "glass",
+            "color": "#a78bfa",
+            "colorIndex": 0,
+            "illustration": {
+              "name": "flat-idea",
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"240\" viewBox=\"0 0 240 240\"><defs>\n      <radialGradient id=\"nm-med-halo\"><stop stop-color=\"#a7bddc\" stop-opacity=\".25\"/><stop offset=\".74\" stop-color=\"#84a7cf\" stop-opacity=\".07\"/><stop offset=\"1\" stop-color=\"#9abbe1\" stop-opacity=\"0\"/></radialGradient>\n    </defs><circle cx=\"120\" cy=\"118\" r=\"101\" fill=\"none\" stroke=\"#b09df5\" stroke-opacity=\".27\" stroke-width=\"1.5\"/><circle cx=\"120\" cy=\"118\" r=\"84\" fill=\"url(#nm-med-halo)\" opacity=\".65\"/><g transform=\"translate(15 15) scale(4.375)\"><circle fill=\"#FFF59D\" cx=\"24\" cy=\"22\" r=\"20\" />\n    <path fill=\"#FBC02D\" d=\"M37,22c0-7.7-6.6-13.8-14.5-12.9c-6,0.7-10.8,5.5-11.4,11.5c-0.5,4.6,1.4,8.7,4.6,11.3 c1.4,1.2,2.3,2.9,2.3,4.8V37h12v-0.1c0-1.8,0.8-3.6,2.2-4.8C35.1,29.7,37,26.1,37,22z\" />\n    <path fill=\"#FFF59D\" d=\"M30.6,20.2l-3-2c-0.3-0.2-0.8-0.2-1.1,0L24,19.8l-2.4-1.6c-0.3-0.2-0.8-0.2-1.1,0l-3,2 c-0.2,0.2-0.4,0.4-0.4,0.7s0,0.6,0.2,0.8l3.8,4.7V37h2V26c0-0.2-0.1-0.4-0.2-0.6l-3.3-4.1l1.5-1l2.4,1.6c0.3,0.2,0.8,0.2,1.1,0 l2.4-1.6l1.5,1l-3.3,4.1C25.1,25.6,25,25.8,25,26v11h2V26.4l3.8-4.7c0.2-0.2,0.3-0.5,0.2-0.8S30.8,20.3,30.6,20.2z\" />\n    <circle fill=\"#5C6BC0\" cx=\"24\" cy=\"44\" r=\"3\" />\n    <path fill=\"#9FA8DA\" d=\"M26,45h-4c-2.2,0-4-1.8-4-4v-5h12v5C30,43.2,28.2,45,26,45z\" />\n    <g fill=\"#5C6BC0\">\n        <path d=\"M30,41l-11.6,1.6c0.3,0.7,0.9,1.4,1.6,1.8l9.4-1.3C29.8,42.5,30,41.8,30,41z\" />\n        <polygon points=\"18,38.7 18,40.7 30,39 30,37\" />\n    </g>\n</g></svg>"
+            }
+          },
+          {
+            "id": "website-project-03",
+            "parentId": "website-project-01",
+            "text": "A chi serve",
+            "children": [
+              {
+                "id": "website-project-21",
+                "parentId": "website-project-03",
+                "text": "Bisogni reali",
+                "children": [],
+                "fontSize": 15,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "outline",
+                "color": "#a78bfa",
+                "colorIndex": 0
+              },
+              {
+                "id": "website-project-22",
+                "parentId": "website-project-03",
+                "text": "Contesto d’uso",
+                "children": [],
+                "fontSize": 15,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "outline",
+                "color": "#a78bfa",
+                "colorIndex": 0
+              }
+            ],
+            "fontSize": 16,
+            "fontWeight": 600,
+            "fontFamily": "Inter",
+            "nodeShape": "glass",
+            "color": "#a78bfa",
+            "colorIndex": 0
+          }
+        ],
+        "fontSize": 21,
+        "fontWeight": 700,
+        "fontFamily": "Inter",
+        "nodeShape": "card",
+        "color": "#a78bfa",
+        "colorIndex": 0,
+        "illustration": {
+          "name": "gl-target-goal",
+          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"240\" viewBox=\"0 0 240 240\"><defs>\n      <radialGradient id=\"nm-med-halo\"><stop stop-color=\"#a7bddc\" stop-opacity=\".25\"/><stop offset=\".74\" stop-color=\"#84a7cf\" stop-opacity=\".07\"/><stop offset=\"1\" stop-color=\"#9abbe1\" stop-opacity=\"0\"/></radialGradient>\n    </defs><circle cx=\"120\" cy=\"118\" r=\"101\" fill=\"none\" stroke=\"#f6aa80\" stroke-opacity=\".27\" stroke-width=\"1.5\"/><circle cx=\"120\" cy=\"118\" r=\"84\" fill=\"url(#nm-med-halo)\" opacity=\".65\"/><g transform=\"translate(15 15) scale(4.375)\"><path d=\"M5 24a19 19 0 1 0 38 0a19 19 0 1 0-38 0 M13 24a11 11 0 1 0 22 0a11 11 0 1 0-22 0 M20 24a4 4 0 1 0 8 0a4 4 0 1 0-8 0\" fill=\"none\" stroke=\"#fb923c\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>"
+        }
+      },
+      {
+        "id": "website-project-04",
+        "parentId": "website-project-00",
+        "text": "Le persone",
+        "children": [
+          {
+            "id": "website-project-05",
+            "parentId": "website-project-04",
+            "text": "I riferimenti",
+            "children": [
+              {
+                "id": "website-project-23",
+                "parentId": "website-project-05",
+                "text": "Responsabili",
+                "children": [],
+                "fontSize": 15,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "outline",
+                "color": "#38bdf8",
+                "colorIndex": 1
+              },
+              {
+                "id": "website-project-24",
+                "parentId": "website-project-05",
+                "text": "Referenti tecnici",
+                "children": [],
+                "fontSize": 15,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "outline",
+                "color": "#38bdf8",
+                "colorIndex": 1
+              }
+            ],
+            "fontSize": 16,
+            "fontWeight": 600,
+            "fontFamily": "Inter",
+            "nodeShape": "glass",
+            "color": "#38bdf8",
+            "colorIndex": 1
+          },
+          {
+            "id": "website-project-06",
+            "parentId": "website-project-04",
+            "text": "Con chi confrontarmi",
+            "children": [
+              {
+                "id": "website-project-25",
+                "parentId": "website-project-06",
+                "text": "Revisioni settimanali",
+                "children": [],
+                "fontSize": 15,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "outline",
+                "color": "#38bdf8",
+                "colorIndex": 1
+              },
+              {
+                "id": "website-project-26",
+                "parentId": "website-project-06",
+                "text": "Feedback rapidi",
+                "children": [],
+                "fontSize": 15,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "outline",
+                "color": "#38bdf8",
+                "colorIndex": 1
+              }
+            ],
+            "fontSize": 16,
+            "fontWeight": 600,
+            "fontFamily": "Inter",
+            "nodeShape": "glass",
+            "color": "#38bdf8",
+            "colorIndex": 1,
+            "illustration": {
+              "name": "flat-puzzle",
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"240\" viewBox=\"0 0 240 240\"><defs>\n      <radialGradient id=\"nm-med-halo\"><stop stop-color=\"#a7bddc\" stop-opacity=\".25\"/><stop offset=\".74\" stop-color=\"#84a7cf\" stop-opacity=\".07\"/><stop offset=\"1\" stop-color=\"#9abbe1\" stop-opacity=\"0\"/></radialGradient>\n    </defs><circle cx=\"120\" cy=\"118\" r=\"101\" fill=\"none\" stroke=\"#b09df5\" stroke-opacity=\".27\" stroke-width=\"1.5\"/><circle cx=\"120\" cy=\"118\" r=\"84\" fill=\"url(#nm-med-halo)\" opacity=\".65\"/><g transform=\"translate(15 15) scale(4.375)\"><path fill=\"#8BC34A\" d=\"M39,15c0-2.2-1.8-4-4-4h-6c-0.7,0-1.1-0.8-0.7-1.4c0.6-1,0.9-2.2,0.6-3.5c-0.4-2-1.9-3.6-3.8-4 C21.8,1.4,19,3.9,19,7c0,1,0.3,1.8,0.7,2.6c0.4,0.6,0,1.4-0.8,1.4h-6c-2.2,0-4,1.8-4,4v7c0,0.7,0.8,1.1,1.4,0.7 c1-0.6,2.2-0.9,3.5-0.6c2,0.4,3.6,1.9,4,3.8c0.7,3.2-1.8,6.1-4.9,6.1c-1,0-1.8-0.3-2.6-0.7C9.8,30.9,9,31.3,9,32v6c0,2.2,1.8,4,4,4 h22c2.2,0,4-1.8,4-4V15z\" />\n</g></svg>"
+            }
+          }
+        ],
+        "fontSize": 21,
+        "fontWeight": 700,
+        "fontFamily": "Inter",
+        "nodeShape": "card",
+        "color": "#38bdf8",
+        "colorIndex": 1,
+        "illustration": {
+          "name": "gl-team-organigram",
+          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"240\" viewBox=\"0 0 240 240\"><defs>\n      <radialGradient id=\"nm-med-halo\"><stop stop-color=\"#a7bddc\" stop-opacity=\".25\"/><stop offset=\".74\" stop-color=\"#84a7cf\" stop-opacity=\".07\"/><stop offset=\"1\" stop-color=\"#9abbe1\" stop-opacity=\"0\"/></radialGradient>\n    </defs><circle cx=\"120\" cy=\"118\" r=\"101\" fill=\"none\" stroke=\"#b09df5\" stroke-opacity=\".27\" stroke-width=\"1.5\"/><circle cx=\"120\" cy=\"118\" r=\"84\" fill=\"url(#nm-med-halo)\" opacity=\".65\"/><g transform=\"translate(15 15) scale(4.375)\"><path d=\"M20 8h8v8h-8z M8 32h10v9H8z M30 32h10v9H30z M24 16v9 M13 32v-7h22v7\" fill=\"none\" stroke=\"#c084fc\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>"
+        }
+      },
+      {
+        "id": "website-project-07",
+        "parentId": "website-project-00",
+        "text": "Le risorse",
+        "children": [
+          {
+            "id": "website-project-08",
+            "parentId": "website-project-07",
+            "text": "Appunti",
+            "children": [
+              {
+                "id": "website-project-27",
+                "parentId": "website-project-08",
+                "text": "Sintesi fonti",
+                "children": [],
+                "fontSize": 15,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "outline",
+                "color": "#34d399",
+                "colorIndex": 2
+              },
+              {
+                "id": "website-project-28",
+                "parentId": "website-project-08",
+                "text": "Collegamenti chiave",
+                "children": [],
+                "fontSize": 15,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "outline",
+                "color": "#34d399",
+                "colorIndex": 2
+              }
+            ],
+            "fontSize": 16,
+            "fontWeight": 600,
+            "fontFamily": "Inter",
+            "nodeShape": "glass",
+            "color": "#34d399",
+            "colorIndex": 2,
+            "illustration": {
+              "name": "gl-open-book",
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"240\" viewBox=\"0 0 240 240\"><defs>\n      <radialGradient id=\"nm-med-halo\"><stop stop-color=\"#a7bddc\" stop-opacity=\".25\"/><stop offset=\".74\" stop-color=\"#84a7cf\" stop-opacity=\".07\"/><stop offset=\"1\" stop-color=\"#9abbe1\" stop-opacity=\"0\"/></radialGradient>\n    </defs><circle cx=\"120\" cy=\"118\" r=\"101\" fill=\"none\" stroke=\"#b09df5\" stroke-opacity=\".27\" stroke-width=\"1.5\"/><circle cx=\"120\" cy=\"118\" r=\"84\" fill=\"url(#nm-med-halo)\" opacity=\".65\"/><g transform=\"translate(15 15) scale(4.375)\"><path d=\"M24 11C17 7 11 8 5 10v27c7-2 13-1 19 3 6-4 12-5 19-3V10c-6-2-12-3-19 1z M24 11v29\" fill=\"none\" stroke=\"#a78bfa\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>"
+            }
+          },
+          {
+            "id": "website-project-09",
+            "parentId": "website-project-07",
+            "text": "Materiali utili",
+            "children": [
+              {
+                "id": "website-project-29",
+                "parentId": "website-project-09",
+                "text": "Documenti PDF",
+                "children": [],
+                "fontSize": 15,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "outline",
+                "color": "#34d399",
+                "colorIndex": 2
+              },
+              {
+                "id": "website-project-30",
+                "parentId": "website-project-09",
+                "text": "Immagini e schemi",
+                "children": [],
+                "fontSize": 15,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "outline",
+                "color": "#34d399",
+                "colorIndex": 2
+              }
+            ],
+            "fontSize": 16,
+            "fontWeight": 600,
+            "fontFamily": "Inter",
+            "nodeShape": "glass",
+            "color": "#34d399",
+            "colorIndex": 2,
+            "illustration": {
+              "name": "gl-layers-stack",
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"240\" viewBox=\"0 0 240 240\"><defs>\n      <radialGradient id=\"nm-med-halo\"><stop stop-color=\"#a7bddc\" stop-opacity=\".25\"/><stop offset=\".74\" stop-color=\"#84a7cf\" stop-opacity=\".07\"/><stop offset=\"1\" stop-color=\"#9abbe1\" stop-opacity=\"0\"/></radialGradient>\n    </defs><circle cx=\"120\" cy=\"118\" r=\"101\" fill=\"none\" stroke=\"#f1bd7f\" stroke-opacity=\".27\" stroke-width=\"1.5\"/><circle cx=\"120\" cy=\"118\" r=\"84\" fill=\"url(#nm-med-halo)\" opacity=\".65\"/><g transform=\"translate(15 15) scale(4.375)\"><path d=\"M24 5 43 16 24 27 5 16z M8 25l16 9 16-9 M8 33l16 9 16-9\" fill=\"none\" stroke=\"#fbbf24\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>"
+            }
+          }
+        ],
+        "fontSize": 21,
+        "fontWeight": 700,
+        "fontFamily": "Inter",
+        "nodeShape": "card",
+        "color": "#34d399",
+        "colorIndex": 2,
+        "illustration": {
+          "name": "gl-books",
+          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"240\" viewBox=\"0 0 240 240\"><defs>\n      <radialGradient id=\"nm-med-halo\"><stop stop-color=\"#a7bddc\" stop-opacity=\".25\"/><stop offset=\".74\" stop-color=\"#84a7cf\" stop-opacity=\".07\"/><stop offset=\"1\" stop-color=\"#9abbe1\" stop-opacity=\"0\"/></radialGradient>\n    </defs><circle cx=\"120\" cy=\"118\" r=\"101\" fill=\"none\" stroke=\"#b09df5\" stroke-opacity=\".27\" stroke-width=\"1.5\"/><circle cx=\"120\" cy=\"118\" r=\"84\" fill=\"url(#nm-med-halo)\" opacity=\".65\"/><g transform=\"translate(15 15) scale(4.375)\"><path d=\"M8 10h8v29H8z M18 6h8v33h-8z M28 13h11v26H28z M8 34h31\" fill=\"none\" stroke=\"#a78bfa\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>"
+        }
+      },
+      {
+        "id": "website-project-10",
+        "parentId": "website-project-00",
+        "text": "Le attività",
+        "children": [
+          {
+            "id": "website-project-11",
+            "parentId": "website-project-10",
+            "text": "Le priorità",
+            "children": [
+              {
+                "id": "website-project-31",
+                "parentId": "website-project-11",
+                "text": "Fasi critiche",
+                "children": [],
+                "fontSize": 15,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "outline",
+                "color": "#fbbf24",
+                "colorIndex": 3
+              },
+              {
+                "id": "website-project-32",
+                "parentId": "website-project-11",
+                "text": "Scadenze vicine",
+                "children": [],
+                "fontSize": 15,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "outline",
+                "color": "#fbbf24",
+                "colorIndex": 3
+              }
+            ],
+            "fontSize": 16,
+            "fontWeight": 600,
+            "fontFamily": "Inter",
+            "nodeShape": "glass",
+            "color": "#fbbf24",
+            "colorIndex": 3,
+            "illustration": {
+              "name": "gl-gantt-bars",
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"240\" viewBox=\"0 0 240 240\"><defs>\n      <radialGradient id=\"nm-med-halo\"><stop stop-color=\"#a7bddc\" stop-opacity=\".25\"/><stop offset=\".74\" stop-color=\"#84a7cf\" stop-opacity=\".07\"/><stop offset=\"1\" stop-color=\"#9abbe1\" stop-opacity=\"0\"/></radialGradient>\n    </defs><circle cx=\"120\" cy=\"118\" r=\"101\" fill=\"none\" stroke=\"#b09df5\" stroke-opacity=\".27\" stroke-width=\"1.5\"/><circle cx=\"120\" cy=\"118\" r=\"84\" fill=\"url(#nm-med-halo)\" opacity=\".65\"/><g transform=\"translate(15 15) scale(4.375)\"><path d=\"M8 8v32h34 M12 15h17v5H12z M21 25h19v5H21z M15 35h14v5H15z\" fill=\"none\" stroke=\"#c084fc\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>"
+            }
+          },
+          {
+            "id": "website-project-12",
+            "parentId": "website-project-10",
+            "text": "Il primo passo",
+            "children": [
+              {
+                "id": "website-project-33",
+                "parentId": "website-project-12",
+                "text": "Prototipo rapido",
+                "children": [],
+                "fontSize": 15,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "outline",
+                "color": "#fbbf24",
+                "colorIndex": 3
+              },
+              {
+                "id": "website-project-34",
+                "parentId": "website-project-12",
+                "text": "Test sul campo",
+                "children": [],
+                "fontSize": 15,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "outline",
+                "color": "#fbbf24",
+                "colorIndex": 3
+              }
+            ],
+            "fontSize": 16,
+            "fontWeight": 600,
+            "fontFamily": "Inter",
+            "nodeShape": "glass",
+            "color": "#fbbf24",
+            "colorIndex": 3,
+            "illustration": {
+              "name": "gl-milestone",
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"240\" viewBox=\"0 0 240 240\"><defs>\n      <radialGradient id=\"nm-med-halo\"><stop stop-color=\"#a7bddc\" stop-opacity=\".25\"/><stop offset=\".74\" stop-color=\"#84a7cf\" stop-opacity=\".07\"/><stop offset=\"1\" stop-color=\"#9abbe1\" stop-opacity=\"0\"/></radialGradient>\n    </defs><circle cx=\"120\" cy=\"118\" r=\"101\" fill=\"none\" stroke=\"#b09df5\" stroke-opacity=\".27\" stroke-width=\"1.5\"/><circle cx=\"120\" cy=\"118\" r=\"84\" fill=\"url(#nm-med-halo)\" opacity=\".65\"/><g transform=\"translate(15 15) scale(4.375)\"><path d=\"M9 41V10 M11 11h26l-5 8 5 8H11 M5 41h11\" fill=\"none\" stroke=\"#c084fc\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>"
+            }
+          }
+        ],
+        "fontSize": 21,
+        "fontWeight": 700,
+        "fontFamily": "Inter",
+        "nodeShape": "card",
+        "color": "#fbbf24",
+        "colorIndex": 3,
+        "illustration": {
+          "name": "gl-checklist-board",
+          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"240\" viewBox=\"0 0 240 240\"><defs>\n      <radialGradient id=\"nm-med-halo\"><stop stop-color=\"#a7bddc\" stop-opacity=\".25\"/><stop offset=\".74\" stop-color=\"#84a7cf\" stop-opacity=\".07\"/><stop offset=\"1\" stop-color=\"#9abbe1\" stop-opacity=\"0\"/></radialGradient>\n    </defs><circle cx=\"120\" cy=\"118\" r=\"101\" fill=\"none\" stroke=\"#b09df5\" stroke-opacity=\".27\" stroke-width=\"1.5\"/><circle cx=\"120\" cy=\"118\" r=\"84\" fill=\"url(#nm-med-halo)\" opacity=\".65\"/><g transform=\"translate(15 15) scale(4.375)\"><path d=\"M10 7h28v35H10z M15 16l3 3 4-6 M25 17h9 M15 29l3 3 4-6 M25 30h9\" fill=\"none\" stroke=\"#c084fc\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>"
+        }
+      },
+      {
+        "id": "website-project-13",
+        "parentId": "website-project-00",
+        "text": "La verifica",
+        "children": [
+          {
+            "id": "website-project-14",
+            "parentId": "website-project-13",
+            "text": "Cosa funziona",
+            "children": [
+              {
+                "id": "website-project-35",
+                "parentId": "website-project-14",
+                "text": "Punti solidi",
+                "children": [],
+                "fontSize": 15,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "outline",
+                "color": "#fb7185",
+                "colorIndex": 4
+              },
+              {
+                "id": "website-project-36",
+                "parentId": "website-project-14",
+                "text": "Prove superate",
+                "children": [],
+                "fontSize": 15,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "outline",
+                "color": "#fb7185",
+                "colorIndex": 4
+              }
+            ],
+            "fontSize": 16,
+            "fontWeight": 600,
+            "fontFamily": "Inter",
+            "nodeShape": "glass",
+            "color": "#fb7185",
+            "colorIndex": 4,
+            "illustration": {
+              "name": "gl-cyber-shield",
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"240\" viewBox=\"0 0 240 240\"><defs>\n      <radialGradient id=\"nm-med-halo\"><stop stop-color=\"#a7bddc\" stop-opacity=\".25\"/><stop offset=\".74\" stop-color=\"#84a7cf\" stop-opacity=\".07\"/><stop offset=\"1\" stop-color=\"#9abbe1\" stop-opacity=\"0\"/></radialGradient>\n    </defs><circle cx=\"120\" cy=\"118\" r=\"101\" fill=\"none\" stroke=\"#7ac6ed\" stroke-opacity=\".27\" stroke-width=\"1.5\"/><circle cx=\"120\" cy=\"118\" r=\"84\" fill=\"url(#nm-med-halo)\" opacity=\".65\"/><g transform=\"translate(15 15) scale(4.375)\"><path d=\"M24 5 39 12v12c0 9-7 15-15 19C16 39 9 33 9 24V12z M17 24l5 5 10-12\" fill=\"none\" stroke=\"#60a5fa\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>"
+            }
+          },
+          {
+            "id": "website-project-15",
+            "parentId": "website-project-13",
+            "text": "Cosa migliorare",
+            "children": [
+              {
+                "id": "website-project-37",
+                "parentId": "website-project-15",
+                "text": "Dettagli aperti",
+                "children": [],
+                "fontSize": 15,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "outline",
+                "color": "#fb7185",
+                "colorIndex": 4
+              },
+              {
+                "id": "website-project-38",
+                "parentId": "website-project-15",
+                "text": "Semplificazioni",
+                "children": [],
+                "fontSize": 15,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "outline",
+                "color": "#fb7185",
+                "colorIndex": 4
+              }
+            ],
+            "fontSize": 16,
+            "fontWeight": 600,
+            "fontFamily": "Inter",
+            "nodeShape": "glass",
+            "color": "#fb7185",
+            "colorIndex": 4
+          }
+        ],
+        "fontSize": 21,
+        "fontWeight": 700,
+        "fontFamily": "Inter",
+        "nodeShape": "card",
+        "color": "#fb7185",
+        "colorIndex": 4,
+        "illustration": {
+          "name": "gl-chart-trend",
+          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"240\" viewBox=\"0 0 240 240\"><defs>\n      <radialGradient id=\"nm-med-halo\"><stop stop-color=\"#a7bddc\" stop-opacity=\".25\"/><stop offset=\".74\" stop-color=\"#84a7cf\" stop-opacity=\".07\"/><stop offset=\"1\" stop-color=\"#9abbe1\" stop-opacity=\"0\"/></radialGradient>\n    </defs><circle cx=\"120\" cy=\"118\" r=\"101\" fill=\"none\" stroke=\"#b09df5\" stroke-opacity=\".27\" stroke-width=\"1.5\"/><circle cx=\"120\" cy=\"118\" r=\"84\" fill=\"url(#nm-med-halo)\" opacity=\".65\"/><g transform=\"translate(15 15) scale(4.375)\"><path d=\"M8 8v32h34 M13 32l9-11 7 5 12-13 M33 13h8v8\" fill=\"none\" stroke=\"#c084fc\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>"
+        }
+      },
+      {
+        "id": "website-project-16",
+        "parentId": "website-project-00",
+        "text": "La consegna",
+        "children": [
+          {
+            "id": "website-project-17",
+            "parentId": "website-project-16",
+            "text": "Cosa preparare",
+            "children": [
+              {
+                "id": "website-project-39",
+                "parentId": "website-project-17",
+                "text": "Versione finale",
+                "children": [],
+                "fontSize": 15,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "outline",
+                "color": "#818cf8",
+                "colorIndex": 5
+              },
+              {
+                "id": "website-project-40",
+                "parentId": "website-project-17",
+                "text": "Note di rilascio",
+                "children": [],
+                "fontSize": 15,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "outline",
+                "color": "#818cf8",
+                "colorIndex": 5
+              }
+            ],
+            "fontSize": 16,
+            "fontWeight": 600,
+            "fontFamily": "Inter",
+            "nodeShape": "glass",
+            "color": "#818cf8",
+            "colorIndex": 5,
+            "illustration": {
+              "name": "gl-calendar-check",
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"240\" viewBox=\"0 0 240 240\"><defs>\n      <radialGradient id=\"nm-med-halo\"><stop stop-color=\"#a7bddc\" stop-opacity=\".25\"/><stop offset=\".74\" stop-color=\"#84a7cf\" stop-opacity=\".07\"/><stop offset=\"1\" stop-color=\"#9abbe1\" stop-opacity=\"0\"/></radialGradient>\n    </defs><circle cx=\"120\" cy=\"118\" r=\"101\" fill=\"none\" stroke=\"#b09df5\" stroke-opacity=\".27\" stroke-width=\"1.5\"/><circle cx=\"120\" cy=\"118\" r=\"84\" fill=\"url(#nm-med-halo)\" opacity=\".65\"/><g transform=\"translate(15 15) scale(4.375)\"><path d=\"M7 12h34v29H7z M7 20h34 M15 7v10 M33 7v10 M16 31l5 5 11-12\" fill=\"none\" stroke=\"#c084fc\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>"
+            }
+          },
+          {
+            "id": "website-project-18",
+            "parentId": "website-project-16",
+            "text": "Condividere il risultato",
+            "children": [
+              {
+                "id": "website-project-41",
+                "parentId": "website-project-18",
+                "text": "Esportazione pulita",
+                "children": [],
+                "fontSize": 15,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "outline",
+                "color": "#818cf8",
+                "colorIndex": 5
+              },
+              {
+                "id": "website-project-42",
+                "parentId": "website-project-18",
+                "text": "Presentazione live",
+                "children": [],
+                "fontSize": 15,
+                "fontWeight": 500,
+                "fontFamily": "Inter",
+                "nodeShape": "outline",
+                "color": "#818cf8",
+                "colorIndex": 5
+              }
+            ],
+            "fontSize": 16,
+            "fontWeight": 600,
+            "fontFamily": "Inter",
+            "nodeShape": "glass",
+            "color": "#818cf8",
+            "colorIndex": 5
+          }
+        ],
+        "fontSize": 21,
+        "fontWeight": 700,
+        "fontFamily": "Inter",
+        "nodeShape": "card",
+        "color": "#818cf8",
+        "colorIndex": 5,
+        "illustration": {
+          "name": "gl-trophy-cup",
+          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"240\" viewBox=\"0 0 240 240\"><defs>\n      <radialGradient id=\"nm-med-halo\"><stop stop-color=\"#a7bddc\" stop-opacity=\".25\"/><stop offset=\".74\" stop-color=\"#84a7cf\" stop-opacity=\".07\"/><stop offset=\"1\" stop-color=\"#9abbe1\" stop-opacity=\"0\"/></radialGradient>\n    </defs><circle cx=\"120\" cy=\"118\" r=\"101\" fill=\"none\" stroke=\"#f6aa80\" stroke-opacity=\".27\" stroke-width=\"1.5\"/><circle cx=\"120\" cy=\"118\" r=\"84\" fill=\"url(#nm-med-halo)\" opacity=\".65\"/><g transform=\"translate(15 15) scale(4.375)\"><path d=\"M14 8h20v18c0 7-5 11-10 11s-10-4-10-11z M14 12H6v8c0 6 4 8 10 8 M34 12h8v8c0 6-4 8-10 8 M24 37v5 M15 42h18\" fill=\"none\" stroke=\"#fb923c\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>"
+        }
+      }
+    ]
+  },
+  "images": [],
+  "relationships": [],
+  "studyCards": [],
+  "learningAttempts": [],
+  "learningPlan": null
+}

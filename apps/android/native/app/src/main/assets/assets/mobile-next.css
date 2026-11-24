@@ -1,0 +1,69 @@
+/* NeuroMap Android Next - avoid clipping dropdowns inside horizontally scrollable toolbars */
+#nm-android-menu-rail{display:none}
+@media(max-width:850px){
+  .top-chrome{overflow:visible!important;max-height:none!important;z-index:70!important}
+  #nm-android-menu-rail{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;
+    background:#0d1425;position:relative;padding:6px 8px;border-bottom:1px solid #2c3959;z-index:90}
+  #nm-android-menu-rail button{min-width:0;min-height:43px;touch-action:manipulation;color:#e4eafb;
+    background:#1b2943;border:1px solid #354567;border-radius:10px;font-size:12px;font-weight:600;padding:8px 2px}
+  #nm-android-menu-rail #nm-android-next-branch,#nm-android-menu-rail #nm-android-order{grid-column:span 2;
+    min-height:35px;color:#d1c6ff;background:#26224b}
+  .nm-ribbon .toolbar-group [data-dropdown-target]{display:none!important}
+  .topbar.nm-ribbon{overflow-x:auto!important;overflow-y:hidden!important;min-height:52px;max-height:55px!important;flex-wrap:nowrap!important}
+  .nm-android-dropdown{box-sizing:border-box!important;overscroll-behavior:contain!important;
+    border:1px solid #50628c!important;box-shadow:0 18px 40px #000a!important;overflow-y:auto!important;
+    padding:8px!important;border-radius:14px!important}
+  .nm-android-dropdown .dropdown-item{min-height:44px!important;touch-action:manipulation!important}
+  .nm-android-text-action{font-weight:700;color:#ddd6fe!important;border-top:1px solid #475569!important}
+}
+.nm-android-shade.hidden{display:none!important}
+.nm-android-shade{position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;
+  background:#020617ca;padding:12px;overscroll-behavior:contain;touch-action:pan-y}
+.nm-android-import{width:min(100%,520px);max-height:90dvh;overflow-y:auto;border-radius:20px;
+  background:#111b32;border:1px solid #465579;padding:16px;box-shadow:0 25px 65px #000b;
+  color:#f1f5f9;font-size:14px;box-sizing:border-box}
+.nm-android-import header{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:17px}
+.nm-android-import header button{background:transparent;border:0;color:white;font-size:30px;min-width:40px;min-height:40px}
+.nm-android-import p{font-size:13px;line-height:1.45;color:#cbd5e1}
+.nm-android-import label{display:block;margin:12px 0 6px;font-weight:600}
+.nm-android-import select,.nm-android-import textarea{display:block;width:100%;box-sizing:border-box;color:#fff;
+  background:#0c1222;border:1px solid #536186;border-radius:11px;padding:10px;font-family:inherit;font-size:16px;
+  touch-action:pan-y;user-select:text;-webkit-user-select:text}
+.nm-android-import textarea{min-height:180px;resize:vertical;margin-top:12px}
+#nm-android-import-status{min-height:25px;padding:10px 0;color:#c4b5fd}
+.nm-android-import footer{display:flex;gap:9px;justify-content:flex-end}
+.nm-android-import footer button{min-height:44px;border-radius:11px;border:1px solid #6c70b9;
+  color:white;background:#252f53;padding:8px 14px;font-weight:600}
+#nm-android-import-button{background:#5544a5}.nm-android-import footer button:disabled{opacity:.5}
+.nm-android-preview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:7px;max-height:240px;overflow:auto;margin:10px 0}
+.nm-android-preview-card{display:flex;flex-direction:column;gap:5px;background:#1b2943;border-radius:9px;padding:10px;overflow:hidden}
+.nm-android-preview-card strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px}
+.nm-android-preview-card small{color:#b8c4dc}
+.nm-android-import input{box-sizing:border-box;width:100%;min-height:44px;margin:12px 0;background:#0c1222;color:#fff;border:1px solid #536186;border-radius:9px;padding:10px;font-size:16px}
+
+#nm-android-menu-rail #nm-android-boundary{grid-column:1/-1;min-height:44px}
+/* The transparent header lets canvas gestures through; its menu must accept touch. */
+#nm-android-menu-rail{pointer-events:auto}
+/* Keep the Style sheet above the mobile toolbar so its first controls are tappable. */
+@media(max-width:850px){#inspector-sidebar{z-index:120!important}}
+
+/* Default chrome matches the shared desktop luminous finish. Presentation only;
+   native Android touch targets, safe areas and map colors remain unchanged. */
+@media(max-width:850px) {
+ body :is(.tab-bar,.topbar.nm-ribbon,#nm-android-menu-rail,#mobile-dock,
+  .toolbar-group.glass-panel,#inspector-sidebar,.inspector-header,
+  .hud-bottom-left,.hud-bottom-right .glass-panel,.zoom-bar,.status-pill) {
+  color:#f4f7ff;border-color:#3875dc;
+  background:radial-gradient(ellipse at 100% 0%,#1254a45c,transparent 52%),linear-gradient(125deg,#0a1b40,#051027 62%,#0a204b);
+  box-shadow:inset 0 1px #d7efff33,0 4px 18px #00133c33;
+ }
+ body :is(#nm-android-menu-rail button,#mobile-dock button,.tab-action-btn) {
+  color:#f4f7ff;border:1px solid #3d69b1;border-radius:12px;
+  background:linear-gradient(125deg,#142d5b,#0b193b 65%,#112b5c);
+ }
+ body :is(.tab-item.active,#mobile-dock button[aria-pressed="true"],#mobile-dock button[aria-expanded="true"]) {
+  color:#fff;border-color:#55d8ff;background:linear-gradient(160deg,#087ff8,#0342c6 68%,#092b9e);
+  box-shadow:inset 0 1px 3px #94eaff,0 0 9px #009dff45;
+ }
+ body :is(button,select,input,textarea):focus-visible {outline:2px solid #50ceff;outline-offset:3px;}
+}

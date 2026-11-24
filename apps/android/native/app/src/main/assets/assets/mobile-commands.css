@@ -1,0 +1,135 @@
+/* Extra way to discover existing commands; leaves Classic and Orbit styles intact. */
+@media (max-width:850px) {
+  /* Keep all existing commands visible in one horizontal row. */
+  #nm-android-menu-rail {
+    display: flex !important;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 6px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+  #nm-android-menu-rail > button,
+  #nm-android-menu-rail #nm-android-next-branch,
+  #nm-android-menu-rail #nm-android-order,
+  #nm-android-menu-rail #nm-android-boundary {
+    grid-column: auto !important;
+    flex: 0 0 auto;
+    min-height: 44px;
+    padding: 8px 12px;
+    white-space: nowrap;
+  }
+  #nm-android-menu-rail #nm-android-command-open {
+    min-height: 44px;
+    min-width: 116px;
+    flex: 0 0 auto;
+    border-radius: 12px;
+    border: 1px solid rgba(106, 199, 253, .6);
+    background: linear-gradient(110deg, #12578b, #40368c);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 750;
+    touch-action: manipulation;
+  }
+}
+.nm-android-commands-shade.hidden { display: none !important; }
+.nm-android-commands-shade {
+  position: fixed;
+  inset: 0;
+  z-index: 2600;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: max(12px,env(safe-area-inset-top,0px)) 10px max(10px,env(safe-area-inset-bottom,0px));
+  background: rgba(2, 8, 26, .74);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+  touch-action: pan-y;
+}
+.nm-android-commands-panel {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 570px);
+  max-height: min(80dvh, 690px);
+  min-height: 0;
+  padding: 15px;
+  gap: 10px;
+  color: #f7faff;
+  background: linear-gradient(160deg, #172746, #0e1931);
+  border: 1px solid #526c99;
+  border-radius: 22px;
+  box-shadow: 0 22px 70px rgba(0, 6, 23, .73);
+  font: 14px/1.45 Inter, system-ui, sans-serif;
+  overscroll-behavior: contain;
+}
+.nm-android-commands-panel header {
+  display:flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.nm-android-commands-panel h2 { margin:0; font-size:18px; }
+.nm-android-commands-panel header p { color:#c0cee9; font-size:12px; margin:3px 0 0; }
+#nm-android-command-close {
+  box-sizing:border-box;
+  flex: 0 0 auto;
+  padding: 8px 12px;
+  min-height: 44px;
+  border-radius: 11px;
+  color: #f5f9ff;
+  border: 1px solid #526b91;
+  background: #263858;
+}
+.nm-android-command-search {
+  display:flex;
+  align-items:center;
+  border-radius: 13px;
+  border: 1px solid #7a9ccc;
+  background:#0b1830;
+  padding: 0 12px;
+  gap:8px;
+  min-height:50px;
+  color:#8ecffb;
+}
+#nm-android-command-query {
+  flex:1;
+  width:100%;
+  min-width:0;
+  border:0;
+  outline:none;
+  color: white;
+  background: transparent;
+  font: 16px system-ui, sans-serif;
+  touch-action: manipulation;
+  user-select: text;
+  -webkit-user-select: text;
+}
+#nm-android-command-count {color:#bdcfea;font-size:12px;}
+#nm-android-command-results {overflow-y:auto;min-height:0;overscroll-behavior:contain;touch-action:pan-y;padding-bottom:5px;}
+.nm-android-command-group {color:#8dd4ff;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin:14px 3px 5px;}
+.nm-android-command-item {
+  display:block;
+  box-sizing:border-box;
+  text-align:left;
+  width:100%;
+  min-height:48px;
+  padding:11px 14px;
+  margin: 4px 0;
+  color: #f0f6ff;
+  border: 1px solid #405981;
+  background: #203253;
+  border-radius:12px;
+  font: 600 14px system-ui, sans-serif;
+  touch-action: manipulation;
+}
+.nm-android-command-item:active { background: #35578b; }
+.nm-android-command-item:focus-visible,#nm-android-command-close:focus-visible,#nm-android-command-open:focus-visible,#nm-android-command-query:focus-visible {
+  outline: 2px solid #87e1ff;
+  outline-offset: 2px;
+}
+.nm-android-command-empty {padding: 16px; color:#bdcfea;text-align:center;}
+@media(min-width:851px) { .nm-android-commands-shade {align-items:center;} }
+@media(prefers-reduced-motion:reduce) { .nm-android-commands-shade * {animation:none!important;transition:none!important;} }

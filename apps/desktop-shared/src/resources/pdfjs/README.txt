@@ -1,0 +1,1 @@
+PDF.js prebuilt assets are installed here during `scripts/release/prepare.py` from the SHA-512 pinned official npm package. This tracked placeholder keeps Go `//go:embed resources/pdfjs/*` valid for source-only development. No remote PDF access at runtime.

@@ -1,0 +1,63 @@
+.glauka-language-field {
+  display: grid;
+  gap: 7px;
+  padding: 10px 12px;
+  border-top: 1px solid var(--nm-skin-stroke);
+  margin-top: 8px;
+  font-size: 12px;
+}
+.glauka-language-field label {
+  font-weight: 600;
+}
+.glauka-language-field select {
+  width: 100%;
+  min-height: 38px;
+  border-radius: 8px;
+  padding: 6px 8px;
+}
+html[dir="rtl"] .dropdown-panel,
+html[dir="rtl"] .nm6-modal,
+html[dir="rtl"] .nm-creative-panel,
+html[dir="rtl"] #inspector-sidebar,
+html[dir="rtl"] #find-overlay,
+html[dir="rtl"] .ai-studio {
+  direction: rtl;
+  text-align: start;
+}
+html[dir="rtl"] .dropdown-item,
+html[dir="rtl"] .ctx-item {
+  text-align: start;
+}
+html[dir="rtl"]
+  :is(
+    input[type="url"],
+    input[type="password"],
+    input[type="email"],
+    input[type="number"],
+    .nm6-shortcut,
+    kbd
+  ) {
+  direction: ltr;
+  text-align: start;
+}
+#inline-editor-container,
+canvas,
+.nm-theme-content {
+  direction: ltr;
+}
+[data-glauka-user-content],
+textarea,
+[contenteditable] {
+  unicode-bidi: plaintext;
+}
+/* Diagram geometry and scroll coordinates stay independent of UI reading direction. */
+#nm-view-scroller,
+#nm-dual-scroller,
+#nm-view-stage,
+#nm-dual-stage {
+  direction: ltr;
+}
+.nm-view-title,
+.nm-timeline-title {
+  unicode-bidi: plaintext;
+}

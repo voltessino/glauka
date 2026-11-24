@@ -1,0 +1,28 @@
+{
+  "name": "glauka-workspace",
+  "version": "7.4.0-rc.1",
+  "private": true,
+  "description": "Glauka — Android Free and Windows/macOS Developer workspace",
+  "scripts": {
+    "test": "node --test packages/map-core/tests/*.test.js packages/editor-ui/tests/*.test.js packages/cloud-sync/tests/*.test.js packages/map-sharing/tests/*.test.js apps/android/tests/*.test.js scripts/maintenance/where-to-edit.test.cjs scripts/maintenance/qa-evidence-audit.test.cjs scripts/maintenance/glauka-integrity-preflight.test.cjs",
+    "test:structure": "node --test packages/editor-ui/tests/repository-structure-navigation.test.js packages/editor-ui/tests/editor-bundle-assembly-contract-20261031.test.js packages/editor-ui/tests/editor-shared-slices-parity.test.js packages/editor-ui/tests/view-workspace-persistence.test.js packages/editor-ui/tests/layout-feature-slices-20261031.test.js packages/editor-ui/tests/shell-dictionary-structure-20261031.test.js packages/editor-ui/tests/shell-product-locale-structure-20261031.test.js scripts/maintenance/where-to-edit.test.cjs scripts/maintenance/qa-evidence-audit.test.cjs scripts/maintenance/glauka-integrity-preflight.test.cjs packages/editor-ui/tests/saving-version-history-split-20261031.test.js packages/editor-ui/tests/layout-navigation-modules-20261031.test.js packages/editor-ui/tests/opml-platform-deep-parity-20261031.test.js packages/editor-ui/tests/opml-export-compatibility-20261101.test.js",
+    "test:browser": "playwright test",
+    "test:build": "python3 -m unittest discover -s scripts/release -p 'test_*.py' -v",
+    "test:stress": "node scripts/release/stress_v74.js",
+    "test:android:stress": "node scripts/release/stress_android74.js",
+    "test:android:ui": "playwright test -c playwright.android74.config.js",
+    "test:knowledge:stress": "node scripts/release/stress_v75.js",
+    "test:database:stress": "node scripts/release/stress_v76.js",
+    "test:universal": "node --test packages/editor-ui/tests/geometric-balance-v8.test.js packages/editor-ui/tests/home-session-state.test.js packages/editor-ui/tests/home-templates-recent.test.js packages/editor-ui/tests/state-undo-layout-regression.test.js packages/editor-ui/tests/linked-views-dom.test.js packages/editor-ui/tests/view-workspace-persistence.test.js packages/editor-ui/tests/clockwise-balance-finalization.test.js packages/editor-ui/tests/continuation-hud-controls.test.js packages/map-core/tests/adaptive-continuation.test.js packages/map-core/tests/continuation.test.js",
+    "test:universal:browser": "playwright test tests/browser/universal-workspace.spec.js",
+    "dev:website": "node scripts/dev/serve-website.cjs",
+    "test:website": "echo Open Source core repository does not include commercial website.",
+    "record:tour": "node scripts/dev/record-product-tour.cjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1"
+  }
+}

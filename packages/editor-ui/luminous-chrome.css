@@ -1,0 +1,206 @@
+/* Default interface finish from the October 2026 reference. Chrome only:
+   no canvas background, map geometry, SVG export, node colors or project data. */
+body[data-nm-skin] {
+  --nm-skin-pad: 12px;
+  --nm-skin-gap: 8px;
+  --nm-skin-control-pad: 8px;
+  --nm-skin-control-size: 36px;
+  --nm-type-micro: 11px;
+  --nm-type-caption: 12px;
+  --nm-type-label: 13px;
+  --nm-type-control: 14px;
+  --nm-type-section: 16px;
+  --nm-type-dialog: 20px;
+  --nm-type-title: 24px;
+  --nm-chrome-surface: var(--nm-skin-surface,#07142f);
+  --nm-chrome-top: var(--nm-skin-top,#0c214a);
+  --nm-chrome-edge: var(--nm-skin-stroke,#3875dc);
+  --nm-chrome-ink: var(--nm-skin-ink,#f4f7ff);
+  --nm-chrome-muted: var(--nm-skin-muted,#b1cdf8);
+  --nm-chrome-accent: var(--nm-orbit-accent,#50ceff);
+  --nm-chrome-radius: var(--nm-skin-radius,16px);
+  --nm-chrome-panel: linear-gradient(130deg,var(--nm-chrome-top),var(--nm-chrome-surface) 62%,var(--nm-chrome-top));
+  --nm-chrome-control: linear-gradient(130deg,var(--nm-chrome-top),var(--nm-chrome-surface));
+  --nm-chrome-shadow: inset 0 1px 0 color-mix(in srgb,var(--nm-skin-ink) 10%,transparent),0 4px 18px color-mix(in srgb,var(--nm-skin-ink) 13%,transparent);
+}
+body:is([data-nm-skin="classic"],[data-nm-skin="orbit"]) {
+  --nm-skin-surface:#07142f;--nm-skin-top:#0c214a;--nm-skin-stroke:#3875dc;
+  --nm-skin-ink:#f4f7ff;--nm-skin-muted:#b1cdf8;--nm-skin-radius:16px;
+  --nm-chrome-accent:#50ceff;
+  --nm-chrome-panel:radial-gradient(ellipse at 100% 0%,#1254a45c,transparent 52%),linear-gradient(125deg,#0a1b40,#051027 62%,#0a204b);
+  --nm-chrome-control:linear-gradient(125deg,#142d5b,#0b193b 65%,#112b5c);
+}
+body[data-nm-skin-contrast="high"] {
+  --nm-chrome-edge:#e2eeff;--nm-chrome-muted:var(--nm-skin-ink,#fff);
+}
+/* One shared material for every bar, popup and inspector card. Opaque menu
+   surfaces stay readable above wrapped headers; no new stacking contexts. */
+body[data-nm-skin] :is(.top-chrome,.topbar.nm-ribbon,.tab-bar,#nm-workspace-rail,
+ .toolbar-group.glass-panel,.v4-toolstrip,.status-pill,.zoom-bar,.nm-settings-toolbar,
+ .hud-bottom-left,.hud-bottom-right .glass-panel,#nm614-right-dock,
+ #nm614-navigation-flyout,#inspector-sidebar,.inspector-header,
+ #nm616-minimap-shell,#nm616-nav-disclosure .nm616-nav-card,
+ .dropdown-panel,#context-menu,#find-overlay,#nm-view-switch,
+ #nm-view-overlay .nm-view-header,#nm-drawing-toolbar,#nm-ai-studio header,
+ #nm-ai-studio .nm-ai-tabs,#nm-learn-panel header,#nm-learn-panel .nm-learn-tabs,
+ #nm-orbit-command-dialog) {
+  background:var(--nm-chrome-panel);color:var(--nm-chrome-ink);
+  border-color:var(--nm-chrome-edge);box-shadow:var(--nm-chrome-shadow);
+}
+body[data-nm-skin] :is(#nm614-right-dock,#nm-ui-skin-settings,#nm-view-switch,
+ #inspector-sidebar .inspector-section,#nm-orbit-desktop-settings) {
+  background:var(--nm-chrome-panel);border:1px solid var(--nm-chrome-edge);
+  border-radius:var(--nm-chrome-radius);box-shadow:var(--nm-chrome-shadow);
+  color:var(--nm-chrome-ink);box-sizing:border-box;min-width:0;
+}
+body[data-nm-skin] :is(.tab-action-btn,.tab-item,.btn-ui,.v4-tool-btn,.nm6-mini:not(.nm6-pro),
+ .nm-settings-toolbar select,.nm-settings-default-button,
+ #nm616-nav-disclosure>summary,#nm-view-switch button,#nm-view-switch select,
+ #nm-ui-skin-settings select,#nm-orbit-desktop-settings select,
+ #inspector-sidebar .inspector-section select) {
+  color:var(--nm-chrome-ink);background:var(--nm-chrome-control);
+  border:1px solid var(--nm-chrome-edge);
+  border-color:color-mix(in srgb,var(--nm-chrome-edge) 75%,transparent);
+  border-radius:10px;box-shadow:inset 0 1px color-mix(in srgb,var(--nm-skin-ink) 10%,transparent);
+}
+body[data-nm-skin] :is(button,summary):not(:disabled):hover {
+  border-color:var(--nm-chrome-accent);
+}
+body[data-nm-skin] :is(.tab-item.active,#nm-view-switch button[aria-pressed="true"],
+ #nm616-nav-disclosure>summary[data-focus="true"]) {
+  color:var(--nm-theme-on-action,#fff);border-color:var(--nm-theme-focus,#b5a6ff);
+  background:var(--nm-theme-action,#6654ca);
+  box-shadow:inset 0 1px color-mix(in srgb,var(--nm-theme-on-action,#fff) 25%,transparent),0 0 0 1px var(--nm-theme-focus,#b5a6ff);
+}
+body[data-nm-skin] #nm614-right-dock {
+  padding:7px 4px;border-radius:20px;gap:7px;
+}
+/* Existing dock has important size declarations. Keep its compact geometry. */
+body[data-nm-skin] #nm614-right-dock>button {
+  position:relative;background:var(--nm-chrome-control)!important;
+  border:1px solid var(--nm-chrome-edge)!important;border-radius:12px!important;
+  color:var(--nm-chrome-ink)!important;box-shadow:inset 0 1px color-mix(in srgb,var(--nm-skin-ink) 11%,transparent);
+}
+body[data-nm-skin] #nm614-right-dock>button:is(:hover,[aria-expanded="true"],[aria-pressed="true"]) {
+  border-color:var(--nm-chrome-accent)!important;
+  box-shadow:inset 0 1px color-mix(in srgb,var(--nm-theme-focus,#b5a6ff) 26%,transparent),0 0 9px color-mix(in srgb,var(--nm-theme-focus,#b5a6ff) 22%,transparent);
+}
+body[data-nm-skin] #nm614-right-dock>button[aria-expanded="true"]::after {
+  content:"";position:absolute;left:-4px;top:25%;bottom:25%;width:3px;
+  border-radius:3px;background:var(--nm-theme-focus,#b5a6ff);box-shadow:0 0 8px color-mix(in srgb,var(--nm-theme-focus,#b5a6ff) 30%,transparent);
+}
+/* Theme card: explicit labels, aligned fields, and a single compact note. */
+body[data-nm-skin] #nm-ui-skin-settings {
+  gap:10px;padding:16px;margin:10px 0;font:13px/1.45 system-ui,sans-serif;
+}
+body[data-nm-skin] #nm-ui-skin-settings .nm-ui-skin-heading {
+  display:flex;align-items:center;gap:10px;margin-bottom:3px;min-width:0;
+}
+body[data-nm-skin] #nm-ui-skin-title {font:750 16px/1.25 system-ui,sans-serif;overflow-wrap:anywhere;}
+body[data-nm-skin] #nm-ui-skin-settings>label {
+  display:grid;grid-template-columns:minmax(76px,.45fr) minmax(0,1fr);
+  align-items:center;gap:9px;margin:0;color:var(--nm-chrome-muted);font-weight:650;
+}
+body[data-nm-skin] #nm-ui-skin-settings.nm6-skiptranslate select {
+  box-sizing:border-box;min-width:0;width:100%;min-height:38px;
+  padding:8px 30px 8px 10px;font:400 13px/1.4 system-ui,sans-serif;
+  appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Cpath d='m5 9 7 7 7-7' fill='none' stroke='%23aacdff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"),var(--nm-chrome-control);
+  background-position:right 10px center,center;background-repeat:no-repeat;
+}
+body[data-nm-skin] select option {background:var(--nm-chrome-surface);color:var(--nm-chrome-ink);}
+.nm-ui-palette-icon {
+  display:inline-block;flex:0 0 25px;width:25px;height:25px;
+  background:var(--nm-theme-focus,#b5a6ff);filter:drop-shadow(0 0 5px color-mix(in srgb,var(--nm-theme-focus,#b5a6ff) 25%,transparent));
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a10 10 0 1 0 0 20h1a3 3 0 0 0 2-5c-.8-.9-.4-2 1-2h2a4 4 0 0 0 4-4 10 10 0 0 0-10-9ZM7 11a1.6 1.6 0 1 1 0-3.2A1.6 1.6 0 0 1 7 11Zm4-4a1.6 1.6 0 1 1 0-3.2A1.6 1.6 0 0 1 11 7Zm6 2a1.6 1.6 0 1 1 0-3.2A1.6 1.6 0 0 1 17 9Z'/%3E%3C/svg%3E") center/contain no-repeat;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a10 10 0 1 0 0 20h1a3 3 0 0 0 2-5c-.8-.9-.4-2 1-2h2a4 4 0 0 0 4-4 10 10 0 0 0-10-9ZM7 11a1.6 1.6 0 1 1 0-3.2A1.6 1.6 0 0 1 7 11Zm4-4a1.6 1.6 0 1 1 0-3.2A1.6 1.6 0 0 1 11 7Zm6 2a1.6 1.6 0 1 1 0-3.2A1.6 1.6 0 0 1 17 9Z'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+body[data-nm-skin] #nm-ui-skin-settings .nm-ui-skin-note {
+  display:flex;align-items:flex-start;gap:12px;margin-top:3px;padding-top:12px;
+  border-top:1px solid color-mix(in srgb,var(--nm-chrome-edge) 60%,transparent);
+}
+.nm-ui-info-icon {
+  display:grid;place-items:center;flex:0 0 22px;height:22px;margin-top:2px;
+  border:2px solid var(--nm-theme-focus,#b5a6ff);border-radius:50%;color:var(--nm-theme-focus,#b5a6ff);font:750 16px/1 system-ui;
+  box-shadow:0 0 6px color-mix(in srgb,var(--nm-theme-focus,#b5a6ff) 22%,transparent);
+}
+body[data-nm-skin] #nm-ui-skin-settings small {
+  display:block;font:400 11px/1.6 system-ui,sans-serif;color:var(--nm-chrome-muted);
+  opacity:1;overflow-wrap:anywhere;
+}
+/* Same eye icon and grouped actions as the reference; native selectors and
+   original handlers remain in place for seven views and keyboard interaction. */
+body[data-nm-skin] #nm-view-switch {
+  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:9px;
+  padding:13px;margin:10px 0;width:100%;
+}
+body[data-nm-skin] #nm-view-switch>label {
+  display:flex;align-items:center;gap:9px;grid-column:1/-1;
+  font:750 15px/1.3 system-ui;color:var(--nm-chrome-ink);white-space:normal;
+}
+body[data-nm-skin] #nm-view-switch>label::before {
+  content:"";flex:0 0 24px;height:24px;background:var(--nm-theme-focus,#b5a6ff);
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M1 12S5 4 12 4s11 8 11 8-4 8-11 8S1 12 1 12Zm11 5a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0-2a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z'/%3E%3C/svg%3E") center/contain no-repeat;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M1 12S5 4 12 4s11 8 11 8-4 8-11 8S1 12 1 12Zm11 5a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0-2a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+body[data-nm-skin] #nm-view-switch :is(button,select) {
+  min-width:0;max-width:100%;min-height:36px;padding:7px 9px;
+  font:550 12px/1.4 system-ui;box-sizing:border-box;
+}
+body[data-nm-skin] #nm-view-focus {grid-column:1/-1;white-space:normal;}
+body[data-nm-skin] :is(button,select,input,textarea,summary,[role="button"]):focus-visible {
+  outline:2px solid var(--nm-chrome-accent);outline-offset:3px;
+}
+body[data-nm-skin] button:disabled {opacity:.45;box-shadow:none;cursor:default;}
+@media(prefers-reduced-motion:reduce) {
+ body[data-nm-skin] :is(button,select,summary) {transition:none!important;animation:none!important;}
+}
+@media(forced-colors:active) {
+ body[data-nm-skin] :is(button,select,summary,#nm-ui-skin-settings,#nm-view-switch) {
+  border:1px solid ButtonText;box-shadow:none;background:Canvas;color:CanvasText;
+ }
+}
+/* Illustrated selector is a button enhancing the original hidden select. */
+body[data-nm-skin] :is(.nm-view-popup,#nm-view-overlay,.nm-creative-panel,.nm-creative-card) {
+  background:var(--nm-chrome-panel);color:var(--nm-chrome-ink);
+  border-color:var(--nm-chrome-edge);box-shadow:var(--nm-chrome-shadow);
+}
+body[data-nm-skin] :is(.nm-view-choice,.nm-view-trigger) {
+  color:var(--nm-chrome-ink);background:var(--nm-chrome-control);border-color:var(--nm-chrome-edge);
+}
+body[data-nm-skin] .nm-view-choice small {color:var(--nm-chrome-muted);}
+body[data-nm-skin] .nm-view-choice[aria-checked="true"] {
+  background:var(--nm-theme-action,#6654ca);
+  border-color:var(--nm-theme-focus,#b5a6ff);color:var(--nm-theme-on-action,#fff);box-shadow:inset 0 1px color-mix(in srgb,var(--nm-theme-on-action,#fff) 25%,transparent),0 0 9px color-mix(in srgb,var(--nm-theme-focus,#b5a6ff) 25%,transparent);
+}
+body[data-nm-skin] .nm-view-choice[aria-checked="true"] small {color:var(--nm-theme-on-action,#fff);}
+body[data-nm-skin] #nm-view-switch .nm-view-trigger {min-height:38px;}
+
+body[data-nm-skin] #nm614-right-dock>#nm-learn-open {
+  margin-top:5px;letter-spacing:0;
+  border-radius:12px!important;white-space:normal;
+}
+body:is([data-nm-skin="classic"],[data-nm-skin="orbit"]) :is(#nm-ui-skin-settings,#nm-view-switch,#nm614-right-dock) {
+  box-shadow:inset 0 1px 0 #8be2ff88,inset 0 0 24px #126bff12,0 0 16px #006eff20;
+}
+/* The selected view is a readable full-width control, not an icon-only tile. */
+body[data-nm-skin] #nm-view-switch {grid-template-columns:minmax(0,1fr) auto;}
+body[data-nm-skin] #nm-view-switch .nm-view-trigger {grid-column:1/-1;width:100%;justify-content:flex-start;gap:8px;padding:6px 9px;min-height:40px;}
+body[data-nm-skin] #nm-view-switch .nm-view-trigger svg {width:24px;height:24px;background:none;border:0;border-radius:0;box-shadow:none;}
+body[data-nm-skin] #nm-view-switch .nm-view-trigger span {display:block;min-width:0;}
+body[data-nm-skin] #nm-view-focus {grid-column:1;grid-row:3;white-space:normal;}
+body[data-nm-skin] #nm-view-split {grid-column:2;grid-row:3;}
+
+/* Keep the product name in the native title, and useful build info in the app. */
+.brand-product-name{display:none}
+body[data-nm-skin] #nm-learn-open svg{width:23px;height:23px;flex-shrink:0}
+body[data-nm-skin] #nm614-navigation-flyout .nm614-fly-buttons:empty{display:none}
+body[data-nm-skin] #nm614-navigation-flyout .nm7-advanced-navigation{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;
+}
+body[data-nm-skin] #nm614-navigation-flyout .nm7-advanced-navigation :is(label,.nm7-nav-label){grid-column:1/-1;width:100%}
+body[data-nm-skin] #nm614-navigation-flyout select{
+ box-sizing:border-box;min-height:38px;padding:8px;border:1px solid var(--nm-chrome-edge);
+ border-radius:9px;background:var(--nm-chrome-control);color:var(--nm-chrome-ink);
+}
+/* Selected controls in every theme use the common action/focus tokens. */

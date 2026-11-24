@@ -1,0 +1,6 @@
+{
+  "applicationId": "it.neuromap.architect.preview",
+  "certificateSha256": "3aa1910ecbd7477a81beb16194ae2df771b86ffde6348452df073288770f2e72",
+  "scope": "Private preview distribution only; no private key is stored in Git.",
+  "introducedVersion": "0.6.6-rc.1-private"
+}

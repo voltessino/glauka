@@ -1,0 +1,702 @@
+{
+  "repository": "https://github.com/icons8/flat-color-icons",
+  "revision": "1bf90d5ff118bc6690120ff9fdfe234565b7e414",
+  "license": "MIT",
+  "assets": [
+    {
+      "id": "flat-idea",
+      "file": "svg/idea.svg",
+      "sha256": "783743f795c022a58a055454582d26b70d99684fa05923d4170e4ad810ab06b0"
+    },
+    {
+      "id": "flat-advertising",
+      "file": "svg/advertising.svg",
+      "sha256": "1ae602716ec0133e7469739c4e924faf2f4a2bf64bc910826e94810975070b7f"
+    },
+    {
+      "id": "flat-briefcase",
+      "file": "svg/briefcase.svg",
+      "sha256": "bfe56f240500ac2bc95e4e8db696e20c9e4726db94f75782b7a0204206f80f8e"
+    },
+    {
+      "id": "flat-business",
+      "file": "svg/business.svg",
+      "sha256": "664bd42541c9993ff7f37778507f061dfc26ee5dac5cde53258767cfffa1d76e"
+    },
+    {
+      "id": "flat-businessman",
+      "file": "svg/businessman.svg",
+      "sha256": "b225d68baf21054e05f4bae9c8a6ca9dac0fe15b93e69527b92d51323f9e5c16"
+    },
+    {
+      "id": "flat-businesswoman",
+      "file": "svg/businesswoman.svg",
+      "sha256": "ddf3873db922c42cc005bd9753d3c628c29179e9315aeaeabbb250be486feb78"
+    },
+    {
+      "id": "flat-manager",
+      "file": "svg/manager.svg",
+      "sha256": "6224f0682ebad38f42dda31036ea9c1a469c40d677d28bae1e460ade5074091d"
+    },
+    {
+      "id": "flat-assistant",
+      "file": "svg/assistant.svg",
+      "sha256": "f831c1afd4548f59c753405e5b4c6b7b1e40e6a3258a6a089fd13ead0f9ebbd4"
+    },
+    {
+      "id": "flat-collaboration",
+      "file": "svg/collaboration.svg",
+      "sha256": "77239cdffb6c00aa577657a4e56082716cf5f8d37c710b561e71b63e9d79612a"
+    },
+    {
+      "id": "flat-conference-call",
+      "file": "svg/conference_call.svg",
+      "sha256": "356f6ac0c28775baa3ef1045b9d57ce9bb9578901a7a3930c32b9c51eb477553"
+    },
+    {
+      "id": "flat-contacts",
+      "file": "svg/contacts.svg",
+      "sha256": "32026d48e0be33e078527f8b64c5a3580a041077449c2f4abc7c6616b498ae65"
+    },
+    {
+      "id": "flat-address-book",
+      "file": "svg/address_book.svg",
+      "sha256": "8b116833e42e96e66d990d60e25a61fab182c1561ee253df4d7ba150945f36bb"
+    },
+    {
+      "id": "flat-business-contact",
+      "file": "svg/business_contact.svg",
+      "sha256": "b19cc430cb3ed2952077656384d9a9e21e64e11533028c123a1847b9ac526fd9"
+    },
+    {
+      "id": "flat-organization",
+      "file": "svg/organization.svg",
+      "sha256": "fba19cfd1471529cdf09094cab04e22fbb1faeb361c6eecc24393ff2b6061de6"
+    },
+    {
+      "id": "flat-department",
+      "file": "svg/department.svg",
+      "sha256": "59394c2c2758ccd7ca0cbe47e3be0c2ee615b6e92ab2fc31900b04616e2ee1e5"
+    },
+    {
+      "id": "flat-org-unit",
+      "file": "svg/org_unit.svg",
+      "sha256": "94cf27888b882e86eff3e28e71fd40b1ebff0416c25724f2d0bb5c5c7d950e0e"
+    },
+    {
+      "id": "flat-workflow",
+      "file": "svg/workflow.svg",
+      "sha256": "7d104907cd04be24687f398959bad8b1813c17ca66f55b49f1b403da9687cb9d"
+    },
+    {
+      "id": "flat-process",
+      "file": "svg/process.svg",
+      "sha256": "0661a00787c30605a5cae170ad8aa83bd6d9d8129f46f6a313be4e1307f90947"
+    },
+    {
+      "id": "flat-serial-tasks",
+      "file": "svg/serial_tasks.svg",
+      "sha256": "119d9da0cf1cd7c4f9f0725b6ea9cea79452d0a2901c4384e3cb8bb36044fe13"
+    },
+    {
+      "id": "flat-parallel-tasks",
+      "file": "svg/parallel_tasks.svg",
+      "sha256": "106595df2c849556a25f05801d73931e9d7c37158f173f4e91bebe8167e9242b"
+    },
+    {
+      "id": "flat-todo-list",
+      "file": "svg/todo_list.svg",
+      "sha256": "ca96a3832b1566c18a05f0fe27c6e309ba5cbc95b25cd9037b89d3609447bbc2"
+    },
+    {
+      "id": "flat-planner",
+      "file": "svg/planner.svg",
+      "sha256": "fce1fa217a4b7d36ca1909ec6f171e3b04a26c2876d22a7f261a95826e3f0433"
+    },
+    {
+      "id": "flat-calendar",
+      "file": "svg/calendar.svg",
+      "sha256": "a6779a2c7b1e43e1a23e80cc4477477d7d780ea9bb46a6f9048dd8c59fddae91"
+    },
+    {
+      "id": "flat-clock",
+      "file": "svg/clock.svg",
+      "sha256": "b08462424e4693cd994a83db98704ab217e2e674cf0ed689217ae78b5d2e885d"
+    },
+    {
+      "id": "flat-alarm-clock",
+      "file": "svg/alarm_clock.svg",
+      "sha256": "288e5009a560e91375413c52d83b31d6581f05ae0f73e39977e1230fe0c28c9d"
+    },
+    {
+      "id": "flat-overtime",
+      "file": "svg/overtime.svg",
+      "sha256": "bc4d5ce503d4b04460044c3d52093fee79d3be7f7e7aa98b5130c864e5273002"
+    },
+    {
+      "id": "flat-timeline",
+      "file": "svg/timeline.svg",
+      "sha256": "3521ef87ad8a416cb487ab16dcc21540c84e85c4230275387ef37ab2b4ea44aa"
+    },
+    {
+      "id": "flat-survey",
+      "file": "svg/survey.svg",
+      "sha256": "939fbd694ab1fef54798af6fd4d1680683176f6f618450eff6353cdb7d160f2b"
+    },
+    {
+      "id": "flat-inspection",
+      "file": "svg/inspection.svg",
+      "sha256": "d5b427624bf2d7881b47fc6c4e16637ceb28bdd59b532800a4480a6a68ebf9dd"
+    },
+    {
+      "id": "flat-approval",
+      "file": "svg/approval.svg",
+      "sha256": "2f10719f41b235d83d95aacc5a4289f53e07915fe0262afec8c2e98876c6ef7e"
+    },
+    {
+      "id": "flat-rules",
+      "file": "svg/rules.svg",
+      "sha256": "311efc5075dd147d1c0c13ba0e00a61ebad8924c4ad7687a326ee04aef9ebd9a"
+    },
+    {
+      "id": "flat-diploma-1",
+      "file": "svg/diploma_1.svg",
+      "sha256": "a949e693e08e7878ce8dce6d16c6656b6412127e45124dcc1de59b1a0530b410"
+    },
+    {
+      "id": "flat-diploma-2",
+      "file": "svg/diploma_2.svg",
+      "sha256": "7edac164d6442df0dc010b3ff1c2d80a9315d5894c40407ea55b31d9ec2fd278"
+    },
+    {
+      "id": "flat-graduation-cap",
+      "file": "svg/graduation_cap.svg",
+      "sha256": "8c2f90160825b6d59960da67404ebeeb88857216f3dc82ed6efff0b5e7fae2e7"
+    },
+    {
+      "id": "flat-library",
+      "file": "svg/library.svg",
+      "sha256": "f2e95a28eb22f304b5ca1f79ebfdb160c0d628b3ec97079d8d7edb7467f46148"
+    },
+    {
+      "id": "flat-reading",
+      "file": "svg/reading.svg",
+      "sha256": "b79a706f45e495d3fcd0a9a963f20caf8c8250c812f68eff79655b1927a0e364"
+    },
+    {
+      "id": "flat-reading-ebook",
+      "file": "svg/reading_ebook.svg",
+      "sha256": "7e28ddee21674ca53b2cad3a8e966ebfabda5653e52b2bf48a1b2ea8a2fb1df2"
+    },
+    {
+      "id": "flat-bookmark",
+      "file": "svg/bookmark.svg",
+      "sha256": "7f66ec3d8bb6f6ea2e70e3309346ab57968514a58160d549e4023af28d7fbee6"
+    },
+    {
+      "id": "flat-questions",
+      "file": "svg/questions.svg",
+      "sha256": "7f29e293ec18c1ffccb6b5b93350b220e086c217f90e2fee074da5fda549408f"
+    },
+    {
+      "id": "flat-answers",
+      "file": "svg/answers.svg",
+      "sha256": "21b4dcc59da70de8c5b6f79a24b0d8fb5c705b67d1d3e1ba2074840d1960ee30"
+    },
+    {
+      "id": "flat-faq",
+      "file": "svg/faq.svg",
+      "sha256": "10de72484ebd2763134087267512c452675f56214ffd6a92f367d2b2dbd8a3f4"
+    },
+    {
+      "id": "flat-puzzle",
+      "file": "svg/puzzle.svg",
+      "sha256": "5ffdb409c66971b0037173a58e200b9668d88d8208ceec03d2c66b969d3d7847"
+    },
+    {
+      "id": "flat-make-decision",
+      "file": "svg/make_decision.svg",
+      "sha256": "d0f3c25b689fee231e32d6f4ead2c15b65c7f104776f93374d0be0980d82c8d2"
+    },
+    {
+      "id": "flat-decision",
+      "file": "svg/decision.svg",
+      "sha256": "4ee2953882e8e7f8617b71a16e2251ce1c3c108453e717a7f37229433b5995eb"
+    },
+    {
+      "id": "flat-good-decision",
+      "file": "svg/good_decision.svg",
+      "sha256": "97e4b26a6c5f9f2666339fdc4c22de8f59ae7fb0c2972c08d2f138253c72c5ad"
+    },
+    {
+      "id": "flat-bad-decision",
+      "file": "svg/bad_decision.svg",
+      "sha256": "c41abe2d31c4b2fe9149ba817c612e42cc8f1b775af67ce83498c9a19f7ebb57"
+    },
+    {
+      "id": "flat-neutral-decision",
+      "file": "svg/neutral_decision.svg",
+      "sha256": "592a0747d96e05bc5569f1fcf574b84cc97069fd96977b7dcfe0340227b1991f"
+    },
+    {
+      "id": "flat-news",
+      "file": "svg/news.svg",
+      "sha256": "76082c8c6c73a1776d9076d414244715e8bc6739477f120e0a34757703719904"
+    },
+    {
+      "id": "flat-comments",
+      "file": "svg/comments.svg",
+      "sha256": "f32f45c15cb6696d87209ac190d48b7482dd96505625ca3ffd6d92353ea23654"
+    },
+    {
+      "id": "flat-feedback",
+      "file": "svg/feedback.svg",
+      "sha256": "c05f86fceedcd5c371a1fd8284f96bb6569ef583fc39662ac1b747b30dffbee3"
+    },
+    {
+      "id": "flat-voice-presentation",
+      "file": "svg/voice_presentation.svg",
+      "sha256": "f5576320066f4b6c88434ae4d67d1db9d358037dbd30632a248217993ffd1cb6"
+    },
+    {
+      "id": "flat-podium-with-speaker",
+      "file": "svg/podium_with_speaker.svg",
+      "sha256": "4988ed6e9ca62fc57eb00335245acf88195a1141ff05b05eda396096dbf54210"
+    },
+    {
+      "id": "flat-podium-with-audience",
+      "file": "svg/podium_with_audience.svg",
+      "sha256": "f2e6adde462a7a16824b34c2aa06080e0cec9e60124e30099de32d86cfb731c4"
+    },
+    {
+      "id": "flat-support",
+      "file": "svg/support.svg",
+      "sha256": "c5503b4bc208e43d4dd4d60e23435848e144a0e84de498e9a0a49c4817faa26d"
+    },
+    {
+      "id": "flat-customer-support",
+      "file": "svg/customer_support.svg",
+      "sha256": "34f8ff75e6488e8dbeb582b04e01efe9f500b32a36f5160f88ec223bbf837b78"
+    },
+    {
+      "id": "flat-online-support",
+      "file": "svg/online_support.svg",
+      "sha256": "ae7450f7f13b9b51cbdd6cf90a115635ef32f3622e27299caf49cb1a157cd5bb"
+    },
+    {
+      "id": "flat-services",
+      "file": "svg/services.svg",
+      "sha256": "65092faea5ae499dd3236e3cdbcbb8c2a9ddf7a30954fdf91bf1dbd398f172ec"
+    },
+    {
+      "id": "flat-shop",
+      "file": "svg/shop.svg",
+      "sha256": "30d6776e952e66f7901f06496bb1bce469df12e3280bf85f3c5c3aa5a277ba70"
+    },
+    {
+      "id": "flat-sales-performance",
+      "file": "svg/sales_performance.svg",
+      "sha256": "ee2f75854a970626a9af4304ff55b3b0fef8e5d3007576ac8b763a9b4ceb21bc"
+    },
+    {
+      "id": "flat-statistics",
+      "file": "svg/statistics.svg",
+      "sha256": "6ade19011ed031687ccbcfcf5c5607d3d9e282afd8dcc0e76c3056f7b74688ce"
+    },
+    {
+      "id": "flat-bar-chart",
+      "file": "svg/bar_chart.svg",
+      "sha256": "ab05b0b22e0c15aee7edb9d6a22c42786b104c9798168f7619e44754ad45a215"
+    },
+    {
+      "id": "flat-pie-chart",
+      "file": "svg/pie_chart.svg",
+      "sha256": "24224312f648ae82d640ebdb8404b2adc69072145bb7a2ccf7bd7c2a8074c00a"
+    },
+    {
+      "id": "flat-line-chart",
+      "file": "svg/line_chart.svg",
+      "sha256": "908b2dff6e6e285125049bb8d01b732ff3e3ce88409112c043a2112c13f938e0"
+    },
+    {
+      "id": "flat-area-chart",
+      "file": "svg/area_chart.svg",
+      "sha256": "09bcb8857b3772ef6f9ef799ccd2605d70596fcadf9829ab34fdb34cd65f55eb"
+    },
+    {
+      "id": "flat-combo-chart",
+      "file": "svg/combo_chart.svg",
+      "sha256": "9e924aa92a59e932c5e148d44f04a75db168e3a7432f46b1142754e9e87335a5"
+    },
+    {
+      "id": "flat-doughnut-chart",
+      "file": "svg/doughnut_chart.svg",
+      "sha256": "cfc456a46244b81bd9363814c31ba98f29ed15c7b689c3dc4cbd288ffab94ee1"
+    },
+    {
+      "id": "flat-scatter-plot",
+      "file": "svg/scatter_plot.svg",
+      "sha256": "e784585c13765f91107e9cd451b361545dee54729b6c3a1f79655d13817334c2"
+    },
+    {
+      "id": "flat-radar-plot",
+      "file": "svg/radar_plot.svg",
+      "sha256": "1f10688ccf853858b0c59cdf7d94b3c963728ec50272872003695ede71865a27"
+    },
+    {
+      "id": "flat-heat-map",
+      "file": "svg/heat_map.svg",
+      "sha256": "fc437c5beace668d4be23f251c04aca13e8977c8d6510302b7fc9782821e1bd1"
+    },
+    {
+      "id": "flat-positive-dynamic",
+      "file": "svg/positive_dynamic.svg",
+      "sha256": "3656733aae096baed7a84e12c062f7388d21487275b1134d20b907edbb2fffde"
+    },
+    {
+      "id": "flat-negative-dynamic",
+      "file": "svg/negative_dynamic.svg",
+      "sha256": "3381bc595a3091bc472109e1c7b58bfb1cc5d911d3edb921b5433fce351c3d06"
+    },
+    {
+      "id": "flat-neutral-trading",
+      "file": "svg/neutral_trading.svg",
+      "sha256": "ede14de45c7f9cc28db122845f234a428f5dc6fa7e5fd04f224e693c433def39"
+    },
+    {
+      "id": "flat-money-transfer",
+      "file": "svg/money_transfer.svg",
+      "sha256": "fc63265504688de1825c0dcbfee1ea07357c1e8b1dca4e043ad21fb427765d90"
+    },
+    {
+      "id": "flat-currency-exchange",
+      "file": "svg/currency_exchange.svg",
+      "sha256": "b4265a39a24a42f2bc9978336e7c3713c8e77ebc233a7a412b81b602f44cd348"
+    },
+    {
+      "id": "flat-debt",
+      "file": "svg/debt.svg",
+      "sha256": "ce9d35c216824c026b100d80f38135d51e8464e33670fed726e777456b835550"
+    },
+    {
+      "id": "flat-paid",
+      "file": "svg/paid.svg",
+      "sha256": "1d5d10f58d0f7a4c9b9f89de405ce802b41051dd94ed94a53d6d896508077487"
+    },
+    {
+      "id": "flat-donate",
+      "file": "svg/donate.svg",
+      "sha256": "5f23e76b363bc5a8731bdc0113de7671f5dd1e618e41a241efa391ef0110e96b"
+    },
+    {
+      "id": "flat-safe",
+      "file": "svg/safe.svg",
+      "sha256": "8300a13dbdbdd0303d318f44d6121a9877be02ff8e87e3eedf738a330790d7e4"
+    },
+    {
+      "id": "flat-privacy",
+      "file": "svg/privacy.svg",
+      "sha256": "608f5d0b25504c93baf6cc8aef87edefd51f9924712d4adfb9ae06bb3e5a492e"
+    },
+    {
+      "id": "flat-lock",
+      "file": "svg/lock.svg",
+      "sha256": "8dab49da689901c076ff5b27b4f38c7289dd92d9fbcbb6a5c3cb07923b61de2d"
+    },
+    {
+      "id": "flat-key",
+      "file": "svg/key.svg",
+      "sha256": "2fb38be180a96655b587b5175822e15628df8c189a72a6fe9bb809cb4222a523"
+    },
+    {
+      "id": "flat-data-protection",
+      "file": "svg/data_protection.svg",
+      "sha256": "3fa7ca792557e1d61a583ce749cdd8c1415d42817b267a88241b6cd7ba5e76dd"
+    },
+    {
+      "id": "flat-data-backup",
+      "file": "svg/data_backup.svg",
+      "sha256": "70b818f5df557b22baa0de5e218dfbc821555c132a6d71defd1b368cf350902e"
+    },
+    {
+      "id": "flat-data-recovery",
+      "file": "svg/data_recovery.svg",
+      "sha256": "636068b945d01aa02242aed7f2e23a778b1de59548c1c240ec2ca6e16221d307"
+    },
+    {
+      "id": "flat-data-encryption",
+      "file": "svg/data_encryption.svg",
+      "sha256": "57bc98d62b7ad4a971c74129863cc1f7af8af5a2494f028f6676547506fb95be"
+    },
+    {
+      "id": "flat-database",
+      "file": "svg/database.svg",
+      "sha256": "d3fbf0cf297523734c0aa39f1ff236c4a64d8d9ae8eeb01a70c5565177729793"
+    },
+    {
+      "id": "flat-data-sheet",
+      "file": "svg/data_sheet.svg",
+      "sha256": "9a42a48f34e7c82151bdc57e6a1486a9fb8f80884d5809e4bf14236a5c78ef9e"
+    },
+    {
+      "id": "flat-filing-cabinet",
+      "file": "svg/filing_cabinet.svg",
+      "sha256": "d03ae7a6ea56fe7d839c0e4e1cec70d1febf16a552fd7d806bc6e5d7a8f33a29"
+    },
+    {
+      "id": "flat-folder",
+      "file": "svg/folder.svg",
+      "sha256": "3d68b88fd2931fde73404e58002b7c1c0b99da8f5b2d2a87e85effab4dfdd966"
+    },
+    {
+      "id": "flat-opened-folder",
+      "file": "svg/opened_folder.svg",
+      "sha256": "5ac9ab5d4f01f4257fe667b58c4ed9c528661fef4723a6f0de5db6897875050b"
+    },
+    {
+      "id": "flat-document",
+      "file": "svg/document.svg",
+      "sha256": "e53a5d2faac3b63df5bf91549e5ee62f15f98a32e211735be926aa20224e351f"
+    },
+    {
+      "id": "flat-fine-print",
+      "file": "svg/fine_print.svg",
+      "sha256": "620223203b88fca1a1cae4d97a0f521954c8f4b27361a1042d2b271b39da3564"
+    },
+    {
+      "id": "flat-file",
+      "file": "svg/file.svg",
+      "sha256": "6b64661aa938da94698f2969e75a4fbd19ac07f6a9e351c07a1ad211b4a3c32d"
+    },
+    {
+      "id": "flat-image-file",
+      "file": "svg/image_file.svg",
+      "sha256": "d71338ed9d5f371431beb9b4b5df52d2c450e61c6e2b64bcab3e3b7a770baffb"
+    },
+    {
+      "id": "flat-video-file",
+      "file": "svg/video_file.svg",
+      "sha256": "719259d00b7bd7d01f13e12a41e2ea9a04042051eea70a0163e55ea228743c4c"
+    },
+    {
+      "id": "flat-audio-file",
+      "file": "svg/audio_file.svg",
+      "sha256": "398333d8d61e84280ae0c01883c8550deb9301f2fc0db6f8f6237c66f6561ed7"
+    },
+    {
+      "id": "flat-picture",
+      "file": "svg/picture.svg",
+      "sha256": "98639542e15240e2d5e92fd30d898400dd83682dca0ec3d070d21d0c7571906a"
+    },
+    {
+      "id": "flat-gallery",
+      "file": "svg/gallery.svg",
+      "sha256": "299c0508ef2705e7d1f9ad5fafcfad17bf6923be113f7a8c8fa86ba3becc20c0"
+    },
+    {
+      "id": "flat-stack-of-photos",
+      "file": "svg/stack_of_photos.svg",
+      "sha256": "840763ef1c70e61476f8850dd148cc24c4e4da24e7d617d8bf9b7e2718d2d984"
+    },
+    {
+      "id": "flat-camera",
+      "file": "svg/camera.svg",
+      "sha256": "152747b0bfbe9353d216c8091a0a0d356d9363ec9bbb4415753ba4f86aaf33d1"
+    },
+    {
+      "id": "flat-video-projector",
+      "file": "svg/video_projector.svg",
+      "sha256": "d5e03b3c479e9f4dfff230a6c78d2ffe925eff0d7cf2b42c8d25d90048994f04"
+    },
+    {
+      "id": "flat-music",
+      "file": "svg/music.svg",
+      "sha256": "2eef143233f6ac4fd4386cd3288d00700c62fcce4da5fc4063c73b526c31dd7d"
+    },
+    {
+      "id": "flat-headset",
+      "file": "svg/headset.svg",
+      "sha256": "a3fb410db709e6d66e2768f577663d57ecbfc0255a75d1286b4a7f43dc261412"
+    },
+    {
+      "id": "flat-speaker",
+      "file": "svg/speaker.svg",
+      "sha256": "ee835b01ad60ddbd6d8fbdda0b5ce381ddc171dc18a567f281a6afd71a71ecd5"
+    },
+    {
+      "id": "flat-display",
+      "file": "svg/display.svg",
+      "sha256": "9a87b113ab72e1f443082220747ec6713b2353c2f62ca0b5b4936651638140cc"
+    },
+    {
+      "id": "flat-electronics",
+      "file": "svg/electronics.svg",
+      "sha256": "29b0a5a4abb3536a63bd64df84c806dc91419890bea3e2397b7a4a86331cb882"
+    },
+    {
+      "id": "flat-multiple-devices",
+      "file": "svg/multiple_devices.svg",
+      "sha256": "4f7d5cfc933b5a18594c70416d6df60442e70a4c649a7590710df1c39441b803"
+    },
+    {
+      "id": "flat-smartphone-tablet",
+      "file": "svg/smartphone_tablet.svg",
+      "sha256": "0c6db1ce4e99d31bbf366ad9205564c99075a2ca62f6930f947859c5f4666eff"
+    },
+    {
+      "id": "flat-touchscreen-smartphone",
+      "file": "svg/touchscreen_smartphone.svg",
+      "sha256": "bde09705178516a43d9a67f3d06b31976504f5dce25492f4c748f51178c4e74a"
+    },
+    {
+      "id": "flat-tablet-android",
+      "file": "svg/tablet_android.svg",
+      "sha256": "127acb5c62c52321419ecd2ad3ee6cd62eea844ab9e7aaa763cdc7930ab31c3b"
+    },
+    {
+      "id": "flat-webcam",
+      "file": "svg/webcam.svg",
+      "sha256": "eb903f263747f3c08cde1983c94e4ac94b8e10a9b94581ad918bc7833b4b1a14"
+    },
+    {
+      "id": "flat-print",
+      "file": "svg/print.svg",
+      "sha256": "93e889fb84e3ebd8fc03f28c17c39778e20a30525c97fbe02132b9fb32190780"
+    },
+    {
+      "id": "flat-calculator",
+      "file": "svg/calculator.svg",
+      "sha256": "eb0afbdfbeb7b31829fa0290fe458746ba57518f4e1227d493385f637abfcdf7"
+    },
+    {
+      "id": "flat-command-line",
+      "file": "svg/command_line.svg",
+      "sha256": "64a6fce8e587fd3b460abf6b075ca4f9b707988d271e66c4b44a3f850d76e5b2"
+    },
+    {
+      "id": "flat-circuit",
+      "file": "svg/circuit.svg",
+      "sha256": "96530a2c801b1a5ca7eb950d591e663bc181117aba99bc741ee9519f8780ced8"
+    },
+    {
+      "id": "flat-capacitor",
+      "file": "svg/capacitor.svg",
+      "sha256": "3ab42ee4b875a5ee34805cdff5263fd091c164efe8894878e1664095862a6dc1"
+    },
+    {
+      "id": "flat-electrical-sensor",
+      "file": "svg/electrical_sensor.svg",
+      "sha256": "69aa4b40577faa0b3234eec2f916d60438440046481b7d400f1c1ef78a09bfb9"
+    },
+    {
+      "id": "flat-electricity",
+      "file": "svg/electricity.svg",
+      "sha256": "94c5f5a4c552f5c83d8de08b0a464ac2c11e0acba1be7003dd08387be6544547"
+    },
+    {
+      "id": "flat-engineering",
+      "file": "svg/engineering.svg",
+      "sha256": "08592db3797fa19d3b4fc0404700de088fc3d65502e35d586f0528e06d2e23b6"
+    },
+    {
+      "id": "flat-biotech",
+      "file": "svg/biotech.svg",
+      "sha256": "170709a1f32e8cb75f9fd989a32f77dd22645013349c7d6ad527e2fd8643e8e7"
+    },
+    {
+      "id": "flat-biomass",
+      "file": "svg/biomass.svg",
+      "sha256": "6b3818b94f8f450ee819be15842f26caa7dc8314083a7860ae98b8b69630696d"
+    },
+    {
+      "id": "flat-biohazard",
+      "file": "svg/biohazard.svg",
+      "sha256": "5ce7f7f1a11f81caee8becc332c61b9bd6705b57134bcee5acffea76774cc998"
+    },
+    {
+      "id": "flat-globe",
+      "file": "svg/globe.svg",
+      "sha256": "ef44e564870d275abebc8f1f0a7d30fbd55a17f5ad41fd4edf7c200180b183ae"
+    },
+    {
+      "id": "flat-home",
+      "file": "svg/home.svg",
+      "sha256": "9d03c0d0ed585f94375e32893388d04bbc2885cfb7950e9aa94316e41f79ad42"
+    },
+    {
+      "id": "flat-factory",
+      "file": "svg/factory.svg",
+      "sha256": "9947b3d6ddd85902bbf0e32487a4e39d7362eb2514d9b1d9641c1f803011f0eb"
+    },
+    {
+      "id": "flat-dam",
+      "file": "svg/dam.svg",
+      "sha256": "df89fee51a8a5080456bb40ebc7f9b0457d590f025a0722d0e8030be8d627e3e"
+    },
+    {
+      "id": "flat-landscape",
+      "file": "svg/landscape.svg",
+      "sha256": "7f50689e0c142977f8d8fb0c0f02cccc95a27ad9b69380fe3a5e258e126483c2"
+    },
+    {
+      "id": "flat-night-landscape",
+      "file": "svg/night_landscape.svg",
+      "sha256": "5eb3c8e4901df8e011e53c5ede252ed747927a2f13f8d9544d6aaf8ba12b66fc"
+    },
+    {
+      "id": "flat-package",
+      "file": "svg/package.svg",
+      "sha256": "ea4c36c2d2b5b07314b69907069b3fa483badb5332ccdc9cc093e33cebce30e1"
+    },
+    {
+      "id": "flat-shipped",
+      "file": "svg/shipped.svg",
+      "sha256": "850322e444bcb56f245c093e6a6fa5c5563ab619eee998236d5ba5982d6e1193"
+    },
+    {
+      "id": "flat-in-transit",
+      "file": "svg/in_transit.svg",
+      "sha256": "08001607aebe588e01a1f9c6a3f602bbb235eed823baba454964ccc04e99ff3a"
+    },
+    {
+      "id": "flat-automotive",
+      "file": "svg/automotive.svg",
+      "sha256": "7ad427f7c2dec9545e96b37d0988f85cc5d1a27085d42e498354bb8a7e098d42"
+    },
+    {
+      "id": "flat-sports-mode",
+      "file": "svg/sports_mode.svg",
+      "sha256": "e28e1d934cb5dbe27000671f66b8046344f89cad1b0931580e5c5618999f8d79"
+    },
+    {
+      "id": "flat-binoculars",
+      "file": "svg/binoculars.svg",
+      "sha256": "33f3c1dccb57d71c9f0039037da4b87ec991094fac02980965a9c5dd598af0ba"
+    },
+    {
+      "id": "flat-search",
+      "file": "svg/search.svg",
+      "sha256": "b342ec4b3e3e85c6b279b301b4fd380573e42c40af92ab5557d014a9fb7ce6f2"
+    },
+    {
+      "id": "flat-mind-map",
+      "file": "svg/mind_map.svg",
+      "sha256": "3069686cd2ffa75220143c9899b01cbce45a23b53bb5d40e299939107502d4ad"
+    },
+    {
+      "id": "flat-tree-structure",
+      "file": "svg/tree_structure.svg",
+      "sha256": "ba985e44a75b17ce209b81f4ea648a52c3c5af88de6d1069e7b63b83ccd7b597"
+    },
+    {
+      "id": "flat-flow-chart",
+      "file": "svg/flow_chart.svg",
+      "sha256": "a3cc316ef9aa1a49d885a5c04e13a71c0dc363901f23424fdef6c875062d8860"
+    },
+    {
+      "id": "flat-genealogy",
+      "file": "svg/genealogy.svg",
+      "sha256": "c14f132041679013fb1057f40a550c8210b036833dd206bbc0d5b3ebff0c67b5"
+    }
+  ]
+}

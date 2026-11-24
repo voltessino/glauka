@@ -1,0 +1,460 @@
+/* Shared, context-aware settings headers. No per-control action rows. */
+.nm-settings-panel {
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+.nm-settings-toolbar {
+  position: sticky;
+  flex-shrink: 0;
+  top: 0;
+  z-index: 4;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 7px;
+  padding: 10px;
+  margin: 0 0 10px;
+  border: 1px solid #45536b88;
+  border-radius: 11px;
+  background: #142036;
+  color: #e2e8f0;
+  font: 12px/1.4 system-ui;
+}
+.nm-settings-toolbar label {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: 3px;
+  margin: 0;
+}
+.nm-settings-toolbar small {
+  font-size: 11px;
+  color: #b7c7de;
+}
+.nm-settings-toolbar select {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 6px;
+  border: 1px solid #52617a;
+  border-radius: 7px;
+  background: #0d1729;
+  color: #e2e8f0;
+  font: 12px/1.4 system-ui;
+  min-height: 34px;
+}
+.nm-settings-toolbar .nm-settings-default-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 34px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: #202c45;
+  border: 1px solid #536182;
+  color: #dce6f8;
+  font: 12px/1.4 system-ui;
+  cursor: pointer;
+}
+.nm-settings-default-button::before {
+  content: attr(data-icon);
+  font-size: 17px;
+}
+.nm-settings-default-button[aria-pressed="true"]::before {
+  color: #fbbf24;
+}
+.nm-settings-toolbar :is(button, select):focus-visible {
+  outline: 2px solid #a5b4fc;
+  outline-offset: 2px;
+}
+.nm-settings-toolbar[hidden],
+#nm70-scope-panel[hidden],
+.nm70-gap-prefs[hidden],
+.v6-default-row[hidden],
+.nm64-default-wrap-row[hidden],
+.nm64-wrap-note[hidden],
+#nm67-apply-all-styles[hidden] {
+  display: none !important;
+}
+.nm-settings-section {
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #47556955;
+  border-radius: 10px;
+  background: #14203655;
+  min-width: 0;
+}
+.nm-settings-section > small:first-child {
+  display: block;
+  font: 600 11px/1.4 system-ui;
+  color: #b5bfd9;
+  margin: 0 0 8px;
+}
+.nm-settings-panel .nm-setting-control {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 6px 8px;
+  margin: 10px 0;
+  min-width: 0;
+}
+.nm-settings-panel
+  .nm-setting-control
+  > :is(.inspector-control-row, .nm54-row, .nm68-row) {
+  grid-column: 1/-1;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  margin: 0 !important;
+}
+.nm-settings-panel .nm-setting-control :is(small, span, label) {
+  font-size: 11px;
+  line-height: 1.4;
+  min-width: 0;
+}
+.nm-settings-panel .nm-setting-control :is(output, strong, [id$="readout"]) {
+  font-size: 11px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.nm-settings-panel input[type="range"] {
+  width: 100% !important;
+  min-width: 0;
+  margin: 0;
+  accent-color: #9189ee;
+}
+.nm-setting-control > input[type="range"] {
+  grid-column: 1/-1;
+}
+.nm-settings-panel .nm-mixed-value {
+  color: #fcd98b !important;
+  font: 11px/1.4 system-ui !important;
+}
+.nm-settings-panel [data-mixed="true"] {
+  opacity: 0.75;
+}
+#nm-settings-defaults .nm-default-choice {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  align-items: start;
+  gap: 6px;
+  margin: 0;
+}
+#nm-settings-defaults .nm-default-choice > small {
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+#nm-settings-defaults .nm-default-choice > small:last-child:not(:nth-child(2)) {
+  grid-column: 2;
+  color: #fcd98b;
+  font-size: 11px;
+}
+#nm-settings-defaults .nm-creative-dialog {
+  max-width: 480px;
+  gap: 10px;
+}
+#nm-settings-defaults button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+#inspector-sidebar.nm-settings-panel > .nm-settings-toolbar {
+  margin: 0;
+}
+#inspector-sidebar.nm-settings-panel {
+  gap: 8px;
+}
+#inspector-sidebar.nm-settings-panel > .nm-theme-picker {
+  margin: 0;
+}
+@media (max-width: 700px) {
+  .nm-settings-toolbar :is(select, button) {
+    min-height: 42px !important;
+  }
+  .nm-settings-panel input[type="range"] {
+    min-height: 30px;
+  }
+}
+/* Compact mode chooser leaves room for the actual layout controls. */
+.nm-settings-panel #nm-layout-modes {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 5px;
+  margin: 6px 0;
+}
+.nm-settings-panel #nm-layout-modes button {
+  padding: 6px 2px;
+  min-height: 60px;
+  font-size: 10px;
+  gap: 3px;
+}
+.nm-settings-panel #nm-layout-modes svg {
+  width: 58px;
+  height: 34px;
+  display: block;
+  margin: auto;
+}
+.nm-settings-panel .hud-header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: #101b2f;
+}
+.nm-settings-accordion {
+  margin: 8px 10px;
+  border: 1px solid #47556966;
+  border-radius: 10px;
+  background: #14203655;
+}
+.nm-settings-accordion > summary {
+  padding: 11px;
+  cursor: pointer;
+  font: 600 12px/1.4 system-ui;
+  color: #dbe4f3;
+}
+.nm-settings-accordion .nm70-inspector-body {
+  padding: 0 10px 10px;
+}
+.nm-settings-accordion .inspector-section {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+.nm-default-value {
+  color: #c4b5fd;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* One opaque sticky surface: scrolled cards cannot peek above the title. */
+.hud-bottom-left.nm-settings-panel{--nm-panel-inset:14px;padding:0 var(--nm-panel-inset) 14px}
+.nm-settings-sticky-header{
+ position:sticky;top:0;z-index:6;
+ margin:0 calc(-1 * var(--nm-panel-inset));padding:0 var(--nm-panel-inset) 10px;
+ background-color:var(--bg-panel-solid,#101b2f);background-image:var(--nm-chrome-panel,none);box-shadow:0 5px 12px #02061722;isolation:isolate;
+}
+.nm-settings-panel .nm-settings-sticky-header .hud-header{
+ position:static;top:auto;margin:0;padding:10px 0;background:transparent;
+}
+.nm-settings-sticky-header>.nm-settings-toolbar{position:static;top:auto!important;margin:0}
+.nm-settings-toolbar label{gap:var(--nm-skin-gap,8px)}
+
+.nm-settings-panel :is(label,small,summary){overflow-wrap:anywhere}
+.nm-settings-toolbar :is(select,button){min-width:0;max-width:100%}
+
+/* Fluid layout: six compact, accessible presets in two balanced rows. */
+.nm-settings-panel #nm-layout-modes button {
+  min-width:0; border-radius:12px;
+  transition:background-color .16s ease,border-color .16s ease,box-shadow .16s ease;
+}
+.nm-settings-panel #nm-layout-modes button:hover {
+  background:#273956;border-color:#7ba4ce;
+}
+.nm-settings-panel #nm-layout-modes button[aria-pressed="true"] {
+  background:linear-gradient(145deg,#284876,#20375d);
+  border-color:#93c5fd;box-shadow:inset 0 0 0 1px #93c5fd33,0 3px 14px #06132755;
+}
+.nm-settings-panel #nm-layout-modes button:focus-visible {
+  outline:2px solid #7dd3fc;outline-offset:2px;
+}
+.nm-settings-panel #nm-layout-modes .nm-layout-hint{
+  grid-column:1/-1;margin:2px 2px 0;padding:9px 10px;
+  border:1px solid #365376;border-radius:10px;
+  background:#15263e;color:#c4d9ee;font:11px/1.45 system-ui;
+  text-align:left;
+}
+@media(prefers-reduced-motion:reduce){
+ .nm-settings-panel #nm-layout-modes button{transition:none}
+}
+
+/* Icons must stay within the narrow Android/compact settings panel. */
+.nm-settings-panel #nm-layout-modes svg{
+  width:min(100%,58px);max-width:100%;height:auto;aspect-ratio:80/46;
+}
+
+
+/* Layout inspector refinements: preserve original actions, make them readable. */
+.nm-settings-panel #nm-layout-modes {
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  margin:10px 0;
+}
+.nm-settings-panel #nm-layout-modes button {
+  min-width:0;
+  min-height:84px;
+  padding:6px 6px 8px;
+  gap:6px;
+  justify-items:stretch;
+  align-content:start;
+  font-size:11.5px;
+  line-height:1.25;
+  font-weight:650;
+  border-radius:12px;
+  background:var(--nm-ui-top,var(--nm-skin-top,#16223a));
+  border:1px solid var(--nm-ui-line,var(--nm-skin-stroke,#52617b));
+  color:var(--nm-ui-ink,var(--nm-skin-ink,#e2e8f0));
+  --nm-clockwise-stroke:#f59e0b;
+}
+.nm-settings-panel #nm-layout-modes .nm-mode-icon {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  height:48px;
+  padding:3px 4px;
+  box-sizing:border-box;
+  border-radius:8px;
+  background:color-mix(in srgb,var(--nm-skin-surface,#ffffff) 82%,var(--nm-skin-stroke,#94a3b8) 18%);
+  border:1px solid color-mix(in srgb,var(--nm-skin-stroke,#94a3b8) 50%,transparent);
+}
+.nm-settings-panel #nm-layout-modes svg {
+  width:min(100%,76px);
+  height:40px;
+  aspect-ratio:80/46;
+}
+.nm-settings-panel #nm-layout-modes button:hover {
+  background:var(--nm-ui-hover,#273956);
+  border-color:var(--nm-ui-accent,#7ba4ce);
+}
+.nm-settings-panel #nm-layout-modes button[aria-pressed="true"] {
+  border:2px solid var(--nm-theme-focus,#a5b4fc);
+  box-shadow:0 4px 14px color-mix(in srgb,var(--nm-theme-action,#5b3fd0) 26%,transparent);
+  --nm-clockwise-stroke:#fde68a;
+}
+.nm-settings-panel #nm-layout-modes button[aria-pressed="true"] .nm-mode-icon {
+  background:rgba(255,255,255,.14);
+  border-color:rgba(255,255,255,.28);
+}
+.nm-settings-panel #nm-layout-modes button[aria-pressed="true"] .nm-mode-root {
+  fill:#ffffff;
+}
+.nm-settings-panel #nm-layout-modes .nm-layout-other {
+  grid-column:1/-1;
+  min-width:0;
+  border:1px solid var(--nm-ui-line,#365376);
+  border-radius:10px;
+  background:var(--nm-ui-top,#142036);
+  overflow:hidden;
+}
+.nm-settings-panel #nm-layout-modes .nm-layout-other>summary {
+  cursor:pointer;
+  padding:11px 12px;
+  font-weight:650;
+  font-size:12px;
+  color:var(--nm-ui-ink,#d8e6f8);
+  min-height:40px;
+  box-sizing:border-box;
+}
+.nm-settings-panel #nm-layout-modes .nm-layout-more-grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:7px;
+  padding:0 8px 9px;
+}
+.nm-settings-panel #nm-layout-modes .nm-layout-hint {
+  background:var(--nm-ui-top,#15263e);
+  border-color:var(--nm-ui-line,#365376);
+  color:var(--nm-ui-muted,#c4d9ee);
+  font-size:12px;
+  line-height:1.5;
+}
+.nm-settings-panel .hud-header,
+.nm-settings-panel .nm-settings-toolbar {
+  background:var(--nm-ui-surface,var(--nm-skin-surface,#142036));
+  color:var(--nm-ui-ink,var(--nm-skin-ink,#e2e8f0));
+  border-color:var(--nm-ui-line,var(--nm-skin-stroke,#45536b88));
+}
+.nm-settings-panel .nm-settings-toolbar :is(select,.nm-settings-default-button) {
+  background:var(--nm-ui-top,var(--nm-skin-top,#0d1729));
+  color:var(--nm-ui-ink,var(--nm-skin-ink,#e2e8f0));
+  border-color:var(--nm-ui-line,var(--nm-skin-stroke,#52617a));
+}
+.nm-settings-panel .nm-settings-toolbar small,
+.nm-settings-panel .nm-settings-section>small:first-child {
+  color:var(--nm-ui-muted,var(--nm-skin-muted,#b7c7de));
+}
+.nm-settings-panel .nm-settings-section,
+.nm-settings-panel .nm-settings-accordion,
+.nm-settings-panel #nm-distribution-controls {
+  background:var(--nm-ui-top,var(--nm-skin-top,#142036));
+  border-color:var(--nm-ui-line,var(--nm-skin-stroke,#52617a)) !important;
+  color:var(--nm-ui-ink,var(--nm-skin-ink,#e2e8f0));
+}
+.nm-settings-panel #nm-distribution-advanced {
+  border:1px solid var(--nm-ui-line,#52617a);
+  border-radius:10px;
+  padding:0 10px;
+  margin:4px 0;
+}
+.nm-settings-panel #nm-distribution-advanced>summary {
+  cursor:pointer;
+  min-height:38px;
+  padding:10px 0;
+  font-size:12px;
+  font-weight:650;
+  color:var(--nm-ui-ink,#e2e8f0);
+}
+.nm-settings-panel #nm-distribution-advanced[open] {
+  padding-bottom:10px;
+}
+.nm-settings-panel #nm-distribution-advanced #nm-distribution-precise {
+  margin:4px 0 10px;
+}
+.nm-settings-panel :is(button,summary,input,select):focus-visible {
+  outline:2px solid var(--nm-ui-accent,#93c5fd);
+  outline-offset:2px;
+}
+@media(max-width:420px){
+  .nm-settings-panel #nm-layout-modes {gap:5px}
+  .nm-settings-panel #nm-layout-modes button {
+    min-height:80px;
+    padding:8px 3px;
+    font-size:11px;
+  }
+}
+
+
+/* Map-level wrapping remains available, but no longer crowds the main geometry. */
+.nm-settings-panel .nm-layout-text-more {padding:0 10px}
+.nm-settings-panel .nm-layout-text-more>summary {
+  cursor:pointer;min-height:40px;padding:11px 0;
+  color:var(--nm-ui-ink,var(--nm-skin-ink,#dbe7f7));
+  font-size:12px;font-weight:650;
+}
+.nm-settings-panel .nm-layout-text-more[open] {padding-bottom:10px}
+
+
+/* Real read-only SVG thumbnail, sampled proportionally across every main branch. */
+.nm-settings-panel #nm-layout-modes .nm-layout-mini-preview {
+  grid-column:1/-1;
+  display:grid;gap:6px;
+  border:1px solid var(--nm-ui-line,var(--nm-skin-stroke,#52617b));
+  border-radius:12px;
+  background:var(--nm-ui-top,var(--nm-skin-top,#18283e));
+  padding:10px;
+  min-width:0;
+}
+.nm-settings-panel #nm-layout-modes .nm-layout-mini-preview[hidden] {display:none!important}
+.nm-settings-panel #nm-layout-modes .nm-layout-mini-preview strong {
+  color:var(--nm-ui-ink,var(--nm-skin-ink,#e2e8f0));
+  font-size:12px;
+}
+.nm-settings-panel #nm-layout-modes .nm-layout-mini-preview svg {
+  display:block;
+  width:100%;
+  height:108px;
+  aspect-ratio:auto;
+  margin:auto;
+  color:var(--nm-ui-muted,var(--nm-skin-muted,#a9bfd9));
+}
+.nm-settings-panel #nm-layout-modes .nm-layout-mini-root {
+  fill:var(--nm-theme-action,var(--nm-ui-accent,#5b3fd0));
+  stroke:color-mix(in srgb,var(--nm-theme-focus,#a99cff) 60%,transparent);
+  stroke-width:1px;
+}
+.nm-settings-panel #nm-layout-modes .nm-layout-mini-node {
+  fill:var(--nm-ui-surface,var(--nm-skin-surface,#132139));
+}
+.nm-settings-panel #nm-layout-modes .nm-layout-mini-preview small {
+  color:var(--nm-ui-muted,var(--nm-skin-muted,#a9bfd9));
+  font-size:11px;line-height:1.45;
+}

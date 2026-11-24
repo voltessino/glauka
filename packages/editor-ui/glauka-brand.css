@@ -1,0 +1,282 @@
+/* @glauka-fonts */
+body[data-nm-skin="prisma"] {
+  --font-sans: "Glauka Sans", "Segoe UI", sans-serif;
+}
+body.nm-workspace-v2[data-nm-skin="prisma"]
+  > :not(canvas, script, style, #inline-editor-container),
+body.nm-workspace-v2[data-nm-skin="prisma"]
+  > :not(canvas, script, style, #inline-editor-container)
+  :is(button, input, select, textarea, p, label, summary, h1, h2, h3, strong) {
+  font-family: "Glauka Sans", "Segoe UI", sans-serif !important;
+}
+body .nm6-welcome .nm6-hero {
+  width: 36px;
+  height: 36px;
+  box-sizing: border-box;
+  background: #f6f3ff;
+  border: 1px solid #e4e2ec;
+  border-radius: 10px;
+  box-shadow: none;
+  padding: 7px;
+}
+.nm6-hero svg,
+.brand-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.glauka-font-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 86px;
+  gap: 8px;
+  align-items: center;
+  margin: 0 0 8px;
+}
+.glauka-font-row :is(input, select) {
+  width: 100%;
+  min-width: 0;
+  height: 34px;
+  min-height: 34px;
+  max-height: 34px;
+  box-sizing: border-box;
+  padding: 0 10px;
+  border: 1px solid var(--nm-ui-line, var(--nm-skin-stroke, #c8c2df));
+  border-radius: 8px;
+  background: var(--nm-ui-top, var(--nm-skin-top, #f5f2ff));
+  color: var(--nm-ui-ink, var(--nm-skin-ink, #27213e));
+  font-size: 13px;
+  line-height: 1.2;
+}
+#glauka-font-size {
+  min-width: 4.5rem;
+  text-align: center;
+  padding-inline: 8px 10px;
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+#glauka-font-size::-webkit-outer-spin-button,
+#glauka-font-size::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+#nm-text-emphasis {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0;
+}
+.glauka-text-color {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  flex: none;
+  font: 700 14px system-ui;
+  cursor: pointer;
+  border: 1px solid var(--nm-ui-line);
+  border-radius: 9px;
+  box-sizing: border-box;
+}
+.glauka-text-color::after {
+  content: "";
+  position: absolute;
+  bottom: 5px;
+  left: 9px;
+  right: 9px;
+  height: 3px;
+  background: var(--glauka-text-color, var(--nm-theme-focus));
+  border-radius: 2px;
+}
+.glauka-text-color input[type="color"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+.glauka-text-strike {
+  box-sizing: border-box;
+  width: 34px;
+  min-width: 34px;
+  height: 34px;
+  min-height: 34px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--nm-ui-line, #435375);
+  border-radius: 9px;
+  background: var(--nm-ui-top, #1a2c47);
+  color: var(--nm-ui-ink, #edf2fa);
+  font: 700 13px/1 system-ui;
+  cursor: pointer;
+}
+.glauka-text-strike[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--nm-ui-accent, #6441df) 18%, var(--nm-ui-top, #1a2c47));
+  border-color: var(--nm-theme-focus, #9580e0);
+}
+.glauka-text-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  margin: 8px 0 4px;
+}
+.glauka-text-actions .glauka-text-action {
+  box-sizing: border-box;
+  width: auto;
+  flex: 0 0 auto;
+  min-width: 0;
+  height: auto;
+  min-height: 34px;
+  max-height: none;
+  padding: 6px 10px;
+  margin: 0;
+  border: 1px solid var(--nm-ui-line, var(--nm-skin-stroke, #76658c));
+  border-radius: 9px;
+  background: transparent;
+  color: var(--nm-ui-muted, var(--nm-skin-muted, #b7c3d6));
+  font: 600 11px/1.2 system-ui;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: visible;
+  text-overflow: clip;
+}
+.glauka-text-actions .glauka-text-action:hover {
+  border-color: var(--nm-theme-focus, #9580e0);
+  color: var(--nm-ui-ink, var(--nm-skin-ink, #edf2fa));
+}
+.glauka-text-auto-lists {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 100%;
+  min-height: 28px;
+  margin: 0;
+  font: 12px/1.3 system-ui;
+  color: var(--nm-ui-ink, var(--nm-skin-ink, #edf2fa));
+}
+.glauka-text-auto-lists input {
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  flex: 0 0 auto;
+}
+.glauka-node-shape-row {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+  font-size: 12px;
+}
+.glauka-node-shape-row > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.glauka-node-shape-row select {
+  width: 100% !important;
+  max-width: none !important;
+  min-height: 34px !important;
+  height: 34px;
+}
+#v5-font-reset.glauka-text-reset,
+#v5-font-reset.v5-subtle-btn,
+#inspector-sidebar #v5-font-reset {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: auto !important;
+  max-width: max-content;
+  min-height: 28px !important;
+  margin: 4px 0 8px !important;
+  padding: 3px 9px !important;
+  border: 1px solid var(--nm-ui-line, var(--nm-skin-stroke, #76658c)) !important;
+  border-radius: 7px !important;
+  background: transparent !important;
+  color: var(--nm-ui-muted, var(--nm-skin-muted, #b7c3d6)) !important;
+  font: 600 11px/1.2 system-ui !important;
+  cursor: pointer;
+}
+
+.glauka-shapes-menu {
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  width: 220px;
+  max-height: min(260px, calc(100dvh - 20px));
+  overflow: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid var(--nm-skin-stroke, #c7c0dd);
+  border-radius: 12px;
+  background: var(--nm-skin-surface, #fff);
+  color: var(--nm-skin-ink, #1b1b27);
+  box-shadow: var(--nm-skin-shadow);
+  z-index: 5400;
+}
+.glauka-shapes-menu[hidden] {
+  display: none !important;
+}
+.glauka-shapes-menu button {
+  min-height: 44px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
+  border: 1px solid var(--nm-skin-stroke);
+  border-radius: 8px;
+  background: var(--nm-skin-top);
+  color: var(--nm-skin-ink);
+  cursor: pointer;
+}
+
+/* Desktop inline editing: readable, compact and translucent, not a large opaque modal. */
+#inline-editor-container #inline-editor-input {
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: 34px;
+  padding: 6px 10px;
+  border: 1px solid var(--nm-theme-focus, #8b6ae5);
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--nm-skin-surface, #111a2c) 87%, transparent);
+  color: var(--nm-skin-ink, #f4f7ff);
+  box-shadow: 0 5px 18px rgba(11,12,32,.18);
+  backdrop-filter: blur(7px);
+  line-height: 1.3;
+  font-size: 13px;
+  font-weight: 500;
+  resize: none;
+  max-height: min(210px, 35dvh);
+}
+.glauka-node-shape-row {
+  color: var(--nm-skin-ink, #e6e8ef);
+}
+.glauka-node-shape-row select{
+  box-sizing: border-box;
+  min-width: 0;
+  border: 1px solid var(--nm-skin-stroke, #76658c);
+  color: var(--nm-skin-ink, #f4f7ff);
+  background: var(--nm-skin-top, #152239);
+  border-radius: 8px;
+  padding: 0 8px;
+}
+/* Legacy portal selectors stay hidden: formatting actions live in-panel now. */
+body > .glauka-text-menu-portal {
+  display: none !important;
+}
+body > .glauka-text-menu-portal[hidden]{display:none!important}
+body > .glauka-text-menu-portal button {
+  display: none;
+}
+body > .glauka-text-menu-portal button:hover{border-color:var(--nm-theme-focus, #9580e0)}
+body > .glauka-text-menu-portal button:focus-visible{
+  outline:2px solid var(--nm-theme-focus, #9580e0);
+  outline-offset:1px;
+}

@@ -1,0 +1,114 @@
+.nm-motion-settings {
+  margin: 8px;
+  padding: 14px;
+  border: 1px solid var(--nm-ui-line, #435375);
+  border-radius: 12px;
+  color: var(--nm-ui-ink, #edf2fa);
+}
+.nm-motion-settings h3 {
+  font: 650 12px system-ui;
+  margin: 0 0 12px;
+}
+.nm-motion-settings label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 10px 0;
+  font: 12px/1.5 system-ui;
+}
+.nm-motion-settings input {
+  accent-color: var(--nm-ui-accent, #a99cff);
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+.nm-motion-settings p {
+  font: 11px/1.5 system-ui;
+  color: var(--nm-ui-muted, #afbdd3);
+  margin: 10px 0 0;
+}
+@keyframes nm-gentle-panel {
+  from {
+    opacity: 0.35;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+body[data-nm-motion="gentle"]
+  :is(
+    #nm-insert-panel,
+    #nm-ai-studio,
+    #inspector-sidebar,
+    .hud-bottom-left,
+    .dropdown-panel
+  ):not([hidden]):not(.hidden):not(.collapsed) {
+  animation: nm-gentle-panel var(--nm-motion-duration, 240ms) ease-out;
+}
+body[data-nm-motion="gentle"] #nm614-right-dock > button {
+  transition:
+    transform 0.12s ease-out,
+    background-color 0.12s ease-out;
+}
+body[data-nm-motion="gentle"] #nm614-right-dock > button:active {
+  transform: scale(0.95);
+}
+@media (prefers-reduced-motion: reduce) {
+  body[data-nm-motion]
+    :is(
+      #nm-insert-panel,
+      #nm-ai-studio,
+      #nm614-navigation-flyout,
+      #inspector-sidebar,
+      .hud-bottom-left,
+      .dropdown-panel
+    ) {
+    animation: none !important;
+  }
+  body[data-nm-motion] #nm614-right-dock > button {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+.nm-motion-settings .nm-motion-duration-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  margin-top: 16px;
+}
+.nm-motion-duration-row input[type="range"] {
+  grid-column: 1 / -1;
+  width: 100%;
+  height: 20px;
+}
+.nm-motion-duration-row output {
+  font-variant-numeric: tabular-nums;
+}
+#nm-motion-preview {
+  padding: 8px 12px;
+  border: 1px solid var(--nm-ui-line);
+  border-radius: 8px;
+  background: var(--nm-ui-top);
+  color: var(--nm-ui-ink);
+  cursor: pointer;
+}
+/* Older drawers also have CSS transitions. The preference must govern those
+   entrances as well as the newer keyframes. Color changes remain immediate. */
+body[data-nm-motion="off"]
+  :is(
+    #inspector-sidebar,
+    .hud-bottom-left,
+    .dropdown-panel,
+    #nm-insert-panel,
+    #nm-ai-studio,
+    #nm614-navigation-flyout,
+    #nm-learn-panel,
+    #nm-view-overlay
+  ) {
+  animation: none !important;
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
+}

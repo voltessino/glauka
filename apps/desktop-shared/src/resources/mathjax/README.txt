@@ -1,0 +1,1 @@
+MathJax is installed here during `scripts/release/prepare.py` from the reviewed offline `packages/editor-ui/vendor/mathjax` sources. This tracked placeholder keeps Go `//go:embed resources/mathjax/*` valid for source-only development. Runtime loads `/mathjax/mathjax.js` only when the user opens formulas.

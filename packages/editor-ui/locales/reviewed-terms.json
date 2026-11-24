@@ -1,0 +1,1175 @@
+{
+  "m50009ce1da4d": {
+    "it": "File",
+    "en": "File",
+    "de": "Datei",
+    "es": "Archivo",
+    "fr": "Fichier",
+    "pt": "Ficheiro",
+    "ar": "ملف",
+    "zh-CN": "文件"
+  },
+  "m464c4ffd019e": {
+    "it": "Modifica",
+    "en": "Edit",
+    "de": "Bearbeiten",
+    "es": "Editar",
+    "fr": "Modifier",
+    "pt": "Editar",
+    "ar": "تحرير",
+    "zh-CN": "编辑"
+  },
+  "m49e493ba9d9c": {
+    "it": "Modifica",
+    "en": "Edit",
+    "de": "Bearbeiten",
+    "es": "Editar",
+    "fr": "Modifier",
+    "pt": "Editar",
+    "ar": "تحرير",
+    "zh-CN": "编辑"
+  },
+  "m2ea946cbede3": {
+    "it": "Inserisci",
+    "en": "Insert",
+    "de": "Einfügen",
+    "es": "Insertar",
+    "fr": "Insérer",
+    "pt": "Inserir",
+    "ar": "إدراج",
+    "zh-CN": "插入"
+  },
+  "m8aa318eb7eaa": {
+    "it": "Inserisci",
+    "en": "Insert",
+    "de": "Einfügen",
+    "es": "Insertar",
+    "fr": "Insérer",
+    "pt": "Inserir",
+    "ar": "إدراج",
+    "zh-CN": "插入"
+  },
+  "mdcc839a4015c": {
+    "it": "Visualizza",
+    "en": "View",
+    "de": "Ansicht",
+    "es": "Ver",
+    "fr": "Affichage",
+    "pt": "Ver",
+    "ar": "عرض",
+    "zh-CN": "视图"
+  },
+  "m9d6f5c19ad04": {
+    "it": "Visualizza",
+    "en": "View",
+    "de": "Ansicht",
+    "es": "Ver",
+    "fr": "Affichage",
+    "pt": "Ver",
+    "ar": "عرض",
+    "zh-CN": "视图"
+  },
+  "mea93d6a262ec": {
+    "de": "Werkzeuge",
+    "es": "Herramientas",
+    "fr": "Outils",
+    "pt": "Ferramentas",
+    "ar": "أدوات",
+    "zh-CN": "工具"
+  },
+  "mb79cac926e0b": {
+    "de": "Hilfe",
+    "es": "Ayuda",
+    "fr": "Aide",
+    "pt": "Ajuda",
+    "ar": "مساعدة",
+    "zh-CN": "帮助"
+  },
+  "m7b855ce7525e": {
+    "it": "Impostazioni",
+    "en": "Settings",
+    "de": "Einstellungen",
+    "es": "Configuración",
+    "fr": "Paramètres",
+    "pt": "Definições",
+    "ar": "الإعدادات",
+    "zh-CN": "设置"
+  },
+  "m74a883a037bc": {
+    "it": "Impostazioni",
+    "en": "Settings",
+    "de": "Einstellungen",
+    "es": "Configuración",
+    "fr": "Paramètres",
+    "pt": "Definições",
+    "ar": "الإعدادات",
+    "zh-CN": "设置"
+  },
+  "m1509f561f241": {
+    "de": "Speichern",
+    "es": "Guardar",
+    "fr": "Enregistrer",
+    "pt": "Guardar",
+    "ar": "حفظ",
+    "zh-CN": "保存",
+    "it": "Salva",
+    "en": "Save"
+  },
+  "m7d9eb7acb13e": {
+    "de": "Schließen",
+    "es": "Cerrar",
+    "fr": "Fermer",
+    "pt": "Fechar",
+    "ar": "إغلاق",
+    "zh-CN": "关闭"
+  },
+  "m19766ed6ccb2": {
+    "de": "Abbrechen",
+    "es": "Cancelar",
+    "fr": "Annuler",
+    "pt": "Cancelar",
+    "ar": "إلغاء",
+    "zh-CN": "取消"
+  },
+  "m39e09d0b0cc7": {
+    "de": "Rückgängig",
+    "es": "Deshacer",
+    "fr": "Annuler",
+    "pt": "Desfazer",
+    "ar": "تراجع",
+    "zh-CN": "撤销"
+  },
+  "m74273989b096": {
+    "de": "Wiederholen",
+    "es": "Rehacer",
+    "fr": "Rétablir",
+    "pt": "Refazer",
+    "ar": "إعادة",
+    "zh-CN": "重做",
+    "it": "Ripeti",
+    "en": "Redo"
+  },
+  "m31e392d1c037": {
+    "de": "Übernehmen",
+    "es": "Aplicar",
+    "fr": "Appliquer",
+    "pt": "Aplicar",
+    "ar": "تطبيق",
+    "zh-CN": "应用"
+  },
+  "mebd162e1c053": {
+    "it": "Copia",
+    "en": "Copy",
+    "de": "Kopieren",
+    "es": "Copiar",
+    "fr": "Copier",
+    "pt": "Copiar",
+    "ar": "نسخ",
+    "zh-CN": "复制"
+  },
+  "me21f935f11d7": {
+    "it": "Copia",
+    "en": "Copy",
+    "de": "Kopieren",
+    "es": "Copiar",
+    "fr": "Copier",
+    "pt": "Copiar",
+    "ar": "نسخ",
+    "zh-CN": "复制"
+  },
+  "mf3380f7b44bd": {
+    "it": "Incolla",
+    "en": "Paste",
+    "de": "Einfügen",
+    "es": "Pegar",
+    "fr": "Coller",
+    "pt": "Colar",
+    "ar": "لصق",
+    "zh-CN": "粘贴"
+  },
+  "mc0d46d45b7d1": {
+    "it": "Incolla",
+    "en": "Paste",
+    "de": "Einfügen",
+    "es": "Pegar",
+    "fr": "Coller",
+    "pt": "Colar",
+    "ar": "لصق",
+    "zh-CN": "粘贴"
+  },
+  "m4bbd9643d9d2": {
+    "it": "Taglia",
+    "en": "Cut",
+    "de": "Ausschneiden",
+    "es": "Cortar",
+    "fr": "Couper",
+    "pt": "Cortar",
+    "ar": "قص",
+    "zh-CN": "剪切"
+  },
+  "m1f45f02561f4": {
+    "it": "Taglia",
+    "en": "Cut",
+    "de": "Ausschneiden",
+    "es": "Cortar",
+    "fr": "Couper",
+    "pt": "Cortar",
+    "ar": "قص",
+    "zh-CN": "剪切"
+  },
+  "m8027f432a7fb": {
+    "de": "Sprache der Benutzeroberfläche",
+    "es": "Idioma de la interfaz",
+    "fr": "Langue de l’interface",
+    "pt": "Idioma da interface",
+    "ar": "لغة الواجهة",
+    "zh-CN": "界面语言"
+  },
+  "m49c266baaaa7": {
+    "it": "Cerca",
+    "en": "Search",
+    "de": "Suchen",
+    "es": "Buscar",
+    "fr": "Rechercher",
+    "pt": "Pesquisar",
+    "ar": "بحث",
+    "zh-CN": "搜索"
+  },
+  "m15910e265a5d": {
+    "it": "Cerca",
+    "en": "Search",
+    "de": "Suchen",
+    "es": "Buscar",
+    "fr": "Rechercher",
+    "pt": "Pesquisar",
+    "ar": "بحث",
+    "zh-CN": "搜索"
+  },
+  "m31fbef162594": {
+    "de": "Weiter",
+    "es": "Continuar",
+    "fr": "Continuer",
+    "pt": "Continuar",
+    "ar": "متابعة",
+    "zh-CN": "继续"
+  },
+  "m324b134f57c7": {
+    "de": "Vorschau",
+    "es": "Vista previa",
+    "fr": "Aperçu",
+    "pt": "Pré-visualização",
+    "ar": "معاينة",
+    "zh-CN": "预览"
+  },
+  "mb14215e87783": {
+    "de": "Leeres Projekt",
+    "es": "Proyecto vacío",
+    "fr": "Projet vide",
+    "pt": "Projeto vazio",
+    "ar": "مشروع فارغ",
+    "zh-CN": "空白项目"
+  },
+  "m25498193b898": {
+    "de": "Projektname",
+    "es": "Nombre del proyecto",
+    "fr": "Nom du projet",
+    "pt": "Nome do projeto",
+    "ar": "اسم المشروع",
+    "zh-CN": "项目名称"
+  },
+  "mc52af048cebf": {
+    "de": "Projekt erstellen",
+    "es": "Crear un proyecto",
+    "fr": "Créer un projet",
+    "pt": "Criar um projeto",
+    "ar": "إنشاء مشروع",
+    "zh-CN": "创建项目"
+  },
+  "mc4c61e4f9081": {
+    "it": "Apri progetto…",
+    "en": "Open project…",
+    "de": "Projekt öffnen…",
+    "es": "Abrir proyecto…",
+    "fr": "Ouvrir un projet…",
+    "pt": "Abrir projeto…",
+    "ar": "فتح مشروع…",
+    "zh-CN": "打开项目…"
+  },
+  "m25e890aa4385": {
+    "it": "Continua nell’editor",
+    "en": "Continue to editor",
+    "de": "Zum Editor",
+    "es": "Ir al editor",
+    "fr": "Accéder à l’éditeur",
+    "pt": "Ir para o editor",
+    "ar": "الانتقال إلى المحرر",
+    "zh-CN": "进入编辑器"
+  },
+  "mae02e5d7e9e0": {
+    "it": "Continua nell’editor",
+    "en": "Continue to editor",
+    "de": "Zum Editor",
+    "es": "Ir al editor",
+    "fr": "Accéder à l’éditeur",
+    "pt": "Ir para o editor",
+    "ar": "الانتقال إلى المحرر",
+    "zh-CN": "进入编辑器"
+  },
+  "m27fc5462a367": {
+    "it": "Studio e idee",
+    "en": "Study and ideas",
+    "de": "Lernen und Ideen",
+    "es": "Estudio e ideas",
+    "fr": "Étude et idées",
+    "pt": "Estudo e ideias",
+    "ar": "الدراسة والأفكار",
+    "zh-CN": "学习与创意"
+  },
+  "mebe9f4dbdbb3": {
+    "it": "Attività e scadenze",
+    "en": "Tasks and deadlines",
+    "de": "Aufgaben und Fristen",
+    "es": "Tareas y plazos",
+    "fr": "Tâches et échéances",
+    "pt": "Tarefas e prazos",
+    "ar": "المهام والمواعيد",
+    "zh-CN": "任务与期限"
+  },
+  "m10939a998790": {
+    "de": "Mindmap",
+    "es": "Mapa mental",
+    "fr": "Carte mentale",
+    "pt": "Mapa mental",
+    "ar": "خريطة ذهنية",
+    "zh-CN": "思维导图"
+  },
+  "m5b196043aa5f": {
+    "de": "Organigramm",
+    "es": "Organigrama",
+    "fr": "Organigramme",
+    "pt": "Organograma",
+    "ar": "مخطط تنظيمي",
+    "zh-CN": "组织结构图"
+  },
+  "m12b77cae5101": {
+    "de": "Konzeptbaum",
+    "es": "Árbol conceptual",
+    "fr": "Arbre conceptuel",
+    "pt": "Árvore conceptual",
+    "ar": "شجرة مفاهيم",
+    "zh-CN": "概念树"
+  },
+  "me42f4355d757": {
+    "de": "Konzeptnetzwerk",
+    "es": "Red conceptual",
+    "fr": "Réseau conceptuel",
+    "pt": "Rede conceptual",
+    "ar": "شبكة مفاهيم",
+    "zh-CN": "概念网络"
+  },
+  "m2e2d5c5649b7": {
+    "de": "Arbeitsablauf",
+    "es": "Flujo de trabajo",
+    "fr": "Flux de travail",
+    "pt": "Fluxo de trabalho",
+    "ar": "سير العمل",
+    "zh-CN": "工作流"
+  },
+  "m7072af35ec10": {
+    "de": "Kanban-Board",
+    "es": "Tablero Kanban",
+    "fr": "Tableau Kanban",
+    "pt": "Quadro Kanban",
+    "ar": "لوحة كانبان",
+    "zh-CN": "看板"
+  },
+  "m9dcff98e275f": {
+    "de": "Zeitachse",
+    "es": "Línea de tiempo",
+    "fr": "Frise chronologique",
+    "pt": "Linha do tempo",
+    "ar": "الخط الزمني",
+    "zh-CN": "时间线"
+  },
+  "m100ec1bc78a4": {
+    "de": "Zu erledigen",
+    "es": "Por hacer",
+    "fr": "À faire",
+    "pt": "Por fazer",
+    "ar": "للتنفيذ",
+    "zh-CN": "待办"
+  },
+  "mcd742c535cda": {
+    "de": "In Arbeit",
+    "es": "En curso",
+    "fr": "En cours",
+    "pt": "Em curso",
+    "ar": "قيد التنفيذ",
+    "zh-CN": "进行中"
+  },
+  "m11a6767d5674": {
+    "de": "Erledigt",
+    "es": "Completado",
+    "fr": "Terminé",
+    "pt": "Concluído",
+    "ar": "مكتمل",
+    "zh-CN": "已完成"
+  },
+  "m6adb16c13d94": {
+    "de": "7 Ansichten, ein Projekt",
+    "es": "7 vistas, un proyecto",
+    "fr": "7 vues, un projet",
+    "pt": "7 vistas, um projeto",
+    "ar": "٧ طرق عرض، مشروع واحد",
+    "zh-CN": "七种视图，同一项目"
+  },
+  "m85e65a0e19fe": {
+    "de": "KI zum Vertiefen",
+    "es": "IA para profundizar",
+    "fr": "L’IA pour approfondir",
+    "pt": "IA para aprofundar",
+    "ar": "ذكاء اصطناعي للفهم",
+    "zh-CN": "AI 辅助理解"
+  },
+  "me8f6c0c96786": {
+    "de": "Lernkarten und Wiederholung",
+    "es": "Tarjetas y repaso",
+    "fr": "Fiches et révision",
+    "pt": "Cartões e revisão",
+    "ar": "بطاقات ومراجعة",
+    "zh-CN": "卡片与复习"
+  },
+  "mef05b7f90fe8": {
+    "de": "Ein Raum. All deine Ideen.",
+    "es": "Un espacio. Todas tus ideas.",
+    "fr": "Un espace. Toutes vos idées.",
+    "pt": "Um espaço. Todas as tuas ideias.",
+    "ar": "مساحة واحدة. كل أفكارك.",
+    "zh-CN": "一个空间，汇聚所有想法。"
+  },
+  "mdd80507065fd": {
+    "de": "Dein neuer Arbeitsbereich.",
+    "es": "Tu próximo espacio de trabajo.",
+    "fr": "Votre prochain espace de travail.",
+    "pt": "O teu próximo espaço de trabalho.",
+    "ar": "مساحتك الجديدة للعمل والتعلّم.",
+    "zh-CN": "开启你的全新工作空间。"
+  },
+  "m6696b155e621": {
+    "de": "01 / ANPASSEN",
+    "es": "01 / PERSONALIZA",
+    "fr": "01 / PERSONNALISER",
+    "pt": "01 / PERSONALIZAR",
+    "ar": "٠١ / التخصيص",
+    "zh-CN": "01 / 个性化设置"
+  },
+  "me304ce9d0239": {
+    "de": "02 / INSTALLATION",
+    "es": "02 / INSTALACIÓN",
+    "fr": "02 / INSTALLATION",
+    "pt": "02 / INSTALAÇÃO",
+    "ar": "٠٢ / التثبيت",
+    "zh-CN": "02 / 正在安装"
+  },
+  "m397db2c3d782": {
+    "de": "03 / FERTIG",
+    "es": "03 / TODO LISTO",
+    "fr": "03 / TOUT EST PRÊT",
+    "pt": "03 / TUDO PRONTO",
+    "ar": "٠٣ / كل شيء جاهز",
+    "zh-CN": "03 / 准备就绪"
+  },
+  "m257e8dd4c89f": {
+    "de": "Glauka installieren",
+    "es": "Instalar Glauka",
+    "fr": "Installer Glauka",
+    "pt": "Instalar Glauka",
+    "ar": "تثبيت Glauka",
+    "zh-CN": "安装 Glauka"
+  },
+  "mb5648ada1520": {
+    "de": "Glauka nach der Installation öffnen",
+    "es": "Abrir Glauka al finalizar",
+    "fr": "Ouvrir Glauka après l’installation",
+    "pt": "Abrir Glauka após a instalação",
+    "ar": "فتح Glauka بعد التثبيت",
+    "zh-CN": "安装完成后打开 Glauka"
+  },
+  "me99068ce651b": {
+    "de": "Installationsort",
+    "es": "Ubicación de instalación",
+    "fr": "Emplacement d’installation",
+    "pt": "Local de instalação",
+    "ar": "مسار التثبيت",
+    "zh-CN": "安装位置"
+  },
+  "mbda18b9e55aa": {
+    "de": "Bereit zur Installation",
+    "es": "Listo para instalar",
+    "fr": "Prêt pour l’installation",
+    "pt": "Pronto para instalar",
+    "ar": "جاهز للتثبيت",
+    "zh-CN": "准备安装"
+  },
+  "mf5cb8a218257": {
+    "de": "Desktopverknüpfung erstellen",
+    "es": "Crear un acceso directo en el escritorio",
+    "fr": "Créer un raccourci sur le Bureau",
+    "pt": "Criar um atalho no Ambiente de Trabalho",
+    "ar": "إنشاء اختصار على سطح المكتب",
+    "zh-CN": "创建桌面快捷方式"
+  },
+  "m546410512038": {
+    "de": "Wiederholungen",
+    "es": "repasos",
+    "fr": "révisions",
+    "pt": "revisões",
+    "ar": "مراجعات",
+    "zh-CN": "次复习"
+  },
+  "mc3eefb58d7c4": {
+    "de": "geschlossen",
+    "es": "cerrado",
+    "fr": "fermé",
+    "pt": "fechado",
+    "ar": "مغلق",
+    "zh-CN": "已关闭"
+  },
+  "m55ea09e5715d": {
+    "de": "Limit",
+    "es": "límite",
+    "fr": "limite",
+    "pt": "limite",
+    "ar": "الحد",
+    "zh-CN": "上限"
+  },
+  "m936a161c3931": {
+    "de": "Editor",
+    "es": "Editor",
+    "fr": "Éditeur",
+    "pt": "Editor",
+    "ar": "المحرر",
+    "zh-CN": "编辑器"
+  },
+  "me93372533f32": {
+    "de": "Knoten",
+    "es": "Nodo",
+    "fr": "Nœud",
+    "pt": "Nó",
+    "ar": "عقدة",
+    "zh-CN": "节点"
+  },
+  "m52656e8104ee": {
+    "de": "Zweig",
+    "es": "Rama",
+    "fr": "Branche",
+    "pt": "Ramo",
+    "ar": "فرع",
+    "zh-CN": "分支"
+  },
+  "m2b71c6a11df1": {
+    "de": "Karte",
+    "es": "Mapa",
+    "fr": "Carte",
+    "pt": "Mapa",
+    "ar": "خريطة",
+    "zh-CN": "导图"
+  },
+  "mbe176b0015c4": {
+    "de": "Karte",
+    "es": "Mapa",
+    "fr": "Carte",
+    "pt": "Mapa",
+    "ar": "خريطة",
+    "zh-CN": "导图"
+  },
+  "m4f01aabad5cf": {
+    "de": "Importieren",
+    "es": "Importar",
+    "fr": "Importer",
+    "pt": "Importar",
+    "ar": "استيراد",
+    "zh-CN": "导入",
+    "it": "Importa",
+    "en": "Import"
+  },
+  "m2cff9baabf56": {
+    "de": "Importieren",
+    "es": "Importar",
+    "fr": "Importer",
+    "pt": "Importar",
+    "ar": "استيراد",
+    "zh-CN": "导入"
+  },
+  "m3664895579f0": {
+    "de": "Exportieren",
+    "es": "Exportar",
+    "fr": "Exporter",
+    "pt": "Exportar",
+    "ar": "تصدير",
+    "zh-CN": "导出"
+  },
+  "mb59b6fab017d": {
+    "en": "Central map",
+    "de": "Zentrales Thema",
+    "es": "Tema central",
+    "fr": "Sujet central",
+    "pt": "Tema central",
+    "ar": "الموضوع المركزي",
+    "zh-CN": "中心主题"
+  },
+  "m3e34a6c6d209": {
+    "en": "New map",
+    "de": "Neue Karte",
+    "es": "Nuevo mapa",
+    "fr": "Nouvelle carte",
+    "pt": "Novo mapa",
+    "ar": "خريطة جديدة",
+    "zh-CN": "新导图"
+  },
+  "m362c3ff4779c": {
+    "en": "New node",
+    "de": "Neuer Knoten",
+    "es": "Nuevo nodo",
+    "fr": "Nouveau nœud",
+    "pt": "Novo nó",
+    "ar": "عقدة جديدة",
+    "zh-CN": "新节点"
+  },
+  "m7f240f92f5e4": {
+    "en": "Main branch",
+    "de": "Hauptzweig",
+    "es": "Rama principal",
+    "fr": "Branche principale",
+    "pt": "Ramo principal",
+    "ar": "فرع رئيسي",
+    "zh-CN": "主分支"
+  },
+  "m2c415d2892d4": {
+    "en": "Sibling node",
+    "de": "Geschwisterknoten",
+    "es": "Nodo del mismo nivel",
+    "fr": "Nœud de même niveau",
+    "pt": "Nó do mesmo nível",
+    "ar": "عقدة في المستوى نفسه",
+    "zh-CN": "同级节点"
+  },
+  "m5807a70b7cc0": {
+    "en": "Summary",
+    "de": "Zusammenfassung",
+    "es": "Resumen",
+    "fr": "Résumé",
+    "pt": "Resumo",
+    "ar": "ملخص",
+    "zh-CN": "摘要"
+  },
+  "m6fc77375f0c1": {
+    "it": "⌕ Comandi",
+    "en": "⌕ Commands",
+    "de": "⌕ Befehle",
+    "es": "⌕ Comandos",
+    "fr": "⌕ Commandes",
+    "pt": "⌕ Comandos",
+    "ar": "⌕ الأوامر",
+    "zh-CN": "⌕ 命令"
+  },
+  "m80ef430f714e": {
+    "it": "KPI Chiave",
+    "en": "Key performance indicators",
+    "de": "Wichtige Leistungskennzahlen",
+    "es": "Indicadores clave de rendimiento",
+    "fr": "Indicateurs clés de performance",
+    "pt": "Indicadores-chave de desempenho",
+    "ar": "مؤشرات الأداء الرئيسية",
+    "zh-CN": "关键绩效指标"
+  },
+  "m9c280ffd9692": {
+    "it": "Immagine con dimensioni non valide",
+    "en": "Invalid image dimensions",
+    "de": "Ungültige Bildabmessungen",
+    "es": "Dimensiones de imagen no válidas",
+    "fr": "Dimensions de l’image non valides",
+    "pt": "Dimensões de imagem inválidas",
+    "ar": "أبعاد الصورة غير صالحة",
+    "zh-CN": "图片尺寸无效"
+  },
+  "m08ece953a864": {
+    "it": "ERRORE IMMAGINE",
+    "en": "IMAGE ERROR",
+    "de": "BILDFEHLER",
+    "es": "ERROR DE IMAGEN",
+    "fr": "ERREUR D’IMAGE",
+    "pt": "ERRO DE IMAGEM",
+    "ar": "خطأ في الصورة",
+    "zh-CN": "图片错误"
+  },
+  "mce043451a6f6": {
+    "it": "Dai forma alle tue idee.",
+    "en": "Give your ideas shape.",
+    "de": "Gib deinen Ideen Gestalt.",
+    "es": "Da forma a tus ideas.",
+    "fr": "Donnez forme à vos idées.",
+    "pt": "Dá forma às tuas ideias.",
+    "ar": "امنح أفكارك شكلاً واضحًا.",
+    "zh-CN": "让想法清晰成形。"
+  },
+  "md9006d811b5e": {
+    "it": "I progetti restano su questo dispositivo. Esporta regolarmente una copia di sicurezza.",
+    "en": "Projects stay on this device. Export a backup regularly.",
+    "de": "Deine Projekte bleiben auf diesem Gerät. Exportiere regelmäßig eine Sicherungskopie.",
+    "es": "Los proyectos permanecen en este dispositivo. Exporta una copia de seguridad con regularidad.",
+    "fr": "Vos projets restent sur cet appareil. Exportez régulièrement une copie de sauvegarde.",
+    "pt": "Os projetos ficam neste dispositivo. Exporta regularmente uma cópia de segurança.",
+    "ar": "تبقى المشاريع على هذا الجهاز. صدّر نسخة احتياطية بانتظام.",
+    "zh-CN": "项目保存在此设备上。请定期导出备份。"
+  },
+  "m55897a687385": {
+    "it": "non ancora ripassata",
+    "en": "not reviewed yet",
+    "de": "noch nicht wiederholt",
+    "es": "todavía sin repasar",
+    "fr": "pas encore révisée",
+    "pt": "ainda não revisada",
+    "ar": "لم تُراجع بعد",
+    "zh-CN": "尚未复习"
+  },
+  "m1a6ad06b0bea": {
+    "it": "Prova a rispondere a voce, poi premi Spazio per controllare.",
+    "en": "Try answering aloud, then press Space to check.",
+    "de": "Antworte zunächst laut und drücke dann die Leertaste zum Prüfen.",
+    "es": "Intenta responder en voz alta y pulsa Espacio para comprobarlo.",
+    "fr": "Essaie de répondre à voix haute, puis appuie sur Espace pour vérifier.",
+    "pt": "Tente responder em voz alta e pressione Espaço para conferir.",
+    "ar": "حاول الإجابة بصوت عالٍ، ثم اضغط على مفتاح المسافة للتحقق.",
+    "zh-CN": "先尝试口头作答，再按空格键查看答案。"
+  },
+  "m719738a85289": {
+    "it": "Grado",
+    "en": "Degree",
+    "de": "Grad",
+    "es": "Grado",
+    "fr": "Degré",
+    "pt": "Grau",
+    "ar": "درجة",
+    "zh-CN": "度"
+  },
+  "m1b9a9fe4f643": {
+    "it": "Forma dei collegamenti",
+    "en": "Connection shape",
+    "de": "Form der Verbindungen",
+    "es": "Forma de las conexiones",
+    "fr": "Forme des liaisons",
+    "pt": "Forma das ligações",
+    "zh-CN": "连接线形状",
+    "ar": "شكل الروابط"
+  },
+  "m3be471f25da2": {
+    "it": "tracciati diversi, non spessori",
+    "en": "different paths, not thicknesses",
+    "de": "unterschiedliche Verläufe, keine Linienstärken",
+    "es": "distintos trazados, no grosores",
+    "fr": "des tracés différents, pas des épaisseurs",
+    "pt": "traçados diferentes, não espessuras",
+    "zh-CN": "不同路径，而非粗细",
+    "ar": "مسارات مختلفة، وليست سماكات"
+  },
+  "m3190e3657832": {
+    "it": "Curve morbide",
+    "en": "Soft curves",
+    "de": "Weiche Kurven",
+    "es": "Curvas suaves",
+    "fr": "Courbes douces",
+    "pt": "Curvas suaves",
+    "zh-CN": "平滑曲线",
+    "ar": "منحنيات ناعمة"
+  },
+  "mdebd10181321": {
+    "it": "Questa mappa usa uno stile precedente. Puoi conservarlo o scegliere una nuova geometria.",
+    "en": "This map uses an older style. Keep it or choose a new geometry.",
+    "de": "Diese Map verwendet einen älteren Stil. Behalte ihn bei oder wähle eine neue Geometrie.",
+    "es": "Este mapa usa un estilo anterior. Puedes conservarlo o elegir una geometría nueva.",
+    "fr": "Cette carte utilise un ancien style. Conservez-le ou choisissez une nouvelle géométrie.",
+    "pt": "Este mapa usa um estilo anterior. Pode mantê-lo ou escolher uma nova geometria.",
+    "zh-CN": "此导图使用旧样式。您可以保留它，或选择新的几何形状。",
+    "ar": "تستخدم هذه الخريطة نمطًا أقدم. يمكنك الاحتفاظ به أو اختيار شكل هندسي جديد."
+  },
+  "mf2722fd8bd9b": {
+    "it": "Qui scegli il",
+    "en": "Choose the",
+    "de": "Hier wählst du den",
+    "es": "Aquí eliges el",
+    "fr": "Choisissez le",
+    "pt": "Aqui escolhe o",
+    "zh-CN": "在此选择",
+    "ar": "اختر هنا"
+  },
+  "m31ff23e9e6b3": {
+    "it": "percorso",
+    "en": "path",
+    "de": "Verlauf",
+    "es": "trazado",
+    "fr": "tracé",
+    "pt": "traçado",
+    "zh-CN": "路径",
+    "ar": "المسار"
+  },
+  "m47c0c1c34d6d": {
+    "it": "delle linee. Lo spessore si regola separatamente sotto. Gli stili precedenti restano compatibili con i file già salvati.",
+    "en": "of the lines. Adjust thickness separately below. Older styles remain compatible with saved files.",
+    "de": "der Linien. Die Stärke stellst du unten separat ein. Ältere Stile bleiben mit gespeicherten Dateien kompatibel.",
+    "es": "de las líneas. El grosor se ajusta por separado abajo. Los estilos anteriores siguen siendo compatibles con los archivos guardados.",
+    "fr": "des lignes. Réglez leur épaisseur séparément ci-dessous. Les anciens styles restent compatibles avec les fichiers enregistrés.",
+    "pt": "das linhas. A espessura é ajustada separadamente abaixo. Os estilos anteriores continuam compatíveis com os ficheiros guardados.",
+    "zh-CN": "。线条粗细可在下方单独调整。旧样式仍与已保存的文件兼容。",
+    "ar": "للخطوط. اضبط السماكة بشكل مستقل أدناه. تظل الأنماط القديمة متوافقة مع الملفات المحفوظة."
+  },
+  "m2ddebd5e2405": {
+    "it": "Scegli quanto sono visibili i tratti, indipendentemente dalla loro forma.",
+    "en": "Choose line visibility independently of shape.",
+    "de": "Wähle die Sichtbarkeit der Linien unabhängig von ihrer Form.",
+    "es": "Elige la visibilidad de las líneas independientemente de su forma.",
+    "fr": "Choisissez la visibilité des traits indépendamment de leur forme.",
+    "pt": "Escolha a visibilidade das linhas independentemente da forma.",
+    "zh-CN": "选择线条的清晰程度，与其形状无关。",
+    "ar": "اختر مدى وضوح الخطوط بصورة مستقلة عن شكلها."
+  },
+  "me66b07b534de": {
+    "it": "Altre azioni sul ramo…",
+    "en": "More branch actions…",
+    "de": "Weitere Zweigaktionen…",
+    "es": "Más acciones de rama…",
+    "fr": "Autres actions sur la branche…",
+    "pt": "Mais ações do ramo…",
+    "zh-CN": "更多分支操作…",
+    "ar": "المزيد من إجراءات الفرع…"
+  },
+  "m338336890c2f": {
+    "it": "Altre azioni sull’immagine…",
+    "en": "More image actions…",
+    "de": "Weitere Bildaktionen…",
+    "es": "Más acciones de imagen…",
+    "fr": "Autres actions sur l’image…",
+    "pt": "Mais ações da imagem…",
+    "zh-CN": "更多图像操作…",
+    "ar": "المزيد من إجراءات الصورة…"
+  },
+  "maa12a227b00d": {
+    "it": "Apri i collegamenti",
+    "en": "Open connections",
+    "de": "Verbindungen öffnen",
+    "es": "Abrir conexiones",
+    "fr": "Ouvrir les liaisons",
+    "pt": "Abrir ligações",
+    "zh-CN": "打开连接线",
+    "ar": "فتح الروابط"
+  },
+  "m73510edbc047": {
+    "it": "Scegli la geometria dei collegamenti",
+    "en": "Choose connection geometry",
+    "de": "Geometrie der Verbindungen wählen",
+    "es": "Elegir la geometría de las conexiones",
+    "fr": "Choisir la géométrie des liaisons",
+    "pt": "Escolher a geometria das ligações",
+    "zh-CN": "选择连接线形状",
+    "ar": "اختيار الشكل الهندسي للروابط"
+  },
+  "m1cc86053e291": {
+    "it": "Glauka · azioni contestuali",
+    "en": "Glauka · context actions",
+    "de": "Glauka · Kontextaktionen",
+    "es": "Glauka · acciones contextuales",
+    "fr": "Glauka · actions contextuelles",
+    "pt": "Glauka · ações de contexto",
+    "zh-CN": "Glauka · 上下文操作",
+    "ar": "Glauka · إجراءات السياق"
+  },
+  "m6e4bf102660b": {
+    "it": "Mostra altre azioni per questo elemento",
+    "en": "Show more actions for this item",
+    "de": "Weitere Aktionen für dieses Element anzeigen",
+    "es": "Mostrar más acciones para este elemento",
+    "fr": "Afficher d’autres actions pour cet élément",
+    "pt": "Mostrar mais ações para este elemento",
+    "zh-CN": "显示此项目的更多操作",
+    "ar": "عرض المزيد من الإجراءات لهذا العنصر"
+  },
+  "m9acc2f128de9": {
+    "it": "Scegli dove incollare",
+    "en": "Choose where to paste",
+    "de": "Einfügeziel wählen",
+    "es": "Elegir dónde pegar",
+    "fr": "Choisir où coller",
+    "pt": "Escolher onde colar",
+    "zh-CN": "选择粘贴位置",
+    "ar": "اختيار مكان اللصق"
+  },
+  "mff7ed5b40de8": {
+    "it": "Nuova scheda (Ctrl+T)",
+    "en": "New tab (Ctrl+T)",
+    "de": "Neuer Tab (Ctrl+T)",
+    "es": "Nueva pestaña (Ctrl+T)",
+    "fr": "Nouvel onglet (Ctrl+T)",
+    "pt": "Novo separador (Ctrl+T)",
+    "zh-CN": "新建标签页 (Ctrl+T)",
+    "ar": "علامة تبويب جديدة (Ctrl+T)"
+  },
+  "m2a015a2e5e49": {
+    "it": "0 = preferisci sinistra, 50 = automatico, 100 = preferisci destra. Disponibile in Orario e Colonne.",
+    "en": "0 = prefer left, 50 = automatic, 100 = prefer right. Available in Clockwise and Columns.",
+    "de": "0 = links bevorzugen, 50 = automatisch, 100 = rechts bevorzugen. Verfügbar in Im Uhrzeigersinn und Spalten.",
+    "es": "0 = preferir izquierda, 50 = automático, 100 = preferir derecha. Disponible en Horario y Columnas.",
+    "fr": "0 = privilégier la gauche, 50 = automatique, 100 = privilégier la droite. Disponible en Horaire et Colonnes.",
+    "pt": "0 = preferir a esquerda, 50 = automático, 100 = preferir a direita. Disponível em Horário e Colunas.",
+    "zh-CN": "0 = 优先左侧，50 = 自动，100 = 优先右侧。适用于顺时针和分栏布局。",
+    "ar": "0 = تفضيل اليسار، 50 = تلقائي، 100 = تفضيل اليمين. متاح في وضعي اتجاه عقارب الساعة والأعمدة."
+  },
+  "me00a8774cd7b": {
+    "it": "Modifica testo del nodo (Shift+Invio per nuova riga)",
+    "en": "Edit node text (Shift+Enter for a new line)",
+    "de": "Knotentext bearbeiten (Shift+Enter für eine neue Zeile)",
+    "es": "Editar texto del nodo (Shift+Enter para una línea nueva)",
+    "fr": "Modifier le texte du nœud (Shift+Enter pour une nouvelle ligne)",
+    "pt": "Editar texto do nó (Shift+Enter para uma nova linha)",
+    "zh-CN": "编辑节点文字 (Shift+Enter 换行)",
+    "ar": "تحرير نص العقدة (Shift+Enter لسطر جديد)"
+  },
+  "m713eb6108d5d": {
+    "it": "Stile",
+    "en": "Style"
+  },
+  "m65b6a17b064c": {
+    "it": "Attivo:",
+    "en": "Active:"
+  },
+  "m965cf0f0cc2e": {
+    "it": "Illustra",
+    "en": "Illustrate"
+  },
+  "m304249390d5b": {
+    "it": "↝ Relazione",
+    "en": "↝ Relationship"
+  },
+  "m45d69977372f": {
+    "it": "⤵️ Aggiungi Ramo allo stesso livello · orario",
+    "en": "⤵️ Add sibling branch · clockwise"
+  },
+  "m21ef929c7b3c": {
+    "it": "｝ Crea Riepilogo con Graffa",
+    "en": "｝ Create summary with brace"
+  },
+  "mf275deb4a105": {
+    "it": "✂ Taglia immagine",
+    "en": "✂ Cut image"
+  },
+  "ma9a7f764864e": {
+    "it": "✨ Converti appunti con AI",
+    "en": "✨ Convert notes with AI"
+  },
+  "m650b5c425c20": {
+    "it": "🔄 Rileva modelli",
+    "en": "🔄 Discover models"
+  },
+  "mffe4f00f8ce5": {
+    "it": "🖼️ Illustrazioni dei nodi",
+    "en": "🖼️ Node illustrations"
+  },
+  "m383ee202be6e": {
+    "it": "Shift+Invio",
+    "en": "Shift+Enter"
+  },
+  "m2eb8789baeea": {
+    "it": "Ctrl+F / Ctrl+K · ↑↓ · Invio · Esc",
+    "en": "Ctrl+F / Ctrl+K · ↑↓ · Enter · Esc"
+  },
+  "mc72e95646f52": {
+    "it": "135 px",
+    "en": "135 px"
+  },
+  "m8a0479602198": {
+    "it": "Importazione",
+    "en": "Import"
+  },
+  "m3b30f34b8e9b": {
+    "it": "Duplica",
+    "en": "Duplicate"
+  },
+  "m02cdaabfca80": {
+    "it": "Duplica",
+    "en": "Duplicate"
+  },
+  "m277671a66814": {
+    "it": "Seleziona tutto",
+    "en": "Select all"
+  },
+  "m1fc9a387654d": {
+    "it": "Seleziona tutto",
+    "en": "Select all"
+  },
+  "m61232eb3ea79": {
+    "it": "Ramo ›",
+    "en": "Branch ›"
+  },
+  "meac0f9c3da59": {
+    "it": "Allinea a sinistra",
+    "en": "Align left"
+  },
+  "m8f4f8efcbee1": {
+    "it": "Allinea a destra",
+    "en": "Align right"
+  },
+  "m99452646e34b": {
+    "it": "Compatto",
+    "en": "Compact"
+  },
+  "mfac684e5bbd9": {
+    "it": "✨ Impostazioni AI",
+    "en": "✨ AI Settings"
+  },
+  "m246b63adac7f": {
+    "it": "Impostazioni AI",
+    "en": "AI settings"
+  },
+  "m680f8ac506bd": {
+    "it": "Crea una mappa dal testo",
+    "en": "Create a map from text"
+  },
+  "ma3fa0fad194b": {
+    "it": "Rinomina nodo",
+    "en": "Rename node"
+  },
+  "me4f28fd32c78": {
+    "it": "Centra la mappa",
+    "en": "Center map"
+  },
+  "ma5d6241828a0": {
+    "it": "Aggiungi sottoramo",
+    "en": "Add child"
+  },
+  "me12cc1eb4b78": {
+    "it": "Apri mappa",
+    "en": "Open map"
+  },
+  "m1ede3fc799a0": {
+    "it": "Ricerca globale",
+    "en": "Global search"
+  },
+  "mda1182242593": {
+    "it": "Il timer salva solo la scheda attiva se ha modifiche non salvate ed è già collegata a un file .gk, .neuromap (precedente) o .xmind. Per salvare tutte le schede usa Ctrl+Shift+S. Il backup di emergenza del workspace resta sempre disponibile.",
+    "en": "The timer saves only the active map when it has unsaved changes and is linked to a .gk, .neuromap or .xmind file. To save all maps, use Ctrl+Shift+S. The emergency workspace backup remains available.",
+    "de": "Der Timer speichert nur die aktive Karte, wenn sie nicht gespeicherte Änderungen aufweist und mit einer .gk, .neuromap- oder .xmind-Datei verknüpft ist. Um alle Karten zu speichern, verwenden Sie Ctrl+Shift+S. Das Notfall-Workspace-Backup bleibt verfügbar.",
+    "es": "El temporizador guarda solo el mapa activo cuando tiene cambios no guardados y está vinculado a un archivo .gk, .neuromap o .xmind. Para guardar todos los mapas, use Ctrl+Shift+S. La copia de seguridad del espacio de trabajo de emergencia permanece disponible.",
+    "fr": "Le minuteur enregistre uniquement la carte active lorsqu'elle comporte des modifications non enregistrées et est liée à un fichier .gk, .neuromap ou .xmind. Pour enregistrer toutes les cartes, utilisez Ctrl+Shift+S. La sauvegarde d'urgence de l'espace de travail reste disponible.",
+    "pt": "O cronômetro salva apenas o mapa ativo quando ele possui alterações não salvas e está vinculado a um arquivo .gk, .neuromap ou .xmind. Para salvar todos os mapas, use Ctrl+Shift+S. O backup emergencial do espaço de trabalho permanece disponível.",
+    "zh-CN": "当活动地图有未保存的更改并链接到 .gk, .neuromap 或 .xmind 文件时，计时器仅保存活动地图。要保存所有地图，请使用Ctrl+Shift+S。紧急工作空间备份仍然可用。",
+    "ar": "يحفظ المؤقت الخريطة النشطة فقط عندما تحتوي على تغييرات غير محفوظة ومرتبطة بملف .gk, .neuromap أو .xmind. لحفظ جميع الخرائط، استخدم Ctrl+Shift+S. تظل النسخة الاحتياطية لمساحة العمل في حالات الطوارئ متاحة."
+  },
+  "mf28df7e76ee7": {
+    "it": "Shift+Clic",
+    "en": "Shift+Click",
+    "de": "Shift+Klick",
+    "es": "Shift+Clic",
+    "fr": "Shift+Clic",
+    "pt": "Shift+Clique",
+    "zh-CN": "Shift+单击",
+    "ar": "Shift+نقر"
+  },
+  "m41e68d8653e1": {
+    "it": "Ctrl+Clic",
+    "en": "Ctrl+Click",
+    "de": "Ctrl+Klick",
+    "es": "Ctrl+Clic",
+    "fr": "Ctrl+Clic",
+    "pt": "Ctrl+Clique",
+    "zh-CN": "Ctrl+单击",
+    "ar": "Ctrl+نقر"
+  },
+  "mecfe43f2230f": {
+    "it": "{0} nodi/mappa",
+    "en": "{0} nodes/map",
+    "de": "{0} Knoten/Map",
+    "es": "{0} nodos/mapa",
+    "fr": "{0} nœuds/carte",
+    "pt": "{0} nós/mapa",
+    "zh-CN": "每张导图 {0} 个节点",
+    "ar": "{0} عقدة/خريطة"
+  },
+  "m0cfead40a205": {
+    "it": "# Capitolo 1\n## Anatomia\n- Primo argomento\n- Secondo argomento…",
+    "en": "# Chapter 1\n## Anatomy\n- First topic\n- Second topic…",
+    "de": "# Kapitel 1\n## Anatomie\n- Erstes Thema\n- Zweites Thema…",
+    "es": "# Capítulo 1\n## Anatomía\n- Primer tema\n- Segundo tema…",
+    "fr": "# Chapitre 1\n## Anatomie\n- Premier sujet\n- Deuxième sujet…",
+    "pt": "# Capítulo 1\n## Anatomia\n- Primeiro tema\n- Segundo tema…",
+    "zh-CN": "# 第1章\n## 解剖学\n- 第一个主题\n- 第二个主题…",
+    "ar": "# الفصل 1\n## التشريح\n- الموضوع الأول\n- الموضوع الثاني…"
+  },
+  "m2ceb4fc576f1": {
+    "it": "Salva",
+    "en": "Save",
+    "de": "Speichern",
+    "es": "Guardar",
+    "fr": "Enregistrer",
+    "pt": "Guardar",
+    "ar": "حفظ",
+    "zh-CN": "保存"
+  },
+  "m0b749e8c0c59": {
+    "it": "Ripeti",
+    "en": "Redo",
+    "de": "Wiederholen",
+    "es": "Rehacer",
+    "fr": "Rétablir",
+    "pt": "Refazer",
+    "ar": "إعادة",
+    "zh-CN": "重做"
+  },
+  "mc6ee4351147f": {
+    "it": "Rinomina nodo",
+    "en": "Rename node",
+    "de": "Knoten umbenennen",
+    "es": "Cambiar nombre de nodo",
+    "fr": "Renommer le nœud",
+    "pt": "Renomear nó",
+    "ar": "إعادة تسمية العقدة",
+    "zh-CN": "重命名节点"
+  },
+  "m6e88343bf5a7": {
+    "it": "Ripeti",
+    "en": "Redo"
+  },
+  "mcac486e7e3a0": {
+    "it": "▣ Incolla come fratello",
+    "en": "▣ Paste as sibling"
+  },
+  "ma06c2ba89633": {
+    "en": "🧠 Explain & etymology with AI"
+  },
+  "m4a2ee62d1c81": {
+    "en": "🔄 Refresh outdated cards"
+  },
+  "m4d428f46f6b7": {
+    "en": "↓ Export study deck"
+  },
+  "m44be592e1294": {
+    "en": "↑ Import study deck"
+  },
+  "m66e18aa8168a": {
+    "en": "🔓 Detach"
+  },
+  "m4697366e1dc2": {
+    "en": "✂ Cut branches / image"
+  },
+  "m46497cac006c": {
+    "en": "Sibling"
+  },
+  "m8157ad5d94fe": {
+    "it": "Disattivato",
+    "en": "Off",
+    "de": "Aus",
+    "es": "Desactivado",
+    "fr": "Désactivé",
+    "pt": "Desativado",
+    "ar": "غير مفعّل",
+    "zh-CN": "已关闭"
+  }
+}

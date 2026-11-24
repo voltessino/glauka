@@ -1,0 +1,4 @@
+const {defineConfig}=require('@playwright/test');
+process.env.GLAUKA_OCR_DESKTOP_URL='http://127.0.0.1:5274';
+process.env.GLAUKA_OCR_ANDROID_URL='http://127.0.0.1:5273';
+module.exports=defineConfig({testDir:'./tests/browser',testMatch:['ocr2.spec.js','selective-ocr.spec.js','ocr-quality.spec.js','android-ocr-lazy.spec.js'],workers:2,timeout:30000,use:{baseURL:'http://127.0.0.1:5273',locale:'it-IT',headless:true,launchOptions:{executablePath:process.env.CHROMIUM_EXECUTABLE_PATH||undefined,args:['--no-sandbox']}},webServer:[{command:'python3 scripts/dev/serve.py android --port 5273',url:'http://127.0.0.1:5273/app/index.html',reuseExistingServer:false},{command:'python3 scripts/dev/serve.py macos --port 5274',url:'http://127.0.0.1:5274/index.html',reuseExistingServer:false}],reporter:'list'});

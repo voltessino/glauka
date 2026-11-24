@@ -1,0 +1,31 @@
+{
+  "FixedFileInfo": {
+    "FileVersion": {
+      "Major": 1,
+      "Minor": 0,
+      "Patch": 4,
+      "Build": 0
+    },
+    "ProductVersion": {
+      "Major": 1,
+      "Minor": 0,
+      "Patch": 4,
+      "Build": 0
+    }
+  },
+  "StringFileInfo": {
+    "CompanyName": "Glauka",
+    "FileDescription": "Glauka Setup",
+    "FileVersion": "1.0.4",
+    "ProductVersion": "1.0.4",
+    "ProductName": "Glauka",
+    "OriginalFilename": "Glauka-Setup.exe"
+  },
+  "VarFileInfo": {
+    "Translation": {
+      "LangID": "0409",
+      "CharsetID": "04B0"
+    }
+  },
+  "IconPath": "binaries/icon.ico"
+}

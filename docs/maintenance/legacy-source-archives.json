@@ -1,0 +1,43 @@
+{
+  "formatVersion": 1,
+  "sourceCommit": "45434484d4f9c86caa41a22726cbd6ec8386f9d6",
+  "kind": "Historical source archives removed from the active main tree; restore from Git history.",
+  "totalBytes": 3421897,
+  "archives": [
+    {
+      "path": "apps/windows/legacy/NeuroMap-Desktop-Developer-6.11-source.zip",
+      "bytes": 1294420,
+      "blobSha": "5f99f324315a6bf35fb255d7530cd6414a601e63"
+    },
+    {
+      "path": "apps/windows/legacy/NeuroMap-Desktop-Developer-6.12-source.zip",
+      "bytes": 1306743,
+      "blobSha": "803a6c6c7a4809f91e8b95dd8063d665deee3ab6"
+    },
+    {
+      "path": "apps/macos/legacy/mac-beta-source.zip.b64",
+      "bytes": 443756,
+      "blobSha": "6d178d3109bfce4a27d4ed211488656562d15ffe"
+    },
+    {
+      "path": "apps/android/legacy/neuromap-source.zip.b64",
+      "bytes": 350768,
+      "blobSha": "dc121c573114159754f1f22d3ee09b1b7e4ac06b"
+    },
+    {
+      "path": "apps/desktop-shared/legacy/neuro613.tar.gz.b64",
+      "bytes": 8213,
+      "blobSha": "e395e46d91f58a8e3c20c8039ab7f79132dbbcab"
+    },
+    {
+      "path": "apps/desktop-shared/legacy/neuro614.tar.gz.b64",
+      "bytes": 7480,
+      "blobSha": "8c10d2e38be7f6f37a8d0135098e5e1d45514f67"
+    },
+    {
+      "path": "apps/desktop-shared/legacy/neuro615.tar.gz.b64",
+      "bytes": 10517,
+      "blobSha": "f5c8947737ec38249f0a9f1b0d95b34c6f4a083d"
+    }
+  ]
+}

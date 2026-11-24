@@ -1,0 +1,288 @@
+#gl-cloud-dialog[hidden]{display:none!important}
+#gl-cloud-dialog{position:fixed;z-index:999995;inset:0;display:flex;justify-content:center;align-items:center;padding:16px;background:rgba(20,17,39,.65);backdrop-filter:blur(4px)}
+.gl-cloud-card{width:min(500px,100%);max-height:86dvh;overflow:auto;padding:22px;background:#fff;color:#242238;border-radius:20px;box-shadow:0 24px 70px #0b082655;border:1px solid #e8e2f3;font:14px/1.55 system-ui,sans-serif}
+.gl-cloud-heading{display:flex;align-items:center;gap:15px;justify-content:space-between}
+.gl-cloud-heading h2{font-size:19px;font-weight:760;margin:0;color:#211b36}
+.gl-cloud-close{border:1px solid #ddd6ed;color:#302840;background:#f6f3fb;border-radius:9px;min-width:44px;min-height:44px;cursor:pointer}
+.gl-cloud-note{color:#524966;margin:12px 0;font-size:13px}
+.gl-cloud-warning{color:#735218;background:#fff8e8;border:1px solid #e9d6a5;border-radius:10px;padding:11px 12px;font-size:12px;margin-bottom:15px}
+.gl-cloud-row{border:1px solid #e6e0f1;border-radius:12px;margin:8px 0;padding:12px;display:flex;gap:10px;align-items:center;justify-content:space-between}
+.gl-cloud-row strong{font-size:14px;color:#2a2242}
+.gl-cloud-row small{display:block;font-size:11px;color:#665c79;margin-top:4px}
+.gl-cloud-row button,.gl-cloud-refresh{min-height:43px;border-radius:9px;border:1px solid #6842cf;padding:9px 12px;font-weight:700;color:#fff;background:#6942cf;cursor:pointer}
+.gl-cloud-row button:disabled{opacity:.65;cursor:not-allowed}
+.gl-cloud-row button.gl-cloud-disconnect{color:#6245a9;background:#fff}
+.gl-cloud-feedback{min-height:20px;font-size:12px;color:#574779}
+.gl-cloud-refresh{background:#fff;color:#6245a9}
+#gl-cloud-dialog button:focus-visible{outline:3px solid #6942cf;outline-offset:2px}
+@media(max-width:480px){.gl-cloud-card{padding:15px}.gl-cloud-row{flex-wrap:wrap}}
+/* Optional manual cloud library — theme-coherent, keyboard friendly. */
+.gl-cloud-library{display:flex;flex-direction:column;gap:10px;margin:14px 0 0;
+  border-top:1px solid #e2dcf0;padding-top:14px}
+.gl-cloud-library h3{margin:0;font-size:15px;font-weight:750;color:#2c2041}
+.gl-cloud-library-info{font-size:12px;color:#5c526c;line-height:1.5;margin:0}
+.gl-cloud-library-search{min-height:44px;width:100%;box-sizing:border-box;
+  border:1px solid #cac0e1;border-radius:9px;background:#fff;color:#2b2140;
+  padding:9px 11px;font:14px system-ui,sans-serif}
+.gl-cloud-library-items{max-height:min(42dvh,365px);overflow:auto;overscroll-behavior:contain;
+  display:flex;flex-direction:column;gap:5px}
+.gl-cloud-library-items .gl-cloud-row{margin:0;align-items:center}
+.gl-cloud-map-detail{min-width:0;flex:1}
+.gl-cloud-map-detail strong{display:block;white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis;max-width:100%;font-weight:650}
+.gl-cloud-map-detail small{display:block;overflow-wrap:anywhere;color:#665b74}
+.gl-cloud-restore-confirm{display:flex;align-items:center;gap:8px;
+  flex-wrap:wrap;width:100%;padding-top:5px}
+.gl-cloud-restore-confirm small{flex:1 1 100%;color:#5b506b;font-size:11px}
+.gl-cloud-map-row button[hidden]{display:none!important}
+.gl-cloud-library :is(button,input):focus-visible{outline:3px solid #7652d9;
+  outline-offset:2px}
+@media(max-width:500px){.gl-cloud-library-items{max-height:35dvh}
+ .gl-cloud-map-row{flex-wrap:wrap}.gl-cloud-map-detail{flex:1 1 100%}}
+
+
+/* Provider identities and explicit opt-in workspace synchronization. */
+.gl-cloud-brand{display:flex;align-items:center;gap:12px;min-width:0;flex:1 1 160px}
+.gl-cloud-brand .gl-cloud-provider-logo{flex:0 0 31px;width:31px;height:31px}
+.gl-cloud-brand>div{min-width:0}
+.gl-cloud-row{flex-wrap:wrap;align-items:center}
+.gl-cloud-sync-controls{display:flex;align-items:stretch;flex-direction:column;gap:9px;flex:1 0 100%;
+ padding:12px 0 0;border-top:1px solid #e2dcf0;margin-top:4px}
+.gl-cloud-sync-toggle{display:flex;align-items:center;gap:11px;font:700 13px/1.45 system-ui;color:#292241;cursor:pointer}
+.gl-cloud-sync-switch{appearance:auto!important;accent-color:#6542d1;width:19px;height:19px;cursor:pointer;flex:0 0 auto}
+.gl-cloud-sync-help{color:#584f76!important;font:12px/1.5 system-ui!important;margin:0!important}
+.gl-cloud-sync-status{border-radius:8px;padding:7px 10px;background:#f2effb;color:#352e60;font:600 12px/1.4 system-ui}
+.gl-cloud-row .gl-cloud-sync-now{align-self:flex-start;background:#fff;color:#6042ad;border:1px solid #b3a3e2;min-width:147px}
+.gl-cloud-row .gl-cloud-sync-now:disabled{opacity:.55;cursor:not-allowed}
+@media(max-width:460px){.gl-cloud-brand{flex-basis:100%}.gl-cloud-row>button:not(.gl-cloud-sync-now){flex:1}}
+
+.gl-cloud-setup{flex:1 0 100%;border-top:1px solid #e4dff3;padding-top:8px;margin-top:5px;min-width:0}
+.gl-cloud-setup>summary{min-height:36px;display:flex;align-items:center;color:#50427c;cursor:pointer;font:700 12px system-ui}
+.gl-cloud-setup>summary:focus-visible{outline:2px solid #7654d3;outline-offset:2px}
+.gl-cloud-field{display:flex;flex-direction:column;gap:5px;color:#34294d;font:600 12px/1.4 system-ui}
+.gl-cloud-public-id{width:100%;min-height:39px;box-sizing:border-box;padding:8px;border-radius:8px;
+ border:1px solid #a79ac8;color:#231d32;background:white;font:12px/1.4 ui-monospace,monospace}
+.gl-cloud-configure-save{margin-top:10px}
+.gl-cloud-setup>.gl-cloud-feedback{word-break:break-word}
+
+
+.gl-cloud-incoming-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:7px 0}
+.gl-cloud-incoming-actions[hidden]{display:none!important}
+.gl-cloud-incoming-actions .gl-cloud-accept-incoming{background:#5b3bb6;color:white}
+.gl-cloud-incoming-actions .gl-cloud-open-copy{background:white;color:#4b3487}
+.gl-cloud-incoming-actions button{flex:1 1 145px;min-height:44px;line-height:1.35}
+
+
+/* Cloud Hub: stay in the editor theme, but never recolor maps or provider logos. */
+body.nm-workspace-v2 #gl-cloud-dialog {
+  background:rgba(10,13,23,.56);
+  /* No backdrop shader: preserve crisp text on native Windows/WebKit views. */
+  backdrop-filter:none;
+}
+body.nm-workspace-v2 .gl-cloud-card {
+  width:min(540px,100%);
+  max-height:min(88dvh,900px);
+  padding:20px;
+  background:var(--nm-ui-surface,#fff);
+  color:var(--nm-ui-ink,#242238);
+  border:1px solid var(--nm-ui-line,#ddd6ed);
+  box-shadow:0 22px 70px #050c2266;
+  color-scheme:inherit;
+}
+body.nm-workspace-v2 .gl-cloud-heading h2,
+body.nm-workspace-v2 .gl-cloud-row strong,
+body.nm-workspace-v2 .gl-cloud-library h3,
+body.nm-workspace-v2 .gl-cloud-sync-toggle,
+body.nm-workspace-v2 .gl-cloud-field,
+body.nm-workspace-v2 .gl-cloud-setup>summary {
+  color:var(--nm-ui-ink,#242238);
+}
+body.nm-workspace-v2 .gl-cloud-note,
+body.nm-workspace-v2 .gl-cloud-row small,
+body.nm-workspace-v2 .gl-cloud-map-detail small,
+body.nm-workspace-v2 .gl-cloud-library-info,
+body.nm-workspace-v2 .gl-cloud-sync-help,
+body.nm-workspace-v2 .gl-cloud-feedback,
+body.nm-workspace-v2 .gl-cloud-restore-confirm small {
+  color:var(--nm-ui-muted,#635a77)!important;
+}
+body.nm-workspace-v2 .gl-cloud-row,
+body.nm-workspace-v2 .gl-cloud-library,
+body.nm-workspace-v2 .gl-cloud-setup,
+body.nm-workspace-v2 .gl-cloud-sync-controls {
+  border-color:var(--nm-ui-line,#e6e0f1);
+}
+body.nm-workspace-v2 .gl-cloud-row {
+  background:transparent;
+  padding:11px 12px;
+  border-radius:12px;
+  transition:border-color .15s ease,background .15s ease;
+}
+body.nm-workspace-v2 .gl-cloud-row.gl-cloud-active-provider {
+  border-color:var(--nm-ui-accent,#8b74ca);
+  background:var(--nm-ui-hover,#f5f2ff);
+}
+body.nm-workspace-v2 .gl-cloud-overview {
+  display:flex;align-items:center;gap:12px;
+  padding:14px;margin:13px 0;
+  border:1px solid var(--nm-ui-accent,#a99cff);
+  border-radius:14px;background:var(--nm-ui-hover,#f4f0fa);
+  min-width:0;
+}
+body.nm-workspace-v2 .gl-cloud-overview.gl-cloud-overview-idle {
+  border-color:var(--nm-ui-line,#e2dcf0);
+}
+body.nm-workspace-v2 .gl-cloud-overview-icon {
+  width:39px;height:39px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  flex:none;font-size:24px;
+  color:var(--nm-ui-ink,#332655);
+  background:var(--nm-ui-surface,#fff);
+}
+body.nm-workspace-v2 .gl-cloud-overview-text {min-width:0;display:grid;gap:4px}
+body.nm-workspace-v2 .gl-cloud-overview-text strong {
+  font-size:14px;line-height:1.3;overflow-wrap:anywhere;
+}
+body.nm-workspace-v2 .gl-cloud-overview-text small {
+  font-size:12px;line-height:1.45;color:var(--nm-ui-muted,#665c79);
+}
+body.nm-workspace-v2 .gl-cloud-state {
+  justify-self: start;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--nm-ui-top, #f4f1fb);
+  color: var(--nm-ui-ink, #27213e);
+  font: 700 12px/18px system-ui;
+}
+body.nm-workspace-v2 .gl-cloud-guide {
+  margin:13px 0 4px;padding:0 12px;
+  border:1px solid var(--nm-ui-line,#e2dcf0);
+  border-radius:10px;color:var(--nm-ui-muted,#524966);
+  background:var(--nm-ui-top,#fbfaff);
+}
+body.nm-workspace-v2 .gl-cloud-guide>summary {
+  padding:10px 0;cursor:pointer;font-size:12px;font-weight:700;
+  color:var(--nm-ui-ink,#352850);
+}
+body.nm-workspace-v2 .gl-cloud-guide p {margin:0 0 12px;font-size:12px;line-height:1.6}
+body.nm-workspace-v2 .gl-cloud-sync-status {
+  border:1px solid var(--nm-ui-line,#e0d9f0);
+  background:var(--nm-ui-top,#f2effb);
+  color:var(--nm-ui-ink,#352e60);
+}
+body.nm-workspace-v2 #gl-cloud-dialog :is(.gl-cloud-close,.gl-cloud-refresh,.gl-cloud-disconnect,.gl-cloud-find,.gl-cloud-sync-now) {
+  color:var(--nm-ui-ink,#6245a9);
+  background:var(--nm-ui-top,#fff);
+  border-color:var(--nm-ui-line,#b3a3e2);
+}
+body.nm-workspace-v2 #gl-cloud-dialog :is(button,input,summary):focus-visible {
+  outline:3px solid var(--nm-ui-accent,#7652d9);
+  outline-offset:2px;
+}
+body.nm-workspace-v2 .gl-cloud-library-search,
+body.nm-workspace-v2 .gl-cloud-public-id {
+  color:var(--nm-ui-ink,#2b2140);
+  background:var(--nm-ui-top,#fff);
+  border-color:var(--nm-ui-line,#cac0e1);
+}
+body.nm-workspace-v2 .gl-cloud-library-items {max-height:min(35dvh,320px)}
+body.nm-workspace-v2 .gl-cloud-map-row .gl-cloud-map-detail {flex:1 1 190px}
+body.nm-workspace-v2 .gl-cloud-library-more {
+  width:100%;min-height:40px;background:var(--nm-ui-top,#fff);
+  color:var(--nm-ui-ink,#352850);
+  border:1px solid var(--nm-ui-line,#cac0e1);border-radius:10px;
+}
+body.nm-workspace-v2 #gl-cloud-quick[data-cloud-state="active"] {
+  color:var(--nm-ui-accent,#a99cff);
+}
+body.nm-workspace-v2 .gl-google-pill {
+  width:auto!important;min-width:36px!important;flex:0 0 auto!important;
+  padding:2px 6px!important;gap:5px;border-radius:999px!important;
+}
+body.nm-workspace-v2 .gl-google-avatar-ring {
+  width:26px;height:26px;border-radius:50%;padding:2px;display:inline-flex;align-items:center;justify-content:center;
+  background:transparent;box-sizing:border-box;
+}
+body.nm-workspace-v2 .gl-google-pill.is-connected .gl-google-avatar-ring,
+body.nm-workspace-v2 .gl-google-pill.is-pro .gl-google-avatar-ring {
+  background:conic-gradient(#ea4335 0 90deg,#4285f4 90deg 180deg,#34a853 180deg 270deg,#fbbc05 270deg 360deg);
+}
+body.nm-workspace-v2 .gl-google-avatar-core {
+  width:100%;height:100%;border-radius:50%;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;
+  background:var(--nm-skin-surface,#17233e);
+}
+body.nm-workspace-v2 .gl-google-avatar-img {
+  width:100%;height:100%;object-fit:cover;display:block;border-radius:50%;
+}
+body.nm-workspace-v2 .gl-google-avatar-letter {
+  font:700 11px/1 system-ui;color:var(--nm-skin-ink,#f4f6ff);
+}
+body.nm-workspace-v2 .gl-google-pro-badge {
+  padding:2px 6px;border-radius:999px;font:800 10px/1.2 system-ui;letter-spacing:.04em;
+  background:linear-gradient(135deg,#6441df,#2563eb);color:#fff;
+}
+body.nm-workspace-v2 .gl-google-menu {
+  position:fixed;top:48px;right:12px;z-index:2600;width:min(260px,calc(100vw - 24px));
+  display:grid;gap:6px;padding:10px;border-radius:14px;
+  background:var(--nm-ui-top,#ffffff);color:var(--nm-ui-ink,#16243d);
+  border:1px solid var(--nm-ui-line,#cac0e1);box-shadow:0 14px 36px rgba(15,23,42,.24);
+}
+body.nm-workspace-v2 .gl-google-menu[hidden] {display:none!important}
+body.nm-workspace-v2 .gl-google-menu-head {
+  padding:2px 4px 6px;border-bottom:1px solid var(--nm-ui-line,#e2dff0);
+}
+body.nm-workspace-v2 .gl-google-menu-plan {
+  font:700 12px/1.3 system-ui;color:var(--nm-ui-accent,#6441df);
+}
+body.nm-workspace-v2 .gl-google-menu-btn {
+  text-align:left;padding:8px 10px;border-radius:9px;border:1px solid var(--nm-ui-line,#d8d1eb);
+  background:transparent;color:inherit;font:600 12.5px/1.3 system-ui;cursor:pointer;
+}
+body.nm-workspace-v2 .gl-google-menu-btn.gl-google-menu-primary {
+  background:var(--nm-theme-action,#6441df);border-color:transparent;color:#fff;
+}
+@media(max-width:500px){
+  body.nm-workspace-v2 .gl-cloud-card {padding:14px;border-radius:15px}
+  body.nm-workspace-v2 .gl-cloud-overview {padding:11px}
+  body.nm-workspace-v2 .gl-cloud-row {padding:10px}
+}
+@media(prefers-reduced-motion:reduce){
+  body.nm-workspace-v2 .gl-cloud-row{transition:none}
+}
+
+
+/* Connected-account Cloud drawer joins the workspace panel coordinator.
+   Setup/login stays modal; a narrow window keeps the familiar modal too. */
+body.nm-workspace-v2 #gl-cloud-dialog.gl-cloud-docked {
+  background:transparent;
+  backdrop-filter:none;
+  pointer-events:none;
+  justify-content:flex-end;
+  align-items:flex-start;
+  padding:var(--nm-workspace-top,90px) 72px 58px 16px;
+}
+body.nm-workspace-v2 #gl-cloud-dialog.gl-cloud-docked .gl-cloud-card {
+  pointer-events:auto;
+  width:min(400px,calc(100vw - 110px));
+  max-height:calc(100dvh - var(--nm-workspace-top,90px) - 65px);
+  overflow-y:auto;
+  border-radius:var(--nm-ui-radius,12px);
+  box-shadow:var(--nm-ui-shadow,0 12px 32px #0003);
+}
+@media (max-width:849px) {
+  body.nm-workspace-v2 #gl-cloud-dialog.gl-cloud-docked {
+    pointer-events:auto;
+    background:rgba(10,13,23,.56);
+    padding:16px;
+    justify-content:center;
+    align-items:center;
+  }
+  body.nm-workspace-v2 #gl-cloud-dialog.gl-cloud-docked .gl-cloud-card {
+    width:min(540px,100%);
+    max-height:86dvh;
+  }
+}
+
+.gl-cloud-setup[hidden],.gl-cloud-brand small[hidden]{display:none!important}
+.gl-cloud-configure-toggle::after{content:'⌄';margin-inline-start:8px}
+.gl-cloud-configure-toggle[aria-expanded=true]::after{content:'⌃'}

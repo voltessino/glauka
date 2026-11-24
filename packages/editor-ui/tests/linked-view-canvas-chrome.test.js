@@ -1,0 +1,35 @@
+'use strict';
+const {test}=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const path=require('node:path');
+
+test('linked view chrome follows the canvas theme tokens',()=>{
+ const css=fs.readFileSync(path.join(__dirname,'../linked-view-styles.js'),'utf8');
+ const block=css.slice(css.lastIndexOf('Bars and controls inside a view'));
+ assert.match(block,/#nm-view-overlay :is\(#nm-flow-toolbar,#nm-network-toolbar,#nm-work-toolbar,#nm-view-help/);
+ assert.match(block,/background:var\(--nm-view-bar,#ffffff\)/);
+ assert.match(block,/\.nm-view-add,\.nm-view-collapse,\.nm-view-edit/);
+ assert.match(block,/\.nm-kanban-dropzone/);
+ assert.match(block,/\.nm-timeline-title\{color:var\(--nm-view-control-ink/);
+ assert.doesNotMatch(block,/--nm-skin-surface/);
+ assert.match(block,/#nm-view-overlay #nm-project-view-options\[open\]>summary/);
+ assert.match(block,/summary:hover/);
+ assert.match(css,/#nm-view-appearance>summary,#nm-view-overlay #nm-view-export-menu>summary\{[^}]*var\(--nm-view-control,#ffffff\)/);
+ assert.match(css,/#nm-project-view-options>summary\{[^}]*border-radius:10px/);
+ assert.doesNotMatch(css,/#nm-view-appearance>summary,#nm-view-overlay #nm-view-export-menu>summary\{[^}]*--nm-skin-surface/);
+ assert.match(block,/\.nm-layout-workspace label\{color:var\(--nm-view-control-ink/);
+ assert.match(block,/#nm-work-dependency-note\)\{\s*color:var\(--nm-view-control-ink/);
+ assert.match(block,/\.nm-dual-toolbar strong,\s*#nm-view-overlay \.nm-dual-message\{color:var\(--nm-view-control-ink/);
+ assert.match(css,/#nm-view-overlay \.nm-view-trigger\{flex:0 0 auto;width:auto;min-width:max-content;max-width:max-content\}/);
+ assert.match(css,/#nm-view-overlay \.nm-view-header \.nm-view-hint,[\s\S]*?min-width:0!important/);
+ assert.match(css,/#nm-view-scroller\{[^}]*container-type:inline-size/);
+ assert.match(css,/\.nm-work-blank\{[^}]*width:min\(480px,calc\(100cqi - 32px\)\)/);
+ assert.match(css,/#nm-view-scroller \.nm-flow-empty\{[^}]*width:min\(425px,calc\(100cqi - 32px\)\)/);
+ assert.doesNotMatch(css,/background:#3b3771/);
+ assert.doesNotMatch(block,/background:#0c182a/);
+ assert.doesNotMatch(block,/background:#33445b/);
+ const theme=fs.readFileSync(path.join(__dirname,'../interface-theme.css'),'utf8');
+ const exclusions=theme.split('#nm-view-overlay *').length-1;
+ assert.ok(exclusions>=4,'the UI skin sweep must leave the linked view on the canvas theme');
+});

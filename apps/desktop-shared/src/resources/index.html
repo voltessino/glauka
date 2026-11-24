@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html class="glauka-booting" lang="it" data-neuromap-build="workspace">
+<head>
+  <meta charset="UTF-8" />
+  <script id="glauka-theme-boot">
+  (function(){
+    var theme='prisma',contrast='normal',readability='standard',dark=false;
+    var darkTheme={slate:1,orbit:1,classic:1,cyber:1,graphite:1,neon:1,purple:1,aurora:1,glass:1};
+    try{
+      var orbitRaw=localStorage.getItem('nm_orbit_desktop_ui_v1');
+      var orbitOn=false;
+      if(orbitRaw){var orbit=JSON.parse(orbitRaw);orbitOn=!!(orbit&&orbit.enabled===true);}
+      var raw=localStorage.getItem('nm_ui_skin_v1');
+      if(raw){
+        var data=JSON.parse(raw);
+        if(data&&data.contrast==='high')contrast='high';
+        if(data&&data.readability==='comfortable')readability='comfortable';
+        if(orbitOn&&data&&typeof data.theme==='string')theme=data.theme==='classic'?'orbit':data.theme;
+      }
+    }catch(e){}
+    dark=!!darkTheme[theme];
+    var root=document.documentElement;
+    root.dataset.nmSkin=theme;
+    root.dataset.nmSkinContrast=contrast;
+    root.dataset.nmSkinReadability=readability;
+    if(dark)root.classList.add('glauka-dark-theme');
+    var paint=function(){
+      var body=document.body;if(!body)return;
+      body.classList.add('nm-workspace-v2');
+      body.dataset.nmSkin=theme;
+      body.dataset.nmSkinContrast=contrast;
+      body.dataset.nmSkinReadability=readability;
+    };
+    if(document.body)paint();else document.addEventListener('DOMContentLoaded',paint);
+  })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Glauka</title>
+  <style>/* @neuromap-desktop-styles */</style>
+  <style>
+    html.glauka-booting,html.glauka-booting body{background:#fff!important}
+    html.glauka-dark-theme.glauka-booting,html.glauka-dark-theme.glauka-booting body{background:#0f1422!important}
+    html.glauka-booting body>:not(#glauka-startup):not(script):not(style){visibility:hidden!important}
+    #glauka-startup{position:fixed;inset:0;z-index:2147483640;display:grid;place-content:center;gap:14px;text-align:center;background:#fff!important;color:#1b1b27!important;font:16px "Segoe UI",sans-serif;transition:opacity .25s ease}
+    /* One fixed typeface: the brand font arrives mid-startup and would restyle the text. */
+    #glauka-startup,#glauka-startup *{font-family:"Segoe UI",system-ui,sans-serif!important}
+    #glauka-startup[hidden],#glauka-startup [hidden]{display:none!important}#glauka-startup svg{width:48px;height:48px;margin:auto}#glauka-startup p{color:#625e70!important;font-size:13px}#glauka-startup strong{color:inherit!important}
+    html.glauka-dark-theme #glauka-startup{background:#0f1422!important;color:#e2e8f0!important}
+    html.glauka-dark-theme #glauka-startup p{color:#cbd5e1!important}
+    #glauka-startup button{padding:10px 16px;border:1px solid #c7c0dd;border-radius:10px;background:#6441df;color:#fff;cursor:pointer}
+  </style>
+
+  <script id="glauka-startup-guard">
+  (()=>{
+    let timer;
+    const fail=()=>{
+      if(!document.documentElement.classList.contains('glauka-booting'))return;
+      const text=document.getElementById('glauka-startup-status'),retry=document.getElementById('glauka-startup-retry');
+      if(text)text.textContent=window.GlaukaBootMessages?.slow||'Glauka sta impiegando più del previsto. Puoi riprovare.';
+      if(retry){retry.hidden=false;retry.onclick=()=>location.reload();}
+    };
+    window.GlaukaStartup={ready(){clearTimeout(timer);document.documentElement.classList.remove('glauka-booting');const splash=document.getElementById('glauka-startup');if(!splash)return;splash.style.pointerEvents='none';splash.style.opacity='0';setTimeout(()=>{splash.hidden=true;},260);}};
+    // Resource/non-fatal errors do not prove that application startup failed.
+    // Only the startup catch may report an immediate fatal error.
+    timer=setTimeout(fail,120000);
+  })();
+  </script>
+</head>
+<body class="nm-workspace-v2" data-nm-skin="prisma" data-nm-skin-contrast="normal" data-nm-skin-readability="standard">
+  <div id="glauka-startup" role="status" aria-live="polite"><!-- @glauka-startup-mark --><strong>Glauka</strong><p id="glauka-startup-status">Prepariamo il tuo spazio…</p><button id="glauka-startup-retry" type="button" hidden>Riprova</button></div>
+
+  <canvas id="mindmap-canvas"></canvas>
+
+  <header class="top-chrome">
+    <!-- ROW 1: MULTI-TAB BAR -->
+    <div class="tab-bar">
+      <div class="brand-Mini" role="group" aria-label="Glauka">
+        <div class="brand-icon" style="background:white"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none"><path d="M25 32 40 17M25 32l15 15" stroke="#6441df" stroke-width="5" stroke-linecap="round"/><rect x="6" y="23" width="22" height="18" rx="6" fill="#6441df"/><rect x="38" y="6" width="20" height="20" rx="6" fill="#6441df"/><rect x="38" y="38" width="20" height="20" rx="6" fill="#6441df"/></svg>
+
+        </div>
+        <span class="brand-name"><span class="brand-product-name">Glauka</span></span>
+      </div>
+
+      <div id="tabs-list" class="tabs-list"></div>
+
+      <button id="btn-new-tab" class="tab-action-btn gl-browser-add-tab" type="button" title="Nuova scheda (Ctrl+T)" aria-label="Nuova scheda (Ctrl+T)">+</button>
+      <button id="btn-duplicate-tab" class="tab-action-btn" title="Duplica Scheda Corrente">
+        <span>Duplica</span>
+      </button>
+      <button id="btn-shortcuts" class="tab-action-btn" title="Scorciatoie da tastiera (?)">⌨ Tasti</button>
+      <button id="nm7-guide-open" class="tab-action-btn" type="button" title="Primi passi" aria-label="Guida introduttiva a Glauka">? Primi passi</button>
+      <button id="btn-fullscreen" class="tab-action-btn" title="Schermo Intero (F11)">
+        <span>Fullscreen</span>
+      </button>
+    </div>
+
+    <!-- ROW 2: COMPACT DESKTOP MENU BAR + QUICK ICONS + STRUCTURAL TOOLS -->
+    <div class="topbar nm-ribbon">
+      <div class="glass-panel toolbar-group">
+        <!-- Hidden Multi-File Input (.xmind, .md, .txt, .opml, .xml, .json) -->
+        <input id="file-import-input" type="file" multiple accept=".xmind,.md,.txt,.opml,.xml,.json,.gk,.glk,.neuromap,.mm" class="hidden" />
+        <!-- Hidden Image Input for Node/Canvas Image Attachment -->
+        <input id="node-image-input" type="file" accept="image/*" class="hidden" />
+
+        <!-- MENU [File] -->
+        <div class="dropdown-wrapper">
+          <button id="btn-menu-file" data-dropdown-target="dropdown-file" class="btn-ui">File</button>
+          <div id="dropdown-file" class="glass-panel dropdown-panel hidden">
+            <div class="dropdown-section-title">Progetto</div>
+            <button id="menu-new-tab" class="dropdown-item">
+              <span>Nuova Scheda Mappa</span>
+              <kbd class="kbd-key">Ctrl+T</kbd>
+            </button>
+            <button id="menu-save-file" class="dropdown-item">
+              <span>Salva scheda corrente</span>
+              <kbd class="kbd-key">Ctrl+S</kbd>
+            </button>
+
+            <button id="menu-save-all-tabs" class="dropdown-item"><span>Salva tutte le schede</span><kbd class="kbd-key">Ctrl+Shift+S</kbd></button>
+            <button id="nm611-autosave-open" class="dropdown-item"><span>⏱️ Salvataggio automatico…</span><span class="counter-pill">Timer</span></button>
+            <button id="menu-save-file-as" class="dropdown-item">
+              <span>Salva scheda con nome…</span>
+              <span class="counter-pill">Opzionale</span>
+            </button>
+
+            <div class="dropdown-divider"></div>
+            <div class="dropdown-section-title">Importazione</div>
+            <label class="nm613-import-control">Dimensione mappe grandi <select id="nm613-import-size" aria-label="Dimensione massima delle mappe importate"><option value="80">80 nodi</option><option value="100">100 nodi</option><option value="125">125 nodi</option><option value="150">150 nodi</option><option value="200">200 nodi</option></select></label>
+            <button id="btn-import-files-new-tabs" class="dropdown-item">
+              <span>Apri file (.xmind, .gk, .json)…</span>
+              <kbd class="kbd-key">Ctrl+O</kbd>
+            </button>
+            <button id="btn-import-file-current" class="dropdown-item">
+              <span>Importa nella Scheda Corrente...</span>
+              <span class="counter-pill">Sostituisci</span>
+            </button>
+            <button id="btn-import-paste" class="dropdown-item">
+              <span>Incolla Testo / Markdown...</span>
+              <span class="counter-pill">Editor</span>
+            </button>
+
+            <div class="dropdown-divider"></div>
+            <div class="dropdown-section-title">Esporta la mappa</div>
+            <div class="export-subgrid">
+              <button data-export="png" class="export-Format-chip" title="Esporta Immagine PNG (2x)">PNG 2x</button>
+              <button data-export="svg" class="export-Format-chip" title="Esporta Vettoriale SVG">SVG</button>
+              <button data-export="pdf" class="export-Format-chip" title="Esporta PDF A3 multipagina leggibile">PDF A3</button>
+              <button data-export="md" class="export-Format-chip" title="Esporta Markdown Indentato">Markdown</button>
+              <button data-export="opml" class="export-Format-chip" title="Esporta Standard OPML 2.0">OPML 2.0</button>
+              <button data-export="json" class="export-Format-chip" title="Esporta Albero JSON">JSON</button>
+              <button data-export="batch-workspace-json" class="export-Format-chip" style="color:#6ee7b7;" title="Esporta Workspace Multi-Scheda">Batch JSON</button>
+            </div>
+            <button data-export="batch-md" class="dropdown-item" style="padding-top:0.25rem;padding-bottom:0.25rem;">
+              <span>Esporta Workspace Completo (Batch MD)</span>
+              <span class="counter-pill" style="color:#a5b4fc;">Batch</span>
+            </button>
+
+            <div class="dropdown-divider"></div>
+            <div class="dropdown-section-title">Scheda corrente</div>
+            <button id="menu-new-map" class="dropdown-item">
+              <span>Pulisci Scheda Corrente</span>
+              <span class="counter-pill">Reset</span>
+            </button>
+            <button id="menu-close-tab" class="dropdown-item" style="color:#fda4af;">
+              <span>Chiudi Scheda</span>
+              <kbd class="kbd-key">Ctrl+W</kbd>
+            </button>
+          </div>
+        </div>
+
+        <!-- MENU [Modifica] -->
+        <div class="dropdown-wrapper">
+          <button id="btn-menu-edit" data-dropdown-target="dropdown-edit" class="btn-ui">Modifica</button>
+          <div id="dropdown-edit" class="glass-panel dropdown-panel hidden">
+            <button id="menu-undo" class="dropdown-item">
+              <span data-nm6-context="undo">Annulla</span>
+              <kbd class="kbd-key">Ctrl+Z</kbd>
+            </button>
+            <button id="menu-redo" class="dropdown-item">
+              <span>Ripristina</span>
+              <kbd class="kbd-key">Ctrl+Y</kbd>
+            </button>
+            <div class="dropdown-divider"></div>
+            <button id="menu-cut" class="dropdown-item"><span>✂ Taglia rami / immagine</span><kbd class="kbd-key">Ctrl+X</kbd></button>
+            <button id="menu-copy" class="dropdown-item"><span>▢ Copia rami / immagine</span><kbd class="kbd-key">Ctrl+C</kbd></button>
+            <button id="menu-paste" class="dropdown-item"><span>▣ Incolla</span><kbd class="kbd-key">Ctrl+V</kbd></button>
+            <button id="menu-select-all" class="dropdown-item"><span>Seleziona tutti i rami</span><kbd class="kbd-key">Ctrl+A</kbd></button>
+            <button id="menu-duplicate-selection" class="dropdown-item"><span>Duplica selezione</span><kbd class="kbd-key">Ctrl+Shift+D</kbd></button>
+            <div class="dropdown-divider"></div>
+            <button id="menu-edit-node" class="dropdown-item">
+              <span>Rinomina Nodo</span>
+              <kbd class="kbd-key">Spazio</kbd>
+            </button>
+            <button id="menu-invert-branch" class="dropdown-item">
+              <span>Inverti ordine dei sottorami</span>
+              <kbd class="kbd-key">Tasto Dx</kbd>
+            </button>
+            <div class="dropdown-divider"></div>
+            <button id="menu-delete-node" class="dropdown-item" style="color:#fda4af;">
+              <span>Elimina Sotto-albero</span>
+              <kbd class="kbd-key">Canc</kbd>
+            </button>
+          </div>
+        </div>
+
+        <!-- MENU [Inserisci] -->
+        <div class="dropdown-wrapper">
+          <button id="btn-menu-insert" data-dropdown-target="dropdown-insert" class="btn-ui">Inserisci</button>
+          <div id="dropdown-insert" class="glass-panel dropdown-panel hidden">
+            <button id="menu-add-child" class="dropdown-item">
+              <span>Sottoramo</span>
+              <kbd class="kbd-key">Tab</kbd>
+            </button>
+            <button id="menu-add-sibling-cw" class="dropdown-item">
+              <span>Ramo allo stesso livello · orario</span>
+              <kbd class="kbd-key">Invio</kbd>
+            </button>
+            <button id="menu-add-sibling-ccw" class="dropdown-item">
+              <span>Ramo allo stesso livello · antiorario</span>
+              <kbd class="kbd-key">Shift+Invio</kbd>
+            </button>
+            <div class="dropdown-divider"></div>
+            <button id="menu-iconify-single" class="dropdown-item"><span>🖼️ Cerca illustrazione...</span><span class="counter-pill">SVG</span></button>
+            <button id="menu-iconify-bulk" class="dropdown-item"><span>✨ Illustra con AI</span><span class="counter-pill">AI · PRO</span></button>
+            <button id="menu-add-image" class="dropdown-item">
+              <span>Immagine sul Nodo...</span>
+              <span class="counter-pill" style="color:#fde68a;">IMG</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- MENU [Visualizza] -->
+        <div class="dropdown-wrapper">
+          <button id="btn-menu-view" data-dropdown-target="dropdown-view" class="btn-ui">Visualizza</button>
+          <div id="dropdown-view" class="glass-panel dropdown-panel hidden">
+            <button id="menu-center-map" class="dropdown-item">
+              <span>Centra Mappa</span>
+              <span class="counter-pill">Fit</span>
+            </button>
+            <button id="menu-reset-zoom" class="dropdown-item">
+              <span>Reset Zoom 100%</span>
+              <span class="counter-pill">1:1</span>
+            </button>
+            <button type="button" id="v6-toggle-layout" class="dropdown-item"><span>Mostra / nascondi pannello Disposizione</span><span class="counter-pill">◫</span></button>
+            <div class="dropdown-divider"></div>
+            <div class="dropdown-slider-block" id="gl-view-distribution-control" hidden style="display:none!important">
+              <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:var(--text-secondary);">
+                <span>Distribuzione · sinistra ↔ destra</span>
+                <strong id="menu-threshold-val" style="font-family:var(--font-mono);color:#a5b4fc;">Auto 50%</strong>
+              </div>
+              <input id="menu-threshold-slider" type="range" min="0" max="100" step="25" value="50" style="width:100%;" aria-label="Distribuzione dei rami fra sinistra e destra" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Secondary feature entry points, moved from the crowded tool strip. -->
+        <div class="dropdown-wrapper" id="nm7-tools-wrapper">
+          <button id="btn-menu-tools" data-dropdown-target="dropdown-tools" class="btn-ui"
+            aria-haspopup="true" aria-controls="dropdown-tools" aria-expanded="false">Strumenti</button>
+          <div id="dropdown-tools" class="glass-panel dropdown-panel hidden"
+            role="group" aria-label="Strumenti di studio e risorse">
+            <div class="dropdown-section-title">Studio e risorse</div>
+          </div>
+        </div>
+
+        <!-- Clear grouping: tutorials and shortcuts, not a second tab toolbar. -->
+        <div class="dropdown-wrapper" id="nm7-help-wrapper">
+          <button id="btn-menu-help" data-dropdown-target="dropdown-help" class="btn-ui"
+            aria-haspopup="true" aria-controls="dropdown-help" aria-expanded="false">Aiuto</button>
+          <div id="dropdown-help" class="glass-panel dropdown-panel hidden"
+            role="group" aria-label="Guida e scorciatoie">
+            <div class="dropdown-section-title">Per iniziare</div>
+          </div>
+        </div>
+
+        <div class="divider-v"></div>
+
+        <div class="clipboard-tools" role="group" aria-label="Appunti e selezione">
+          <button id="quick-cut" class="clipboard-tool" title="Taglia (Ctrl+X)"><span>✂</span>Taglia</button>
+          <button id="quick-copy" class="clipboard-tool" title="Copia (Ctrl+C)"><span>▢</span>Copia</button>
+          <button id="quick-paste" class="clipboard-tool" title="Incolla (Ctrl+V)"><span>▣</span>Incolla</button>
+          <button id="quick-duplicate" class="clipboard-tool" title="Duplica rami selezionati (Ctrl+Shift+D)"><span>⧉</span>Duplica</button>
+        </div>
+        <div class="divider-v"></div>
+        <!-- 4 QUICK MICRO-ICONS -->
+        <button id="quick-icon-child" class="btn-micro-icon" title="Inserisci Sottoramo (Tab)">
+          <svg class="icon-svg" style="color:#818cf8;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+          </svg>
+        </button>
+
+        <button id="quick-icon-sibling" class="btn-micro-icon" title="Inserisci Ramo allo stesso livello · orario (Invio)">
+          <svg class="icon-svg" style="color:#34d399;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h10M7 12h10m-6 5h6"/>
+          </svg>
+        </button>
+
+        <button id="quick-icon-invert" class="btn-micro-icon" title="Inverti ordine dei sottorami (inverti l’ordine senza cambiare i collegamenti)">
+          <svg class="icon-svg" style="color:#fbbf24;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/>
+          </svg>
+        </button>
+
+        <button id="quick-icon-center" class="btn-micro-icon" title="Centra e Adatta Mappa allo Schermo">
+          <svg class="icon-svg" style="color:#38bdf8;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+          </svg>
+        </button>
+
+        <div class="divider-v"></div>
+
+        <!-- 3 STRUMENTI STRUTTURALI (Relazione, Contorno, Riepilogo) -->
+        <button id="quick-icon-relationship" class="btn-micro-icon" title="Relazione (Clicca Nodo A e poi Nodo B per tracciare una freccia curva con etichetta)">
+          <svg class="icon-svg" style="color:#f43f5e;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 18C4 10 12 6 20 6"/>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16 3l4 3-4 3"/>
+            <circle cx="4" cy="18" r="2" fill="currentColor"/>
+          </svg>
+        </button>
+
+        <button id="quick-icon-boundary" class="btn-micro-icon" title="Contorno / Recinto (Racchiude il nodo selezionato e il suo sotto-albero in una capsula tratteggiata)">
+          <svg class="icon-svg" style="color:#a855f7;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="5" width="18" height="14" rx="5" stroke-dasharray="3 2.5"/>
+            <path stroke-linecap="round" d="M8 10h8M8 14h5"/>
+          </svg>
+        </button>
+
+        <button id="quick-icon-summary" class="btn-micro-icon" title="Riepilogo con Graffa (Seleziona uno o più nodi fratelli con Shift+Clic e genera una graffa riassuntiva)">
+          <svg class="icon-svg" style="color:#10b981;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M7 4c2.5 0 3.5 1.2 3.5 3.5v2c0 1.4 1 2.5 2.5 2.5-1.5 0-2.5 1.1-2.5 2.5v2C10.5 18.8 9.5 20 7 20"/>
+            <rect x="15" y="9.5" width="6" height="5" rx="1.5"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- COMPACT ACTIVE NODE STATUS + INSPECTOR TOGGLE -->
+      <div class="nm-status-actions">
+        <div class="glass-panel status-pill">
+          <span class="status-dot"></span>
+          <span>Attivo: <strong id="status-selected-node" style="color:#fff;">Mappa Centrale</strong></span>
+          <span id="status-selected-side" class="counter-pill">ROOT</span>
+          <span style="color:var(--text-muted);font-family:var(--font-mono);font-size:0.65rem;">
+            Undo:<strong id="undo-count" style="color:#a5b4fc;">0</strong> Redo:<strong id="redo-count" style="color:#a5b4fc;">0</strong>
+          </span>
+        </div>
+
+        <div class="glass-panel v4-toolstrip">
+          <button id="btn-spotlight" class="v4-tool-btn" title="Spotlight in tutte le schede · Ctrl+F / Ctrl+K" aria-label="Ricerca globale">🔍</button>
+          <button id="nm67-prev-main" class="v4-tool-btn nm67-branch-button" title="Centra il concetto precedente (Alt+↑)"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 3 L5 8 L10 13"/></svg><span>Precedente</span></button>
+          <button id="nm67-next-main" class="v4-tool-btn nm67-branch-button" title="Centra il concetto successivo (Alt+↓)"><span>Successivo</span><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 3 L11 8 L6 13"/></svg></button>
+          <label class="nm69-nav-level" title="Scegli il livello dei rami per la navigazione"><span class="nm69-nav-label">Livello</span><select id="nm69-nav-level" aria-label="Livello di navigazione fra i rami">
+            <option value="1">1 · Rami principali</option>
+            <option value="2">2 · Sottorami</option>
+            <option value="3">Livello 3</option>
+            <option value="4">Livello 4</option>
+            <option value="5">Livello 5</option>
+            <option value="6">Livello 6</option>
+            <option value="7">Livello 7</option>
+            <option value="8">Livello 8</option>
+          </select></label>
+          <label class="nm612-nav-order" title="Ordine in cui percorrere i nodi"><span>Percorso</span><select id="nm612-nav-order" aria-label="Ordine della navigazione">
+            <option value="source">Ordine della mappa</option><option value="visual">Posizione sullo schermo</option><option value="local">Nel ramo corrente</option>
+          </select></label>
+          <button id="btn-flashcards" class="v4-tool-btn" title="Flashcard e ripasso spaziato">🎴 <span>Flashcard</span></button>
+          <button id="nm62-toolbar-assets" class="v4-tool-btn" title="Simboli e libreria grafica offline" aria-label="Simboli e libreria grafica">🏷️ <span>Risorse</span></button>
+          <button id="btn-illustrate" class="v4-tool-btn" title="Illustrazioni Iconify · nodo / mappa" aria-label="Illustrazioni">🖼️ <span>Illustra</span></button>
+          <button id="btn-ai-settings" class="v4-tool-btn" title="AI universale: provider e configurazione">✨ <span>AI</span></button>
+        </div>
+
+        <button id="btn-toggle-inspector" class="glass-panel btn-ui" title="Formato" style="padding:0.32rem 0.62rem;border-radius:999px;">
+          <svg class="icon-svg" style="color:#b6a5ed;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+            <path stroke-linecap="round" d="M5 3v18M12 3v18M19 3v18"/>
+            <rect x="2.5" y="6" width="5" height="5" rx="1.5" fill="#172139"/>
+            <rect x="9.5" y="13" width="5" height="5" rx="1.5" fill="#172139"/>
+            <rect x="16.5" y="5" width="5" height="5" rx="1.5" fill="#172139"/>
+          </svg>
+          <span style="font-size:0.72rem;font-weight:600;">Formato</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <aside id="inspector-sidebar" class="glass-panel inspector-sidebar collapsed">
+    <div class="inspector-header">
+      <div class="inspector-title">
+        <svg class="icon-svg" style="color:#f472b6;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 3a9 9 0 000 18c1.65 0 3-1.35 3-3 0-.78-.3-1.48-.78-2-.47-.5-.72-1.15-.72-1.85 0-1.5 1.2-2.65 2.7-2.65H18a3 3 0 003-3c0-3.04-4.03-5.5-9-5.5z"/>
+        </svg>
+        <span>Formato</span>
+      </div>
+      <button id="btn-close-inspector" class="tab-close-btn" type="button" aria-label="Chiudi pannello" title="Chiudi Pannello">×</button>
+    </div>
+
+    <div id="nm70-scope-panel" class="nm70-scope-panel">
+      <label for="nm70-style-scope"><span>✦ Applica le modifiche a</span><small id="nm70-target-count">1 nodo</small></label>
+      <label class="nm612-style-global" title="Applica la stessa proprietà ai nodi dello stesso livello in tutte le schede"><input id="nm612-all-tab-scope" type="checkbox" /> Tutte le schede aperte</label>
+      <select id="nm70-style-scope" aria-label="Ambito della formattazione">
+        <option value="selection">Nodo o selezione corrente</option>
+        <option value="subtree">Nodo e tutti i suoi sotto-rami</option>
+        <option value="descendants">Solo sotto-rami del nodo</option>
+        <option value="level1">Tutti i nodi · Livello 1</option>
+        <option value="level2">Tutti i nodi · Livello 2</option>
+        <option value="level3">Tutti i nodi · Livello 3</option>
+        <option value="level4">Tutti i nodi · Livello 4</option>
+        <option value="level5">Tutti i nodi · Livello 5</option>
+        <option value="level6">Tutti i nodi · Livello 6</option>
+        <option value="level7">Tutti i nodi · Livello 7</option>
+        <option value="level8">Tutti i nodi · Livello 8</option>
+        <option value="map">Tutti i nodi della scheda</option>
+      </select>
+      <p>Seleziona l'ambito e poi usa carattere, colore, dimensione, allineamento o elenco.</p>
+    </div>
+    <!-- SECTION A: SELECTED NODE PROPERTIES -->
+    <div class="inspector-section">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <span class="inspector-section-label">Testo e colore</span>
+        <span id="inspector-node-badge" class="counter-pill">Mappa Centrale</span>
+      </div>
+
+      <div class="inspector-control-row">
+        <span>Dimensione Testo</span>
+        <strong id="inspector-fontsize-val" style="font-family:var(--font-mono);color:#a5b4fc;">16px</strong>
+      </div>
+      <input id="inspector-fontsize-slider" type="range" min="9" max="48" step="1" value="16" style="width:100%;" />
+      <div id="v5-selection-hint" class="v5-note">Seleziona più nodi per modificarli insieme · Ctrl+A: tutti</div>
+      <button id="v5-font-reset" class="v5-subtle-btn" title="Ritorna alle dimensioni del profilo per i nodi selezionati">↺ Ripristina dimensione automatica</button>
+      <div class="nm54-control" id="nm54-wrap-properties">
+      <div class="nm54-row"><span>Testo su più righe · selezione</span><output id="nm54-wrap-label">18 caratteri</output></div>
+      <input id="nm54-wrap-slider" class="nm54-range" type="range" min="8" max="60" value="48" step="1" aria-label="Massimo caratteri per riga sui nodi selezionati" />
+      <div class="nm64-wrap-note">Per salvare un predefinito permanente, usa ☆ nel pannello Disposizione.</div>
+      <p class="nm54-hint">Singolo nodo oppure selezione multipla (Ctrl+A). Il testo non viene modificato.</p>
+    </div>
+    <div class="nm68-typesetting" id="nm68-typesetting">
+      <label class="nm68-heading">Allineamento del testo</label>
+      <div class="nm68-align-buttons" role="group" aria-label="Allineamento etichette dei nodi">
+        <button type="button" data-nm68-align="left" title="Testo allineato a sinistra"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 10h10M4 14h16M4 18h10"/></svg><span>Sinistra</span></button>
+        <button type="button" data-nm68-align="center" title="Testo centrato"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M7 10h10M4 14h16M7 18h10"/></svg><span>Centro</span></button>
+        <button type="button" data-nm68-align="right" title="Testo allineato a destra"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M10 10h10M4 14h16M10 18h10"/></svg><span>Destra</span></button>
+      </div>
+      <label class="nm68-row" for="nm68-text-indent"><span>Rientro delle righe successive</span><output id="nm68-indent-value">0 px</output></label>
+      <input id="nm68-text-indent" type="range" min="0" max="45" value="0" step="3" aria-label="Rientro delle righe successive" />
+      <button id="nm68-bullets" class="nm68-bullet-button" type="button">• Attiva / rimuovi elenco puntato</button>
+      <p class="nm54-hint">I controlli valgono per i nodi selezionati. In modifica, Shift+Invio inserisce una nuova riga.</p>
+    </div>
+
+
+      <div class="inspector-control-row" style="margin-top:0.2rem;">
+        <span>Stile del carattere</span>
+      </div>
+      <div class="segmented-group">
+        <button id="btn-weight-normal" class="seg-btn">Normale</button>
+        <button id="btn-weight-bold" class="seg-btn active">Grassetto</button>
+      </div>
+      <div class="nm70-italic-row"><button type="button" id="nm70-italic" class="nm70-mini-switch" aria-pressed="false"><em>I</em> Corsivo</button><span id="nm70-font-hint">Testo normale per impostazione iniziale</span></div>
+
+      <div class="inspector-control-row" style="margin-top:0.25rem;">
+        <span>Colore Ramo / Nodo</span>
+      </div>
+      <div id="inspector-swatch-grid" class="color-swatch-grid"></div>
+
+      <div class="custom-color-row">
+        <span style="font-size:0.7rem;color:var(--text-muted);">Colore personalizzato</span>
+        <input id="inspector-color-picker" type="color" class="color-picker-native" value="#6366f1" />
+      </div>
+    </div>
+
+    <!-- SECTION B: GLOBAL MAP STYLE -->
+    <div class="inspector-section">
+      <span class="inspector-section-label">Stile della mappa</span>
+
+    <div class="nm54-control">
+      <details id="nm54-branch-picker" class="nm54-branch-picker">
+       <summary id="nm54-branch-trigger" aria-label="Apri i collegamenti"><span aria-hidden="true">〰</span> <span id="nm54-branch-current">Curve morbide</span><span aria-hidden="true">⌄</span></summary>
+      <div id="nm54-style-grid" class="nm54-style-grid" role="group" aria-label="Scegli la geometria dei collegamenti">
+        <button class="nm54-style nm6-skiptranslate" data-style="neon" type="button" aria-label="Curve morbide: collegamenti continui e arrotondati" title="Curve morbide: collegamenti continui e arrotondati">
+          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-linecap="round">
+            <rect x="3" y="22" width="37" height="15" rx="6" fill="currentColor" fill-opacity=".10" stroke-opacity=".4" stroke-width="1"/>
+            <path d="M40 30 C62 30 70 6 98 10 C114 12 124 11 130 11 M40 30 C62 30 70 54 98 48 C114 46 124 48 130 48" stroke-width="3.4"/>
+            <circle cx="135" cy="11" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/><circle cx="135" cy="48" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/>
+          </svg>
+          <span class="nm54-style-caption">Curve morbide</span>
+        </button>
+        <button class="nm54-style nm6-skiptranslate" data-style="elbow" type="button" aria-label="Ad angolo: segmenti orizzontali e verticali raccordati" title="Ad angolo: segmenti orizzontali e verticali raccordati">
+          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-linecap="round">
+            <rect x="3" y="22" width="37" height="15" rx="6" fill="currentColor" fill-opacity=".10" stroke-opacity=".4" stroke-width="1"/>
+            <path d="M40 30 H74 Q82 30 82 22 V19 Q82 11 90 11 H130 M40 30 H74 Q82 30 82 38 V40 Q82 48 90 48 H130" stroke-width="3.2"/>
+            <circle cx="135" cy="11" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/><circle cx="135" cy="48" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/>
+          </svg>
+          <span class="nm54-style-caption">Ad angolo</span>
+        </button>
+        <button class="nm54-style nm6-skiptranslate" data-style="straight" type="button" aria-label="Collegamenti diretti: tratti rettilinei tra i nodi" title="Collegamenti diretti: tratti rettilinei tra i nodi">
+          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-linecap="round">
+            <rect x="3" y="22" width="37" height="15" rx="6" fill="currentColor" fill-opacity=".10" stroke-opacity=".4" stroke-width="1"/>
+            <path d="M40 30 L130 11 M40 30 L130 48" stroke-width="3.1"/>
+            <circle cx="135" cy="11" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/><circle cx="135" cy="48" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/>
+          </svg>
+          <span class="nm54-style-caption">Collegamenti diretti</span>
+        </button>
+        <button class="nm54-style nm6-skiptranslate" data-style="arc" type="button" aria-label="Archi eleganti: collegamenti curvati verso l'esterno" title="Archi eleganti: collegamenti curvati verso l'esterno">
+          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-linecap="round">
+            <rect x="3" y="22" width="37" height="15" rx="6" fill="currentColor" fill-opacity=".10" stroke-opacity=".4" stroke-width="1"/>
+            <path d="M40 30 Q80 -7 130 11 M40 30 Q80 68 130 48" stroke-width="3.2"/>
+            <circle cx="135" cy="11" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/><circle cx="135" cy="48" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/>
+          </svg>
+          <span class="nm54-style-caption">Archi eleganti</span>
+        </button>
+
+        <button class="nm54-style nm6-skiptranslate" data-style="buzan" type="button" title="Rami organici" aria-label="Rami organici">
+          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-linecap="round">
+            <rect x="3" y="22" width="37" height="15" rx="6" fill="currentColor" fill-opacity=".1" stroke-opacity=".4"/>
+            <path d="M40 22 C68 20 84 6 126 9 L128 15 C86 14 70 28 40 32 Z M40 32 C70 36 86 46 126 49 L128 43 C84 46 68 34 40 28 Z" fill="currentColor" fill-opacity=".82" stroke="none"/>
+            <circle cx="135" cy="11" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/><circle cx="135" cy="48" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/>
+          </svg><span class="nm54-style-caption">Rami organici</span>
+        </button>
+
+        <button class="nm54-style nm6-skiptranslate" data-style="xmind8" type="button" title="Linee essenziali" aria-label="Linee essenziali">
+          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-linecap="round">
+            <rect x="3" y="22" width="37" height="15" rx="6" fill="currentColor" fill-opacity=".1" stroke-opacity=".4"/>
+            <path d="M40 30 H62 C96 30 112 11 130 11 M62 30 C96 30 112 48 130 48" stroke-width="1.7"/>
+            <circle cx="135" cy="11" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/><circle cx="135" cy="48" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/>
+          </svg><span class="nm54-style-caption">Linee essenziali</span>
+        </button>
+
+        <button class="nm54-style nm6-skiptranslate" data-style="thickparents" type="button" title="Rami gerarchici" aria-label="Rami gerarchici">
+          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-linecap="round">
+            <rect x="3" y="22" width="37" height="15" rx="6" fill="currentColor" fill-opacity=".1" stroke-opacity=".4"/>
+            <path d="M40 30 H76" stroke-width="7"/><path d="M76 30 C100 30 114 11 130 11 M76 30 C100 30 114 48 130 48" stroke-width="2.6"/>
+            <circle cx="135" cy="11" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/><circle cx="135" cy="48" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/>
+          </svg><span class="nm54-style-caption">Rami gerarchici</span>
+        </button>
+
+        <button class="nm54-style nm6-skiptranslate" data-style="simple" type="button" title="Curve sottili" aria-label="Curve sottili">
+          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-linecap="round">
+            <rect x="3" y="22" width="37" height="15" rx="6" fill="currentColor" fill-opacity=".1" stroke-opacity=".4"/>
+            <path d="M40 30 C72 30 90 11 130 11 M40 30 C72 30 90 48 130 48" stroke-width="1"/>
+            <circle cx="135" cy="11" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/><circle cx="135" cy="48" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/>
+          </svg><span class="nm54-style-caption">Curve sottili</span>
+        </button>
+
+        <button class="nm54-style nm6-skiptranslate" data-style="dashed" type="button" title="Tratteggiati" aria-label="Tratteggiati">
+          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-linecap="round">
+            <rect x="3" y="22" width="37" height="15" rx="6" fill="currentColor" fill-opacity=".1" stroke-opacity=".4"/>
+            <path d="M40 30 C72 30 92 11 130 11 M40 30 C72 30 92 48 130 48" stroke-width="2.5" stroke-dasharray="7 5"/>
+            <circle cx="135" cy="11" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/><circle cx="135" cy="48" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/>
+          </svg><span class="nm54-style-caption">Tratteggiati</span>
+        </button>
+
+        <button class="nm54-style nm6-skiptranslate" data-style="wave" type="button" title="Onde leggere" aria-label="Onde leggere">
+          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-linecap="round">
+            <rect x="3" y="22" width="37" height="15" rx="6" fill="currentColor" fill-opacity=".1" stroke-opacity=".4"/>
+            <path d="M40 30 C65 10 94 49 130 11 M40 30 C65 49 94 10 130 48" stroke-width="2.5"/>
+            <circle cx="135" cy="11" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/><circle cx="135" cy="48" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/>
+          </svg><span class="nm54-style-caption">Onde leggere</span>
+        </button>
+
+        <button class="nm54-style nm6-skiptranslate" data-style="fork" type="button" title="Forcella" aria-label="Forcella">
+          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-linecap="round">
+            <rect x="3" y="22" width="37" height="15" rx="6" fill="currentColor" fill-opacity=".1" stroke-opacity=".4"/>
+            <path d="M40 30 H84 L130 11 M84 30 L130 48" stroke-width="2.5"/>
+            <circle cx="135" cy="11" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/><circle cx="135" cy="48" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/>
+          </svg><span class="nm54-style-caption">Forcella</span>
+        </button>
+      </div>
+      </details>
+      <p id="nm54-legacy-shape" class="nm54-hint" hidden>Questa mappa usa uno stile precedente. Puoi conservarlo o selezionare una nuova forma qui sopra.</p>
+      <p class="nm54-hint nm54-shape-note">Qui scegli il <strong>percorso</strong> delle linee. Lo spessore si regola separatamente sotto. Gli stili precedenti restano compatibili con i file già salvati.</p>
+      <div class="nm54-row" style="margin-top:12px"><label for="nm63-stroke-range"><strong>Spessore dei rami</strong></label><output id="nm63-stroke-value">100%</output></div>
+      <input type="range" id="nm63-stroke-range" class="nm54-range" min="0.5" max="3" step="0.1" value="1" title="Spessore rami dal 50% al 300%" />
+      <p class="nm54-hint">Scegli quanto sono visibili i tratti, indipendentemente dalla loro forma.</p>
+      <label class="nm68-row" for="nm68-branch-gap"><span>Spazio fra nodo padre e ramo</span><output id="nm68-gap-value">150 px</output></label>
+      <input type="range" class="nm54-range" id="nm68-branch-gap" min="30" max="220" step="5" value="150" title="Distanza orizzontale tra un nodo e i suoi figli" />
+      <p class="nm54-hint">Riducilo per una mappa più compatta. Non cambia le dimensioni del testo.</p>
+      <div class="nm70-gap-prefs"><button type="button" id="nm70-gap-save" class="nm70-default-button">☆ Salva spazio come predefinito</button><small id="nm70-gap-current-default">Predefinito: 150 px</small><small>Il cursore cambia la scheda attiva; il pulsante salva la preferenza per le nuove mappe.</small></div>
+      <button id="nm67-apply-all-styles" class="v4-secondary nm67-all-style-btn" type="button">✦ Applica stile a tutte le schede</button>
+      <p class="nm54-hint">Copia stile dei rami e spessore su tutte le mappe aperte. Contenuto, posizioni e colori rimangono invariati.</p>
+    </div>
+    <div class="inspector-control-row"><span>Dimensioni del testo per livello</span></div>
+    <div class="v6-preset" id="v6-preset-wrap">
+        <select id="v5-font-preset" class="v6-native-fallback" aria-hidden="true" tabindex="-1" aria-label="Dimensioni del testo per livello">
+          <option value="uniform">Uniforme · stessa grandezza</option>
+          <option value="balanced">Graduale · testo più piccolo nei sottorami</option>
+          <option value="pyramid">Piramide · centro grande, dettagli piccoli</option>
+          <option value="branches">Rami protagonisti · primo livello grande</option>
+          <option value="compact">Compatto · testo ridotto nei livelli profondi</option>
+        </select>
+        <button type="button" id="v6-preset-trigger" class="v6-preset-trigger" aria-haspopup="listbox" aria-expanded="false">
+          <span class="v6-preset-symbol">Aa</span><span id="v6-preset-label">Uniforme</span><span class="v6-chevron">⌄</span>
+        </button>
+        <div id="v6-preset-menu" role="listbox" aria-label="Dimensioni del testo per livello" class="v6-preset-menu hidden">
+          <button type="button" role="option" data-v6-preset="uniform"><b>Uniforme</b><small>Stessa dimensione a tutti i livelli</small></button>
+          <button type="button" role="option" data-v6-preset="balanced"><b>Graduale</b><small>Testo leggermente più piccolo a ogni livello</small></button>
+          <button type="button" role="option" data-v6-preset="pyramid"><b>Piramide</b><small>Centro grande, figli a scalare</small></button>
+          <button type="button" role="option" data-v6-preset="branches"><b>Rami protagonisti</b><small>Primo livello in evidenza</small></button>
+          <button type="button" role="option" data-v6-preset="compact"><b>Compatto</b><small>Più contenuti nello stesso spazio</small></button>
+        </div>
+      </div>
+      <div class="v6-default-row"><button type="button" id="v6-set-default" class="v6-set-default">☆ Usa come predefinito</button><span id="v6-default-name">Predefinito: Uniforme</span></div>
+      <div class="inspector-control-row"><span>Ingrandimento del testo nella mappa</span><strong id="v5-font-scale-value">100%</strong></div>
+      <input id="v5-font-scale" type="range" min="70" max="165" step="5" value="100" style="width:100%" />
+      <div class="v5-note">I nodi con dimensione impostata manualmente mantengono la propria personalizzazione.</div>
+      <button id="v5-reset-map-fonts" class="v5-subtle-btn">↺ Ripristina le dimensioni del profilo su tutti i nodi</button>
+
+      <div class="inspector-control-row">
+        <span>Palette dei rami</span>
+      </div>
+      <div class="theme-grid">
+        <button data-theme-id="neon" class="theme-card-btn">
+          <span>Neon Cyber</span>
+          <div class="theme-dots">
+            <span style="background:#00f5d4;"></span>
+            <span style="background:#7b2cbf;"></span>
+            <span style="background:#ff007f;"></span>
+            <span style="background:#00bbf9;"></span>
+          </div>
+        </button>
+        <button data-theme-id="forest" class="theme-card-btn">
+          <span>Forest Organic</span>
+          <div class="theme-dots">
+            <span style="background:#10b981;"></span>
+            <span style="background:#84cc16;"></span>
+            <span style="background:#14b8a6;"></span>
+            <span style="background:#eab308;"></span>
+          </div>
+        </button>
+        <button data-theme-id="sunset" class="theme-card-btn">
+          <span>Sunset Amber</span>
+          <div class="theme-dots">
+            <span style="background:#f43f5e;"></span>
+            <span style="background:#f97316;"></span>
+            <span style="background:#eab308;"></span>
+            <span style="background:#ec4899;"></span>
+          </div>
+        </button>
+        <button data-theme-id="ocean" class="theme-card-btn">
+          <span>Ocean Blue</span>
+          <div class="theme-dots">
+            <span style="background:#38bdf8;"></span>
+            <span style="background:#6366f1;"></span>
+            <span style="background:#06b6d4;"></span>
+            <span style="background:#8b5cf6;"></span>
+          </div>
+        </button>
+      </div>
+
+
+    </div>
+  </aside>
+
+  <!-- BOTTOM-LEFT TELEMETRY HUD -->
+  <aside class="glass-panel hud-bottom-left">
+    <div class="hud-header">
+      <span class="hud-title">Disposizione della mappa</span>
+      <button type="button" id="v6-hide-layout" class="v6-hud-close" title="Nascondi pannello">×</button>
+      <span id="hud-balance-mode" class="hud-badge" style="display:none">SPLIT S=3</span>
+    </div>
+
+    <div class="meter-group">
+      <div class="meter-label-row">
+        <span>Destra <strong id="count-right">(0)</strong></span>
+        <span style="font-family:var(--font-mono);"><strong id="val-hr" style="color:#fff;">0</strong> px</span>
+      </div>
+      <div class="meter-bar-bg">
+        <div id="bar-hr" class="meter-bar-fill" style="background:var(--accent-indigo);"></div>
+      </div>
+    </div>
+
+    <div class="meter-group">
+      <div class="meter-label-row">
+        <span>Sinistra <strong id="count-left">(0)</strong></span>
+        <span style="font-family:var(--font-mono);"><strong id="val-hl" style="color:#fff;">0</strong> px</span>
+      </div>
+      <div class="meter-bar-bg">
+        <div id="bar-hl" class="meter-bar-fill" style="background:var(--accent-emerald);"></div>
+      </div>
+    </div>
+
+    <div class="slider-row">
+      <span title="0 = preferisci la sinistra, 50 = bilanciamento automatico, 100 = preferisci la destra">Distribuzione</span>
+      <input id="threshold-slider" type="range" min="0" max="100" step="25" value="50" aria-label="Bilancia altezza dei sotto-alberi fra destra e sinistra" />
+      <span id="threshold-readout" style="font-family:var(--font-mono);color:#a5b4fc;font-weight:700;">Auto 50%</span>
+    </div>
+    <div class="slider-row nm67-compact-row">
+      <span title="Riduce o aumenta la distanza verticale fra i nodi, senza cambiare le dimensioni dei caratteri">Spazio verticale</span>
+      <input id="nm67-compact-slider" type="range" min="55" max="145" step="5" value="100" aria-label="Spaziatura verticale dei rami" />
+      <span id="nm67-compact-readout" style="font-family:var(--font-mono);color:#a5b4fc;font-weight:700;">100%</span>
+    </div>
+    <div class="nm67-balance-note">50% distribuisce i rami secondo l'ingombro reale. Per fissare il lato di un ramo principale: tasto destro → Lato del ramo.</div>
+    <div class="nm54-hud-wrap">
+      <div class="nm54-row"><span>Testo a capo · mappa</span><output id="nm54-map-wrap-label">18</output></div>
+      <input id="nm54-map-wrap-slider" type="range" min="8" max="60" value="48" step="1" aria-label="Caratteri per riga predefiniti della mappa" />
+      <div class="nm64-default-wrap-row"><button id="nm64-save-default-wrap" type="button" title="Salva il valore per le mappe future">☆ Imposta come predefinito</button><span id="nm64-saved-wrap">Predefinito: 48</span></div>
+    </div>
+  </aside>
+
+  <button id="v6-show-layout" class="v6-layout-minibtn" title="Mostra distribuzione rami">◫ <span>Disposizione</span></button>
+
+  <!-- BOTTOM-RIGHT ZOOM BAR -->
+  <aside class="hud-bottom-right">
+    <label class="glass-panel nm-fast-canvas-control" title="Facoltativo: riduce il disegno di nodi e rami fuori dalla vista, senza modificare il progetto">
+      <input id="nm-fast-canvas-toggle" type="checkbox" autocomplete="off" />
+      <span>⚡ Canvas veloce</span>
+    </label>
+    <output id="nm-fast-canvas-stats" class="glass-panel nm-fast-canvas-stats" hidden aria-live="off"></output>
+    <div class="glass-panel zoom-bar">
+      <button id="btn-zoom-out" class="zoom-btn" title="Riduci zoom (Ctrl + rotellina)">−</button>
+      <span id="zoom-percentage" class="zoom-readout" title="Clicca per Reset 100%">100%</span>
+      <button id="btn-zoom-in" class="zoom-btn" title="Aumenta zoom (Ctrl + rotellina)">+</button>
+    </div>
+  </aside>
+
+  <!-- FLOATING CONTEXT MENU -->
+  <div id="context-menu" class="glass-panel hidden">
+    <div class="ctx-header">
+      <div id="ctx-header-type" class="ctx-header-label">Nodo Selezionato</div>
+      <div id="ctx-node-title" class="ctx-header-node">Nodo</div>
+    </div>
+
+    <div id="ctx-group-node">
+      <button id="btn-ai-expand" class="ctx-item" style="color:#c4b5fd"><span>✨ Espandi ramo con AI</span></button>
+      <button id="btn-ai-explain" class="ctx-item" style="color:#67e8f9"><span>🧠 Spiega &amp; etimologia AI</span></button>
+      <button id="nm67-notes-context" class="ctx-item" type="button"><span>📝 Visualizza / modifica note</span><span class="counter-pill">NOTE</span></button>
+      <button id="btn-ai-audit" class="ctx-item" style="color:#6ee7b7"><span>✨ Verifica la mappa con AI</span></button>
+      <div class="dropdown-divider"></div>
+      <button id="ctx-add-child" class="ctx-item">
+        <span>➕ Aggiungi Sotto-ramo</span>
+        <kbd class="kbd-key">Tab</kbd>
+      </button>
+      <button id="ctx-add-sibling" class="ctx-item">
+        <span>⤵️ Aggiungi Ramo allo stesso livello · orario</span>
+        <kbd class="kbd-key">Invio</kbd>
+      </button>
+      <button id="ctx-edit-text" class="ctx-item">
+        <span>✏️ Rinomina Nodo</span>
+        <kbd class="kbd-key">Spazio</kbd>
+      </button>
+      <button id="ctx-add-image" class="ctx-item" style="color:#a5b4fc;">
+        <span>🖼️ Aggiungi Immagine...</span>
+        <span class="counter-pill">IMG</span>
+      </button>
+      <button id="ctx-iconify-search" class="ctx-item" style="color:#f9a8d4"><span>🖼️ Cerca illustrazione...</span><span class="counter-pill">SVG</span></button>
+      <button id="nm62-ctx-markers" class="ctx-item" style="color:#fbbf24"><span>🏷️ Simboli &amp; libreria grafica</span></button>
+      <div class="dropdown-divider"></div>
+      <button id="ctx-toggle-boundary" class="ctx-item" style="color:#d8b4fe;">
+        <span>⬚ Contorno del ramo e dei sottorami</span>
+        <span class="counter-pill">Recinto</span>
+      </button>
+      <button id="ctx-add-summary" class="ctx-item" style="color:#6ee7b7;">
+        <span>｝ Crea Riepilogo con Graffa</span>
+        <span class="counter-pill">Graffa</span>
+      </button>
+      <div class="dropdown-divider"></div>
+      <button id="ctx-cut" class="ctx-item"><span>✂ Taglia selezione</span><kbd class="kbd-key">Ctrl+X</kbd></button>
+      <button id="ctx-copy" class="ctx-item"><span>▢ Copia selezione</span><kbd class="kbd-key">Ctrl+C</kbd></button>
+      <button id="ctx-paste" class="ctx-item"><span>▣ Incolla qui</span><kbd class="kbd-key">Ctrl+V</kbd></button>
+      <div class="dropdown-divider"></div>
+      <button id="ctx-invert-branch" class="ctx-item ctx-item-highlight">
+        <span>↔ Inverti figli diretti</span>
+      </button>
+      <button id="nm70-invert-all" class="ctx-item ctx-item-highlight" type="button"><span>⇄ Inverti tutti i sottorami (ogni livello)</span></button>
+      <div class="dropdown-divider"></div>
+      <button id="ctx-toggle-collapse" class="ctx-item">
+        <span>👁️ Comprimi / Espandi Sotto-rami</span>
+      </button>
+      <button id="ctx-delete-node" class="ctx-item ctx-item-danger">
+        <span>🗑️ Elimina Sotto-albero</span>
+        <kbd class="kbd-key">Canc</kbd>
+      </button>
+    </div>
+
+    <div id="ctx-group-canvas" class="hidden">
+      <div class="nm-context-section-title" id="ctx-canvas-heading">Azioni sullo spazio libero</div>
+      <button id="ctx-canvas-new-floating" class="ctx-item" type="button">
+        <span>＋ Nuovo nodo libero qui</span>
+      </button>
+      <button id="ctx-canvas-center" class="ctx-item" type="button">
+        <span>⤢ Centra e adatta la mappa</span>
+      </button>
+      <div class="nm-context-canvas-hint" id="ctx-canvas-hint">Il nuovo nodo viene creato nella posizione scelta. Le altre azioni sui nodi restano disponibili cliccando sul nodo.</div>
+    </div>
+
+    <div id="ctx-group-image" class="hidden">
+      <button id="ctx-img-toggle-mode" class="ctx-item ctx-item-highlight">
+        <span id="ctx-img-toggle-mode-label">🔓 Sposta come ramo indipendente</span>
+      </button>
+      <button id="ctx-img-reset-aspect" class="ctx-item">
+        <span>📐 Ripristina proporzioni originali</span>
+      </button>
+      <button id="ctx-img-toggle-zlayer" class="ctx-item">
+        <span id="ctx-img-toggle-zlayer-label">⬇️ Manda sotto i rami</span>
+      </button>
+      <div class="dropdown-divider"></div>
+      <button id="ctx-img-cut" class="ctx-item"><span>✂ Taglia immagine</span><kbd class="kbd-key">Ctrl+X</kbd></button>
+      <button id="ctx-img-copy" class="ctx-item"><span>▢ Copia immagine</span><kbd class="kbd-key">Ctrl+C</kbd></button>
+      <button id="ctx-img-paste" class="ctx-item"><span>▣ Incolla immagine</span><kbd class="kbd-key">Ctrl+V</kbd></button>
+      <div class="dropdown-divider"></div>
+      <button id="ctx-img-delete" class="ctx-item ctx-item-danger">
+        <span>🗑️ Elimina Immagine</span>
+        <kbd class="kbd-key">Canc</kbd>
+      </button>
+    </div>
+  </div>
+
+  <aside id="image-controls" class="glass-panel hidden" aria-label="Modifica immagine">
+    <div class="image-controls-header"><strong>✦ Immagine</strong><button id="img-close" title="Deseleziona immagine" aria-label="Deseleziona immagine">×</button></div>
+    <div class="image-control-label"><span>Larghezza</span><output id="img-width-value">135 px</output></div>
+    <input id="img-width-slider" type="range" min="35" max="1000" step="5" value="135" aria-label="Larghezza immagine" />
+    <div class="image-control-hint">Trascina per spostare · Quadratini agli angoli per ridimensionare · Shift durante il ridimensionamento per proporzioni libere</div>
+    <div class="image-control-buttons">
+      <button id="img-toggle-attach" class="btn-ui">🔓 Sgancia</button>
+      <button id="img-toggle-layer" class="btn-ui">⬇ Dietro</button>
+      <button id="img-reset-size" class="btn-ui">↺ Proporzioni</button>
+      <button id="img-delete" class="btn-ui danger">✕ Elimina</button>
+    </div>
+  </aside>
+
+  <div id="shortcuts-panel" class="glass-panel hidden nm66-shortcuts-panel" role="dialog" aria-label="Scorciatoie personalizzabili" aria-modal="false">
+    <div class="shortcuts-header nm66-shortcuts-head">
+      <div><strong>⌨ Scorciatoie personalizzabili</strong><p>Registra combinazioni nuove, disattiva quelle inutili e gestisci i conflitti.</p></div>
+      <button id="shortcuts-close" aria-label="Chiudi">×</button>
+    </div>
+    <div class="nm66-shortcuts-actions">
+      <button id="nm66-shortcuts-reset" class="nm66-shortcuts-utility" type="button">↺ Ripristina tutte</button>
+      <small>Ctrl su Windows · ⌘ su Mac</small>
+    </div>
+    <div id="nm66-shortcuts-rows" class="nm66-shortcuts-rows"></div>
+    <div class="nm66-shortcut-notice" id="nm66-shortcuts-notice" role="status" aria-live="polite">Clicca «Aggiungi» e premi i tasti desiderati. Esc annulla la registrazione.</div>
+    <p class="nm66-shortcut-hint">Le scorciatoie sono salvate su questo PC. Non modificano i comandi mentre scrivi in una casella di testo.</p>
+  </div>
+
+  <!-- INLINE TEXT EDITOR -->
+  <div id="find-overlay" class="glass-panel hidden" role="dialog" aria-label="Cerca nodi">
+    <div class="find-title"><span>🔍 Spotlight · Tutte le schede</span><button id="find-close" title="Chiudi">×</button></div>
+    <input id="find-query" placeholder="Scrivi per trovare un nodo…" autocomplete="off" aria-label="Cerca nodi" />
+    <div id="find-results"></div>
+    <div class="find-hint"><span id="spotlight-count">Ctrl+F / Ctrl+K · ↑↓ · Invio · Esc</span></div>
+  </div>
+
+  <div id="inline-editor-container" class="hidden">
+    <textarea id="inline-editor-input" rows="2" autocomplete="off" spellcheck="false" aria-label="Modifica testo del nodo (Shift+Invio per nuova riga)"></textarea>
+  </div>
+
+  <!-- PASTE MARKDOWN / TEXT MODAL -->
+  <div id="paste-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="nm-paste-title">
+    <div class="glass-panel modal-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span id="nm-paste-title" class="modal-title">Incolla struttura gerarchica (Markdown / testo indentato / OPML / JSON)</span>
+        <button id="btn-close-paste-modal" class="btn-ui" type="button" style="padding:0.2rem 0.5rem;" aria-label="Chiudi">✕</button>
+      </div>
+      <textarea id="paste-modal-textarea" autocomplete="off" class="modal-textarea" aria-label="Testo da trasformare in mappa" aria-describedby="nm-paste-tip" placeholder="# Mappa Centrale&#10;- Ramo Primario 1&#10;  - Sotto-ramo 1.1&#10;  - Sotto-ramo 1.2&#10;- Ramo Primario 2"></textarea>
+      <div class="nm-paste-preview-tools"><button type="button" class="btn-ui" id="nm-paste-preview-button">🔎 Controlla la gerarchia</button><span class="nm-paste-preview-hint">Anteprima locale · nessuna modifica alla mappa</span></div>
+      <div id="nm-paste-preview" class="nm-paste-preview" hidden aria-live="polite"></div>
+      <p id="nm-paste-tip" class="nm-paste-tip"><span class="nm-paste-tip-it nm6-skiptranslate">Destinazione: <strong id="nm-paste-target">ramo selezionato</strong>. Scegli come incollare: nessuna delle opzioni modifica o cancella i rami esistenti.</span><span class="nm-paste-tip-en nm6-skiptranslate">Destination: <strong>selected branch</strong>. Choose how to paste: existing branches will never be deleted or replaced.</span></p>
+      <p class="gl-paste-ai-explain" id="gl-paste-ai-explain">L'AI trasforma fino a 16.000 caratteri di appunti in una proposta di mappa (massimo 70 nodi). Puoi controllarla prima di applicarla. Richiede un provider AI configurato, al quale verrà inviato il testo.</p>
+      <div class="modal-actions" aria-label="Scegli dove incollare">
+        <button id="btn-confirm-paste-current" class="btn-ui gl-paste-primary" type="button" title="Aggiunge l'intera struttura alla mappa corrente come sotto-rami del nodo scelto, senza sostituire i contenuti esistenti."><strong>Incolla nella mappa attuale</strong><small>Tutti i rami sotto la selezione</small></button>
+        <button id="btn-confirm-paste-newtab" class="btn-ui gl-paste-primary" type="button" title="Scegli una mappa unica o più mappe, nomi, dimensioni e disposizione, conservando quella attuale."><strong>Crea mappe dagli appunti…</strong><small>Una o più schede · impostazioni personalizzate</small></button>
+        <button id="btn-paste-literal" class="btn-ui" type="button" title="Crea un solo nodo sotto quello selezionato. I testi lunghi rimangono integralmente nelle note.">Incolla in un singolo nodo</button>
+        <button id="ai-from-paste" class="btn-ui" data-ai-operation="convert" aria-describedby="gl-paste-ai-explain" title="L'AI interpreta gli appunti e suggerisce una struttura da controllare prima dell'importazione.">✨ Organizza appunti con AI…</button>
+        <button id="btn-cancel-paste" class="btn-ui" type="button">Annulla</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DRAG & DROP FILE OVERLAY -->
+  <div id="dropzone-overlay" class="hidden">
+    <div style="font-size:2.2rem;">📂</div>
+    <div style="font-size:1.05rem;font-weight:700;color:#fff;">Rilascia file Mappa (.xmind, .md, .opml, .json) o Immagine (.png, .jpg, .webp)</div>
+    <div style="font-size:0.78rem;color:var(--text-secondary);">Le immagini rilasciate sopra un nodo si agganciano ad esso; nello spazio vuoto diventano libere nel canvas</div>
+  </div>
+
+
+  <!-- V4: FLASHCARDS PLAYER -->
+  <div id="v5-relation-panel" class="glass-panel v5-relation-panel hidden" role="dialog" aria-label="Modifica relazione">
+    <div class="v5-relation-head"><strong>↝ Relazione</strong><button id="v5-rel-close" class="v5-icon-btn" aria-label="Chiudi">×</button></div>
+    <label>Etichetta <input id="v5-rel-label" class="v5-field" maxlength="130" placeholder="Nome della relazione" /></label>
+    <div class="v5-relation-actions"><label>Colore <input id="v5-rel-color" type="color" value="#f43f5e" /></label><button id="v5-rel-reverse" class="v4-secondary">⇄ Inverti</button><button id="v5-rel-delete" class="v4-secondary">🗑 Elimina</button></div>
+    <div class="v5-note">Clic sulla curva o sull’etichetta per selezionare · doppio clic per rinominare · Canc elimina</div>
+  </div>
+  <div id="v5-study-preview" class="v4-backdrop hidden" role="dialog" aria-label="Anteprima domande AI"><div class="glass-panel v4-modal v5-review-modal"><div class="v4-modal-head"><div><strong>✨ Verifica le domande generate</strong><small>Puoi modificare domande e risposte prima di salvarle</small></div><button id="v5-study-preview-close" class="v4-x">×</button></div><textarea id="v5-study-preview-text" spellcheck="false"></textarea><div class="v5-study-top"><span id="v5-study-preview-count" class="v5-note"></span><button id="v5-study-preview-apply" class="v4-primary">✓ Salva nel mazzo</button></div></div></div>
+  <div id="flash-modal" class="v4-backdrop hidden" role="dialog" aria-modal="true" aria-label="Flashcard e spaced repetition">
+    <div class="glass-panel v4-modal v4-flash-modal">
+      <div class="v4-modal-head"><div><strong>🎴 Studio AI &amp; Ripasso</strong><small>Domande generate con AI · archivio locale · aggiornamento mappe</small></div><button id="flash-close" class="v4-x" aria-label="Chiudi">×</button></div>
+      <div class="v5-study-top">
+        <select id="v5-study-scope" class="v5-field"><option value="active">Mappa intera</option><option value="selected">Ramo selezionato</option><option value="node">Nodo selezionato</option><option value="all">Tutte le schede (max 8)</option></select>
+        <label class="v5-study-count">Domande per scheda <input id="v5-study-count" type="number" min="3" max="12" value="7" /></label>
+        <button id="v5-generate-cards" class="v4-primary">✨ Genera domande con AI</button><button id="v5-regenerate-stale" class="v4-secondary" title="Riesamina con AI i nodi modificati, senza cancellare le carte esistenti">🔄 Aggiorna obsolete</button>
+      </div>
+      <div class="v5-study-top"><button id="v5-export-cards" class="v4-secondary">↓ Esporta archivio</button><button id="v5-import-cards" class="v4-secondary">↑ Importa archivio</button><input id="v5-import-file" type="file" accept=".json" class="hidden" /><button id="v5-remove-card" class="v4-secondary">Elimina carta</button></div>
+      <div id="v5-study-status" class="v5-note" aria-live="polite">Le domande AI sono collegate ai nodi di origine e conservano la cronologia dei ripassi.</div>
+      <div class="v4-filter-row"><label for="flash-filter">Sessione</label><select id="flash-filter">
+        <option value="all">Tutta la scheda</option><option value="subtree">Solo sotto-albero selezionato</option>
+        <option value="review">Da ripassare (rosso / ambra)</option><option value="due">In scadenza o mai studiate</option>
+      </select><span id="flash-progress">0 / 0</span></div>
+      <button id="flash-flip-card" class="v4-flash-card" title="Clicca o premi Spazio"><div id="flash-card-content"></div></button>
+      <div class="v4-flash-actions"><button id="flash-reveal" class="v4-primary">↺ Mostra / nascondi risposta · Spazio</button></div>
+      <div id="flash-rating" class="v4-ratings hidden">
+        <button id="flash-rate-1" class="v4-rate bad">1 · Non so</button>
+        <button id="flash-rate-2" class="v4-rate unsure">2 · Incerto</button>
+        <button id="flash-rate-3" class="v4-rate good">3 · Consolidato</button>
+      </div>
+      <div class="v5-study-top"><button id="v5-card-update" class="v4-secondary">✓ Conferma carta aggiornata</button></div>
+      <div class="v4-modal-foot"><button id="flash-teleport" class="v4-secondary">🎯 Teletrasporta sulla mappa</button><button id="flash-restart" class="v4-secondary">↻ Ricomincia</button></div>
+      <div class="v4-caption">Le risposte 1 / 2 / 3 aggiornano il prossimo ripasso. I dati viaggiano con la mappa nei backup JSON.</div>
+    </div>
+  </div>
+  <!-- V4: UNIVERSAL AI SETTINGS -->
+  <div id="ai-settings-modal" class="v4-backdrop hidden" role="dialog" aria-modal="true" aria-label="Impostazioni intelligenza artificiale">
+    <div class="glass-panel v4-modal v4-ai-modal">
+      <div class="v4-modal-head"><div><strong>✨ AI Settings</strong><small>Un client · più protocolli · endpoint personalizzabili</small></div><button id="ai-settings-close" class="v4-x" aria-label="Chiudi">×</button></div>
+      <div class="v4-fields">
+        <label class="v4-field">Preset provider
+          <span class="v4-combined"><select id="ai-preset"><option value="custom">OpenAI-compatible / Custom</option><option value="openrouter">OpenRouter</option><option value="gemini">Google Gemini</option><option value="groq">Groq</option><option value="mistral">Mistral</option><option value="deepseek">DeepSeek</option><option value="anthropic">Anthropic</option><option value="ollama">Ollama locale</option><option value="lmstudio">LM Studio locale</option></select><button id="ai-preset-apply" class="v4-secondary" type="button">Applica</button></span>
+        </label>
+        <label class="v4-field">Protocollo API<select id="ai-protocol"><option value="auto">Rilevamento automatico</option><option value="openai">OpenAI-compatible</option><option value="gemini">Gemini nativo</option><option value="anthropic">Anthropic nativo</option><option value="ollama">Ollama nativo</option></select></label>
+        <label class="v4-field v4-span-2">Base URL / Endpoint<input id="ai-url" spellcheck="false" placeholder="https://api.example.com/v1"></label>
+        <label class="v4-field">Model Name / ID<input id="ai-model" list="ai-model-list" spellcheck="false" placeholder="es. nome-modello"><datalist id="ai-model-list"></datalist></label>
+        <label class="v4-field">API Key (facoltativa in locale)<input id="ai-key" type="password" autocomplete="off" spellcheck="false" placeholder="La chiave non viene esportata"></label>
+        <label class="v4-check v4-span-2"><input id="ai-remember" type="checkbox"> <span id="v6-ai-remember-label">Ricorda la chiave su questo PC (protetta da Windows)</span></label>
+        <div id="v6-key-status" class="v6-key-status v4-span-2">La chiave non viene inserita nei progetti o nei backup.</div>
+        <label class="v4-field v4-span-2">System Prompt personalizzabile<textarea id="ai-system" rows="4"></textarea></label>
+      </div>
+      <div class="v4-buttons"><button id="ai-model-detect" class="v4-secondary" data-ai-operation="models">🔄 Rileva modelli</button><button id="ai-connection-test" class="v4-secondary" data-ai-operation="test">🔌 Test connessione</button><button id="ai-cancel-request" class="v4-secondary hidden">✕ Annulla richiesta</button></div>
+      <div id="ai-connection-status" role="status" class="v4-feedback"></div>
+      <div class="v4-modal-foot"><button id="ai-settings-save" class="v4-primary">Salva impostazioni</button></div>
+      <div class="v4-caption">Solo le impostazioni senza chiave sono salvate in localStorage. Alcuni provider richiedono CORS o un proxy per consentire chiamate da un file HTML locale. I contenuti dei nodi inviati all'AI raggiungono il provider configurato.</div>
+    </div>
+  </div>
+  <!-- V4: AI TREE PREVIEW -->
+  <div id="ai-preview-modal" class="v4-backdrop hidden" role="dialog" aria-modal="true" aria-label="Anteprima modifica AI">
+    <div class="glass-panel v4-modal v4-ai-preview"><div class="v4-modal-head"><div><strong id="ai-preview-title">Anteprima generazione</strong><small>Puoi correggere liberamente il Markdown prima di applicarlo</small></div><button id="ai-preview-close" class="v4-x">×</button></div>
+      <textarea id="ai-preview-text" class="v4-editor" spellcheck="false"></textarea>
+      <div class="v4-modal-foot"><span class="v4-caption">L'applicazione all'albero utilizza un solo passaggio Undo.</span><button id="ai-preview-apply" class="v4-primary">✓ Applica</button></div>
+    </div>
+  </div>
+  <!-- V4: AI EXPLANATION CARD -->
+  <aside id="ai-explain-panel" class="glass-panel v4-explain hidden" role="complementary" aria-label="Spiegazione AI">
+    <div class="v4-modal-head"><strong id="ai-explain-heading">🧠 Spiegazione AI</strong><button id="ai-explain-close" class="v4-x">×</button></div>
+    <div id="ai-explain-text" class="v4-explain-text"></div>
+    <div class="v4-buttons"><button id="ai-explain-speak" class="v4-secondary">🔊 Ascolta</button><button id="ai-explain-save" class="v4-secondary">📝 Salva nelle note del nodo</button></div>
+  </aside>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast-notification" class="glass-panel hidden">
+    <span id="toast-badge" class="hud-badge">AZIONE</span>
+    <span id="toast-text">Operazione completata</span>
+  </div>
+
+  <script>/* @neuromap-desktop-editor */</script>
+
+
+  <div id="nm54-illustration-modal" class="nm54-backdrop hidden" role="dialog" aria-modal="true" aria-label="Illustrazioni dei nodi">
+    <section class="nm54-modal">
+      <div class="nm54-head">
+        <div class="nm54-title-wrap">
+          <span class="nm54-title-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="1.5"/><path d="m21 15-5-5L5 21"/></svg></span>
+          <div>
+            <h2>Illustrazioni dei nodi</h2>
+            <p>Icone vettoriali integrate nei concetti · salvate nella mappa anche offline</p>
+          </div>
+        </div>
+        <button type="button" class="nm54-btn nm54-close-btn" id="nm54-close" aria-label="Chiudi" title="Chiudi"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+      </div>
+      <div class="nm54-tabbar" role="tablist">
+        <button id="nm54-tab-node" aria-selected="true" type="button">Nodo selezionato</button>
+        <button id="nm54-tab-bulk" aria-selected="false" type="button"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/></svg><span>Illustra con AI</span></button>
+      </div>
+      <div id="nm54-node-panel">
+        <div class="nm54-node-badge" id="nm54-node-name"></div>
+        <div class="nm54-searchbar">
+          <input id="nm54-icon-query" type="search" placeholder="Cerca un’icona (es. idea, cuore, libro, target…)" aria-label="Cerca icone in italiano o inglese" />
+          <button class="nm54-btn btn-primary primary" type="button" id="nm54-icon-search"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><span>Cerca</span></button>
+        </div>
+        <div class="nm54-quick-tags" id="nm54-quick-tags" aria-label="Suggerimenti rapidi">
+          <button type="button" data-q="lightbulb">Idea</button>
+          <button type="button" data-q="target">Obiettivo</button>
+          <button type="button" data-q="book open">Studio</button>
+          <button type="button" data-q="flask conical">Scienza</button>
+          <button type="button" data-q="clock">Tempo</button>
+          <button type="button" data-q="bar chart">Dati</button>
+          <button type="button" data-q="heart">Salute</button>
+          <button type="button" data-q="users">Team</button>
+          <button type="button" data-q="network">Rete</button>
+        </div>
+        <div class="nm54-results" id="nm54-icon-results" aria-live="polite"><div class="nm54-empty">Seleziona un nodo o scegli un tema rapido qui sopra.</div></div>
+        <div class="nm54-footer">
+          <span class="nm54-muted">Clicca un’icona per applicarla subito al nodo.</span>
+          <div class="nm54-footer-actions">
+            <button class="nm54-btn" type="button" id="nm54-open-library">Libreria offline</button>
+            <button class="nm54-btn" type="button" id="nm54-icon-remove">Rimuovi illustrazione</button>
+          </div>
+        </div>
+      </div>
+      <div id="nm54-bulk-panel" class="hidden">
+        <fieldset class="nm54-levels"><legend class="nm54-section-label">Quali livelli della mappa vuoi illustrare automaticamente?</legend>
+          <label><input type="radio" name="nm54-depth" value="1" checked /><span>Solo livello 1 (rami principali)</span></label>
+          <label><input type="radio" name="nm54-depth" value="12" /><span>Livelli 1 e 2</span></label>
+          <label><input type="radio" name="nm54-depth" value="2" /><span>Solo livello 2</span></label>
+          <label><input type="radio" name="nm54-depth" value="123" /><span>Fino al livello 3</span></label>
+        </fieldset>
+        <label class="nm54-overwrite-row"><input type="checkbox" id="nm54-overwrite" /><span>Sostituisci anche le illustrazioni già presenti</span></label>
+        <div class="nm54-footer">
+          <span class="nm54-muted">Massimo 100 nodi per operazione · puoi interrompere in qualsiasi momento.</span>
+          <button class="nm54-btn btn-primary primary" type="button" id="nm54-bulk-start">Avvia illustrazione</button>
+        </div>
+        <div class="nm54-progress" id="nm54-progress" role="status" aria-live="polite"></div>
+      </div>
+      <p class="nm54-privacy">La ricerca traduce i termini tramite MyMemory e scarica le icone da Iconify; una volta inserite restano salvate nella mappa anche senza connessione.</p>
+    </section>
+  </div>
+
+  <div id="nm-decision-overlay" class="nm-decision-overlay hidden" role="presentation">
+    <div id="nm-decision-panel" class="nm-decision-panel" role="alertdialog" aria-modal="true" aria-labelledby="nm-decision-title" aria-describedby="nm-decision-text" tabindex="-1">
+      <div class="nm-decision-head"><div class="nm-decision-icon" aria-hidden="true">◇</div><h2 id="nm-decision-title">Conferma</h2></div>
+      <p id="nm-decision-text" class="nm-decision-desc"></p>
+      <div class="nm-decision-actions" id="nm-decision-actions"></div>
+    </div>
+  </div>
+
+<div class="nm62-shade hidden" id="nm62-assets" role="presentation">
+ <section class="nm62-modal" role="dialog" aria-modal="true" aria-label="Simboli e libreria grafica" aria-labelledby="nm62-title">
+  <div class="nm62-head"><div><h2 id="nm62-title">🏷️ Simboli &amp; Libreria</h2><div class="nm62-small">Illustrazioni locali, utilizzabili senza connessione</div></div><button id="nm62-close" class="nm62-close" type="button">✕ Chiudi</button></div>
+  <div class="nm62-actions"><button type="button" id="nm62-markers-tab" class="active">🏷️ Simboli</button><button type="button" id="nm62-gallery-tab">🖼️ Libreria grafica</button><button type="button" id="nm62-remove-assets">↺ Rimuovi</button></div>
+  <div id="nm62-gallery-root" aria-live="polite"></div>
+  <div id="nm62-assets-status" class="nm62-note">Seleziona un nodo e clicca una risorsa. Fino a tre simboli per nodo.</div>
+ </section>
+</div>
+
+<div id="nm67-notes-overlay" class="nm67-notes-shade hidden" role="presentation">
+ <section class="nm67-notes-modal" role="dialog" aria-modal="true" aria-labelledby="nm67-notes-title">
+  <div class="nm67-notes-heading"><h2 id="nm67-notes-title">📝 Note del nodo</h2><button id="nm67-notes-close" class="v4-x" type="button" aria-label="Chiudi">×</button></div>
+  <p class="nm67-note-info">Le note restano nel nodo, vengono salvate con la mappa e possono essere riaperte dal tasto destro.</p>
+  <div class="nm67-notes-columns"><div><label for="nm67-notes-editor">Modifica nota (Markdown)</label><textarea id="nm67-notes-editor" spellcheck="true" placeholder="Definizioni, esempi, riferimenti…"></textarea></div>
+  <div><label>Anteprima leggibile</label><div id="nm67-notes-preview" class="nm67-rich-text"></div></div></div>
+  <button id="nm67-notes-save" class="v4-primary" type="button">✓ Salva nota</button>
+ </section>
+</div>
+
+<!-- NeuroMap 6.11: explicit AI verification and reviewable proposals -->
+<div id="nm611-audit-overlay" class="nm611-cover hidden" role="presentation">
+ <section class="nm611-modal" role="dialog" aria-modal="true" aria-labelledby="nm611-audit-title">
+  <header class="nm611-header"><div><h2 id="nm611-audit-title">✨ Revisione AI della mappa</h2><p>Controllo di chiarezza e coerenza. Proposte da approvare, mai modifiche automatiche.</p></div><button type="button" id="nm611-audit-close" class="nm611-icon-btn" aria-label="Chiudi">×</button></header>
+  <div class="nm611-content">
+   <div class="nm611-row"><label class="nm611-field">Che cosa vuoi verificare?
+     <select id="nm611-audit-scope"><option value="node">Solo il nodo selezionato</option><option value="subtree" selected>Nodo e tutti i sotto-rami</option><option value="tab">Tutta la scheda attiva</option><option value="tabs">Tutte le schede aperte</option></select>
+   </label><button id="nm611-audit-run" type="button" class="v4-primary">✨ Avvia verifica</button></div>
+   <p id="nm611-audit-about" class="nm611-muted"></p>
+   <div id="nm611-audit-status" class="nm611-status" role="status">Seleziona un ambito e avvia la verifica. I risultati non sono una certificazione scientifica.</div>
+   <div id="nm611-audit-results" class="nm611-results" aria-live="polite"></div>
+  </div>
+  <footer class="nm611-footer">Il provider riceve i testi inclusi nell’ambito. Confronta sempre i suggerimenti con fonti affidabili. Ogni rinomina è annullabile con Ctrl+Z.</footer>
+ </section>
+</div>
+<div id="nm611-autosave-overlay" class="nm611-cover hidden" role="presentation">
+ <section class="nm611-modal" style="max-width:540px" role="dialog" aria-modal="true" aria-labelledby="nm611-autosave-title">
+  <header class="nm611-header"><div><h2 id="nm611-autosave-title">⏱️ Salvataggio automatico</h2><p>Scegli ogni quanto aggiornare il file originale mentre lavori.</p></div><button id="nm611-autosave-close" class="nm611-icon-btn" type="button" aria-label="Chiudi">×</button></header>
+  <div class="nm611-content">
+    <label class="nm611-field">Intervallo di salvataggio automatico sul file
+      <select id="nm611-autosave-period"><option value="0">Disattivato (predefinito)</option><option value="1">Ogni minuto</option><option value="3">Ogni 3 minuti</option><option value="5">Ogni 5 minuti</option><option value="10">Ogni 10 minuti</option><option value="15">Ogni 15 minuti</option><option value="30">Ogni 30 minuti</option></select>
+    </label>
+    <p class="nm611-muted">Il timer salva solo la scheda attiva se ha modifiche non salvate ed è già collegata a un file .gk, .neuromap (precedente) o .xmind. Per salvare tutte le schede usa Ctrl+Shift+S. Il backup di emergenza del workspace resta sempre disponibile.</p>
+    <p id="nm611-autosave-status" class="nm611-status" role="status"></p>
+    <button id="nm611-autosave-save" type="button" class="v4-primary" style="align-self:start">✓ Salva preferenza</button>
+  </div>
+ </section>
+</div>
+
+</body>
+</html>

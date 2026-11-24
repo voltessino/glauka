@@ -1,0 +1,82 @@
+import groovy.json.JsonSlurper
+import java.util.Properties
+
+plugins { id 'com.android.application' }
+
+// A staged Android project receives versions.json from scripts/release/prepare.py.
+// Direct builds from apps/android/native use the repository's canonical file.
+def versionsFile = [rootProject.file('versions.json'), rootProject.file('../../../versions.json')]
+    .find { it.isFile() }
+if (versionsFile == null) throw new GradleException('Missing versions.json. Run scripts/release/prepare.py before packaging.')
+def androidVersion = new JsonSlurper().parse(versionsFile).android
+if (!(androidVersion.version_code instanceof Number) || !(androidVersion.version instanceof String))
+    throw new GradleException('Invalid Android version metadata')
+
+def local = new Properties()
+def localProperties = rootProject.file('local.properties')
+if (localProperties.isFile()) localProperties.withInputStream { local.load(it) }
+def secret = { String env, String key ->
+    def value = System.getenv(env)
+    return (value != null && !value.isEmpty()) ? value : local.getProperty(key)
+}
+def keystorePath = secret('GLAUKA_RELEASE_STORE_FILE','glauka.release.storeFile')
+def signingStorePassword = secret('GLAUKA_RELEASE_STORE_PASSWORD','glauka.release.storePassword')
+def signingAlias = secret('GLAUKA_RELEASE_KEY_ALIAS','glauka.release.keyAlias')
+def signingKeyPassword = secret('GLAUKA_RELEASE_KEY_PASSWORD','glauka.release.keyPassword')
+def hasSigning = [keystorePath,signingStorePassword,signingAlias,signingKeyPassword].every { it != null && !it.isEmpty() }
+if (gradle.startParameter.taskNames.any { it.toLowerCase().contains('release') } && !hasSigning)
+    throw new GradleException('Signed Android release requires GLAUKA_RELEASE_* credentials or untracked local.properties')
+
+android {
+    // Changing this pair would orphan already-installed preview WebView maps.
+    // Reserve it for a data-migration/export release, not a security-only patch.
+    namespace 'it.neuromap.architect.preview'
+    compileSdk 35
+    buildFeatures { buildConfig true }
+    defaultConfig {
+        applicationId 'it.neuromap.architect.preview'
+        minSdk(androidVersion.minimum_api as int)
+        targetSdk 35
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        versionCode(androidVersion.version_code as int)
+        versionName(androidVersion.version as String)
+    }
+    signingConfigs {
+        release {
+            if (hasSigning) {
+                storeFile(file(keystorePath))
+                storePassword(signingStorePassword)
+                keyAlias(signingAlias)
+                keyPassword(signingKeyPassword)
+            }
+        }
+    }
+    buildTypes {
+        debug {
+            buildConfigField 'boolean', 'PRIVATE_AI_TEST', 'true'
+            buildConfigField 'String', 'OWNER_LICENSE_PUBLIC_KEY', '"MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEWHg2ZeSscmytTKBEq9Cnuxu5eXPuxVwkcKDcdvpbYBYM8/Y3gLuZMjwVnatoPeQg0ZH5500h+Rz5ea2WxfSDWQ=="'
+        }
+        release {
+            buildConfigField 'boolean', 'PRIVATE_AI_TEST', 'false'
+            buildConfigField 'String', 'OWNER_LICENSE_PUBLIC_KEY', '""'
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (hasSigning) signingConfig signingConfigs.release
+        }
+    }
+    testOptions { unitTests.returnDefaultValues = true }
+    compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+}
+
+
+dependencies {
+    // AndroidX pulls old jdk7/jdk8 artifacts; align them with the merged stdlib.
+    implementation platform('org.jetbrains.kotlin:kotlin-bom:1.8.22')
+    implementation 'androidx.activity:activity:1.9.3'
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.robolectric:robolectric:4.14.1'
+    androidTestImplementation 'androidx.test:runner:1.6.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test:core:1.6.1'
+}

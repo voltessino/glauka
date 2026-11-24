@@ -1,0 +1,57 @@
+# Build outputs and local credentials (never commit signing keys)
+.gradle/
+build/
+**/build/
+local.properties
+*.jks
+*.keystore
+*.p12
+*.p8
+*.pem
+*.key
+*.pfx
+*.msix
+*.mobileprovision
+.env
+.env.*
+!.env.example
+.DS_Store
+__pycache__/
+*.pyc
+node_modules/
+*.apk
+*.aab
+*.exe
+*.dmg
+
+# Browser reports and staged local outputs
+test-results/
+playwright-report/
+artifacts/
+*.syso
+
+# Prevent new release archives and temporary local data from entering main.
+# Already tracked historic archives are NOT removed by ignore rules.
+*.zip
+*.zip.b64
+*.tar.gz
+*.tar.gz.b64
+*.7z
+*.rar
+.venv/
+.pytest_cache/
+
+# Glauka License Manager keeps its database and keys in AppData, never in Git.
+tools/license-manager/*.sqlite
+tools/license-manager/*.sqlite-*
+tools/license-manager/data/
+*.glkkey
+pro-public.b64
+tools/license-manager/build/
+tools/license-manager/dist/
+tools/license-manager/*.spec
+.coverage
+coverage/
+*.log
+*.tmp
+*.swp

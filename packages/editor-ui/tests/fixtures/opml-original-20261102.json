@@ -1,0 +1,32 @@
+[
+  {
+    "tree": {
+      "text": "A & <B> \"C\" 'D'\u0001",
+      "children": [
+        {
+          "text": "",
+          "children": []
+        },
+        {
+          "text": "❷ 中文\nSecond line",
+          "collapsed": true,
+          "notes": "Preserve note",
+          "children": [
+            {
+              "text": "Child",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    "xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<opml version=\"2.0\">\n  <head>\n    <title>A &amp; &lt;B&gt; &quot;C&quot; &apos;D&apos;</title>\n  </head>\n  <body>\n    <outline text=\"A &amp; &lt;B&gt; &quot;C&quot; &apos;D&apos;\">\n      <outline text=\"\" />\n      <outline text=\"❷ 中文\nSecond line\">\n        <outline text=\"Child\" />\n      </outline>\n    </outline>\n  </body>\n</opml>"
+  },
+  {
+    "tree": {
+      "text": "Only root",
+      "children": []
+    },
+    "xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<opml version=\"2.0\">\n  <head>\n    <title>Only root</title>\n  </head>\n  <body>\n    <outline text=\"Only root\" />\n  </body>\n</opml>"
+  }
+]

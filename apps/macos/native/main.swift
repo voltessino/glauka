@@ -1,6 +1,114 @@
 import Cocoa
 import WebKit
 
+private enum GlaukaMacEditScript {
+    // Keep this text identical to apps/macos/native/mac-edit.js.
+    static let source = #"""
+(function (root) {
+  'use strict';
+  var modalIds = ['flash-modal', 'ai-settings-modal', 'ai-preview-modal', 'nm54-illustration-modal', 'nm62-assets', 'paste-modal', 'nm-decision-overlay', 'nm67-notes-overlay', 'nm6-plan-modal'];
+  var skipTypes = { button: 1, checkbox: 1, color: 1, file: 1, hidden: 1, image: 1, radio: 1, range: 1, reset: 1, submit: 1 };
+
+  function isEditingField(el) {
+    if (!el) return false;
+    if (el.isContentEditable) return true;
+    if (typeof el.closest !== 'function') return false;
+    var node = el.closest('textarea, input, [contenteditable="true"], [contenteditable=""], [contenteditable="plaintext-only"]');
+    if (!node) return false;
+    if (typeof node.matches === 'function' && node.matches('input')) {
+      var type = String(node.getAttribute('type') || 'text').toLowerCase();
+      if (skipTypes[type]) return false;
+    }
+    if (node.disabled || node.readOnly) return false;
+    return true;
+  }
+
+  function isBlocked(doc, el) {
+    if (el && typeof el.closest === 'function' && el.closest('[role="dialog"],.nm-creative-shade,#nm-drawing-toolbar,#nm-ai-studio,#nm-knowledge-panel')) return true;
+    if (!doc || typeof doc.getElementById !== 'function') return false;
+    return modalIds.some(function (id) {
+      var node = doc.getElementById(id);
+      return !!(node && !node.hidden && !(node.classList && node.classList.contains('hidden')));
+    });
+  }
+
+  function reportState(doc) {
+    var el = doc && doc.activeElement;
+    return { editing: isEditingField(el), blocked: isBlocked(doc, el) };
+  }
+
+  function pasteImage(app, encoded) {
+    if (!encoded || !app.io || typeof app.io.attachImageFileToNode !== 'function' || typeof root.atob !== 'function' || typeof root.File !== 'function') return false;
+    var binary = root.atob(encoded);
+    var bytes = new Uint8Array(binary.length);
+    for (var i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    var file = new root.File([bytes], 'clipboard.png', { type: 'image/png' });
+    var selectedImage = app.state && app.state.selectedImageId;
+    app.io.attachImageFileToNode(file, selectedImage ? null : (app.state && app.state.selectedNodeId));
+    return true;
+  }
+
+  function paste(app, request) {
+    if (request && request.image && pasteImage(app, request.image)) return 'paste-image';
+    var text = String((request && request.text) || '');
+    if (app.internalClipboard && (!text || text === app._clipboardPlain)) {
+      app.pasteSelection();
+      return 'paste-internal';
+    }
+    if (text && typeof app.nm66PasteOutline === 'function') {
+      try {
+        app.nm66PasteOutline(text, String((request && request.html) || ''));
+        return 'paste-text';
+      } catch (error) {
+        if (typeof app.showToast === 'function') app.showToast(String(error && error.message || error), 'INCOLLA');
+        return 'paste-error';
+      }
+    }
+    if (typeof app.pasteSelection === 'function') {
+      app.pasteSelection();
+      return 'paste-internal';
+    }
+    return 'ignored';
+  }
+
+  function command(app, request, doc) {
+    var el = doc && doc.activeElement;
+    var name = String(request && request.name || '');
+    // Focus can move after the native side last heard about it. Tell the
+    // Mac host to use the real text responder instead of dropping the key.
+    if (isEditingField(el)) return 'editing';
+    if (isBlocked(doc, el)) return (name === 'copy' || name === 'selectAll') ? 'editing' : 'ignored';
+    if (!app) return 'ignored';
+    if (name === 'copy' && typeof app.copySelection === 'function') { app.copySelection(); return 'copy'; }
+    if (name === 'cut' && typeof app.cutSelection === 'function') { app.cutSelection(); return 'cut'; }
+    if (name === 'selectAll' && typeof app.selectAllBranches === 'function') { app.selectAllBranches(); return 'selectAll'; }
+    if (name === 'undo') {
+      if (request && request.shift) { if (typeof app.redo === 'function') app.redo(); return 'redo'; }
+      if (typeof app.undo === 'function') app.undo();
+      return 'undo';
+    }
+    if (name === 'paste') return paste(app, request);
+    return 'ignored';
+  }
+
+  function install(doc) {
+    function post() {
+      var state = reportState(doc);
+      root.__glaukaEditState = state;
+      try { root.webkit.messageHandlers.neuromapEditState.postMessage(state); } catch (error) {}
+    }
+    doc.addEventListener('focusin', post, true);
+    doc.addEventListener('focusout', post, true);
+    root.GlaukaMacEdit.command = function (request) { return command(root.neuroMapApp, request, doc); };
+    post();
+  }
+
+  root.GlaukaMacEdit = { command: command, isEditingField: isEditingField, isBlocked: isBlocked, reportState: reportState, install: install };
+  if (root.document && typeof root.document.addEventListener === 'function') install(root.document);
+})(typeof globalThis !== 'undefined' ? globalThis : this);
+"""#
+}
+
 // Native messages must work before the backend or web interface is available.
 private enum GlaukaNativeLanguage {
     static let supported: Set<String> = ["it", "en", "de", "es", "fr", "pt", "ar", "zh-CN"]
@@ -54,6 +162,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, 
     private var closeAttempt = 0
     private var closeTimeout: DispatchWorkItem?
     private var closeRecoveryAlertOpen = false
+    private var pageEditingText = false
+    private var pageShortcutBlocked = false
 
     // Only the exact port started by our own backend is a privileged origin.
     private func trustedPage(_ candidate: URL?) -> Bool {
@@ -424,13 +534,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, 
         main.addItem(fileItem)
         fileItem.submenu = file
 
-        // Keep the existing editor's canvas shortcuts in WebKit. These menu
-        // actions target the normal native text responder only.
+        // Command shortcuts are owned here, not by the standard selectors.
+        // AppKit would otherwise consume Cmd+C/V before the page can see them,
+        // while an empty shortcut leaves WKWebView text fields unable to copy.
         let editItem = NSMenuItem()
         let edit = NSMenu(title: GlaukaNativeLanguage.text("editMenu"))
-        for (key, command) in [("cut", "cut:"), ("copy", "copy:"), ("paste", "paste:"), ("selectAll", "selectAll:")] {
-            edit.addItem(NSMenuItem(title: GlaukaNativeLanguage.text(key), action: Selector((command)), keyEquivalent: ""))
-        }
+        addEditItem(edit, "undo", #selector(glaukaUndo(_:)), "z")
+        addEditItem(edit, "redo", #selector(glaukaRedo(_:)), "z", shift: true)
+        edit.addItem(.separator())
+        addEditItem(edit, "cut", #selector(glaukaCut(_:)), "x")
+        addEditItem(edit, "copy", #selector(glaukaCopy(_:)), "c")
+        addEditItem(edit, "paste", #selector(glaukaPaste(_:)), "v")
+        addEditItem(edit, "selectAll", #selector(glaukaSelectAll(_:)), "a")
         main.addItem(editItem)
         editItem.submenu = edit
 
@@ -441,6 +556,87 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, 
         windowItem.submenu = windows
         NSApp.windowsMenu = windows
         NSApp.mainMenu = main
+    }
+    private func addEditItem(_ menu: NSMenu, _ title: String, _ action: Selector, _ key: String, shift: Bool = false) {
+        let item = NSMenuItem(title: GlaukaNativeLanguage.text(title), action: action, keyEquivalent: key)
+        item.target = self
+        if shift { item.keyEquivalentModifierMask = [.command, .shift] }
+        menu.addItem(item)
+    }
+    private func nativeTextFocused() -> Bool { window?.firstResponder is NSText }
+    @objc private func glaukaUndo(_ sender: Any?) { routeEdit(editCommand(name: "undo", shift: false)) }
+    @objc private func glaukaRedo(_ sender: Any?) { routeEdit(editCommand(name: "undo", shift: true)) }
+    @objc private func glaukaCut(_ sender: Any?) { routeEdit(editCommand(name: "cut", shift: false)) }
+    @objc private func glaukaCopy(_ sender: Any?) { routeEdit(editCommand(name: "copy", shift: false)) }
+    @objc private func glaukaPaste(_ sender: Any?) { routeEdit(editCommand(name: "paste", shift: false)) }
+    @objc private func glaukaSelectAll(_ sender: Any?) { routeEdit(editCommand(name: "selectAll", shift: false)) }
+    private func editCommand(name: String, shift: Bool) -> (name: String, shift: Bool, selector: Selector) {
+        switch name {
+        case "copy": return ("copy", false, Selector(("copy:")))
+        case "cut": return ("cut", false, Selector(("cut:")))
+        case "paste": return ("paste", false, Selector(("paste:")))
+        case "selectAll": return ("selectAll", false, Selector(("selectAll:")))
+        case "undo": return ("undo", shift, Selector((shift ? "redo:" : "undo:")))
+        default: preconditionFailure("Comando di modifica sconosciuto")
+        }
+    }
+    private func routeEdit(_ key: (name: String, shift: Bool, selector: Selector)) {
+        if nativeTextFocused() || pageEditingText {
+            forwardEditing(key.selector)
+            return
+        }
+        if pageShortcutBlocked {
+            // A modal can hold a mouse selection that is not a text field.
+            // Copy and Select All must still reach WebKit; map edits must not.
+            if key.name == "copy" || key.name == "selectAll" { forwardEditing(key.selector) }
+            return
+        }
+        guard let web = web, trustedPage(web.url) else { return }
+        var payload: [String: Any] = ["name": key.name, "shift": key.shift]
+        if key.name == "paste" {
+            if let image = pasteboardPNG() {
+                payload["image"] = image
+            } else {
+                let board = NSPasteboard.general
+                payload["text"] = String((board.string(forType: .string) ?? "").prefix(6_400_000))
+                payload["html"] = String((board.string(forType: .html) ?? "").prefix(1_000_000))
+            }
+        }
+        guard let data = try? JSONSerialization.data(withJSONObject: payload),
+              let json = String(data: data, encoding: .utf8) else { return }
+        let selector = key.selector
+        web.evaluateJavaScript("window.GlaukaMacEdit&&GlaukaMacEdit.command(" + json + ")") { result, _ in
+            guard (result as? String) == "editing" else { return }
+            DispatchQueue.main.async { [weak self] in self?.forwardEditing(selector) }
+        }
+    }
+    private func forwardEditing(_ selector: Selector) {
+        if NSApp.sendAction(selector, to: nil, from: nil) { return }
+        // Paste is not restored by execCommand in current WebKit. Only undo
+        // and redo get that fallback when no Cocoa responder accepts them.
+        let command: String
+        switch selector {
+        case Selector(("undo:")): command = "undo"
+        case Selector(("redo:")): command = "redo"
+        default: return
+        }
+        web?.evaluateJavaScript("document.execCommand('" + command + "')", completionHandler: nil)
+    }
+    private func pasteboardPNG() -> String? {
+        let board = NSPasteboard.general
+        let data: Data?
+        if let png = board.data(forType: .png) {
+            data = png
+        } else if let tiff = board.data(forType: .tiff),
+                  let image = NSBitmapImageRep(data: tiff),
+                  let png = image.representation(using: .png, properties: [:]) {
+            data = png
+        } else {
+            data = nil
+        }
+        guard let data, !data.isEmpty, data.count <= 12 * 1024 * 1024,
+              data.starts(with: [137, 80, 78, 71, 13, 10, 26, 10]) else { return nil }
+        return data.base64EncodedString()
     }
     private func runEditorCommand(_ command: String) {
         guard let web = web, trustedPage(web.url) else { return }
@@ -497,8 +693,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, 
         trustedOrigin = url
         let config = WKWebViewConfiguration()
         config.websiteDataStore = .default()
+        config.userContentController.addUserScript(WKUserScript(
+            source: GlaukaMacEditScript.source, injectionTime: .atDocumentStart, forMainFrameOnly: true))
         config.userContentController.add(self, name: "neuromapClipboard")
         config.userContentController.add(self, name: "neuromapOpenURL")
+        config.userContentController.add(self, name: "neuromapEditState")
         web = WKWebView(frame: .zero, configuration: config)
         web.navigationDelegate = self
         web.uiDelegate = self
@@ -654,6 +853,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, 
                   let host = url.host, !host.isEmpty, host != "127.0.0.1", host != "localhost",
                   url.user == nil, url.password == nil else { return }
             NSWorkspace.shared.open(url)
+            return
+        }
+        if message.name == "neuromapEditState" {
+            guard message.frameInfo.isMainFrame, trustedPage(message.frameInfo.request.url),
+                  let body = message.body as? [String: Any] else { return }
+            pageEditingText = body["editing"] as? Bool ?? false
+            pageShortcutBlocked = body["blocked"] as? Bool ?? false
             return
         }
         guard message.frameInfo.isMainFrame, trustedPage(message.frameInfo.request.url),

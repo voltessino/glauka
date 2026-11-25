@@ -97,6 +97,13 @@ class GlaukaBrandDocuments(unittest.TestCase):
         self.assertGreaterEqual(min(y for x,y in purple),24)
         self.assertLessEqual(max(x for x,y in purple),w-25)
         self.assertLessEqual(max(y for x,y in purple),h-25)
+        opaque=[(i//4%w,i//4//w) for i in range(0,len(pixels),4) if pixels[i+3]>0]
+        self.assertTrue(opaque)
+        # Preserve macOS/Windows Dock safe padding around the rounded icon tile.
+        self.assertGreaterEqual(min(x for x,y in opaque),20)
+        self.assertGreaterEqual(min(y for x,y in opaque),20)
+        self.assertLessEqual(max(x for x,y in opaque),w-21)
+        self.assertLessEqual(max(y for x,y in opaque),h-21)
 
     def test_ico_has_real_multi_resolution_png_images(self):
         left,right=map(read,ICO)

@@ -9,8 +9,12 @@ const {chromium}=require('@playwright/test');
  const mark=fs.readFileSync(path.join(root,'packages/brand/glauka-mark.svg'),'utf8');
  const website=fs.readFileSync(path.join(root,'apps/website/assets/glauka-mark.svg'),'utf8');
  if(mark.trim()!==website.trim())throw Error('Website and native master logos differ');
- const native=mark.replace(/(<svg[^>]*>)/,'$1<rect x="0.5" y="0.5" width="29" height="29" rx="5.2" fill="#ffffff" stroke="none"/>');
- const browser=await chromium.launch({executablePath:process.env.CHROMIUM_EXECUTABLE_PATH||'/usr/bin/chromium',args:['--no-sandbox']});
+ const tile='<rect x="2.93" y="2.93" width="24.14" height="24.14" rx="5.4" fill="#ffffff" stroke="rgba(20,24,42,0.08)" stroke-width="0.22"/>';
+ const native=mark
+  .replace(/(<svg[^>]*>)/,'$1'+tile+'<g transform="translate(15,15) scale(0.72) translate(-15,-14.58)">')
+  .replace(/<\/svg>/,'</g></svg>');
+ const chromePath=process.env.CHROMIUM_EXECUTABLE_PATH||(process.platform==='linux'&&fs.existsSync('/usr/bin/chromium')?'/usr/bin/chromium':undefined);
+ const browser=await chromium.launch({executablePath:chromePath,args:['--no-sandbox']});
  try{
   const page=await browser.newPage({deviceScaleFactor:1});
   const capture=async size=>{

@@ -3,9 +3,9 @@
   display: none !important;
 }
 #flash-modal .v4-flash-modal {
-  width: min(640px, 100%);
-  padding: 14px 16px;
-  gap: 7px;
+  width: min(680px, 100%);
+  padding: 13px 15px;
+  gap: 6px;
   max-height: 90dvh;
   background: var(--nm-skin-surface, rgba(16, 26, 48, .98)) !important;
   color: var(--nm-skin-ink, #f8fafc) !important;
@@ -13,17 +13,17 @@
 }
 #flash-modal .v4-modal-head {
   color: var(--nm-skin-ink, #f8fafc) !important;
-  padding-bottom: 8px;
-  margin-bottom: 8px;
+  padding-bottom: 7px;
+  margin-bottom: 7px;
   border-bottom: 1px solid color-mix(in srgb, var(--nm-skin-stroke, #475569) 55%, transparent);
 }
 #flash-modal .v4-modal-head strong {
-  font-size: 15.5px;
+  font-size: 14px;
   letter-spacing: -0.01em;
 }
 #flash-modal .v4-modal-head small {
   color: var(--nm-skin-muted, #64748b) !important;
-  font-size: 11.5px;
+  font-size: 11px;
 }
 
 .glauka-study-today {
@@ -31,10 +31,10 @@
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: 6px 10px;
-  padding: 9px 12px;
-  margin: 0 0 8px;
+  padding: 8px 11px;
+  margin: 0 0 7px;
   border: 1px solid color-mix(in srgb, var(--nm-theme-action, #6441df) 26%, var(--nm-skin-stroke, #cbd5e1));
-  border-radius: 11px;
+  border-radius: 10px;
   background: color-mix(in srgb, var(--nm-theme-action, #6441df) 8%, var(--nm-skin-top, #f8fafc));
   color: var(--nm-skin-ink, #0f172a);
 }
@@ -44,48 +44,50 @@
   min-width: 0;
 }
 .glauka-today-info strong {
-  font-size: 13px;
-  font-weight: 750;
+  font-size: 12px;
+  font-weight: 700;
 }
 .glauka-today-info p {
   margin: 0;
-  font-size: 11.5px;
+  font-size: 11px;
   line-height: 1.35;
   color: var(--nm-skin-muted, #475569);
 }
 .glauka-today-info small {
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 600;
   color: var(--nm-theme-action, #6441df);
 }
 .glauka-today-ctas {
   display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+  flex-wrap: nowrap;
+  gap: 5px;
   align-items: center;
 }
 .glauka-today-start {
-  min-height: 30px;
+  min-height: 27px;
   padding: 4px 10px;
-  border-radius: 8px;
+  border-radius: 7px;
   border: 1px solid var(--nm-theme-action, #6441df);
   background: var(--nm-theme-action, #6441df);
   color: #fff;
   font: inherit;
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 11.5px;
+  font-weight: 650;
+  white-space: nowrap;
   cursor: pointer;
 }
 .glauka-today-add {
-  min-height: 30px;
+  min-height: 27px;
   padding: 4px 10px;
-  border-radius: 8px;
+  border-radius: 7px;
   border: 1px solid color-mix(in srgb, var(--nm-theme-action, #6441df) 38%, var(--nm-skin-stroke, #cbd5e1));
   background: var(--nm-skin-surface, #ffffff);
   color: var(--nm-skin-ink, #0f172a);
   font: inherit;
   font-size: 11.5px;
   font-weight: 650;
+  white-space: nowrap;
   cursor: pointer;
 }
 .glauka-today-start:hover {
@@ -100,21 +102,25 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 4px;
   padding: 3px;
-  margin: 0 0 8px;
-  border-radius: 9px;
+  margin: 0 0 7px;
+  border-radius: 8px;
   background: color-mix(in srgb, var(--nm-skin-top, #f1f5f9) 85%, transparent);
   border: 1px solid color-mix(in srgb, var(--nm-skin-stroke, #cbd5e1) 60%, transparent);
 }
 .glauka-flash-tabs button {
-  min-height: 29px;
+  min-height: 27px;
   padding: 4px 8px;
-  border-radius: 7px;
+  border-radius: 6px;
   border: 0;
   background: transparent;
   color: var(--nm-skin-muted, #64748b);
   font: inherit;
-  font-size: 12px;
+  font-size: 11.5px;
+  line-height: 1.2;
   font-weight: 650;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   cursor: pointer;
   transition: background .14s ease, color .14s ease;
 }
@@ -135,7 +141,7 @@
 #flash-modal .v4-filter-row {
   margin-bottom: 0;
   color: var(--nm-skin-muted, #64748b);
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 600;
 }
 #flash-modal .v4-filter-row select,
@@ -145,6 +151,11 @@
   background: var(--nm-skin-top, #f8fafc);
   border: 1px solid var(--nm-skin-stroke, #cbd5e1);
   color: var(--nm-skin-ink, #0f172a);
+  font-size: 11.5px;
+}
+#flash-modal .v4-filter-row select {
+  min-height: 29px;
+  padding: 3px 8px;
 }
 #flash-modal .v4-filter-row span {
   color: var(--nm-theme-action, #6441df);
@@ -172,7 +183,7 @@
   margin-bottom: -2px;
 }
 .glauka-card-tool-btn {
-  min-height: 26px;
+  min-height: 25px;
   padding: 3px 9px;
   border-radius: 7px;
   border: 1px solid color-mix(in srgb, var(--nm-skin-stroke, #cbd5e1) 70%, transparent);
@@ -181,6 +192,7 @@
   font: inherit;
   font-size: 11px;
   font-weight: 650;
+  white-space: nowrap;
   cursor: pointer;
 }
 .glauka-card-tool-btn:hover {
@@ -260,11 +272,12 @@ body[data-nm-skin="graphite"] #flash-modal #flash-flip-card.is-back .flash-eyebr
 }
 #flash-modal .v4-flash-actions button {
   width: auto;
-  min-width: 190px;
-  min-height: 32px;
-  padding: 5px 16px;
-  border-radius: 9px;
-  font-size: 12px;
+  min-width: 170px;
+  min-height: 28px;
+  padding: 4px 14px;
+  border-radius: 8px;
+  font-size: 11.5px;
+  font-weight: 650;
 }
 #flash-modal .v4-ratings {
   margin-top: 0;
@@ -276,16 +289,18 @@ body[data-nm-skin="graphite"] #flash-modal #flash-flip-card.is-back .flash-eyebr
 }
 #flash-modal .v4-primary,
 #flash-modal .v4-secondary {
-  min-height: 30px;
-  padding: 5px 10px;
-  border-radius: 8px;
+  min-height: 27px;
+  padding: 4px 10px;
+  border-radius: 7px;
   font-size: 11.5px;
+  font-weight: 650;
 }
 #flash-modal .v4-rate {
-  min-height: 30px;
-  padding: 5px 7px;
-  border-radius: 8px;
+  min-height: 28px;
+  padding: 4px 7px;
+  border-radius: 7px;
   font-size: 11px;
+  font-weight: 650;
   white-space: nowrap;
   flex: 1 1 0;
 }
@@ -310,10 +325,10 @@ body[data-nm-skin="graphite"] #flash-modal .v4-rate.good { color: #6ee7b7; }
   color: var(--nm-skin-ink, #0f172a);
 }
 .glauka-study-tools > summary {
-  min-height: 32px;
+  min-height: 30px;
   padding: 6px 11px;
   box-sizing: border-box;
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 650;
   cursor: pointer;
 }
@@ -575,18 +590,21 @@ body[data-nm-skin="graphite"] .glauka-google-pill {
 }
 .glauka-gen-actions {
   display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+  flex-wrap: nowrap;
+  gap: 5px;
   align-items: center;
 }
 #flash-modal .glauka-gen-card .v4-primary,
 #flash-modal .glauka-gen-card .v4-secondary {
   width: auto;
-  min-height: 32px;
-  padding: 5px 11px;
-  border-radius: 9px;
-  font-size: 12px;
+  min-height: 27px;
+  padding: 4px 9px;
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 650;
   line-height: 1.2;
+  white-space: nowrap;
+  flex: 0 1 auto;
 }
 .glauka-google-paste {
   display: grid;
@@ -692,11 +710,40 @@ body[data-nm-skin="graphite"] .glauka-google-pill {
   color: var(--nm-theme-action, #6441df);
 }
 
+/* Match the exact 11.5px-12px compact chrome typography of Studia la mappa ("Ripeti a memoria"),
+   while preserving the readable 17px card heading inside #flash-flip-card. */
+#flash-modal .v4-flash-modal button:not(#flash-flip-card):not(#flash-close),
+#flash-modal .v4-flash-modal select,
+#flash-modal .v4-flash-modal .glauka-flash-tabs button,
+#flash-modal .v4-flash-modal .glauka-today-start,
+#flash-modal .v4-flash-modal .glauka-today-add,
+#flash-modal .v4-flash-modal .v4-flash-actions button,
+#flash-modal .v4-flash-modal .v4-modal-foot button {
+  font-size: 11.5px !important;
+  line-height: 1.25 !important;
+  min-height: 27px !important;
+}
+#flash-modal .v4-flash-modal .glauka-card-tool-btn,
+#flash-modal .v4-flash-modal .glauka-gen-card button,
+#flash-modal .v4-flash-modal .glauka-tools-archive-btns button,
+#flash-modal .v4-flash-modal .v4-rate {
+  font-size: 11px !important;
+  min-height: 26px !important;
+}
+#flash-modal #flash-flip-card .flash-heading {
+  font-size: 17px !important;
+  line-height: 1.32 !important;
+}
+
 @media (max-width: 600px) {
   .glauka-study-today,
   .glauka-lib-toolbar,
   .glauka-gen-grid,
   .glauka-google-paste {
     grid-template-columns: minmax(0, 1fr);
+  }
+  .glauka-gen-actions,
+  .glauka-today-ctas {
+    flex-wrap: wrap;
   }
 }

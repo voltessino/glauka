@@ -22,7 +22,7 @@ function staticProblems(){
   if(versions.editor==='1.0.4'){
     problems.push('versions.json editor non è la versione mostrata alle persone. Non copiare 1.0.4 nel numero interno dei moduli senza una decisione separata.');
   }
-  if(versions.android?.version!=='0.6.21-rc.1-private'){
+  if(versions.android?.version!=='0.6.22'||versions.android?.version_code!==28){
     problems.push('Il numero dell\'app per telefono è una linea diversa. Non cambiarlo solo per allinearlo a 1.0.4.');
   }
   const shell=read('apps/desktop-shared/editor/shell-dictionary.js');

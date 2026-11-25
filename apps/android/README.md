@@ -1,6 +1,6 @@
-# Glauka Android · anteprima privata 0.6.21-rc.1-private
+# Glauka Android · Free 0.6.22
 
-Versione attuale letta da [`versions.json`](../../versions.json): **0.6.21-rc.1-private**, `versionCode` **27**, Android 8 o successivo (API 26). È un’anteprima privata di debug, non una release pubblica firmata per uno store.
+Versione attuale letta da [`versions.json`](../../versions.json): **0.6.22**, `versionCode` **28**, Android 8 o successivo (API 26). Il pacchetto pubblico firmato è `Glauka-Android-Free-0.6.22-Release.apk`.
 
 Free include gli strumenti locali. Pro, con provider personale, include le funzioni di intelligenza artificiale. [Licenze e pubblicazione](../../docs/free-pro-licensing.md).
 

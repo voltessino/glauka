@@ -1,5 +1,5 @@
 /* NeuroMap public edition · shared shell · no external UI libraries */
-const NM_PRODUCT_VERSION='0.6.21-rc.1-private';
+const NM_PRODUCT_VERSION='0.6.22';
 const NM_DICT={
  'File':'File','Modifica':'Edit','Inserisci':'Insert','Visualizza':'View','Home':'Home',
  'Nuova Scheda':'New map','Nuova scheda':'New map','Apri file':'Open file','Apri File':'Open file',

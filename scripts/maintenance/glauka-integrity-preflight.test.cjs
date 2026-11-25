@@ -12,7 +12,8 @@ test('the official app version shown to people is 1.0.4',()=>{
   const versions=JSON.parse(read('versions.json'));
   assert.equal(versions.windows.version,'1.0.4');
   assert.equal(versions.macos.version,'1.0.4');
-  assert.equal(versions.android.version,'0.6.21-rc.1-private');
+  assert.equal(versions.android.version,'0.6.22');
+  assert.equal(versions.android.version_code,28);
   assert.notEqual(versions.editor,versions.windows.version);
   const shell=read('apps/desktop-shared/editor/shell-dictionary.js');
   assert.match(shell,/const NM_PRODUCT_VERSION='1\.0\.4'/);

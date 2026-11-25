@@ -17,8 +17,8 @@ const javaAsset=read('apps/android/native/app/src/main/java/it/neuromap/architec
 const javaAI=read('apps/android/native/app/src/main/java/it/neuromap/architect/preview/AndroidAiHostPolicy.java');
 test('release version is never duplicated as a hardcoded old APK version',()=>{
  const version=JSON.parse(read('versions.json')).android;
- assert.equal(version.version_code,27);
- assert.equal(version.version,'0.6.21-rc.1-private');
+ assert.equal(version.version_code,28);
+ assert.equal(version.version,'0.6.22');
  assert.match(gradle,/JsonSlurper/);
  assert.match(gradle,/androidVersion\.version_code/);
  assert.match(gradle,/androidVersion\.version/);

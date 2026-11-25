@@ -8,11 +8,11 @@
 An offline-first mind-mapping & multi-view knowledge workspace for Desktop & Android Free.
 
 [![License: AGPL-3.0](https://img.shields.io/badge/License-AGPLv3-5b21b6?style=for-the-badge)](LICENSE)
-[![Android Free](https://img.shields.io/badge/Android_Free-v0.6.21-16a34a?style=for-the-badge&logo=android&logoColor=white)](https://github.com/voltessino/glauka/releases/tag/v0.6.21)
+[![Android Free](https://img.shields.io/badge/Android_Free-v0.6.22-16a34a?style=for-the-badge&logo=android&logoColor=white)](https://github.com/voltessino/glauka/releases/tag/v0.6.22)
 [![Desktop Core](https://img.shields.io/badge/Desktop_Core-v1.0.4-334155?style=for-the-badge)](https://glauka.it)
 [![Telemetry](https://img.shields.io/badge/Telemetry-Zero-0f172a?style=for-the-badge)](https://github.com/voltessino/glauka)
 
-[**Download Android APK (v0.6.21)**](https://github.com/voltessino/glauka/releases/download/v0.6.21/Glauka-Android-Free-0.6.21-Release.apk) · [**Official Website (`glauka.it`)**](https://glauka.it) · [**Glauka Pro (Windows Store / Site)**](https://glauka.it/#download)
+[**Download Android APK (v0.6.22)**](https://github.com/voltessino/glauka/releases/download/v0.6.22/Glauka-Android-Free-0.6.22-Release.apk) · [**Official Website (`glauka.it`)**](https://glauka.it) · [**Glauka Pro (Windows Store / Site)**](https://glauka.it/#download)
 
 </div>
 
@@ -69,7 +69,7 @@ Glauka uses an **Open Core + Dual-License** model: everything required to build,
 | Infinite Canvas & 7 Synchronized Views | ✅ Included | ✅ Included |
 | AES-256-GCM `.glk` & LAN `PC ↔ Phone` QR Sync | ✅ Included | ✅ Included |
 | On-Device OCR, Flashcards, MathJax & Exports | ✅ Included | ✅ Included |
-| Android Free APK ([v0.6.21 Release](https://github.com/voltessino/glauka/releases/tag/v0.6.21)) | ✅ Included | — |
+| Android Free APK ([v0.6.22 Release](https://github.com/voltessino/glauka/releases/tag/v0.6.22)) | ✅ Included | — |
 | **AI Studio** (Map Gen, Expand, Q&A over PDF, Voice Dictation) | ❌ Excluded | ✅ Proprietary (BYOK) |
 | **Studio Vocale** (Neural HD, Online TTS & VoiceStudio Connector) | ❌ Excluded | ✅ Proprietary |
 

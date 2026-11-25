@@ -25,7 +25,7 @@ class Release74MetadataTests(TestCase):
         self.assertNotIn('Developer', version['windows']['edition'])
         self.assertNotIn('7.4.0', version['windows']['version'])
         self.assertEqual(version['android']['editor_features'], '6.16.0')
-        self.assertEqual(version['android']['version'], '0.6.21-rc.1-private')
+        self.assertEqual(version['android']['version'], '0.6.22')
 
     def test_android_baseline_is_distinguished_from_shared_modules(self):
         version = json.loads((ROOT / 'versions.json').read_text())

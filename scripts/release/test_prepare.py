@@ -500,7 +500,7 @@ class VersionTests(unittest.TestCase):
         self.assertNotEqual(v['editor'],desktop)
         self.assertEqual(json.loads((ROOT/'package.json').read_text())['version'],v['editor'])
         # Android intentionally retains an independently versioned feature baseline.
-        self.assertEqual(v['android']['version'],'0.6.21-rc.1-private')
+        self.assertEqual(v['android']['version'],'0.6.22')
         major,minor,patch=map(int,desktop.split('-')[0].split('.'))
         build=int(desktop.rsplit('.',1)[-1]) if '-' in desktop else 0
         expected_fixed={'Major':major,'Minor':minor,'Patch':patch,'Build':build}

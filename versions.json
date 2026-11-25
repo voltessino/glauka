@@ -11,8 +11,8 @@
   },
   "android": {
     "edition": "Free",
-    "version": "0.6.21-rc.1-private",
-    "version_code": 27,
+    "version": "0.6.22",
+    "version_code": 28,
     "editor_features": "6.16.0",
     "minimum_api": 26,
     "mobile_tools": "7.4.0-rc.1 offline preview",

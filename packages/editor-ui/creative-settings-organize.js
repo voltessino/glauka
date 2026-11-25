@@ -111,7 +111,6 @@
         };
         const type = fold("Testo e stile", "Text and style"),
           hierarchy = fold("Gerarchia tipografica", "Text hierarchy"),
-          branches = fold("Rami e collegamenti", "Branches and connections"),
           colors = fold("Colori e palette", "Colors and palettes");
         type.box.open = true;
         const swatches = node.querySelector("#inspector-swatch-grid"),
@@ -122,7 +121,17 @@
         const shape = map
           .querySelector("#nm54-style-grid")
           ?.closest(".nm54-control");
-        if (shape) branches.body.append(shape);
+        if (shape) {
+          shape.id = shape.id || "gl-branches-control";
+          let park = document.getElementById("gl-appearance-park");
+          if (!park) {
+            park = document.createElement("div");
+            park.id = "gl-appearance-park";
+            park.hidden = true;
+            document.body.append(park);
+          }
+          park.append(shape);
+        }
         const palette = map.querySelector(".theme-grid");
         for (const item of [palette?.previousElementSibling, palette])
           if (item) colors.body.append(item);

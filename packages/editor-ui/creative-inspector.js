@@ -59,6 +59,7 @@
   }
   function nodes(app) {
     return (
+      app.nm70ScopeAllNodes?.() ||
       app.nm70ScopeNodes?.() ||
       app.v6SelectedNodes?.() ||
       [app.state.findNode(app.state.selectedNodeId)].filter(Boolean)

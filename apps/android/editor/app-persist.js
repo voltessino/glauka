@@ -8,11 +8,12 @@
         if(this._nmRecoveryBlocked)return false;
         try {
           this.saveActiveTabSnapshot();
+          const clampRootGap=typeof nmClampRootBranchGap==='function'?nmClampRootBranchGap:(v=>v!=null&&Number.isFinite(+v)?Math.round(Math.max(0,Math.min(48,+v))):14);
           const doc={version:3,editorDraft:this.editorNodeId?{nodeId:this.editorNodeId,text:document.getElementById('inline-editor-input').value,tabId:this.activeTabId}:null,studyCards:this.studyCards||[],
             learningAttempts:(this.learningAttempts||[]).slice(-2500),learningPlans:(this.learningPlans||[]).slice(-20),
             activeTabId:this.activeTabId,tabs:this.tabs.map(t=>({id:t.id,title:t.title,filePath:t.filePath||null,fileName:t.fileName||null,originSheetIndex:t.originSheetIndex??null,
             isDirty:!!t.state.isDirty,root:t.state.root,images:t.state.images,relationships:t.state.relationships,
-            thresholdY:t.state.thresholdY,balanceBias:t.state.balanceBias,compactness:t.state.compactness,branchGapX:t.state.branchGapX,wrapCustom:t.state.wrapCustom,strokeScale:t.state.strokeScale,activeThemeId:t.state.activeThemeId,
+            thresholdY:t.state.thresholdY,balanceBias:t.state.balanceBias,compactness:t.state.compactness,branchGapX:t.state.branchGapX,rootBranchGap:clampRootGap(t.state.rootBranchGap),wrapCustom:t.state.wrapCustom,strokeScale:t.state.strokeScale,activeThemeId:t.state.activeThemeId,
             typographyPreset:t.state.typographyPreset,typographyScale:t.state.typographyScale,branchStyle:t.state.branchStyle,defaultLabelWrapChars:t.state.defaultLabelWrapChars,camera:t.camera}))};
           globalThis.NeuroMapRecovery?.validate(doc);
           const json=(globalThis.NeuroMapSafeJSON?.stringify||JSON.stringify)(doc);

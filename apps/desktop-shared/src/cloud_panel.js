@@ -95,32 +95,37 @@ function mount(){
     const NAME_KEY='glauka.google.name.v1';
     const gBtn=create('button','gl-toolbar-utility gl-google-pill');gBtn.id='gl-google-account-quick';
     gBtn.type='button';
+    const waffle=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    waffle.setAttribute('class','gl-google-waffle');
+    waffle.setAttribute('viewBox','0 0 24 24');waffle.setAttribute('width','18');waffle.setAttribute('height','18');
+    waffle.setAttribute('aria-hidden','true');
+    for(const cy of [5,12,19]){
+      for(const cx of [5,12,19]){
+        const dot=document.createElementNS(waffle.namespaceURI,'circle');
+        dot.setAttribute('cx',String(cx));dot.setAttribute('cy',String(cy));dot.setAttribute('r','2');
+        dot.setAttribute('fill','currentColor');waffle.append(dot);
+      }
+    }
     const avatarWrap=create('span','gl-google-avatar-ring');
+    const avatarSpacer=create('span','gl-google-avatar-spacer');
     const avatarInner=create('span','gl-google-avatar-core');
     const gImg=document.createElement('img');gImg.className='gl-google-avatar-img';gImg.alt='';gImg.hidden=true;
-    const gLetter=create('span','gl-google-avatar-letter');gLetter.hidden=true;
-    const gSvg=document.createElementNS('http://www.w3.org/2000/svg','svg');
-    gSvg.setAttribute('viewBox','0 0 24 24');gSvg.setAttribute('width','16');gSvg.setAttribute('height','16');
-    gSvg.setAttribute('aria-hidden','true');
-    for(const [dPath,fill]of[
-      ['M21.8 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.5c-.2 1.2-1 2.3-2 3v2.5h3.2c1.9-1.7 3.1-4.3 3.1-7.3z','#4285F4'],
-      ['M12 22c2.7 0 5-.9 6.7-2.5l-3.2-2.5c-.9.6-2.1 1-3.5 1-2.7 0-4.9-1.8-5.7-4.2H3v2.6C4.7 19.7 8.1 22 12 22z','#34A853'],
-      ['M6.3 13.8c-.2-.6-.3-1.2-.3-1.8s.1-1.2.3-1.8V7.6H3C2.4 8.9 2 10.4 2 12s.4 3.1 1 4.4l3.3-2.6z','#FBBC05'],
-      ['M12 6c1.5 0 2.8.5 3.8 1.5l2.8-2.8C17 3.1 14.7 2 12 2 8.1 2 4.7 4.3 3 7.6l3.3 2.6C7.1 7.8 9.3 6 12 6z','#EA4335']
-    ]){const p=document.createElementNS(gSvg.namespaceURI,'path');p.setAttribute('d',dPath);p.setAttribute('fill',fill);gSvg.append(p);}
-    avatarInner.append(gImg,gLetter,gSvg);
-    avatarWrap.append(avatarInner);
-    const proBadge=create('span','gl-google-pro-badge','PRO');
-    proBadge.hidden=true;
-    gBtn.append(avatarWrap,proBadge);
+    const gLetter=create('span','gl-google-avatar-letter','G');
+    avatarInner.append(gImg,gLetter);
+    avatarSpacer.append(avatarInner);
+    avatarWrap.append(avatarSpacer);
+    gBtn.append(waffle,avatarWrap);
     gBtn.setAttribute('aria-label',t('Account Google','Google Account'));
+    gBtn.setAttribute('aria-haspopup','menu');gBtn.setAttribute('aria-expanded','false');
     gBtn.title=t('Account Google · Accedi o gestisci foto profilo','Google Account · Sign in or manage profile');
     top.append(gBtn);
 
     const gMenu=create('div','gl-google-menu');gMenu.id='gl-google-account-menu';gMenu.hidden=true;
     const gMenuHead=create('div','gl-google-menu-head');
     const gMenuPlan=create('span','gl-google-menu-plan',t('Glauka Free','Glauka Free'));
-    const gMenuSign=create('button','gl-google-menu-btn gl-google-menu-primary',t('Accedi / Gestisci Account Google','Sign in / Manage Google Account'));
+    const gMenuDrive=create('button','gl-google-menu-btn gl-google-menu-primary',t('Collega Google Drive…','Connect Google Drive…'));
+    gMenuDrive.type='button';
+    const gMenuSign=create('button','gl-google-menu-btn',t('Account Google nel browser','Google Account in browser'));
     gMenuSign.type='button';
     const gMenuPhotoBtn=create('button','gl-google-menu-btn',t('Imposta immagine profilo…','Set profile picture…'));
     gMenuPhotoBtn.type='button';
@@ -130,7 +135,7 @@ function mount(){
     gMenuClearBtn.type='button';
     const gFileInput=document.createElement('input');gFileInput.type='file';gFileInput.accept='image/*';gFileInput.hidden=true;
     gMenuHead.append(gMenuPlan);
-    gMenu.append(gMenuHead,gMenuSign,gMenuPhotoBtn,gMenuInitialBtn,gMenuClearBtn,gFileInput);
+    gMenu.append(gMenuHead,gMenuDrive,gMenuSign,gMenuPhotoBtn,gMenuInitialBtn,gMenuClearBtn,gFileInput);
     document.body.append(gMenu);
 
     let isPro=false,googleLinked=false;
@@ -140,15 +145,17 @@ function mount(){
       const validImg=/^data:image\/(png|jpeg|webp);base64,/i.test(savedImg)&&savedImg.length<120000;
       gBtn.classList.toggle('is-pro',isPro);
       gBtn.classList.toggle('is-connected',googleLinked||validImg||!!savedName);
-      proBadge.hidden=!isPro;
       gMenuPlan.textContent=(isPro?t('Account PRO','PRO Account'):t('Account Free','Free Account'))+(savedName?' · '+savedName:'');
+      gMenuDrive.textContent=googleLinked?t('Google Drive collegato · Gestisci','Google Drive connected · Manage'):t('Collega Google Drive…','Connect Google Drive…');
       if(validImg){
-        gImg.src=savedImg;gImg.hidden=false;gLetter.hidden=true;gSvg.style.display='none';
+        gImg.src=savedImg;gImg.hidden=false;gLetter.hidden=true;
       }else if(savedName){
-        gLetter.textContent=savedName.trim().slice(0,2).toUpperCase();
-        gLetter.hidden=false;gImg.hidden=true;gSvg.style.display='none';
+        const clean=savedName.trim();
+        gLetter.textContent=(clean.length<=2?clean:clean.slice(0,1)).toUpperCase();
+        gLetter.hidden=false;gImg.hidden=true;
       }else{
-        gImg.hidden=true;gLetter.hidden=true;gSvg.style.display='';
+        gLetter.textContent='G';
+        gLetter.hidden=false;gImg.hidden=true;
       }
       gMenuClearBtn.hidden=!validImg&&!savedName;
     }
@@ -162,13 +169,24 @@ function mount(){
       e.stopPropagation();
       const willOpen=gMenu.hidden;
       gMenu.hidden=!willOpen;
+      gBtn.setAttribute('aria-expanded',String(willOpen));
+      if(willOpen){const tip=document.getElementById('nm-help-tooltip');if(tip){tip.hidden=true;try{if(tip.matches?.(':popover-open'))tip.hidePopover()}catch(_){}}}
     });
     document.addEventListener('click',e=>{
-      if(!gMenu.hidden&&!gMenu.contains(e.target)&&e.target!==gBtn&&!gBtn.contains(e.target))gMenu.hidden=true;
+      if(!gMenu.hidden&&!gMenu.contains(e.target)&&e.target!==gBtn&&!gBtn.contains(e.target)){gMenu.hidden=true;gBtn.setAttribute('aria-expanded','false');}
+    });
+    gMenuDrive.addEventListener('click',()=>{
+      gMenu.hidden=true;gBtn.setAttribute('aria-expanded','false');
+      openerToRestore=gBtn;opener.click();
     });
     gMenuSign.addEventListener('click',()=>{
-      gMenu.hidden=true;
-      window.open('https://accounts.google.com/','_blank','noopener,noreferrer');
+      gMenu.hidden=true;gBtn.setAttribute('aria-expanded','false');
+      const url='https://accounts.google.com/';
+      if(window.webkit?.messageHandlers?.neuromapOpenURL?.postMessage){
+        window.webkit.messageHandlers.neuromapOpenURL.postMessage(url);
+      }else{
+        window.open(url,'_blank','noopener,noreferrer');
+      }
     });
     gMenuPhotoBtn.addEventListener('click',()=>gFileInput.click());
     gFileInput.addEventListener('change',()=>{
@@ -319,16 +337,18 @@ function mount(){
    const strong=create('strong','',names[id]);
    const info=status[id]||{},enabled=!!status.supported&&!!info.configured;
    const connected=enabled&&!!info.connected;
+   const missingGoogleSecret=id==='google'&&enabled&&!connected&&info.secretConfigured===false;
    row.classList.toggle('gl-cloud-active-provider',connected&&id===activeId);
    row.classList.toggle('gl-cloud-connected-provider',connected);
    const detail=create('small','',connected
     ?(window.GlaukaCloudSync?.enabled(id)
       ?t('Account collegato · Sync attiva','Account connected · Sync enabled')
       :t('Account collegato · Sync non attiva','Account connected · Sync inactive'))
+    :missingGoogleSecret?t('Client secret OAuth mancante in questa build (vedi Dettagli)','OAuth client secret missing in this build (see Details)')
     :enabled?t('Non collegato','Not connected')
     :t('Servizio non configurato dall’editore','Service not configured by the publisher'));
    const action=create('button',connected?'gl-cloud-disconnect':'',
-    connected?t('Disconnetti','Disconnect'):enabled?t('Collega','Connect'):t('Dettagli','Details'));
+    connected?t('Disconnetti','Disconnect'):(enabled&&!missingGoogleSecret)?t('Collega','Connect'):t('Dettagli','Details'));
    action.type='button';action.disabled=!status.supported;
    detail.hidden=false;
    meta.append(strong,detail);
@@ -447,20 +467,25 @@ function mount(){
    }
    providers.append(row);
    let setup=null;
-   if(!enabled && status.supported){
+   if((!enabled || missingGoogleSecret) && status.supported){
      setup=create('section','gl-cloud-setup');setup.id='gl-cloud-setup-'+id;setup.hidden=true;setup.tabIndex=-1;
      setup.setAttribute('role','region');setup.setAttribute('aria-label',names[id]);
      action.classList.add('gl-cloud-configure-toggle');
      action.setAttribute('aria-controls',setup.id);action.setAttribute('aria-expanded','false');
      const guide=create('p','gl-cloud-note',t(
-       'Serve l’identificativo pubblico di una vera applicazione OAuth registrata dal produttore di Glauka. Non inserire password, client secret o token.',
-       'A real public OAuth application ID registered by the Glauka publisher is required. Never enter passwords, client secrets or tokens.'));
+       'Serve l’identificativo pubblico di una vera applicazione OAuth registrata dal produttore di Glauka. Non inserire password o token.',
+       'A real public OAuth application ID registered by the Glauka publisher is required. Never enter passwords or tokens.'));
      const label=create('label','gl-cloud-field');
      const fieldName=create('span','',id==='google'?'Google Desktop OAuth Client ID':id==='onedrive'?'Microsoft Entra Client ID':'Dropbox App Key');
      const input=create('input','gl-cloud-public-id');input.type='text';input.autocomplete='off';
      input.spellcheck=false;input.maxLength=250;input.placeholder=id==='google'?'1234567890-example.apps.googleusercontent.com':id==='onedrive'?'00000000-0000-0000-0000-000000000000':'Dropbox public app key';
      input.setAttribute('aria-label',fieldName.textContent);
      label.append(fieldName,input);
+     if(id==='google'&&missingGoogleSecret){
+       void bridge().getPublicConfig?.().then(cfg=>{
+         if(input.isConnected&&!input.value&&cfg?.google)input.value=cfg.google;
+       }).catch(()=>{});
+     }
      let secretInput=null,secretLabel=null;
      if(id==='google'){
       secretLabel=create('label','gl-cloud-field');
@@ -470,11 +495,13 @@ function mount(){
       secretInput.setAttribute('aria-label',secretName.textContent);
       secretLabel.append(secretName,secretInput);
      }
-     const accountGuide=create('p','gl-cloud-note',t('Per collegare il tuo account non devi creare un’app OAuth. Quando il servizio è configurato, premi Collega e autorizza nel browser ufficiale.','You do not need to create an OAuth app to connect your account. Once the service is configured, select Connect and authorize in the official browser.'));
+     const accountGuide=create('p','gl-cloud-note',missingGoogleSecret
+      ?t('Questa build di Glauka non include il Google Desktop OAuth Client Secret necessario per completare il collegamento con Google Drive. Puoi inserirlo qui sotto (Configurazione dell’editore) o aggiornare alla prossima release.','This build of Glauka is missing the Google Desktop OAuth Client Secret needed to complete Google Drive connection. Enter it under Publisher setup below or update to the next release.')
+      :t('Per collegare il tuo account non devi creare un’app OAuth. Quando il servizio è configurato, premi Collega e autorizza nel browser ufficiale.','You do not need to create an OAuth app to connect your account. Once the service is configured, select Connect and authorize in the official browser.'));
      const admin=create('details','gl-cloud-admin');
      admin.append(create('summary','',t('Configurazione dell’editore / amministratore','Publisher / administrator setup')));
      const instructions=create('p','gl-cloud-note',id==='google'
-      ?t('Google: registra un client OAuth di tipo App desktop. Glauka usa PKCE e un redirect loopback locale; non serve un client secret nell’app.','Google: register a Desktop app OAuth client. Glauka uses PKCE and a local loopback redirect; the app does not need a client secret.')
+      ?t('Google: registra un client OAuth di tipo App desktop. Oltre a PKCE e redirect loopback locale, Google richiede Client ID e Client Secret.','Google: register a Desktop app OAuth client. In addition to PKCE and the local loopback redirect, Google requires both Client ID and Client Secret.')
       :id==='dropbox'
       ?t('Dropbox: crea un’app con accesso alla cartella app e registra esattamente l’URI di ritorno indicato sotto. Usa l’App Key pubblica.','Dropbox: create an app with App folder access and register the exact callback URI below. Use the public App Key.')
       :t('Microsoft: registra un client pubblico desktop per gli account supportati e abilita il redirect loopback. Non creare un client secret.','Microsoft: register a public desktop client for the supported accounts and enable the loopback redirect. Do not create a client secret.'));
@@ -515,8 +542,8 @@ function mount(){
      row.append(setup);
    }
    action.addEventListener('click',async()=>{
-    if(!enabled){
-      if(setup){setup.hidden=!setup.hidden;action.setAttribute('aria-expanded',String(!setup.hidden));if(!setup.hidden)setup.focus()}
+    if(!enabled || missingGoogleSecret){
+      if(setup){setup.hidden=!setup.hidden;action.setAttribute('aria-expanded',String(!setup.hidden));if(!setup.hidden){if(missingGoogleSecret)setup.querySelector('.gl-cloud-admin')?.setAttribute('open','');setup.focus()}}
       else feedback.textContent=t('OAuth non disponibile su questo dispositivo.','OAuth is not available on this device.');
       return;
     }

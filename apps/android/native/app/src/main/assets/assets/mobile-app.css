@@ -1557,6 +1557,11 @@ body.glauka-mobile-app
   background: var(--glauka-app-paper) !important;
   border-color: var(--glauka-app-line) !important;
 }
+body.glauka-mobile-app #ai-explain-panel .v4-explain-text,
+body.glauka-mobile-app #ai-explain-panel .v4-explain-text * {
+  user-select: text !important;
+  -webkit-user-select: text !important;
+}
 body.glauka-mobile-app
   :is(.nm6-modal, .v4-modal, .nm54-modal, .nm62-modal, .nm-creative-dialog) {
   max-width: 100%;

@@ -108,16 +108,18 @@
 
           if(['elbow','straight','arc'].includes(this.app.state.branchStyle)||['dashed','wave','fork'].includes(this.app.state.branchStyle)){
             const style=this.app.state.branchStyle;
+            const scale=this.app.state.strokeScale||1;
             let line='M '+g.startX+' '+g.startY;
             if(style==='straight'){
               line+=' L '+g.endX+' '+g.endY;
             }else if(style==='dashed'){
               line+=' C '+g.cp1x+' '+g.cp1y+' '+g.cp2x+' '+g.cp2y+' '+g.endX+' '+g.endY;
             }else if(style==='wave'){
-              const dx=g.endX-g.startX,dy=g.endY-g.startY;
-              line+=' C '+(g.startX+dx*.28)+' '+(g.startY-dy*.65)+' '+(g.startX+dx*.68)+' '+(g.endY+dy*.55)+' '+g.endX+' '+g.endY;
+              const dx=g.endX-g.startX,dy=g.endY-g.startY,amp=Math.abs(dy)<16?(g.dir*18):(dy*.62);
+              line+=' C '+(g.startX+dx*.28)+' '+(g.startY-amp)+' '+(g.startX+dx*.68)+' '+(g.endY+amp*.88)+' '+g.endX+' '+g.endY;
             }else if(style==='fork'){
-              line+=' L '+(g.startX+(g.endX-g.startX)*.52)+' '+g.startY+' L '+g.endX+' '+g.endY;
+              const mid1=g.startX+(g.endX-g.startX)*.38,mid2=g.startX+(g.endX-g.startX)*.72;
+              line+=' L '+mid1+' '+g.startY+' L '+mid2+' '+g.endY+' L '+g.endX+' '+g.endY;
             }else if(style==='elbow'){
               const mid=g.startX+(g.endX-g.startX)*.52;
               const radius=Math.min(13,Math.abs(g.endX-g.startX)*.18,Math.abs(g.endY-g.startY)*.46);
@@ -131,13 +133,18 @@
                   ' L '+g.endX+' '+g.endY;
               }
             }else{
-              const bow=(g.endY-g.startY)*.52;
+              const rawDy=g.endY-g.startY;
+              const bow=Math.abs(rawDy)<14?(siblingIndex%2===0?-22:22):rawDy*.52;
               line+=' Q '+((g.startX+g.endX)*.5)+' '+(g.startY+bow*1.35)+' '+g.endX+' '+g.endY;
             }
             line+=' L '+g.underlineEndX+' '+g.underlineEndY;
-            branchPaths.push('<path d="'+line+'" fill="none" stroke="url(#'+gradId+')" stroke-linejoin="round" stroke-linecap="round" stroke-width="'+Math.max(.8,2.6*(this.app.state.strokeScale||1))+'"'+(style==='dashed'?' stroke-dasharray="10 6"':'')+' />');
+            const dash=(8.5*Math.sqrt(scale)).toFixed(1)+' '+(5.5*Math.sqrt(scale)).toFixed(1);
+            branchPaths.push('<path d="'+line+'" fill="none" stroke="url(#'+gradId+')" stroke-linejoin="round" stroke-linecap="round" stroke-width="'+Math.max(.8,2.6*(this.app.state.strokeScale||1))+'"'+(style==='dashed'?' stroke-dasharray="'+dash+'"':'')+' />');
           }else if(this.app.state.branchStyle==='neon'){
-            const width=Math.max(1.8,3.1*(this.app.state.strokeScale||1)),half=width/2,steps=28,upper=[],lower=[];
+            const scale=this.app.state.strokeScale||1,isPrimary=g.pLayout.depth===0;
+            const startW=Math.max(2.2,(isPrimary?5.6:3.3)*scale);
+            const endW=Math.max(1.2,(isPrimary?2.1:1.45)*scale);
+            const steps=28,upper=[],lower=[];
             for(let i=0;i<=steps;i++){
               const t=i/steps,u=1-t;
               const x=u*u*u*g.startX+3*u*u*t*g.cp1x+3*u*t*t*g.cp2x+t*t*t*g.endX;
@@ -145,25 +152,48 @@
               const tx=3*u*u*(g.cp1x-g.startX)+6*u*t*(g.cp2x-g.cp1x)+3*t*t*(g.endX-g.cp2x);
               const ty=3*u*u*(g.cp1y-g.startY)+6*u*t*(g.cp2y-g.cp1y)+3*t*t*(g.endY-g.cp2y);
               const len=Math.hypot(tx,ty)||1,nx=-ty/len,ny=tx/len;
+              const half=(endW+(startW-endW)*Math.pow(u,1.25))*0.5;
               upper.push((x+nx*half).toFixed(2)+' '+(y+ny*half).toFixed(2));
               lower.push((x-nx*half).toFixed(2)+' '+(y-ny*half).toFixed(2));
             }
             const tube='M '+upper[0]+upper.slice(1).map(p=>' L '+p).join('')+lower.reverse().map(p=>' L '+p).join('')+' Z';
-            branchPaths.push('<path d="'+tube+'" fill="url(#'+gradId+')" /><path d="M '+g.endX+' '+g.endY+' L '+g.underlineEndX+' '+g.underlineEndY+'" fill="none" stroke="url(#'+gradId+')" stroke-width="'+g.endWidth+'" stroke-linecap="round" />');
+            branchPaths.push('<path d="'+tube+'" fill="url(#'+gradId+')" /><circle cx="'+g.startX+'" cy="'+g.startY+'" r="'+(startW*0.5).toFixed(2)+'" fill="url(#'+gradId+')" /><path d="M '+g.endX+' '+g.endY+' L '+g.underlineEndX+' '+g.underlineEndY+'" fill="none" stroke="url(#'+gradId+')" stroke-width="'+endW+'" stroke-linecap="round" />');
           }else if(this.app.state.branchStyle==='thickparents'){
-            const trunkX=g.startX+(g.endX-g.startX)*0.28,span=Math.abs(g.endX-trunkX);
-            const line='M '+g.startX+' '+g.startY+' L '+trunkX+' '+g.startY+' C '+(trunkX+g.dir*span*0.62)+' '+g.startY+' '+(g.endX-g.dir*span*0.16)+' '+g.endY+' '+g.endX+' '+g.endY+' L '+g.underlineEndX+' '+g.underlineEndY;
-            branchPaths.push('<path d="'+line+'" fill="none" stroke="url(#'+gradId+')" stroke-linejoin="round" stroke-linecap="round" stroke-width="'+Math.max(2.2,5.4*(this.app.state.strokeScale||1))+'" />');
+            const scale=this.app.state.strokeScale||1,isPrimary=g.pLayout.depth===0;
+            const trunkX=g.startX+(g.endX-g.startX)*0.24,span=Math.abs(g.endX-trunkX);
+            const cp1x=trunkX+g.dir*span*0.62,cp2x=g.endX-g.dir*span*0.16;
+            if(isPrimary){
+              const startW=Math.max(3.2,7.2*scale),endW=Math.max(1.6,2.4*scale);
+              const steps=24,upper=[],lower=[];
+              for(let i=0;i<=steps;i++){
+                const t=i/steps,u=1-t;
+                const x=u*u*u*trunkX+3*u*u*t*cp1x+3*u*t*t*cp2x+t*t*t*g.endX;
+                const y=u*u*u*g.startY+3*u*u*t*g.startY+3*u*t*t*g.endY+t*t*t*g.endY;
+                const tx=3*u*u*(cp1x-trunkX)+6*u*t*(cp2x-cp1x)+3*t*t*(g.endX-cp2x);
+                const ty=6*u*t*(g.endY-g.startY);
+                const len=Math.hypot(tx,ty)||1,nx=-ty/len,ny=tx/len;
+                const half=(endW+(startW-endW)*Math.pow(u,1.15))*0.5;
+                upper.push((x+nx*half).toFixed(2)+' '+(y+ny*half).toFixed(2));
+                lower.push((x-nx*half).toFixed(2)+' '+(y-ny*half).toFixed(2));
+              }
+              const ribbon='M '+g.startX+' '+(g.startY-startW*0.5)+upper.map(p=>' L '+p).join('')+lower.reverse().map(p=>' L '+p).join('')+' L '+g.startX+' '+(g.startY+startW*0.5)+' Z';
+              branchPaths.push('<path d="'+ribbon+'" fill="url(#'+gradId+')" /><circle cx="'+g.startX+'" cy="'+g.startY+'" r="'+(startW*0.5).toFixed(2)+'" fill="url(#'+gradId+')" /><path d="M '+g.endX+' '+g.endY+' L '+g.underlineEndX+' '+g.underlineEndY+'" fill="none" stroke="url(#'+gradId+')" stroke-width="'+endW+'" stroke-linecap="round" />');
+            }else{
+              const line='M '+g.startX+' '+g.startY+' L '+trunkX+' '+g.startY+' C '+cp1x+' '+g.startY+' '+cp2x+' '+g.endY+' '+g.endX+' '+g.endY+' L '+g.underlineEndX+' '+g.underlineEndY;
+              branchPaths.push('<path d="'+line+'" fill="none" stroke="url(#'+gradId+')" stroke-linejoin="round" stroke-linecap="round" stroke-width="'+Math.max(1.2,(2.8-Math.min(1.4,g.cLayout.depth*0.3))*scale)+'" />');
+            }
           }else if(['xmind8','simple'].includes(this.app.state.branchStyle)){
+            const scale=this.app.state.strokeScale||1,isPrimary=g.pLayout.depth===0;
             let line;
             if(this.app.state.branchStyle==='xmind8'){
-              const stubX=g.startX+(g.endX-g.startX)*0.18,span=Math.abs(g.endX-stubX);
-              line='M '+g.startX+' '+g.startY+' L '+stubX+' '+g.startY+' C '+(stubX+g.dir*span*0.7)+' '+g.startY+' '+(g.endX-g.dir*span*0.08)+' '+g.endY+' '+g.endX+' '+g.endY+' L '+g.underlineEndX+' '+g.underlineEndY;
+              const stubX=g.startX+(g.endX-g.startX)*0.22,span=Math.abs(g.endX-stubX);
+              line='M '+g.startX+' '+g.startY+' L '+stubX+' '+g.startY+' C '+(stubX+g.dir*span*0.66)+' '+g.startY+' '+(g.endX-g.dir*span*0.12)+' '+g.endY+' '+g.endX+' '+g.endY+' L '+g.underlineEndX+' '+g.underlineEndY;
             }else{
               const dx=g.endX-g.startX,dy=g.endY-g.startY;
-              line='M '+g.startX+' '+g.startY+' C '+(g.startX+dx*0.46)+' '+(g.startY+dy*0.06)+' '+(g.endX-dx*0.22)+' '+(g.endY-dy*0.06)+' '+g.endX+' '+g.endY+' L '+g.underlineEndX+' '+g.underlineEndY;
+              line='M '+g.startX+' '+g.startY+' C '+(g.startX+dx*0.42)+' '+(g.startY+dy*0.04)+' '+(g.endX-dx*0.24)+' '+(g.endY-dy*0.04)+' '+g.endX+' '+g.endY+' L '+g.underlineEndX+' '+g.underlineEndY;
             }
-            branchPaths.push(`<path d="${line}" fill="none" stroke="${escapeXml(childColor)}" stroke-linecap="round" stroke-width="${(this.app.state.branchStyle==='xmind8'?1.7:1.35)*(this.app.state.strokeScale||1)}" />`);
+            const strokeW=this.app.state.branchStyle==='xmind8'?Math.max(1.2,(isPrimary?2.45:1.65)*scale):Math.max(1,1.45*scale);
+            branchPaths.push(`<path d="${line}" fill="none" stroke="url(#${gradId})" stroke-linecap="round" stroke-width="${strokeW}" />`);
           }else branchPaths.push(`<path d="${d}" fill="url(#${gradId})" /><path d="M ${g.endX} ${g.endY} L ${g.underlineEndX} ${g.underlineEndY}" fill="none" stroke="url(#${gradId})" stroke-width="${g.endWidth}" stroke-linecap="round" />`);
 
           if (!child.collapsed && child.children && child.children.length > 0) {
@@ -344,7 +374,7 @@
           schema: 'NeuroMapArchitect-SingleTab-v6',
           savedAt: new Date().toISOString(),
           thresholdY: this.app.state.thresholdY,
-          balanceBias:this.app.state.balanceBias,compactness:this.app.state.compactness,branchGapX:this.app.state.branchGapX,wrapCustom:this.app.state.wrapCustom,
+          balanceBias:this.app.state.balanceBias,compactness:this.app.state.compactness,branchGapX:this.app.state.branchGapX,rootBranchGap:nmClampRootBranchGap(this.app.state.rootBranchGap),wrapCustom:this.app.state.wrapCustom,
           strokeScale: this.app.state.strokeScale || 1,
           activeThemeId: this.app.state.activeThemeId || null,
           typographyPreset:this.app.state.typographyPreset||'uniform', typographyScale:this.app.state.typographyScale||1,
@@ -464,7 +494,7 @@
             id: t.id,
             title: t.state.root.text,
             thresholdY: t.state.thresholdY,
-            balanceBias:t.state.balanceBias,compactness:t.state.compactness,branchGapX:t.state.branchGapX,wrapCustom:t.state.wrapCustom,
+            balanceBias:t.state.balanceBias,compactness:t.state.compactness,branchGapX:t.state.branchGapX,rootBranchGap:nmClampRootBranchGap(t.state.rootBranchGap),wrapCustom:t.state.wrapCustom,
             strokeScale: t.state.strokeScale || 1,
             activeThemeId: t.state.activeThemeId || null,
             typographyPreset:t.state.typographyPreset||'uniform', typographyScale:t.state.typographyScale||1,

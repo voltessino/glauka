@@ -17,6 +17,22 @@
       if(thickness&&document.activeElement!==thickness)thickness.value=this.state.strokeScale||1;
       const thickValue=document.getElementById('nm63-stroke-value');
       if(thickValue)thickValue.textContent=Math.round((this.state.strokeScale||1)*100)+'%';
+      const rootGap=Number.isFinite(+this.state.rootBranchGap)?Math.max(0,Math.min(36,+this.state.rootBranchGap)):14;
+      const gapInput=document.getElementById('nm-root-branch-gap');
+      if(gapInput&&!gapInput.dataset.bound){gapInput.dataset.bound='1';
+        gapInput.addEventListener('input',()=>{const out=document.getElementById('nm-root-branch-gap-value');const v=Number(gapInput.value)||0;if(out)out.textContent=v===0?'Attaccato':v+' px';});
+        gapInput.addEventListener('change',()=>{const value=Math.round(Math.max(0,Math.min(36,Number(gapInput.value)||0)));
+          if(this.state.rootBranchGap===value)return;
+          this.state.pushHistory();this.state.rootBranchGap=value;this.markChanged();this.nm54SyncSettings();});}
+      if(gapInput&&document.activeElement!==gapInput)gapInput.value=rootGap;
+      const gapOut=document.getElementById('nm-root-branch-gap-value');
+      if(gapOut)gapOut.textContent=rootGap===0?'Attaccato':rootGap+' px';
+      const detach=document.getElementById('nm-root-branch-detach');
+      if(detach&&!detach.dataset.bound){detach.dataset.bound='1';
+        detach.addEventListener('change',()=>{const next=detach.checked?(this._nmLastRootGap||14):0;
+          if((Number(this.state.rootBranchGap)||0)>0)this._nmLastRootGap=Number(this.state.rootBranchGap);
+          this.state.pushHistory();this.state.rootBranchGap=next;this.markChanged();this.nm54SyncSettings();});}
+      if(detach)detach.checked=rootGap>0;
     };
     NeuroMapApp.prototype.nm54ApplyWrapSelected=function(value){
       const n=Math.max(8,Math.min(60,Number(value)||18));

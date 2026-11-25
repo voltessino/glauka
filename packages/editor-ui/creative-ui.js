@@ -106,7 +106,7 @@
     let actions=header.querySelector(':scope > .nm-panel-header-actions');
     if(!actions){actions=document.createElement('div');actions.className='nm-panel-header-actions';header.append(actions);}
     const helpBtn=header.querySelector(':scope > .nm-kn-help-toggle');
-    if(helpBtn){helpBtn.classList.add('nm-panel-header-button');actions.prepend(helpBtn);}
+    if(helpBtn){helpBtn.classList.add('nm-panel-header-button');actions.before(helpBtn);}
     if(toggle){toggle.classList.add('nm-panel-header-button');actions.append(toggle);}
     if(close){
       if(!close.classList.contains('nm-panel-header-button')){
@@ -130,7 +130,7 @@
     const isSubDialog=panel.classList.contains('nm-creative-dialog')&&!panel.querySelector(':scope>.nm-chart-studio,:scope>.nm-formula-studio,:scope>.nm-wordart-studio');
     if(!isSidePanel&&!isSubDialog)return;
     const body=document.createElement('div');body.className='nm-panel-body';
-    const isChrome=el=>el===header||el===body||el.classList?.contains('nm-panel-resize-handle')||el.classList?.contains('nm-panel-fixed')||el.classList?.contains('nm-ai-transport')||el.classList?.contains('nm-ai-body');
+    const isChrome=el=>el===header||el===body||el.classList?.contains('nm-panel-resize-handle')||el.classList?.contains('nm-panel-fixed')||el.classList?.contains('nm-settings-toolbar')||el.classList?.contains('nm-ai-transport')||el.classList?.contains('nm-ai-body');
     for(const child of [...panel.children])if(!isChrome(child))body.append(child);
     panel.append(body);panel.classList.add('nm-panel-frame');
     if(!panel._nmFrameObserver&&typeof root.MutationObserver==='function'){

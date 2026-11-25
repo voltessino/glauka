@@ -13,15 +13,14 @@ test('Home has reachable X, and branch menu provides real compact choices',async
  await expect(page.locator('#nm-home-close')).toBeVisible();
  await page.locator('#nm-home-close').click();
  await expect(page.locator('#nm6-welcome')).toHaveClass(/hidden/);
- await page.locator('#btn-toggle-inspector').click();
- await page.locator('#inspector-sidebar .nm70-inspector-accordion').filter({has:page.locator('#nm54-branch-picker')}).locator(':scope > summary').click();
+ await page.locator('#gl-settings-quick').click();
+ await page.locator('#gl-settings-nav button[data-category="appearance"]').click();
  const picker=page.locator('#nm54-branch-picker');
- await expect(picker).not.toHaveAttribute('open','');
- await page.locator('#nm54-branch-trigger').click();
+ await expect(picker).toHaveAttribute('open','');
  await expect(picker.locator('button[data-style]')).toHaveCount(11);
  await picker.locator('button[data-style="dashed"]').click();
  expect(await page.evaluate(()=>neuroMapApp.state.branchStyle)).toBe('dashed');
- await expect(picker).not.toHaveAttribute('open','');
+ await expect(picker).toHaveAttribute('open','');
 });
 test('Insert picker shows 18 compact shapes and WordArt/Chart launchers',async({page})=>{
  await boot(page);

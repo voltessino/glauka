@@ -4,10 +4,12 @@
      * ============================================================================
      */
     // Missing fields in older documents retain that version's spacing, not new-map preferences.
+    const nmClampRootBranchGap=value=>value!==undefined&&value!==null&&Number.isFinite(+value)?Math.round(Math.max(0,Math.min(48,+value))):14;
     function nmAndroidRestoreSpacing(state, source) {
       for (const [key,min,max,fallback] of [['branchGapX',30,220,150],['compactness',55,145,100],['balanceBias',0,100,state.thresholdY??50]]) {
         state[key]=typeof source[key]==='number'&&Number.isFinite(source[key])?Math.max(min,Math.min(max,source[key])):fallback;
       }
+      state.rootBranchGap=nmClampRootBranchGap(source.rootBranchGap);
       state.wrapCustom=source.wrapCustom===true;
     }
     // Retain desktop 7.2 Visual Learning metadata while Android is feature-limited.
@@ -40,6 +42,7 @@
         this.paletteCounter = 0;
         this.thresholdY = 50;
         nmAndroidRestoreSpacing(this, {});
+        this.rootBranchGap = 14;
         this.strokeScale = 1;
         this.typographyPreset = 'uniform';
         this.typographyScale = 1;
@@ -339,6 +342,7 @@
           selectedImageId: this.selectedImageId,
           selectedRelationshipId: this.selectedRelationshipId,
           strokeScale: this.strokeScale,
+          rootBranchGap: nmClampRootBranchGap(this.rootBranchGap),
           thresholdY: this.thresholdY,
           balanceBias: this.balanceBias, compactness: this.compactness, branchGapX: this.branchGapX,
           wrapCustom: this.wrapCustom,
@@ -434,6 +438,7 @@
         this.selectedImageId = prev.selectedImageId;
         this.selectedRelationshipId = prev.selectedRelationshipId || null;
         if (prev.strokeScale !== undefined) this.strokeScale = prev.strokeScale;
+        if (prev.rootBranchGap !== undefined) this.rootBranchGap = nmClampRootBranchGap(prev.rootBranchGap);
         if (prev.thresholdY !== undefined) this.thresholdY = prev.thresholdY;
         for (const key of ['balanceBias','compactness','branchGapX','wrapCustom']) if (prev[key] !== undefined) this[key] = prev[key];
         this.typographyPreset = prev.typographyPreset || 'uniform'; this.typographyScale = Number(prev.typographyScale)||1;
@@ -456,6 +461,7 @@
         this.selectedImageId = next.selectedImageId;
         this.selectedRelationshipId = next.selectedRelationshipId || null;
         if (next.strokeScale !== undefined) this.strokeScale = next.strokeScale;
+        if (next.rootBranchGap !== undefined) this.rootBranchGap = nmClampRootBranchGap(next.rootBranchGap);
         if (next.thresholdY !== undefined) this.thresholdY = next.thresholdY;
         for (const key of ['balanceBias','compactness','branchGapX','wrapCustom']) if (next[key] !== undefined) this[key] = next[key];
         this.typographyPreset = next.typographyPreset || 'uniform'; this.typographyScale = Number(next.typographyScale)||1;

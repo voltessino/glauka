@@ -8,6 +8,7 @@
             {
               activeThemeId: "default",
               layoutMode: "balanced",
+              rootBranchGap: 14,
               balanceBias: state.thresholdY ?? 50,
               branchGapX: 150,
               compactness: 100,
@@ -60,6 +61,7 @@
               fontStrike:false,
               fontFamily:null,
               fontColor:null,
+              nodeShape: "plain",
               labelWrapChars: null,
               labelIndent: 0,
               labelAlign: "center",

@@ -195,31 +195,47 @@ body.nm-workspace-v2 .gl-cloud-library-more {
 body.nm-workspace-v2 #gl-cloud-quick[data-cloud-state="active"] {
   color:var(--nm-ui-accent,#a99cff);
 }
-body.nm-workspace-v2 .gl-google-pill {
-  width:auto!important;min-width:36px!important;flex:0 0 auto!important;
-  padding:2px 6px!important;gap:5px;border-radius:999px!important;
+body.nm-workspace-v2[data-nm-skin] #gl-google-account-quick.gl-google-pill,
+body.nm-workspace-v2 #gl-google-account-quick.gl-google-pill {
+  width:auto!important;min-width:0!important;flex:0 0 auto!important;height:34px!important;
+  padding:2px 4px!important;gap:11px!important;border-radius:999px!important;
+  background:transparent!important;border:0!important;box-shadow:none!important;
+}
+body.nm-workspace-v2[data-nm-skin] #gl-google-account-quick.gl-google-pill:hover,
+body.nm-workspace-v2[data-nm-skin] #gl-google-account-quick.gl-google-pill:focus-visible,
+body.nm-workspace-v2 #gl-google-account-quick.gl-google-pill:hover,
+body.nm-workspace-v2 #gl-google-account-quick.gl-google-pill:focus-visible {
+  background:rgba(100,116,139,.12)!important;
+}
+body.nm-workspace-v2 .gl-google-waffle {
+  width:16px!important;height:16px!important;display:block;flex:0 0 auto;
+  color:var(--nm-skin-muted,var(--nm-ui-muted,#5f6368))!important;
 }
 body.nm-workspace-v2 .gl-google-avatar-ring {
-  width:26px;height:26px;border-radius:50%;padding:2px;display:inline-flex;align-items:center;justify-content:center;
-  background:transparent;box-sizing:border-box;
+  width:30px;height:30px;border-radius:50%;padding:2px;display:inline-flex;align-items:center;justify-content:center;
+  background:conic-gradient(from -35deg,#4285f4 0 115deg,#34a853 115deg 200deg,#fbbc05 200deg 265deg,#ea4335 265deg 360deg)!important;
+  box-sizing:border-box;flex:0 0 auto;
 }
-body.nm-workspace-v2 .gl-google-pill.is-connected .gl-google-avatar-ring,
-body.nm-workspace-v2 .gl-google-pill.is-pro .gl-google-avatar-ring {
-  background:conic-gradient(#ea4335 0 90deg,#4285f4 90deg 180deg,#34a853 180deg 270deg,#fbbc05 270deg 360deg);
+body.nm-workspace-v2 .gl-google-avatar-spacer {
+  width:100%;height:100%;border-radius:50%;padding:2px;display:inline-flex;align-items:center;justify-content:center;
+  background:var(--nm-skin-top,var(--nm-ui-top,#ffffff))!important;box-sizing:border-box;
 }
-body.nm-workspace-v2 .gl-google-avatar-core {
+body.nm-workspace-v2[data-nm-skin] #gl-google-account-quick .gl-google-avatar-core,
+body.nm-workspace-v2 #gl-google-account-quick .gl-google-avatar-core {
   width:100%;height:100%;border-radius:50%;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;
-  background:var(--nm-skin-surface,#17233e);
+  background:#558b2f!important;color:#ffffff!important;
 }
 body.nm-workspace-v2 .gl-google-avatar-img {
   width:100%;height:100%;object-fit:cover;display:block;border-radius:50%;
 }
-body.nm-workspace-v2 .gl-google-avatar-letter {
-  font:700 11px/1 system-ui;color:var(--nm-skin-ink,#f4f6ff);
+body.nm-workspace-v2 .gl-google-avatar-img[hidden],
+body.nm-workspace-v2 .gl-google-avatar-letter[hidden] {
+  display:none!important;
 }
-body.nm-workspace-v2 .gl-google-pro-badge {
-  padding:2px 6px;border-radius:999px;font:800 10px/1.2 system-ui;letter-spacing:.04em;
-  background:linear-gradient(135deg,#6441df,#2563eb);color:#fff;
+body.nm-workspace-v2[data-nm-skin] #gl-google-account-quick .gl-google-avatar-letter,
+body.nm-workspace-v2 #gl-google-account-quick .gl-google-avatar-letter {
+  font:500 13.5px/1 'Google Sans',Roboto,system-ui,sans-serif!important;
+  color:#ffffff!important;background:transparent!important;letter-spacing:0;
 }
 body.nm-workspace-v2 .gl-google-menu {
   position:fixed;top:48px;right:12px;z-index:2600;width:min(260px,calc(100vw - 24px));

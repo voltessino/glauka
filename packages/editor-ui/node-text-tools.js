@@ -24,6 +24,11 @@
       option.textContent = name;
       family.append(option);
     }
+    const mixedFamilyOption = document.createElement("option");
+    mixedFamilyOption.value = "__mixed__";
+    mixedFamilyOption.disabled = true;
+    mixedFamilyOption.hidden = true;
+    family.append(mixedFamilyOption);
     const size = document.createElement("input");
     size.id = "glauka-font-size";
     size.type = "number";
@@ -52,6 +57,11 @@
       const opt=document.createElement("option");opt.value=key;
       opt.dataset.it=it;opt.dataset.en=en;shape.append(opt);
     }
+    const mixedShapeOption=document.createElement("option");
+    mixedShapeOption.value="__mixed__";
+    mixedShapeOption.disabled=true;
+    mixedShapeOption.hidden=true;
+    shape.append(mixedShapeOption);
     shapeRow.append(shapeTitle,shape);
     row.after(shapeRow);
     slider.hidden = true;
@@ -101,9 +111,11 @@
     }
     let lists, alignment;
     const selected = () =>
+      app.nm70ScopeAllNodes?.() ||
       app.nm70ScopeNodes?.() ||
       [app.state.findNode(app.state.selectedNodeId)].filter(Boolean);
     const apply = (key, value) => {
+      if (value === "__mixed__") return;
       if (app.nmSettingsApplyNode) app.nmSettingsApplyNode(key, value);
       else {
         app.state.pushHistory();
@@ -199,7 +211,10 @@
       family.setAttribute("aria-label", en ? "Font family" : "Carattere");
       shapeTitle.textContent=globalThis.GlaukaI18n?.pair("Contorno del testo","Text outline") || (en?"Text outline":"Contorno del testo");
       shape.setAttribute("aria-label",globalThis.GlaukaI18n?.pair("Forma del testo sul ramo","Branch label shape") || (en?"Branch label shape":"Forma del testo sul ramo"));
-      for(const opt of shape.options)opt.textContent=globalThis.GlaukaI18n?.pair(opt.dataset.it,opt.dataset.en) || (en?opt.dataset.en:opt.dataset.it);
+      for(const opt of shape.options)if(opt.value!=="__mixed__")opt.textContent=globalThis.GlaukaI18n?.pair(opt.dataset.it,opt.dataset.en) || (en?opt.dataset.en:opt.dataset.it);
+      const mixedText = globalThis.GlaukaI18n?.pair("— Valori diversi —", "— Mixed values —") || (en ? "— Mixed values —" : "— Valori diversi —");
+      mixedFamilyOption.textContent = mixedText;
+      mixedShapeOption.textContent = mixedText;
       size.setAttribute(
         "aria-label",
         (globalThis.GlaukaI18n?.pair("Dimensione del testo","Font size")??(en ? "Font size" : "Dimensione del testo")),
@@ -234,15 +249,27 @@
         n = nodes[0];
       if (!n) return;
       if (lists) lists.value = root.NeuroMapCaption.listKind(n.text) === "mixed" ? "none" : root.NeuroMapCaption.listKind(n.text);
-      if (alignment) alignment.value = n.labelAlign || "center";
-      family.value = root.GlaukaNodeText.family(n);
-      shape.value=["card","pill","outline","glass","hex","circuit"].includes(n.nodeShape)?
-        n.nodeShape:"plain";
-      size.value = n.fontSize ?? "";
-      color.value = root.GlaukaNodeText.color(n) || "#6441df";
+      if (alignment) {
+        const alignVal = n.labelAlign || "center";
+        alignment.value = nodes.every((x) => (x.labelAlign || "center") === alignVal) ? alignVal : "center";
+      }
+      const firstFamily = root.GlaukaNodeText.family(n);
+      const mixedFamily = nodes.some((x) => root.GlaukaNodeText.family(x) !== firstFamily);
+      family.value = mixedFamily ? "__mixed__" : firstFamily;
+      const shapeOf = (node) => ["card","pill","outline","glass","hex","circuit"].includes(node.nodeShape) ? node.nodeShape : "plain";
+      const firstShape = shapeOf(n);
+      const mixedShape = nodes.some((x) => shapeOf(x) !== firstShape);
+      shape.value = mixedShape ? "__mixed__" : firstShape;
+      const firstSize = n.fontSize ?? "";
+      const mixedSize = nodes.some((x) => (x.fontSize ?? "") !== firstSize);
+      size.value = mixedSize ? "" : firstSize;
+      size.placeholder = mixedSize ? (globalThis.GlaukaI18n?.pair("Misto", "Mixed") || (document.documentElement.lang === "en" ? "Mixed" : "Misto")) : "Auto";
+      const firstColor = root.GlaukaNodeText.color(n);
+      const mixedColor = nodes.some((x) => root.GlaukaNodeText.color(x) !== firstColor);
+      color.value = (!mixedColor && firstColor) || "#6441df";
       colorLabel.style.setProperty(
         "--glauka-text-color",
-        root.GlaukaNodeText.color(n) || "var(--nm-theme-focus)",
+        (!mixedColor && firstColor) || "var(--nm-theme-focus)",
       );
       strike.setAttribute(
         "aria-pressed",

@@ -197,10 +197,23 @@
   try{personal=C.personal(root.localStorage?.getItem(C.KEY))}catch{personal=null}
   const apply=p=>{
    root.NeuroMapRefinements?.cancelPreview(app);
+   const styleScope=document.getElementById('nm-settings-scope-style');
+   const applyAllTabs=styleScope?.value==='all';
+   const targets=(applyAllTabs && Array.isArray(app.tabs) && app.tabs.length)
+     ? [...new Set(app.tabs.map(t=>t.state).filter(Boolean))]
+     : [app.state];
    const owner=app.state,undoBefore=owner.undoStack.length;
-   const amount=C.apply(owner,p,scope.value,root.NeuroMapEditorPalettes);
-   if(!amount){app.showToast(tr('Seleziona un nodo non centrale','Select a non-root node'),'STILE');return}
-   app.markChanged();app.renderTabBar();lastChosen=p.id;lastState=app.state;updateTrigger();disclosure.open=false;trigger.focus({preventScroll:true});
+   let appliedTotal=0;
+   for(const targetState of targets){
+    const count=C.apply(targetState,p,applyAllTabs?'map':scope.value,root.NeuroMapEditorPalettes);
+    if(count){
+     targetState.isDirty=true;
+     if(targetState!==app.state)targetState._nmNeedsLayout=true;
+     appliedTotal+=count;
+    }
+   }
+   if(!appliedTotal){app.showToast(tr('Seleziona un nodo non centrale','Select a non-root node'),'STILE');return}
+   app.markChanged();app.nm54SyncSettings?.();app.nmFormatRefresh?.();app.renderTabBar();lastChosen=p.id;lastState=app.state;updateTrigger();disclosure.open=false;trigger.focus({preventScroll:true});
    previous={owner,undoLength:owner.undoStack.length,undoBefore};
    restore.disabled=false;
    app.showToast(tr('Stile applicato · Ctrl+Z per annullare','Style applied · Ctrl+Z to undo'),'STILE');

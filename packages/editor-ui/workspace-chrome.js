@@ -147,17 +147,8 @@ body.nm616-zen #nm616-navigation{pointer-events:auto}
  function placeMinimapClear(){
   const body=document.body;
   if(!body||!body.classList||typeof body.classList.remove!=='function'||typeof body.classList.add!=='function')return;
-  body.classList.remove('nm-minimap-yield','nm-minimap-parked');
-  // Nodes under the radar shrink it; they must never hide a user-enabled map.
-  if(!nodeHitsMinimap()){
-   if(!body.classList.contains('nm-workspace-inspector-open')){
-    body.classList.remove('nm-minimap-compact');
-    body.style?.removeProperty?.('--nm-minimap-scale');
-   }
-   return;
-  }
-  body.classList.add('nm-minimap-compact');
-  body.style?.setProperty?.('--nm-minimap-scale',(root.innerWidth||0)<=900?'0.58':'0.72');
+  body.classList.remove('nm-minimap-yield','nm-minimap-parked','nm-minimap-compact');
+  body.style?.removeProperty?.('--nm-minimap-scale');
  }
  function clearViewCorner(){
   const style=document.body&&document.body.style;
@@ -192,6 +183,8 @@ body.nm616-zen #nm616-navigation{pointer-events:auto}
   const zoom=document.querySelector('.hud-bottom-right');
   const zoomBox=zoom&&zoom.getBoundingClientRect?zoom.getBoundingClientRect():null;
   const zoomWide=zoomBox&&zoomBox.width>40?Math.ceil(zoomBox.width)+16:164;
+  const layoutBtn=document.getElementById('v6-show-layout');
+  const layoutBtnBox=layoutBtn&&!layoutBtn.classList.contains('hidden')&&layoutBtn.offsetWidth>0?layoutBtn.getBoundingClientRect?.():null;
   // Keep bottom-right zoom anchored at right: 12px, bottom: 12px (right panels stop above it).
   const narrow=width<=560,mid=width<=800;
   const defaultBottom=narrow?12:mid?14:16;
@@ -201,6 +194,7 @@ body.nm616-zen #nm616-navigation{pointer-events:auto}
   const clampBottom=(value)=>Math.max(12,Math.min(value,height-mapHeight-12));
   const blocks=panels.slice().map(panel=>panel.getBoundingClientRect?.()).filter(Boolean);
   if(zoomBox&&zoomBox.width>40)blocks.push(zoomBox);
+  if(layoutBtnBox&&layoutBtnBox.width>10)blocks.push(layoutBtnBox);
   const overlaps=(box,right,bottom)=>{
    const left=width-right-mapWidth,top=height-bottom-mapHeight;
    const across=Math.min(box.right,left+mapWidth)-Math.max(box.left,left);
@@ -208,8 +202,10 @@ body.nm616-zen #nm616-navigation{pointer-events:auto}
    return across>8&&down>8;
   };
   const besideZoom=Math.max(clearance,zoomWide+16);
+  const aboveLayoutBtn=layoutBtnBox?Math.ceil(height-layoutBtnBox.top+12):72;
   const candidates=[
    {right:besideZoom,bottom:defaultBottom},
+   {right:besideZoom,bottom:aboveLayoutBtn},
    {right:clearance,bottom:zoomBox?Math.ceil(height-zoomBox.top+12):72},
    {right:besideZoom+Math.round(mapWidth*0.45)+28,bottom:defaultBottom},
    {right:besideZoom+Math.round(mapWidth*0.9)+44,bottom:defaultBottom},
@@ -222,21 +218,17 @@ body.nm616-zen #nm616-navigation{pointer-events:auto}
   for(const candidate of candidates){
    let score=candidate.right*0.001+candidate.bottom*0.0005;
    for(const box of blocks)if(overlaps(box,candidate.right,candidate.bottom))score+=140;
-   const virtual={left:width-candidate.right-mapWidth,right:width-candidate.right,top:height-candidate.bottom-mapHeight,bottom:height-candidate.bottom,width:mapWidth,height:mapHeight};
-   score+=nodeHitsBox(virtual,48)*28;
    if(score<bestScore){bestScore=score;best=candidate;}
   }
   style.removeProperty('--nm-zoom-right');
   style.setProperty('--nm-minimap-right',best.right+'px');
   style.setProperty('--nm-minimap-bottom',best.bottom+'px');
-  body?.classList?.remove?.('nm-minimap-parked','nm-minimap-yield');
+  body?.classList?.remove?.('nm-minimap-parked','nm-minimap-yield','nm-minimap-compact');
   body?.classList?.add?.('nm-minimap-aside');
-  if(scale<0.98||bestScore>=12){
+  if(scale<0.98){
    body?.classList?.add?.('nm-minimap-compact');
-   const compact=scale<0.98?scale:(width<=900?0.58:0.72);
-   style.setProperty('--nm-minimap-scale',String(Math.round(Math.min(scale,compact)*100)/100));
+   style.setProperty('--nm-minimap-scale',String(Math.round(scale*100)/100));
   }else{
-   body?.classList?.remove?.('nm-minimap-compact');
    style.removeProperty('--nm-minimap-scale');
   }
  }

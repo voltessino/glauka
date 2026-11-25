@@ -264,3 +264,34 @@ func TestCloudGoogleClientSecretAndOAuthErrorCode(t *testing.T){
  if seenSecret!="desktop-secret-example"{t.Fatalf("expected client_secret on refresh, got %q",seenSecret)}
  if refreshed.Access!="new-access"||refreshed.Refresh!="refresh-xyz"{t.Fatalf("unexpected refreshed tokens: %+v",refreshed)}
 }
+
+func TestCloudGoogleAuthStartRejectsWhenSecretMissing(t *testing.T){
+ dir:=t.TempDir()
+ t.Setenv("GLAUKA_GOOGLE_CLIENT_ID","1234567890-public.apps.googleusercontent.com")
+ t.Setenv("GLAUKA_GOOGLE_CLIENT_SECRET","")
+ svc:=&service{secret:"internal-session-test-token",configDir:dir}
+ mux:=http.NewServeMux()
+ svc.cloudOAuthRoutes(mux)
+
+ statusReq:=httptest.NewRequest("POST","http://127.0.0.1:43117/__desktop/cloud/auth/status",nil)
+ statusReq.Header.Set("X-NeuroMap-Session","internal-session-test-token")
+ statusRec:=httptest.NewRecorder()
+ mux.ServeHTTP(statusRec,statusReq)
+ if statusRec.Code!=http.StatusOK{t.Fatalf("status HTTP=%d",statusRec.Code)}
+ var statusPayload map[string]any
+ if err:=json.Unmarshal(statusRec.Body.Bytes(),&statusPayload);err!=nil{t.Fatal(err)}
+ googleCfg,ok:=statusPayload["google"].(map[string]any)
+ if !ok{t.Fatalf("missing google status payload: %v",statusPayload)}
+ if ready,ok:=googleCfg["secretConfigured"].(bool);!ok||ready{
+  t.Fatalf("expected google.secretConfigured=false when missing, got %v",googleCfg)
+ }
+
+ startReq:=httptest.NewRequest("POST","http://127.0.0.1:43117/__desktop/cloud/auth/start",
+  strings.NewReader(`{"provider":"google"}`))
+ startReq.Header.Set("X-NeuroMap-Session","internal-session-test-token")
+ startRec:=httptest.NewRecorder()
+ mux.ServeHTTP(startRec,startReq)
+ if startRec.Code!=http.StatusPreconditionFailed{
+  t.Fatalf("expected HTTP 412 when Google client_secret is missing, got %d (%s)",startRec.Code,startRec.Body.String())
+ }
+}

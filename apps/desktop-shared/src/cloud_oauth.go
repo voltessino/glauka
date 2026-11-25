@@ -293,11 +293,12 @@ func (s *service) cloudOAuthRoutes(mux *http.ServeMux) {
   result:=map[string]any{"supported":runtime.GOOS=="windows"||runtime.GOOS=="darwin"}
   for _,p:=range []string{"google","dropbox","onedrive"}{
    _,_,_,_,err:=cloudProviderConfigForDir(p,s.configDir)
-   if err!=nil{result[p]=map[string]any{"configured":false,"connected":false};continue}
+   secretReady:=p!="google"||cloudGoogleClientSecret(s.configDir)!=""
+   if err!=nil{result[p]=map[string]any{"configured":false,"secretConfigured":secretReady,"connected":false};continue}
    cloudCredentialMu.Lock()
    t,er:=cloudReadTokens(s.configDir,p)
    cloudCredentialMu.Unlock()
-   result[p]=map[string]any{"configured":true,"connected":er==nil,"expiresAt":func()int64{
+   result[p]=map[string]any{"configured":true,"secretConfigured":secretReady,"connected":er==nil,"expiresAt":func()int64{
     if er!=nil{return 0};return t.Expiry.Unix()
    }()}
   }
@@ -368,6 +369,9 @@ func (s *service) cloudOAuthRoutes(mux *http.ServeMux) {
   if !readJSON(w,r,&request,1024){return}
   clientID,endpoint,_,scope,err:=cloudProviderConfigForDir(request.Provider,s.configDir)
   if err!=nil{responseJSON(w,412,response{Message:"Configure the provider client ID first"});return}
+  if request.Provider=="google"&&cloudGoogleClientSecret(s.configDir)==""{
+   responseJSON(w,412,response{Message:"Desktop OAuth client_secret is missing"});return
+  }
   callback:="http://"+r.Host+"/__desktop/cloud/oauth/callback"
   if request.Provider=="dropbox"&&os.Getenv("GLAUKA_DROPBOX_REDIRECT_URI")!=callback&&cloudPublicCallback(s.configDir)!=callback{
    responseJSON(w,412,response{Message:"Register the exact Dropbox loopback callback before connecting"});return

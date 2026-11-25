@@ -49,11 +49,15 @@
         changed = true;
       }
       if (changed) {
+        for (const state of tx.recorded) {
+          if (state !== app.state && options?.layout !== false) state._nmNeedsLayout = true;
+        }
         if (tx.recorded.has(app.state)) app.markChanged(options);
         else {
           app.recalculateAndRender(false, options);
           app.scheduleSave();
         }
+        app.nm54SyncSettings?.();
         app.renderTabBar();
         if(group.id==="layout")root.NeuroMapContinuation?.showGuides(app);
         else root.NeuroMapContinuation?.hideGuides(app);
@@ -61,6 +65,15 @@
       refresh();
     };
     const applyNodes = (fn, field, value, element = null) => {
+      const defaultsByField = {
+        fontItalic: false,
+        fontUnderline: false,
+        fontStrike: false,
+        fontWeight: 400,
+        nodeShape: "plain",
+        labelAlign: "center",
+        labelIndent: 0,
+      };
       mutate(
         element,
         groups.style,
@@ -71,7 +84,7 @@
             targets.some(
               (n) =>
                 !valuesEqual(
-                  n[field] ?? (["fontItalic","fontUnderline","fontStrike"].includes(field) ? false : null),
+                  n[field] ?? (Object.hasOwn(defaultsByField, field) ? defaultsByField[field] : null),
                   value,
                 ),
             )),
@@ -81,6 +94,7 @@
     };
     app.nmSettings = { finish, states, summary };
     app.nm70ScopeNodes = () => nodes(app.state);
+    app.nm70ScopeAllNodes = () => states(groups.style).flatMap((state) => nodes(state));
     app.nm70BatchStyle = (_, fn) => {
       applyNodes(fn);
       return true;
@@ -173,12 +187,17 @@
               : tr("Disattiva", "Off");
           if (entry.spec.id === "profile")
             caption = document.getElementById("v6-preset-label")?.textContent;
+          if (entry.spec.id === "root-gap")
+            caption = Number(value) === 0 ? tr("Attaccato", "Attached") : value + " px";
           if (entry.spec.id === "font-style")
             caption =
               (entry.value.fontWeight >= 650
                 ? tr("Grassetto", "Bold")
                 : tr("Normale", "Regular")) +
-              (entry.value.fontItalic ? tr(" e corsivo", " and italic") : "");
+              (entry.value.fontItalic ? tr(" e corsivo", " and italic") : "") +
+              (entry.value.fontFamily ? " · " + entry.value.fontFamily : "");
+          if (entry.spec.id === "node-shape")
+            caption = document.querySelector(`#glauka-node-shape option[value="${value || "plain"}"]`)?.textContent?.trim() || (value || "plain");
           if (entry.spec.id === "align")
             caption = {
               left: tr("Sinistra", "Left"),

@@ -140,7 +140,8 @@
 
       computeLayout(root, thresholdY = 50) {
         this.nodeLayoutMap.clear();
-        const gap=Math.max(30,Math.min(220,Number(this.branchGapX)||150));this.levelGapX=gap;this.primaryGapX=Math.max(36,Math.round(gap*185/150));
+        const rootGap=Number.isFinite(+this.rootBranchGap)?Math.max(0,Math.min(48,+this.rootBranchGap)):14;
+        const gap=Math.max(30,Math.min(220,Number(this.branchGapX)||150));this.levelGapX=gap;this.primaryGapX=Math.max(36,Math.round(gap*185/150))+rootGap;
         const compact=Math.max(55,Math.min(145,Number(this.compactness)||100));this.verticalGap=Math.max(10,Math.round(24*compact/100));this.primaryGroupGap=Math.max(18,Math.round(38*compact/100));
         if (!root) return { H_R: 0, H_L: 0, rightCount: 0, leftCount: 0, splitIndex: 0, totalPrimary: 0 };
 

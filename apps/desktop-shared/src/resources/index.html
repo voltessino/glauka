@@ -44,7 +44,7 @@
     #glauka-startup{position:fixed;inset:0;z-index:2147483640;display:grid;place-content:center;gap:14px;text-align:center;background:#fff!important;color:#1b1b27!important;font:16px "Segoe UI",sans-serif;transition:opacity .25s ease}
     /* One fixed typeface: the brand font arrives mid-startup and would restyle the text. */
     #glauka-startup,#glauka-startup *{font-family:"Segoe UI",system-ui,sans-serif!important}
-    #glauka-startup[hidden],#glauka-startup [hidden]{display:none!important}#glauka-startup svg{width:48px;height:48px;margin:auto}#glauka-startup p{color:#625e70!important;font-size:13px}#glauka-startup strong{color:inherit!important}
+    #glauka-startup[hidden],#glauka-startup [hidden]{display:none!important}#glauka-startup svg{width:48px;height:48px;margin:auto}#glauka-startup p{color:#625e70!important;font-size:13px;font-weight:400;line-height:1.4;margin:0}#glauka-startup strong{color:inherit!important;font-size:20px;font-weight:700;line-height:1.2;letter-spacing:-0.01em;margin:0}
     html.glauka-dark-theme #glauka-startup{background:#0f1422!important;color:#e2e8f0!important}
     html.glauka-dark-theme #glauka-startup p{color:#cbd5e1!important}
     #glauka-startup button{padding:10px 16px;border:1px solid #c7c0dd;border-radius:10px;background:#6441df;color:#fff;cursor:pointer}
@@ -67,7 +67,7 @@
   </script>
 </head>
 <body class="nm-workspace-v2" data-nm-skin="prisma" data-nm-skin-contrast="normal" data-nm-skin-readability="standard">
-  <div id="glauka-startup" role="status" aria-live="polite"><!-- @glauka-startup-mark --><strong>Glauka</strong><p id="glauka-startup-status">Prepariamo il tuo spazio…</p><button id="glauka-startup-retry" type="button" hidden>Riprova</button></div>
+  <div id="glauka-startup" class="nm6-skiptranslate" role="status" aria-live="polite"><!-- @glauka-startup-mark --><strong>Glauka</strong><p id="glauka-startup-status">Prepariamo il tuo spazio…</p><button id="glauka-startup-retry" type="button" hidden>Riprova</button></div>
 
   <canvas id="mindmap-canvas"></canvas>
 
@@ -468,102 +468,141 @@
     <div class="inspector-section">
       <span class="inspector-section-label">Stile della mappa</span>
 
-    <div class="nm54-control">
+    <div class="nm54-control" id="gl-branches-control">
       <details id="nm54-branch-picker" class="nm54-branch-picker">
        <summary id="nm54-branch-trigger" aria-label="Apri i collegamenti"><span aria-hidden="true">〰</span> <span id="nm54-branch-current">Curve morbide</span><span aria-hidden="true">⌄</span></summary>
       <div id="nm54-style-grid" class="nm54-style-grid" role="group" aria-label="Scegli la geometria dei collegamenti">
         <button class="nm54-style nm6-skiptranslate" data-style="neon" type="button" aria-label="Curve morbide: collegamenti continui e arrotondati" title="Curve morbide: collegamenti continui e arrotondati">
-          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-linecap="round">
-            <rect x="3" y="22" width="37" height="15" rx="6" fill="currentColor" fill-opacity=".10" stroke-opacity=".4" stroke-width="1"/>
-            <path d="M40 30 C62 30 70 6 98 10 C114 12 124 11 130 11 M40 30 C62 30 70 54 98 48 C114 46 124 48 130 48" stroke-width="3.4"/>
-            <circle cx="135" cy="11" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/><circle cx="135" cy="48" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/>
+          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none">
+            <rect x="4" y="21" width="32" height="16" rx="8" fill="#6366f1" fill-opacity=".26" stroke="#818cf8" stroke-width="1.4"/>
+            <rect x="11" y="27.5" width="18" height="3" rx="1.5" fill="#c7d2fe"/>
+            <path d="M44 26 C64 25 82 14 114 14 L114 15.6 C82 17 65 28.5 44 29.2 Z" fill="#38bdf8"/>
+            <path d="M44 29.8 C65 30.5 82 41 114 42.4 L114 44 C82 44 64 33 44 32 Z" fill="#f472b6"/>
+            <rect x="116" y="10" width="26" height="9" rx="4.5" fill="#38bdf8" fill-opacity=".2" stroke="#38bdf8" stroke-width="1.2"/>
+            <rect x="116" y="39" width="26" height="9" rx="4.5" fill="#f472b6" fill-opacity=".2" stroke="#f472b6" stroke-width="1.2"/>
           </svg>
           <span class="nm54-style-caption">Curve morbide</span>
         </button>
         <button class="nm54-style nm6-skiptranslate" data-style="elbow" type="button" aria-label="Ad angolo: segmenti orizzontali e verticali raccordati" title="Ad angolo: segmenti orizzontali e verticali raccordati">
-          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-linecap="round">
-            <rect x="3" y="22" width="37" height="15" rx="6" fill="currentColor" fill-opacity=".10" stroke-opacity=".4" stroke-width="1"/>
-            <path d="M40 30 H74 Q82 30 82 22 V19 Q82 11 90 11 H130 M40 30 H74 Q82 30 82 38 V40 Q82 48 90 48 H130" stroke-width="3.2"/>
-            <circle cx="135" cy="11" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/><circle cx="135" cy="48" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/>
+          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="21" width="32" height="16" rx="8" fill="#6366f1" fill-opacity=".26" stroke="#818cf8" stroke-width="1.4"/>
+            <rect x="11" y="27.5" width="18" height="3" rx="1.5" fill="#c7d2fe"/>
+            <path d="M44 26 H70 Q78 26 78 20 V20 Q78 14 86 14 H114" stroke="#38bdf8" stroke-width="2.6"/>
+            <path d="M44 32 H70 Q78 32 78 38 V38 Q78 44 86 44 H114" stroke="#f472b6" stroke-width="2.6"/>
+            <rect x="116" y="10" width="26" height="9" rx="4.5" fill="#38bdf8" fill-opacity=".2" stroke="#38bdf8" stroke-width="1.2"/>
+            <rect x="116" y="39" width="26" height="9" rx="4.5" fill="#f472b6" fill-opacity=".2" stroke="#f472b6" stroke-width="1.2"/>
           </svg>
           <span class="nm54-style-caption">Ad angolo</span>
         </button>
         <button class="nm54-style nm6-skiptranslate" data-style="straight" type="button" aria-label="Collegamenti diretti: tratti rettilinei tra i nodi" title="Collegamenti diretti: tratti rettilinei tra i nodi">
-          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-linecap="round">
-            <rect x="3" y="22" width="37" height="15" rx="6" fill="currentColor" fill-opacity=".10" stroke-opacity=".4" stroke-width="1"/>
-            <path d="M40 30 L130 11 M40 30 L130 48" stroke-width="3.1"/>
-            <circle cx="135" cy="11" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/><circle cx="135" cy="48" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/>
+          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none" stroke-linecap="round">
+            <rect x="4" y="21" width="32" height="16" rx="8" fill="#6366f1" fill-opacity=".26" stroke="#818cf8" stroke-width="1.4"/>
+            <rect x="11" y="27.5" width="18" height="3" rx="1.5" fill="#c7d2fe"/>
+            <path d="M44 26 L114 14" stroke="#38bdf8" stroke-width="2.6"/>
+            <path d="M44 32 L114 44" stroke="#f472b6" stroke-width="2.6"/>
+            <rect x="116" y="10" width="26" height="9" rx="4.5" fill="#38bdf8" fill-opacity=".2" stroke="#38bdf8" stroke-width="1.2"/>
+            <rect x="116" y="39" width="26" height="9" rx="4.5" fill="#f472b6" fill-opacity=".2" stroke="#f472b6" stroke-width="1.2"/>
           </svg>
           <span class="nm54-style-caption">Collegamenti diretti</span>
         </button>
         <button class="nm54-style nm6-skiptranslate" data-style="arc" type="button" aria-label="Archi eleganti: collegamenti curvati verso l'esterno" title="Archi eleganti: collegamenti curvati verso l'esterno">
-          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-linecap="round">
-            <rect x="3" y="22" width="37" height="15" rx="6" fill="currentColor" fill-opacity=".10" stroke-opacity=".4" stroke-width="1"/>
-            <path d="M40 30 Q80 -7 130 11 M40 30 Q80 68 130 48" stroke-width="3.2"/>
-            <circle cx="135" cy="11" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/><circle cx="135" cy="48" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/>
+          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none" stroke-linecap="round">
+            <rect x="4" y="21" width="32" height="16" rx="8" fill="#6366f1" fill-opacity=".26" stroke="#818cf8" stroke-width="1.4"/>
+            <rect x="11" y="27.5" width="18" height="3" rx="1.5" fill="#c7d2fe"/>
+            <path d="M44 26 Q76 1 114 14" stroke="#38bdf8" stroke-width="2.6"/>
+            <path d="M44 32 Q76 57 114 44" stroke="#f472b6" stroke-width="2.6"/>
+            <rect x="116" y="10" width="26" height="9" rx="4.5" fill="#38bdf8" fill-opacity=".2" stroke="#38bdf8" stroke-width="1.2"/>
+            <rect x="116" y="39" width="26" height="9" rx="4.5" fill="#f472b6" fill-opacity=".2" stroke="#f472b6" stroke-width="1.2"/>
           </svg>
           <span class="nm54-style-caption">Archi eleganti</span>
         </button>
 
         <button class="nm54-style nm6-skiptranslate" data-style="buzan" type="button" title="Rami organici" aria-label="Rami organici">
-          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-linecap="round">
-            <rect x="3" y="22" width="37" height="15" rx="6" fill="currentColor" fill-opacity=".1" stroke-opacity=".4"/>
-            <path d="M40 22 C68 20 84 6 126 9 L128 15 C86 14 70 28 40 32 Z M40 32 C70 36 86 46 126 49 L128 43 C84 46 68 34 40 28 Z" fill="currentColor" fill-opacity=".82" stroke="none"/>
-            <circle cx="135" cy="11" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/><circle cx="135" cy="48" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/>
+          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none">
+            <rect x="4" y="21" width="32" height="16" rx="8" fill="#6366f1" fill-opacity=".26" stroke="#818cf8" stroke-width="1.4"/>
+            <rect x="11" y="27.5" width="18" height="3" rx="1.5" fill="#c7d2fe"/>
+            <path d="M44 21 C68 20 84 12 114 13 L114 16 C86 17 70 28 44 29 Z" fill="#38bdf8"/>
+            <path d="M44 29 C70 30 86 41 114 42 L114 45 C84 46 68 38 44 37 Z" fill="#f472b6"/>
+            <rect x="116" y="10" width="26" height="9" rx="4.5" fill="#38bdf8" fill-opacity=".2" stroke="#38bdf8" stroke-width="1.2"/>
+            <rect x="116" y="39" width="26" height="9" rx="4.5" fill="#f472b6" fill-opacity=".2" stroke="#f472b6" stroke-width="1.2"/>
           </svg><span class="nm54-style-caption">Rami organici</span>
         </button>
 
         <button class="nm54-style nm6-skiptranslate" data-style="xmind8" type="button" title="Linee essenziali" aria-label="Linee essenziali">
-          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-linecap="round">
-            <rect x="3" y="22" width="37" height="15" rx="6" fill="currentColor" fill-opacity=".1" stroke-opacity=".4"/>
-            <path d="M40 30 H62 C96 30 112 11 130 11 M62 30 C96 30 112 48 130 48" stroke-width="1.7"/>
-            <circle cx="135" cy="11" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/><circle cx="135" cy="48" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/>
+          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none" stroke-linecap="round">
+            <rect x="4" y="21" width="32" height="16" rx="8" fill="#6366f1" fill-opacity=".26" stroke="#818cf8" stroke-width="1.4"/>
+            <rect x="11" y="27.5" width="18" height="3" rx="1.5" fill="#c7d2fe"/>
+            <path d="M44 27 H60 C84 27 96 14 114 14" stroke="#38bdf8" stroke-width="2.1"/>
+            <path d="M44 31 H60 C84 31 96 44 114 44" stroke="#f472b6" stroke-width="2.1"/>
+            <rect x="116" y="10" width="26" height="9" rx="4.5" fill="#38bdf8" fill-opacity=".2" stroke="#38bdf8" stroke-width="1.2"/>
+            <rect x="116" y="39" width="26" height="9" rx="4.5" fill="#f472b6" fill-opacity=".2" stroke="#f472b6" stroke-width="1.2"/>
           </svg><span class="nm54-style-caption">Linee essenziali</span>
         </button>
 
         <button class="nm54-style nm6-skiptranslate" data-style="thickparents" type="button" title="Rami gerarchici" aria-label="Rami gerarchici">
-          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-linecap="round">
-            <rect x="3" y="22" width="37" height="15" rx="6" fill="currentColor" fill-opacity=".1" stroke-opacity=".4"/>
-            <path d="M40 30 H76" stroke-width="7"/><path d="M76 30 C100 30 114 11 130 11 M76 30 C100 30 114 48 130 48" stroke-width="2.6"/>
-            <circle cx="135" cy="11" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/><circle cx="135" cy="48" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/>
+          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none" stroke-linecap="round">
+            <rect x="4" y="21" width="32" height="16" rx="8" fill="#6366f1" fill-opacity=".26" stroke="#818cf8" stroke-width="1.4"/>
+            <rect x="11" y="27.5" width="18" height="3" rx="1.5" fill="#c7d2fe"/>
+            <path d="M44 23 H62 C78 23 90 13 114 13.5 L114 15.5 C91 16 79 27.5 62 28.5 H44 Z" fill="#38bdf8"/>
+            <path d="M44 29.5 H62 C79 30.5 91 42 114 42.5 L114 44.5 C90 45 78 35 62 35 H44 Z" fill="#f472b6"/>
+            <rect x="116" y="10" width="26" height="9" rx="4.5" fill="#38bdf8" fill-opacity=".2" stroke="#38bdf8" stroke-width="1.2"/>
+            <rect x="116" y="39" width="26" height="9" rx="4.5" fill="#f472b6" fill-opacity=".2" stroke="#f472b6" stroke-width="1.2"/>
           </svg><span class="nm54-style-caption">Rami gerarchici</span>
         </button>
 
         <button class="nm54-style nm6-skiptranslate" data-style="simple" type="button" title="Curve sottili" aria-label="Curve sottili">
-          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-linecap="round">
-            <rect x="3" y="22" width="37" height="15" rx="6" fill="currentColor" fill-opacity=".1" stroke-opacity=".4"/>
-            <path d="M40 30 C72 30 90 11 130 11 M40 30 C72 30 90 48 130 48" stroke-width="1"/>
-            <circle cx="135" cy="11" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/><circle cx="135" cy="48" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/>
+          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none" stroke-linecap="round">
+            <rect x="4" y="21" width="32" height="16" rx="8" fill="#6366f1" fill-opacity=".26" stroke="#818cf8" stroke-width="1.4"/>
+            <rect x="11" y="27.5" width="18" height="3" rx="1.5" fill="#c7d2fe"/>
+            <path d="M44 27 C70 27 88 14 114 14" stroke="#38bdf8" stroke-width="1.4"/>
+            <path d="M44 31 C70 31 88 44 114 44" stroke="#f472b6" stroke-width="1.4"/>
+            <rect x="116" y="10" width="26" height="9" rx="4.5" fill="#38bdf8" fill-opacity=".2" stroke="#38bdf8" stroke-width="1.2"/>
+            <rect x="116" y="39" width="26" height="9" rx="4.5" fill="#f472b6" fill-opacity=".2" stroke="#f472b6" stroke-width="1.2"/>
           </svg><span class="nm54-style-caption">Curve sottili</span>
         </button>
 
         <button class="nm54-style nm6-skiptranslate" data-style="dashed" type="button" title="Tratteggiati" aria-label="Tratteggiati">
-          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-linecap="round">
-            <rect x="3" y="22" width="37" height="15" rx="6" fill="currentColor" fill-opacity=".1" stroke-opacity=".4"/>
-            <path d="M40 30 C72 30 92 11 130 11 M40 30 C72 30 92 48 130 48" stroke-width="2.5" stroke-dasharray="7 5"/>
-            <circle cx="135" cy="11" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/><circle cx="135" cy="48" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/>
+          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none" stroke-linecap="round">
+            <rect x="4" y="21" width="32" height="16" rx="8" fill="#6366f1" fill-opacity=".26" stroke="#818cf8" stroke-width="1.4"/>
+            <rect x="11" y="27.5" width="18" height="3" rx="1.5" fill="#c7d2fe"/>
+            <path d="M44 26 C68 26 88 14 114 14" stroke="#38bdf8" stroke-width="2.5" stroke-dasharray="6 4.5"/>
+            <path d="M44 32 C68 32 88 44 114 44" stroke="#f472b6" stroke-width="2.5" stroke-dasharray="6 4.5"/>
+            <rect x="116" y="10" width="26" height="9" rx="4.5" fill="#38bdf8" fill-opacity=".2" stroke="#38bdf8" stroke-width="1.2"/>
+            <rect x="116" y="39" width="26" height="9" rx="4.5" fill="#f472b6" fill-opacity=".2" stroke="#f472b6" stroke-width="1.2"/>
           </svg><span class="nm54-style-caption">Tratteggiati</span>
         </button>
 
         <button class="nm54-style nm6-skiptranslate" data-style="wave" type="button" title="Onde leggere" aria-label="Onde leggere">
-          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-linecap="round">
-            <rect x="3" y="22" width="37" height="15" rx="6" fill="currentColor" fill-opacity=".1" stroke-opacity=".4"/>
-            <path d="M40 30 C65 10 94 49 130 11 M40 30 C65 49 94 10 130 48" stroke-width="2.5"/>
-            <circle cx="135" cy="11" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/><circle cx="135" cy="48" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/>
+          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none" stroke-linecap="round">
+            <rect x="4" y="21" width="32" height="16" rx="8" fill="#6366f1" fill-opacity=".26" stroke="#818cf8" stroke-width="1.4"/>
+            <rect x="11" y="27.5" width="18" height="3" rx="1.5" fill="#c7d2fe"/>
+            <path d="M44 26 C64 8 92 34 114 14" stroke="#38bdf8" stroke-width="2.5"/>
+            <path d="M44 32 C64 50 92 24 114 44" stroke="#f472b6" stroke-width="2.5"/>
+            <rect x="116" y="10" width="26" height="9" rx="4.5" fill="#38bdf8" fill-opacity=".2" stroke="#38bdf8" stroke-width="1.2"/>
+            <rect x="116" y="39" width="26" height="9" rx="4.5" fill="#f472b6" fill-opacity=".2" stroke="#f472b6" stroke-width="1.2"/>
           </svg><span class="nm54-style-caption">Onde leggere</span>
         </button>
 
         <button class="nm54-style nm6-skiptranslate" data-style="fork" type="button" title="Forcella" aria-label="Forcella">
-          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-linecap="round">
-            <rect x="3" y="22" width="37" height="15" rx="6" fill="currentColor" fill-opacity=".1" stroke-opacity=".4"/>
-            <path d="M40 30 H84 L130 11 M84 30 L130 48" stroke-width="2.5"/>
-            <circle cx="135" cy="11" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/><circle cx="135" cy="48" r="5" fill="currentColor" fill-opacity=".3" stroke-width="1.5"/>
+          <svg class="nm54-preview" viewBox="0 0 148 58" aria-hidden="true" focusable="false" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="21" width="32" height="16" rx="8" fill="#6366f1" fill-opacity=".26" stroke="#818cf8" stroke-width="1.4"/>
+            <rect x="11" y="27.5" width="18" height="3" rx="1.5" fill="#c7d2fe"/>
+            <path d="M44 27 H70 L98 14 H114" stroke="#38bdf8" stroke-width="2.5"/>
+            <path d="M44 31 H70 L98 44 H114" stroke="#f472b6" stroke-width="2.5"/>
+            <rect x="116" y="10" width="26" height="9" rx="4.5" fill="#38bdf8" fill-opacity=".2" stroke="#38bdf8" stroke-width="1.2"/>
+            <rect x="116" y="39" width="26" height="9" rx="4.5" fill="#f472b6" fill-opacity=".2" stroke="#f472b6" stroke-width="1.2"/>
           </svg><span class="nm54-style-caption">Forcella</span>
         </button>
       </div>
       </details>
       <p id="nm54-legacy-shape" class="nm54-hint" hidden>Questa mappa usa uno stile precedente. Puoi conservarlo o selezionare una nuova forma qui sopra.</p>
-      <p class="nm54-hint nm54-shape-note">Qui scegli il <strong>percorso</strong> delle linee. Lo spessore si regola separatamente sotto. Gli stili precedenti restano compatibili con i file già salvati.</p>
+      <p class="nm54-hint nm54-shape-note">Qui scegli il <strong>percorso</strong> delle linee. Lo spessore e il distacco si regolano qui sotto.</p>
+      <div class="nm54-row gl-root-gap-toggle-row" style="margin-top:12px">
+        <label for="nm-root-branch-detach"><strong>Stacca i rami dal nodo centrale</strong></label>
+        <input type="checkbox" id="nm-root-branch-detach" checked />
+      </div>
+      <div class="nm54-row" style="margin-top:8px"><label for="nm-root-branch-gap"><span>Distanza iniziale dal centro</span></label><output id="nm-root-branch-gap-value">14 px</output></div>
+      <input type="range" id="nm-root-branch-gap" class="nm54-range" min="0" max="36" step="2" value="14" title="Spazio vuoto tra il nodo centrale e l'inizio dei rami (0 = attaccato)" />
       <div class="nm54-row" style="margin-top:12px"><label for="nm63-stroke-range"><strong>Spessore dei rami</strong></label><output id="nm63-stroke-value">100%</output></div>
       <input type="range" id="nm63-stroke-range" class="nm54-range" min="0.5" max="3" step="0.1" value="1" title="Spessore rami dal 50% al 300%" />
       <p class="nm54-hint">Scegli quanto sono visibili i tratti, indipendentemente dalla loro forma.</p>
@@ -877,19 +916,20 @@
     <div class="v5-note">Clic sulla curva o sull’etichetta per selezionare · doppio clic per rinominare · Canc elimina</div>
   </div>
   <div id="v5-study-preview" class="v4-backdrop hidden" role="dialog" aria-label="Anteprima domande AI"><div class="glass-panel v4-modal v5-review-modal"><div class="v4-modal-head"><div><strong>✨ Verifica le domande generate</strong><small>Puoi modificare domande e risposte prima di salvarle</small></div><button id="v5-study-preview-close" class="v4-x">×</button></div><textarea id="v5-study-preview-text" spellcheck="false"></textarea><div class="v5-study-top"><span id="v5-study-preview-count" class="v5-note"></span><button id="v5-study-preview-apply" class="v4-primary">✓ Salva nel mazzo</button></div></div></div>
-  <div id="flash-modal" class="v4-backdrop hidden" role="dialog" aria-modal="true" aria-label="Flashcard e spaced repetition">
+  <div id="flash-modal" class="v4-backdrop hidden" role="dialog" aria-modal="true" aria-label="Flashcard · Studio e Ripasso">
     <div class="glass-panel v4-modal v4-flash-modal">
-      <div class="v4-modal-head"><div><strong>🎴 Studio AI &amp; Ripasso</strong><small>Domande generate con AI · archivio locale · aggiornamento mappe</small></div><button id="flash-close" class="v4-x" aria-label="Chiudi">×</button></div>
+      <div class="v4-modal-head"><div><strong>🎴 Flashcard · Studio &amp; Ripasso</strong><small>Mazzi SM-2 · creazione manuale o AI · archivio di tutte le mappe</small></div><button id="flash-close" class="v4-x" aria-label="Chiudi">×</button></div>
       <div class="v5-study-top">
         <select id="v5-study-scope" class="v5-field"><option value="active">Mappa intera</option><option value="selected">Ramo selezionato</option><option value="node">Nodo selezionato</option><option value="all">Tutte le schede (max 8)</option></select>
-        <label class="v5-study-count">Domande per scheda <input id="v5-study-count" type="number" min="3" max="12" value="7" /></label>
+        <label class="v5-study-count">Quantità <input id="v5-study-count" type="number" min="3" max="30" value="10" /></label>
         <button id="v5-generate-cards" class="v4-primary">✨ Genera domande con AI</button><button id="v5-regenerate-stale" class="v4-secondary" title="Riesamina con AI i nodi modificati, senza cancellare le carte esistenti">🔄 Aggiorna obsolete</button>
       </div>
       <div class="v5-study-top"><button id="v5-export-cards" class="v4-secondary">↓ Esporta archivio</button><button id="v5-import-cards" class="v4-secondary">↑ Importa archivio</button><input id="v5-import-file" type="file" accept=".json" class="hidden" /><button id="v5-remove-card" class="v4-secondary">Elimina carta</button></div>
-      <div id="v5-study-status" class="v5-note" aria-live="polite">Le domande AI sono collegate ai nodi di origine e conservano la cronologia dei ripassi.</div>
+      <div id="v5-study-status" class="v5-note" aria-live="polite">Le flashcard restano salvate per ogni mappa e conservano tutta la cronologia di ripasso.</div>
       <div class="v4-filter-row"><label for="flash-filter">Sessione</label><select id="flash-filter">
-        <option value="all">Tutta la scheda</option><option value="subtree">Solo sotto-albero selezionato</option>
-        <option value="review">Da ripassare (rosso / ambra)</option><option value="due">In scadenza o mai studiate</option>
+        <option value="due">In scadenza / mai studiate</option><option value="all">Tutte le flashcard salvate (incluse passate)</option>
+        <option value="active">Solo questa mappa</option><option value="subtree">Solo sotto-albero selezionato</option>
+        <option value="review">Difficili (Non so / Incerto)</option><option value="stale">Da aggiornare (mappa modificata)</option>
       </select><span id="flash-progress">0 / 0</span></div>
       <button id="flash-flip-card" class="v4-flash-card" title="Clicca o premi Spazio"><div id="flash-card-content"></div></button>
       <div class="v4-flash-actions"><button id="flash-reveal" class="v4-primary">↺ Mostra / nascondi risposta · Spazio</button></div>

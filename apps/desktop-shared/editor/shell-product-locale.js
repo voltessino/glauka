@@ -33,7 +33,7 @@ const nmProduct={
  async aiRequest(){throw Error('AI features belong to Glauka Pro (https://glauka.it).');}
 };
 window.nmProduct=nmProduct;
-const nm6Exclude='.nm-export-shade,[data-glauka-user-content],script,style,textarea,code,pre,.tab-item,.tabs-list,.ctx-header-node,#status-selected-node,.nm6-skiptranslate,.v4-explain-text,#nm67-notes-preview,.flash-heading,.spotlight-main,.spotlight-path,.spotlight-tab,.nm-android-preview-card strong';
+const nm6Exclude='#glauka-startup,.nm-export-shade,[data-glauka-user-content],script,style,textarea,code,pre,.tab-item,.tabs-list,.ctx-header-node,#status-selected-node,.nm6-skiptranslate,.v4-explain-text,#nm67-notes-preview,.flash-heading,.spotlight-main,.spotlight-path,.spotlight-tab,.nm-android-preview-card strong';
 const nm6Original=new WeakMap();
 function nm6TranslatedText(raw,locale){return NeuroMapLocale.translate(raw,locale,NM_DICT);}
 function nm6Translate(root=document){
@@ -85,7 +85,7 @@ window.GlaukaStoreUpdates={
   const button=box.querySelector('button');
   button.disabled=!store;
   button.textContent=store?pair('Apri la pagina nello Store','Open the Store page'):pair('Si apre dall’app installata','Opens from the installed app');
-  button.onclick=()=>{if(store)window.open(store,'_blank','noopener');};
+  button.onclick=()=>{if(!store)return;if(window.webkit?.messageHandlers?.neuromapOpenURL?.postMessage)window.webkit.messageHandlers.neuromapOpenURL.postMessage(store);else window.open(store,'_blank','noopener');};
  },
  mount(){
   const modal=document.querySelector('#nm6-plan-modal .nm6-modal');

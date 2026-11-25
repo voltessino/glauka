@@ -180,6 +180,7 @@
             state.balanceBias=Number.isFinite(+item.balanceBias)?Math.max(0,Math.min(100,+item.balanceBias)):50;
             state.compactness=Number.isFinite(+item.compactness)?Math.max(55,Math.min(145,+item.compactness)):100;
             state.branchGapX=nm68ClampGap(item.branchGapX);
+            state.rootBranchGap=nmClampRootBranchGap(item.rootBranchGap);
             state.strokeScale=Number(item.strokeScale)||1;
             state.activeThemeId=item.activeThemeId||null;
             state.typographyPreset=item.typographyPreset||'uniform'; state.typographyScale=Number(item.typographyScale)||1;
@@ -229,6 +230,7 @@
           this.state.balanceBias=Number.isFinite(+parsed.meta.balanceBias)?Math.max(0,Math.min(100,+parsed.meta.balanceBias)):50;
           this.state.compactness=Number.isFinite(+parsed.meta.compactness)?Math.max(55,Math.min(145,+parsed.meta.compactness)):100;
           this.state.branchGapX=nm68ClampGap(parsed.meta.branchGapX);
+          this.state.rootBranchGap=nmClampRootBranchGap(parsed.meta.rootBranchGap);
           this.state.strokeScale=Number(parsed.meta.strokeScale)||1;
           this.state.activeThemeId=parsed.meta.activeThemeId||null;
           this.state.typographyPreset=parsed.meta.typographyPreset||'uniform'; this.state.typographyScale=Number(parsed.meta.typographyScale)||1;

@@ -16,9 +16,10 @@
             this._nmAtlasArchive=NeuroMapAtlasLibrary.update(this._nmAtlasArchive,this.tabs,NeuroMapKnowledgeCore);
           }
           this._nmViewWorkspaceArchive=nmArchiveViewWorkspaces(this._nmViewWorkspaceArchive,this.tabs);
+          const clampRootGap=typeof nmClampRootBranchGap==='function'?nmClampRootBranchGap:(v=>v!=null&&Number.isFinite(+v)?Math.round(Math.max(0,Math.min(48,+v))):14);
           const doc={version:3,viewWorkspaceArchive:this._nmViewWorkspaceArchive,atlasLibrary:(this._nmAtlasArchive||[]),atlasEdges:(this._nmAtlasEdges||[]).slice(0,500),journeyProgress:this._nmJourneyProgress||{},editorDraft:this.editorNodeId?{nodeId:this.editorNodeId,text:document.getElementById('inline-editor-input').value,tabId:this.activeTabId}:null,studyCards:this.studyCards||[],learningAttempts:NeuroMapLearningCore.cleanAttempts(this.learningAttempts||[]),learningPlans:NeuroMapAdaptiveCore.cleanPlans(this.learningPlans),activeTabId:this.activeTabId,tabs:this.tabs.map(t=>({id:t.id,title:t.title,filePath:t.filePath||null,fileName:t.fileName||null,originSheetIndex:t.originSheetIndex??null,
             isDirty:!!t.state.isDirty,root:t.state.root,images:t.state.images,relationships:t.state.relationships,
-            thresholdY:t.state.thresholdY,balanceBias:t.state.balanceBias??50,compactness:t.state.compactness??100,branchGapX:nm68ClampGap(t.state.branchGapX),strokeScale:t.state.strokeScale,activeThemeId:t.state.activeThemeId,
+            thresholdY:t.state.thresholdY,balanceBias:t.state.balanceBias??50,compactness:t.state.compactness??100,branchGapX:nm68ClampGap(t.state.branchGapX),rootBranchGap:clampRootGap(t.state.rootBranchGap),strokeScale:t.state.strokeScale,activeThemeId:t.state.activeThemeId,
             typographyPreset:t.state.typographyPreset,typographyScale:t.state.typographyScale,branchStyle:t.state.branchStyle,defaultLabelWrapChars:t.state.defaultLabelWrapChars,wrapCustom:!!t.state.wrapCustom,camera:nmCleanCanvasCamera(t.camera),
             viewWorkspace:nmCleanViewWorkspace(t.viewWorkspace)}))};
           globalThis.NeuroMapRecovery?.validate(doc);
@@ -77,6 +78,7 @@
           // Validate and reconstruct all candidate tabs BEFORE changing live
           // flashcards, Atlas links, Journey progress, or the active workspace.
           // A corrupt/empty recovery file must not partially replace user data.
+          const clampRootGap=typeof nmClampRootBranchGap==='function'?nmClampRootBranchGap:(v=>v!=null&&Number.isFinite(+v)?Math.round(Math.max(0,Math.min(48,+v))):14);
           const restored=[];
           for (const obj of data.tabs) {
             if (!obj.root || typeof obj.root.text!=='string' || (obj.root.children!=null&&!Array.isArray(obj.root.children)))throw Error('Scheda di recupero non valida.');
@@ -88,6 +90,7 @@
             state.balanceBias=Number.isFinite(+obj.balanceBias)?Math.max(0,Math.min(100,+obj.balanceBias)):50;
             state.compactness=Number.isFinite(+obj.compactness)?Math.max(55,Math.min(145,+obj.compactness)):100;
             state.branchGapX=nm68ClampGap(obj.branchGapX);
+            state.rootBranchGap=clampRootGap(obj.rootBranchGap);
             state.strokeScale=Number(obj.strokeScale)||1;
             state.activeThemeId=obj.activeThemeId||null;
             state.typographyPreset=obj.typographyPreset||'uniform';state.typographyScale=Number(obj.typographyScale)||1;

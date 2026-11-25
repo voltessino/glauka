@@ -5,16 +5,18 @@ async function open(page,size={width:1280,height:800}){
  await page.waitForFunction(()=>window.neuroMapApp&&document.querySelector('#context-menu.nm-context-refined'));
  await page.evaluate(()=>document.querySelectorAll('.nm6-shade').forEach(e=>e.classList.add('hidden')));
 }
-test('node context keeps quick actions, original IDs, and well-organized sections',async({page})=>{
+test('node context keeps quick actions, open 2-col sections, original IDs, and zero buried drawers',async({page})=>{
  await open(page);
  await page.evaluate(()=>neuroMapApp.showContextMenu(220,240,{type:'node',item:neuroMapApp.state.root}));
  const menu=page.locator('#context-menu');
  await expect(menu).toBeVisible();
- await expect(menu.locator('#nm-context-primary-node > button')).toHaveCount(6);
+ await expect(menu.locator('#nm-context-primary-node > button')).toHaveCount(3);
+ await expect(menu.locator('#nm-context-editbar-node > button')).toHaveCount(4);
  for(const id of ['ctx-add-child','ctx-add-sibling','ctx-edit-text','btn-ai-audit',
     'ctx-cut','ctx-copy','ctx-paste','ctx-toggle-boundary','ctx-delete-node','nm70-invert-all'])
   await expect(page.locator('#'+id)).toHaveCount(1);
- await expect(menu.locator('#nm-context-more-node')).not.toHaveAttribute('open','');
+ await expect(menu.locator('#nm-context-more-node')).toHaveCount(0);
+ await expect(page.locator('#btn-ai-audit')).toBeVisible();
  await expect(page.locator('#ctx-add-child')).toBeVisible();
  const before=await page.evaluate(()=>neuroMapApp.state.root.children.length);
  await page.locator('#ctx-add-child').click();
@@ -36,10 +38,11 @@ for(const width of [390,1280]){
   await expect(menu).toBeHidden();
  });
 }
-test('image actions retain their original unique selectors and order',async({page})=>{
+test('image actions retain their original unique selectors and remain open',async({page})=>{
  await open(page);
  const ids=await page.locator('#ctx-group-image button').evaluateAll(buttons=>buttons.map(b=>b.id));
  for(const id of ['ctx-img-toggle-mode','ctx-img-reset-aspect','ctx-img-toggle-zlayer','ctx-img-cut','ctx-img-copy','ctx-img-paste'])expect(ids.filter(value=>value===id)).toHaveLength(1);
- expect(await page.locator('#nm-context-primary-image > button').evaluateAll(bs=>bs.map(b=>b.id))).toEqual(['nm616-context-preview-image','ctx-img-copy','ctx-img-toggle-mode','ctx-img-delete']);
+ expect(await page.locator('#nm-context-primary-image > button').evaluateAll(bs=>bs.map(b=>b.id))).toEqual(['nm616-context-preview-image','ctx-img-toggle-mode','ctx-img-reset-aspect']);
+ expect(await page.locator('#nm-context-editbar-image > button').evaluateAll(bs=>bs.map(b=>b.id))).toEqual(['ctx-img-cut','ctx-img-copy','ctx-img-paste','ctx-img-delete']);
  await expect(page.locator('#ctx-img-delete')).toHaveCount(1);
 });

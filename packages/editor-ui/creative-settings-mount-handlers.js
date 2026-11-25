@@ -15,7 +15,7 @@
       const rect = hud.getBoundingClientRect();
       let bottom = 12;
       for (const el of document.querySelectorAll(
-        ".hud-bottom-right,#mobile-dock",
+        ".hud-bottom-right,#mobile-dock,#v6-show-layout",
       )) {
         const r = el.getBoundingClientRect();
         if (r.height && r.width && r.left < rect.right && r.right > rect.left)
@@ -42,18 +42,9 @@
     for (const group of Object.values(groups)) {
       const header = group.host.querySelector(".hud-header,.inspector-header");
       if (header) {
-        const bodyHost = group.host.querySelector(":scope > .nm-panel-body");
-        if (bodyHost) bodyHost.prepend(group.bar);
-        else header.after(group.bar);
-      }
-      if (header) {
         const placeBar = () => {
           if (group.bar.closest(".glauka-scope-options")) return;
-          const bodyHost = group.host.querySelector(":scope > .nm-panel-body");
-          if (bodyHost) {
-            if (group.bar.parentElement !== bodyHost || bodyHost.firstElementChild !== group.bar)
-              bodyHost.prepend(group.bar);
-          } else if (header.nextElementSibling !== group.bar) {
+          if (header.nextElementSibling !== group.bar) {
             header.after(group.bar);
           }
         };
@@ -103,6 +94,7 @@
         "nm54-map-wrap-label",
       ],
       ["nm63-stroke-range", "stroke", "strokeScale", 1, "nm63-stroke-value"],
+      ["nm-root-branch-gap", "root-gap", "rootBranchGap", 1, "nm-root-branch-gap-value"],
       [
         "v5-font-scale",
         "scale",
@@ -192,6 +184,13 @@
           if (e.type === "change") finish();
           return;
         }
+        if (el.id === "nm-root-branch-detach") {
+          e.stopImmediatePropagation();
+          const current = Number(app.state?.rootBranchGap);
+          if (Number.isFinite(current) && current > 0) app._nmLastRootGap = current;
+          setMap("root-gap", { rootBranchGap: el.checked ? (app._nmLastRootGap || 14) : 0 });
+          return;
+        }
         if (el.id === "v5-font-preset") {
           e.stopImmediatePropagation();
           setMap("profile", { typographyPreset: el.value });
@@ -206,7 +205,6 @@
           sidebar.classList.contains("collapsed")
         ) {
           hud.classList.add("hidden");
-          document.getElementById("v6-show-layout")?.classList.remove("hidden");
         }
       }
 
@@ -223,7 +221,7 @@
         e.stopImmediatePropagation();
         setMap("branches", { branchStyle: branch.dataset.style });
         const picker=document.getElementById('nm54-branch-picker');
-        if(picker){picker.open=false;picker.querySelector('summary')?.focus({preventScroll:true});}
+        if(picker && !picker.closest('#gl-settings-center')){picker.open=false;picker.querySelector('summary')?.focus({preventScroll:true});}
         return;
       }
       const theme = el.closest(".theme-grid [data-theme-id]");
@@ -435,11 +433,21 @@
                       : value + "%"
                     : d.key === "compactness"
                       ? value + "%"
+                      : d.key === "rootBranchGap"
+                        ? (Number(value) === 0 ? tr("Attaccato", "Attached") : value + " px")
                       : d.key === "branchGapX" ||
                           d.key === "fontSize" ||
                           d.key === "labelIndent"
                         ? value + " px"
                         : String(value);
+            }
+          }
+          if (d.key === "rootBranchGap") {
+            const detach = document.getElementById("nm-root-branch-detach");
+            if (detach) {
+              const gapVal = result.empty ? 14 : (Number(result.value[d.key]) || 0);
+              if (gapVal > 0) app._nmLastRootGap = gapVal;
+              detach.checked = gapVal > 0;
             }
           }
           d.output.classList.toggle("nm-mixed-value", result.mixed);

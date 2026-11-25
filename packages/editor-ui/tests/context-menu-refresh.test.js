@@ -87,23 +87,26 @@ test('existing callbacks and all contextual actions survive a one-time restyle',
  const f=fixture();f.app.bindUI();f.app.bindUI();
  assert.equal(f.menu.dataset.nmContextRefresh,'1');
  assert.equal(f.main.querySelectorAll('.nm-context-quick').length,1);
- assert.deepEqual(f.main.querySelector('.nm-context-essential').children.map(x=>x.id),
-   ['ctx-add-child','ctx-add-sibling','ctx-edit-text','ctx-copy','ctx-paste','ctx-delete-node']);
+ assert.deepEqual(f.main.querySelector('#nm-context-primary-node').children.map(x=>x.id),
+   ['ctx-add-child','ctx-add-sibling','ctx-edit-text']);
+ assert.deepEqual(f.main.querySelector('#nm-context-editbar-node').children.map(x=>x.id),
+   ['ctx-cut','ctx-copy','ctx-paste','ctx-delete-node']);
  assert.equal(f.ids.get('ctx-add-child').events.click,f.calls['ctx-add-child']);
  assert.ok(f.groups[2].children.includes(f.extra),'V5 actions remain inside Structure');
  assert.equal(f.main.querySelectorAll('.nm-context-section').length,4);
+ for(const sec of f.main.querySelectorAll('.nm-context-section'))assert.equal(sec.open,true);
 });
-test('all image actions remain in order and deletion is separate',()=>{
+test('all image actions remain accessible and deletion sits in editbar',()=>{
  const f=fixture();f.app.bindUI();
+ assert.deepEqual(f.image.querySelector('#nm-context-primary-image').children.map(x=>x.id),
+  ['ctx-img-toggle-mode','ctx-img-reset-aspect']);
+ assert.deepEqual(f.image.querySelector('#nm-context-editbar-image').children.map(x=>x.id),
+  ['ctx-img-cut','ctx-img-copy','ctx-img-paste','ctx-img-delete']);
  const sections=f.image.querySelectorAll('.nm-context-image-section');
  assert.equal(sections.length,2);
- assert.deepEqual(sections[0].children.filter(x=>x.id).map(x=>x.id),
-  ['ctx-img-reset-aspect','ctx-img-toggle-zlayer']);
- assert.deepEqual(sections[1].children.filter(x=>x.id).map(x=>x.id),
-  ['ctx-img-cut','ctx-img-paste']);
- assert.deepEqual(f.image.querySelector('.nm-context-essential').children.map(x=>x.id),
-  ['ctx-img-copy','ctx-img-toggle-mode','ctx-img-delete']);
- assert.equal(f.image.querySelector('details').open,false);
+ assert.deepEqual(sections[0].querySelectorAll('button').map(x=>x.id),
+  ['ctx-img-toggle-zlayer']);
+ for(const sec of sections)assert.equal(sec.open,true);
 });
 test('menu switches language and clamps to the screen edge',()=>{
  const f=fixture();f.app.bindUI();

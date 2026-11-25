@@ -5,8 +5,9 @@ async function enterMap(page){
  await expect(page.locator('#nm6-welcome')).toBeHidden();
 }
 async function openBranches(page){
- await page.locator('#btn-toggle-inspector').click();
- await page.locator('#inspector-sidebar .nm70-inspector-accordion').filter({has:page.locator('#nm54-branch-picker')}).locator(':scope > summary').click();
+ await page.locator('#gl-settings-quick').click();
+ await page.locator('#gl-settings-nav button[data-category="appearance"]').click();
+ await expect(page.locator('#gl-settings-branches')).toBeVisible();
 }
 
 test('branch geometry changes the shape while preserving all node IDs',async({page})=>{
@@ -22,7 +23,8 @@ test('branch geometry changes the shape while preserving all node IDs',async({pa
   return list;
  });
  for(const style of ['neon','elbow','straight','arc','dashed','wave','fork','buzan','xmind8']){
-  await page.locator('#nm54-branch-trigger').click();
+  const picker=page.locator('#nm54-branch-picker');
+  if(!(await picker.evaluate(e=>e.open)))await page.locator('#nm54-branch-trigger').click();
   await page.locator('#nm54-style-grid [data-style="'+style+'"]').click();
   await expect(page.locator('#nm54-style-grid [data-style="'+style+'"]')).toHaveAttribute('aria-pressed','true');
   expect(await page.evaluate(()=>neuroMapApp.state.branchStyle)).toBe(style);

@@ -192,6 +192,7 @@
    }catch(error){message(error.message||tr('Risposta non valida','Invalid response'));}
   }
   function refresh(){
+   refreshQuickbar?.();
    recallBtn.classList.toggle('nm-learn-current',session.mode==='recall');
    quizBtn.classList.toggle('nm-learn-current',session.mode==='quiz');
    radarBtn.classList.toggle('nm-learn-current',session.mode==='radar');
@@ -200,18 +201,18 @@
    controls.replaceChildren();body.replaceChildren();
    endRecall();clearQuiz();
    if(session.mode==='recall'){
-    intro.textContent=tr('Nasconde soltanto le etichette visibili sul canvas: i nodi originali e il salvataggio non cambiano.',
-      'Masks labels on the canvas only: original nodes and saved content do not change.');
-    button(tr('Nascondi concetti','Hide concepts'),startRecall);
+    intro.textContent=tr('Nasconde temporaneamente le etichette sulla mappa per ripeterle a memoria.',
+      'Temporarily hides map labels so you can recall them from memory.');
+    button(tr('Nascondi concetti','Hide concepts'),startRecall).className='v4-primary';
     button(tr('Mostra tutto','Reveal all'),()=>{endRecall();message(tr('Etichette ripristinate.','Labels restored.'))});
-    message(tr('Scegli l’ambito e premi Nascondi concetti.','Choose a scope and hide concepts.'));
+    message(tr('Scegli l’ambito qui sopra e premi Nascondi concetti.','Pick a scope above and hide concepts.'));
    }else if(session.mode==='quiz'){
-    intro.textContent=tr('Quiz offline da rami, note e flashcard esistenti. Le domande aperte si valutano manualmente.',
-      'Offline quiz from branches, notes and existing flashcards. Open answers are self-rated.');
-    button(tr('Inizia quiz','Start quiz'),startQuiz);
-    button(tr('Proponi quiz con AI','Propose an AI quiz'),()=>void proposeQuiz());
+    intro.textContent=tr('Quiz interattivo dai tuoi rami, appunti e flashcard.',
+      'Interactive quiz generated from your branches, notes and flashcards.');
+    button(tr('Inizia quiz','Start quiz'),startQuiz).className='v4-primary';
+    button(tr('✨ Proponi con AI','✨ Propose with AI'),()=>void proposeQuiz());
     const n=K.stats(app.learningAttempts||[],app.activeTabId);
-    message(n.answered+tr(' risposte registrate in questa mappa.',' answers recorded for this map.'));
+    message(n.answered+tr(' risposte registrate su questa mappa.',' answers recorded on this map.'));
    }else{
     root.NeuroMapAdaptiveUI.render({app,mode:session.mode,body,controls,intro,status,
       button,tr,el,scopeId});

@@ -630,7 +630,8 @@
         "packages\\editor-ui\\continuation-layout.js",
         "packages\\editor-ui\\export-hub-ui.js",
         "packages\\editor-ui\\linked-view-toolbars-flow.js",
-        "packages\\editor-ui\\settings-center.js"
+        "packages\\editor-ui\\settings-center.js",
+        "packages\\editor-ui\\study-today.js"
       ]
     },
     "m7f3a3b142814": {
@@ -5159,7 +5160,8 @@
       "origins": [
         "apps/desktop-shared/editor/shell.js",
         "apps/desktop-shared/editor/study-interactions.js",
-        "packages/editor-ui/localization.js"
+        "packages/editor-ui/localization.js",
+        "packages\\editor-ui\\study-today.js"
       ]
     },
     "m61bf74600625": {
@@ -5860,7 +5862,8 @@
       "known": true,
       "origins": [
         "apps/desktop-shared/editor/shell.js",
-        "packages/editor-ui/localization.js"
+        "packages/editor-ui/localization.js",
+        "packages\\editor-ui\\study-today.js"
       ]
     },
     "m666128f0209e": {
@@ -7159,7 +7162,8 @@
       "known": true,
       "origins": [
         "packages/editor-ui/creative-settings.js",
-        "packages/editor-ui/localization.js"
+        "packages/editor-ui/localization.js",
+        "packages\\editor-ui\\settings-center.js"
       ]
     },
     "m81502ba0add4": {
@@ -10352,7 +10356,8 @@
       "en": "✎ Edit",
       "known": true,
       "origins": [
-        "packages/editor-ui/presentation-experience.js"
+        "packages/editor-ui/presentation-experience.js",
+        "packages\\editor-ui\\study-today.js"
       ]
     },
     "mc9e433a69f7a": {
@@ -13271,7 +13276,8 @@
         "apps\\desktop-shared\\editor\\learn-ui.js",
         "apps\\desktop-shared\\editor\\study-interactions.js",
         "apps\\desktop-shared\\editor\\visual-study-ui.js",
-        "packages/editor-ui/creative-markers.js"
+        "packages/editor-ui/creative-markers.js",
+        "packages\\editor-ui\\study-today.js"
       ]
     },
     "m4724f344c1c0": {
@@ -13821,7 +13827,8 @@
       "known": true,
       "origins": [
         "apps/desktop-shared/editor/learn-ui.js",
-        "apps\\desktop-shared\\editor\\learn-ui.js"
+        "apps\\desktop-shared\\editor\\learn-ui.js",
+        "packages\\editor-ui\\study-today.js"
       ]
     },
     "m10046c7e3085": {
@@ -17287,7 +17294,8 @@
       "known": true,
       "origins": [
         "apps/desktop-shared/editor/shell.js",
-        "packages/editor-ui/localization.js"
+        "packages/editor-ui/localization.js",
+        "packages\\editor-ui\\study-today.js"
       ]
     },
     "m6b983a81e5e8": {
@@ -20073,11 +20081,12 @@
       ]
     },
     "m002c7c68468b": {
-      "it": "Direct",
+      "it": "Diretta",
       "en": "Direct",
-      "known": false,
+      "known": true,
       "origins": [
-        "packages/editor-ui/compare-workspace.js"
+        "packages/editor-ui/compare-workspace.js",
+        "packages\\editor-ui\\study-today.js"
       ]
     },
     "m5db187a6b603": {
@@ -22560,7 +22569,8 @@
         "packages/editor-ui/export-hub-core.js",
         "packages/editor-ui/export-hub-ui.js",
         "packages\\editor-ui\\ai-studio-methods-audio.js",
-        "packages\\editor-ui\\editor-shared\\map-share-ui.js"
+        "packages\\editor-ui\\editor-shared\\map-share-ui.js",
+        "packages\\editor-ui\\study-today.js"
       ]
     },
     "m13a717cfaf6c": {
@@ -32613,10 +32623,11 @@
     },
     "m13001081172d": {
       "it": "Consolidato",
-      "en": "Consolidato",
-      "known": false,
+      "en": "Confident",
+      "known": true,
       "origins": [
-        "apps/desktop-shared/editor/shell.js"
+        "apps/desktop-shared/editor/shell.js",
+        "packages\\editor-ui\\study-today.js"
       ]
     },
     "m1238acc27743": {
@@ -34868,7 +34879,8 @@
         "apps/android/editor/study-interactions.js",
         "apps/desktop-shared/editor/study-interactions.js",
         "apps\\android\\editor\\study-interactions.js",
-        "apps\\desktop-shared\\editor\\study-interactions.js"
+        "apps\\desktop-shared\\editor\\study-interactions.js",
+        "packages\\editor-ui\\study-today.js"
       ]
     },
     "m1a6ad06b0bea": {
@@ -34931,7 +34943,8 @@
         "apps/android/editor/study-interactions.js",
         "apps/desktop-shared/editor/study-interactions.js",
         "apps\\android\\editor\\study-interactions.js",
-        "apps\\desktop-shared\\editor\\study-interactions.js"
+        "apps\\desktop-shared\\editor\\study-interactions.js",
+        "packages\\editor-ui\\study-today.js"
       ]
     },
     "m5050744afc5d": {
@@ -34944,10 +34957,11 @@
     },
     "m16e69b200ff4": {
       "it": "Eliminare questa flashcard e la sua cronologia?",
-      "en": "Eliminare questa flashcard e la sua cronologia?",
-      "known": false,
+      "en": "Delete this flashcard and its review history?",
+      "known": true,
       "origins": [
-        "apps/desktop-shared/editor/study-interactions.js"
+        "apps/desktop-shared/editor/study-interactions.js",
+        "packages\\editor-ui\\study-today.js"
       ]
     },
     "mec54c7acbcbb": {
@@ -36699,10 +36713,11 @@
     },
     "mf69ac66dcd66": {
       "it": "🗑 Elimina",
-      "en": "🗑 Elimina",
-      "known": false,
+      "en": "🗑 Delete",
+      "known": true,
       "origins": [
-        "desktop HTML"
+        "desktop HTML",
+        "packages\\editor-ui\\study-today.js"
       ]
     },
     "m603a557cd235": {
@@ -36715,10 +36730,11 @@
     },
     "m2d622833478f": {
       "it": "✓ Salva nel mazzo",
-      "en": "✓ Salva nel mazzo",
-      "known": false,
+      "en": "✓ Save to deck",
+      "known": true,
       "origins": [
-        "desktop HTML"
+        "desktop HTML",
+        "packages\\editor-ui\\study-today.js"
       ]
     },
     "mef9bc32dd7cd": {
@@ -36771,10 +36787,11 @@
     },
     "m71c7888cd554": {
       "it": "Solo sotto-albero selezionato",
-      "en": "Solo sotto-albero selezionato",
-      "known": false,
+      "en": "Selected branch only",
+      "known": true,
       "origins": [
-        "desktop HTML"
+        "desktop HTML",
+        "packages\\editor-ui\\study-today.js"
       ]
     },
     "m3c58525924f3": {
@@ -44698,7 +44715,8 @@
         "apps/android/editor/study-interactions.js",
         "apps/desktop-shared/editor/study-interactions.js",
         "apps\\android\\editor\\study-interactions.js",
-        "apps\\desktop-shared\\editor\\study-interactions.js"
+        "apps\\desktop-shared\\editor\\study-interactions.js",
+        "packages\\editor-ui\\study-today.js"
       ]
     },
     "m17fbdbe51fb2": {
@@ -45003,7 +45021,8 @@
         "apps/desktop-shared/editor/learn-adaptive-ui.js",
         "apps/desktop-shared/editor/saving.js",
         "apps\\desktop-shared\\editor\\learn-adaptive-ui.js",
-        "apps\\desktop-shared\\editor\\version-history.js"
+        "apps\\desktop-shared\\editor\\version-history.js",
+        "packages\\editor-ui\\study-today.js"
       ]
     },
     "md5be412d1ebe": {
@@ -56093,11 +56112,12 @@
       ]
     },
     "m2ea6b39d62d1": {
-      "it": "Linked to:",
+      "it": "Collegata a:",
       "en": "Linked to:",
-      "known": false,
+      "known": true,
       "origins": [
-        "packages\\editor-ui\\lifecycle.js"
+        "packages\\editor-ui\\lifecycle.js",
+        "packages\\editor-ui\\study-today.js"
       ]
     },
     "m159f5dc56ea5": {
@@ -56122,7 +56142,8 @@
       "known": true,
       "origins": [
         "apps\\android\\native\\app\\src\\main\\assets\\app\\index.html",
-        "packages\\editor-ui\\ai-workflows.js"
+        "packages\\editor-ui\\ai-workflows.js",
+        "packages\\editor-ui\\study-today.js"
       ]
     },
     "m766bc92c7166": {
@@ -56258,7 +56279,8 @@
       "en": "Concept:",
       "known": true,
       "origins": [
-        "packages\\editor-ui\\ai-studio-methods-audio.js"
+        "packages\\editor-ui\\ai-studio-methods-audio.js",
+        "packages\\editor-ui\\study-today.js"
       ]
     },
     "m98c1bb9786a9": {
@@ -58481,6 +58503,957 @@
       "origins": [
         "packages\\editor-ui\\ai-studio-methods-audio.js"
       ]
+    },
+    "m12bfaeb16ac8": {
+      "it": "Attaccato",
+      "en": "Attached",
+      "known": true,
+      "origins": [
+        "apps\\android\\editor\\media.js",
+        "packages\\editor-ui\\creative-settings-mount-builders.js",
+        "packages\\editor-ui\\creative-settings-mount-handlers.js"
+      ]
+    },
+    "m4ebba3f268e3": {
+      "it": "Collega Google Drive…",
+      "en": "Connect Google Drive…",
+      "known": true,
+      "origins": [
+        "apps\\desktop-shared\\src\\cloud_panel.js"
+      ]
+    },
+    "ma1d74b1e729c": {
+      "it": "Account Google nel browser",
+      "en": "Google Account in browser",
+      "known": true,
+      "origins": [
+        "apps\\desktop-shared\\src\\cloud_panel.js"
+      ]
+    },
+    "m3145592016bd": {
+      "it": "Google Drive collegato · Gestisci",
+      "en": "Google Drive connected · Manage",
+      "known": true,
+      "origins": [
+        "apps\\desktop-shared\\src\\cloud_panel.js"
+      ]
+    },
+    "m0d7143d55c76": {
+      "it": "Client secret OAuth mancante in questa build (vedi Dettagli)",
+      "en": "OAuth client secret missing in this build (see Details)",
+      "known": true,
+      "origins": [
+        "apps\\desktop-shared\\src\\cloud_panel.js"
+      ]
+    },
+    "m975f1a4275e8": {
+      "it": "Serve l’identificativo pubblico di una vera applicazione OAuth registrata dal produttore di Glauka. Non inserire password o token.",
+      "en": "A real public OAuth application ID registered by the Glauka publisher is required. Never enter passwords or tokens.",
+      "known": true,
+      "origins": [
+        "apps\\desktop-shared\\src\\cloud_panel.js"
+      ]
+    },
+    "ma357173d28ca": {
+      "it": "Questa build di Glauka non include il Google Desktop OAuth Client Secret necessario per completare il collegamento con Google Drive. Puoi inserirlo qui sotto (Configurazione dell’editore) o aggiornare alla prossima release.",
+      "en": "This build of Glauka is missing the Google Desktop OAuth Client Secret needed to complete Google Drive connection. Enter it under Publisher setup below or update to the next release.",
+      "known": true,
+      "origins": [
+        "apps\\desktop-shared\\src\\cloud_panel.js"
+      ]
+    },
+    "mbe03c9f18d31": {
+      "it": "Google: registra un client OAuth di tipo App desktop. Oltre a PKCE e redirect loopback locale, Google richiede Client ID e Client Secret.",
+      "en": "Google: register a Desktop app OAuth client. In addition to PKCE and the local loopback redirect, Google requires both Client ID and Client Secret.",
+      "known": true,
+      "origins": [
+        "apps\\desktop-shared\\src\\cloud_panel.js"
+      ]
+    },
+    "m3969897a58c0": {
+      "it": "— Valori diversi —",
+      "en": "— Mixed values —",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\node-text-tools.js"
+      ]
+    },
+    "m4baee80b2440": {
+      "it": "Misto",
+      "en": "Mixed",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\node-text-tools.js"
+      ]
+    },
+    "m3559f47701a3": {
+      "it": "Rami gerarchici",
+      "en": "Rami gerarchici",
+      "known": false,
+      "origins": [
+        "apps\\android\\native\\app\\src\\main\\assets\\app\\index.html"
+      ]
+    },
+    "mced9b58ddf2f": {
+      "it": "Linee essenziali",
+      "en": "Linee essenziali",
+      "known": false,
+      "origins": [
+        "apps\\android\\native\\app\\src\\main\\assets\\app\\index.html"
+      ]
+    },
+    "mf2e8ce7bc000": {
+      "it": "Curve sottili",
+      "en": "Curve sottili",
+      "known": false,
+      "origins": [
+        "apps\\android\\native\\app\\src\\main\\assets\\app\\index.html"
+      ]
+    },
+    "m56815d71296c": {
+      "it": "Tratteggiati",
+      "en": "Tratteggiati",
+      "known": false,
+      "origins": [
+        "apps\\android\\native\\app\\src\\main\\assets\\app\\index.html"
+      ]
+    },
+    "mae371a347657": {
+      "it": "Onde leggere",
+      "en": "Onde leggere",
+      "known": false,
+      "origins": [
+        "apps\\android\\native\\app\\src\\main\\assets\\app\\index.html"
+      ]
+    },
+    "ma4c8a0d9bb0f": {
+      "it": "Stacca i rami dal nodo centrale",
+      "en": "Stacca i rami dal nodo centrale",
+      "known": false,
+      "origins": [
+        "apps\\android\\native\\app\\src\\main\\assets\\app\\index.html"
+      ]
+    },
+    "m1d0cbf657f90": {
+      "it": "Distanza iniziale dal centro",
+      "en": "Distanza iniziale dal centro",
+      "known": false,
+      "origins": [
+        "apps\\android\\native\\app\\src\\main\\assets\\app\\index.html"
+      ]
+    },
+    "m4319b05bd0ba": {
+      "it": "14 px",
+      "en": "14 px",
+      "known": false,
+      "origins": [
+        "apps\\android\\native\\app\\src\\main\\assets\\app\\index.html"
+      ]
+    },
+    "m104da839cee5": {
+      "it": "Qui scegli il percorso dei collegamenti. Spessore e distacco valgono per tutte le modalità.",
+      "en": "Qui scegli il percorso dei collegamenti. Spessore e distacco valgono per tutte le modalità.",
+      "known": false,
+      "origins": [
+        "apps\\android\\native\\app\\src\\main\\assets\\app\\index.html"
+      ]
+    },
+    "m77a679bdcd1e": {
+      "it": "Scegli lo stile visivo dei collegamenti, il distacco dal nodo centrale e lo spessore.",
+      "en": "Choose connector geometry, center node separation and line thickness.",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\settings-center.js"
+      ]
+    },
+    "m3a777b3c056e": {
+      "it": "Server spento",
+      "en": "Server off",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
+      ]
+    },
+    "m45eba69aac1a": {
+      "it": "È tutto ok: VoiceStudio è un programma locale separato (facoltativo) per voci clonate offline su localhost:3900. Non è indispensabile per ascoltare le mappe.",
+      "en": "Everything is fine: VoiceStudio is a separate optional local app for offline cloned voices on localhost:3900. You do not need it to listen to maps.",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
+      ]
+    },
+    "m20070686719e": {
+      "it": "Ascolta con",
+      "en": "Listen with",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\ai-workflows.js"
+      ]
+    },
+    "mabdb2add8006": {
+      "it": "Voce HD (gratis)",
+      "en": "HD Voice (free)",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\ai-workflows.js"
+      ]
+    },
+    "m89037801697d": {
+      "it": "Neurale Offline",
+      "en": "Offline Neural",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\ai-workflows.js"
+      ]
+    },
+    "md3f018ef6a0a": {
+      "it": "Voce nativa migliore",
+      "en": "Best native voice",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\ai-workflows.js"
+      ]
+    },
+    "mf55fde31c0d9": {
+      "it": "Voce AI (API)",
+      "en": "AI Voice (API)",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\ai-workflows.js"
+      ]
+    },
+    "m53940d178e53": {
+      "it": "⏳ Preparo…",
+      "en": "⏳ Loading…",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\ai-workflows.js"
+      ]
+    },
+    "ma3c6f97a1ea5": {
+      "it": "Modello neurale non ancora scaricato in Studio AI: uso la voce migliore disponibile.",
+      "en": "Neural model not downloaded yet in AI Studio: using best available voice.",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\ai-workflows.js"
+      ]
+    },
+    "m4b53dc56df31": {
+      "it": "4 ore",
+      "en": "4 hrs",
+      "known": true,
+      "origins": [
+        "apps\\android\\editor\\study-interactions.js",
+        "apps\\desktop-shared\\editor\\study-interactions.js"
+      ]
+    },
+    "m7f265ef4a2ba": {
+      "it": "1 giorno",
+      "en": "1 day",
+      "known": true,
+      "origins": [
+        "apps\\android\\editor\\study-interactions.js",
+        "apps\\desktop-shared\\editor\\study-interactions.js"
+      ]
+    },
+    "m9a6d779730fe": {
+      "it": "giorni",
+      "en": "days",
+      "known": true,
+      "origins": [
+        "apps\\android\\editor\\study-interactions.js",
+        "apps\\desktop-shared\\editor\\study-interactions.js"
+      ]
+    },
+    "mb0b965d5d198": {
+      "it": "Google AI Mode aperto: copia le righe generate e incollale qui sotto (prompt copiato negli appunti).",
+      "en": "Google AI Mode opened: copy generated lines and paste them below (prompt copied to clipboard).",
+      "known": true,
+      "origins": [
+        "apps\\android\\editor\\study-interactions.js",
+        "apps\\desktop-shared\\editor\\study-interactions.js"
+      ]
+    },
+    "m9e346084f959": {
+      "it": "Crea flashcard manuali o AI, sfoglia il passato e ripassa con SM-2.",
+      "en": "Crea flashcard manuali o AI, sfoglia il passato e ripassa con SM-2.",
+      "known": false,
+      "origins": [
+        "packages\\editor-ui\\workspace-tools.js"
+      ]
+    },
+    "m9d72199586e6": {
+      "it": "Create manual or AI flashcards, browse past decks and review with SM-2.",
+      "en": "Create manual or AI flashcards, browse past decks and review with SM-2.",
+      "known": false,
+      "origins": [
+        "packages\\editor-ui\\workspace-tools.js"
+      ]
+    },
+    "m53cb71e49cb8": {
+      "it": "Mappa corrente",
+      "en": "Current map",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m872eef35c9d4": {
+      "it": "flashcard mostrate su",
+      "en": "flashcards shown out of",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mc3c32c8ddc2d": {
+      "it": "Nessuna flashcard corrisponde alla ricerca.",
+      "en": "No flashcards match this search.",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mdfa2d82f0d85": {
+      "it": "Non ci sono ancora flashcard salvate. Creane una qui o generala con AI!",
+      "en": "No saved flashcards yet. Create one right now or generate from a map!",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m2e30edf00ed8": {
+      "it": "Mappa passata",
+      "en": "Past map",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mf2c7fbfe5d84": {
+      "it": "Manuale",
+      "en": "Manual",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m02b9a6525449": {
+      "it": "Nuova",
+      "en": "New",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m3aac66998a68": {
+      "it": "▶ Studia",
+      "en": "▶ Study",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m4b7150190c62": {
+      "it": "🎯 Nodo",
+      "en": "🎯 Node",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mb28ece5b44b1": {
+      "it": "Elimina flashcard",
+      "en": "Delete flashcard",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m4601a6119186": {
+      "it": "Mappa salvata",
+      "en": "Saved map",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m06079a8766e7": {
+      "it": "Inserisci sia la domanda che la risposta.",
+      "en": "Enter both the question and the answer.",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m8b138eab8802": {
+      "it": "Flashcard aggiornata",
+      "en": "Flashcard updated",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m4696a9c804c6": {
+      "it": "Flashcard salvata nel mazzo",
+      "en": "Flashcard saved to deck",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "maf0c001d1dfe": {
+      "it": "🎴 Flashcard · Studio & Ripasso",
+      "en": "🎴 Flashcards · Study & Review",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m347659584693": {
+      "it": "Mazzi SM-2 · creazione manuale o AI · archivio di tutte le mappe",
+      "en": "SM-2 decks · manual or AI creation · saved across every map",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m23c929a0eb0c": {
+      "it": "Flashcard · Studio e Ripasso",
+      "en": "Flashcards · Study & Review",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "ma50474f2f33a": {
+      "it": "🗂 Archivio & Passato",
+      "en": "🗂 Archive & Past",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m61450bdaf152": {
+      "it": "✎ Modifica card",
+      "en": "✎ Edit card",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mb016893e82b1": {
+      "it": "＋ Nuova card",
+      "en": "＋ New card",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mca36fe7a41a4": {
+      "it": "＋ Crea la prima flashcard",
+      "en": "＋ Create first flashcard",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m65df79f3ec1d": {
+      "it": "🔍 Gratis con Google AI Mode",
+      "en": "🔍 Free with Google AI Mode",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m5d35b8abfb9a": {
+      "it": "✨ Genera con API AI",
+      "en": "✨ Generate with AI API",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m085838cc224b": {
+      "it": "Sessione completata! Ottimo lavoro: fai una pausa o cambia filtro per ripassare altre carte.",
+      "en": "Session complete! Great work: take a break or change filter to review more cards.",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mc0247772e094": {
+      "it": "🤖 Genera con AI o Google AI Mode · Esporta / Importa archivio",
+      "en": "🤖 Generate with AI or Google AI Mode · Export / Import deck",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m062a7ca1df1d": {
+      "it": "Genera gratis con Google (AI Mode)",
+      "en": "Generate free with Google (AI Mode)",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mbeece11bb0c0": {
+      "it": "0 crediti API",
+      "en": "0 API credits",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mf51f4168271c": {
+      "it": "1. Apri Google AI Mode con i concetti della tua mappa · 2. Copia le righe generate e incollale qui sotto.",
+      "en": "1. Open Google AI Mode with your map concepts · 2. Copy the generated lines and paste them below.",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m33200714f2dd": {
+      "it": "🔍 Apri Google AI Mode con questa mappa",
+      "en": "🔍 Open Google AI Mode for this map",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m57548cb5ee4e": {
+      "it": "📋 Copia solo il prompt",
+      "en": "📋 Copy prompt only",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mf9b0261f3c73": {
+      "it": "Incolla qui le flashcard da Google AI Mode (es. Domanda | Risposta o D:/R:)…",
+      "en": "Paste flashcards from Google AI Mode here (e.g. Question | Answer or Q:/A:)…",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "md98947a74e2a": {
+      "it": "✓ Importa flashcard incollate nel mazzo",
+      "en": "✓ Import pasted flashcards into deck",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m9058fef74673": {
+      "it": "in archivio",
+      "en": "saved",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mfb8143a1c9b4": {
+      "it": "▶ Studia 10 scadenze",
+      "en": "▶ Study 10 due",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m1d24475b7f11": {
+      "it": "▶ Ripassa mazzo",
+      "en": "▶ Review deck",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mf7eb22169fc3": {
+      "it": "＋ Nuova flashcard",
+      "en": "＋ New flashcard",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mf47d3f1fe547": {
+      "it": "＋ Crea card",
+      "en": "＋ Add card",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mfe206f4e2dfa": {
+      "it": "Cerca domanda, risposta, mappa o ramo…",
+      "en": "Search question, answer, map or branch…",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m9ccb60e7beff": {
+      "it": "Modifica questa flashcard",
+      "en": "Edit this flashcard",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m0f45c6a0924d": {
+      "it": "Nuova flashcard manuale (offline)",
+      "en": "New manual flashcard (offline)",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "md2664216d1f3": {
+      "it": "Domanda (Fronte)",
+      "en": "Question (Front)",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m4e228a3a31d5": {
+      "it": "Es. Cosa collega la valvola mitrale?",
+      "en": "E.g. What does the mitral valve connect?",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mf45ee8285c19": {
+      "it": "Risposta (Retro)",
+      "en": "Answer (Back)",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m14dd65c1e606": {
+      "it": "Scrivi una risposta chiara e sintetica…",
+      "en": "Write a clear, concise answer…",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m18a854871af4": {
+      "it": "✓ Salva modifiche",
+      "en": "✓ Save changes",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mf829a1e8fd8b": {
+      "it": "✓ Salva e aggiungi un'altra",
+      "en": "✓ Save & add another",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mf3825ae67826": {
+      "it": "Tutte le flashcard salvate (incluse passate)",
+      "en": "All saved flashcards (past & current)",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m5e53b78b5ec0": {
+      "it": "Solo questa mappa",
+      "en": "Current map only",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mf303041af9a9": {
+      "it": "Difficili (Non so / Incerto)",
+      "en": "Difficult (Don’t know / Unsure)",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mc9834b845418": {
+      "it": "Da aggiornare (mappa modificata)",
+      "en": "Need updating (map changed)",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m6b948f76c8d8": {
+      "it": "Prompt copiato: incollalo in Google AI Mode o nel tuo assistente",
+      "en": "Prompt copied: paste it into Google AI Mode or your assistant",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "me04b315d0b37": {
+      "it": "Nessuna flashcard riconosciuta. Usa righe «Domanda | Risposta» o «D: … / R: …».",
+      "en": "No flashcards recognized. Use 'Question | Answer' or 'Q: ... / A: ...' lines.",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m884a3709e64b": {
+      "it": "flashcard aggiunte al mazzo!",
+      "en": "flashcards added to deck!",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m034d8da2ad1c": {
+      "it": ")?.value ||",
+      "en": ")?.value ||",
+      "known": false,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mc6b57c539b5f": {
+      "it": "Question | Answer",
+      "en": "Question | Answer",
+      "known": false,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m449b20c6ec00": {
+      "it": "Q: ... / A: ...",
+      "en": "Q: ... / A: ...",
+      "known": false,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m09261ff958de": {
+      "it": "+ tr(",
+      "en": "+ tr(",
+      "known": false,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m3b2fd01db92b": {
+      "it": "Le flashcard restano salvate per ogni mappa e conservano tutta la cronologia di ripasso.",
+      "en": "Le flashcard restano salvate per ogni mappa e conservano tutta la cronologia di ripasso.",
+      "known": false,
+      "origins": [
+        "apps\\android\\native\\app\\src\\main\\assets\\app\\index.html"
+      ]
+    },
+    "m5ce59cb6fbaf": {
+      "it": "🎴 Studia flashcard in scadenza",
+      "en": "🎴 Study due flashcards",
+      "known": true,
+      "origins": [
+        "apps\\desktop-shared\\editor\\learn-adaptive-ui.js"
+      ]
+    },
+    "m71220e34494f": {
+      "it": "Nasconde temporaneamente le etichette sulla mappa per ripeterle a memoria.",
+      "en": "Temporarily hides map labels so you can recall them from memory.",
+      "known": true,
+      "origins": [
+        "apps\\desktop-shared\\editor\\learn-ui-session.js"
+      ]
+    },
+    "m7d733bc8a19b": {
+      "it": "Scegli l’ambito qui sopra e premi Nascondi concetti.",
+      "en": "Pick a scope above and hide concepts.",
+      "known": true,
+      "origins": [
+        "apps\\desktop-shared\\editor\\learn-ui-session.js"
+      ]
+    },
+    "mcc54baea9837": {
+      "it": "Quiz interattivo dai tuoi rami, appunti e flashcard.",
+      "en": "Interactive quiz generated from your branches, notes and flashcards.",
+      "known": true,
+      "origins": [
+        "apps\\desktop-shared\\editor\\learn-ui-session.js"
+      ]
+    },
+    "mb5c33a349fec": {
+      "it": "✨ Proponi con AI",
+      "en": "✨ Propose with AI",
+      "known": true,
+      "origins": [
+        "apps\\desktop-shared\\editor\\learn-ui-session.js"
+      ]
+    },
+    "mf80bf663dc27": {
+      "it": "risposte registrate su questa mappa.",
+      "en": "answers recorded on this map.",
+      "known": true,
+      "origins": [
+        "apps\\desktop-shared\\editor\\learn-ui-session.js"
+      ]
+    },
+    "m0e75bd78d975": {
+      "it": "🎴 Flashcard",
+      "en": "🎴 Flashcards",
+      "known": true,
+      "origins": [
+        "apps\\desktop-shared\\editor\\learn-ui.js"
+      ]
+    },
+    "m6028533e66dc": {
+      "it": "🖼 Quiz Immagini",
+      "en": "🖼 Image Quiz",
+      "known": true,
+      "origins": [
+        "apps\\desktop-shared\\editor\\learn-ui.js"
+      ]
+    },
+    "m1ab779ede5c7": {
+      "it": "Modalità locale · 100% basata su rami, note e flashcard (senza inviare dati all’esterno).",
+      "en": "Local mode · 100% from your branches, notes and flashcards (no data leaves the device).",
+      "known": true,
+      "origins": [
+        "apps\\desktop-shared\\editor\\learn-ui.js"
+      ]
+    },
+    "mc12980175e4a": {
+      "it": "Altri strumenti (Anki, Scadenze, Percorso)",
+      "en": "More tools (Anki, Schedule, Path)",
+      "known": true,
+      "origins": [
+        "apps\\desktop-shared\\editor\\learn-ui.js"
+      ]
+    },
+    "m8afffd6e42ac": {
+      "it": "Funzioni complementari collegate ai tuoi rami reali.",
+      "en": "Companion views connected to your real branches.",
+      "known": true,
+      "origins": [
+        "apps\\desktop-shared\\editor\\learn-ui.js"
+      ]
+    },
+    "m162dee3e9900": {
+      "it": "Il mazzo è vuoto. Crea la tua prima flashcard, chiedi gratis a Google AI Mode o usa la tua API.",
+      "en": "Your deck is empty. Create a manual card, generate free with Google AI Mode, or use your API.",
+      "known": true,
+      "origins": [
+        "apps\\android\\editor\\study-interactions.js",
+        "apps\\desktop-shared\\editor\\study-interactions.js"
+      ]
+    },
+    "m5a24de85712f": {
+      "it": "✨ Crea flashcard con AI o Google · Archivio JSON",
+      "en": "✨ Create flashcards with AI or Google · JSON Archive",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m5434254a015c": {
+      "it": "Numero di flashcard",
+      "en": "Number of flashcards",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mb645c6b28be5": {
+      "it": "La tua AI · API",
+      "en": "Your AI · API",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m996ddaf6d757": {
+      "it": "Usa il tuo modello configurato in AI Settings.",
+      "en": "Uses your configured AI Settings provider.",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "md541c37112c0": {
+      "it": "↻ Aggiorna obsolete",
+      "en": "↻ Refresh outdated",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m09ade330dcf5": {
+      "it": "📋 Copia prompt",
+      "en": "📋 Copy prompt",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mf8766054d825": {
+      "it": "Incolla le flashcard (Domanda | Risposta o D:/R:)…",
+      "en": "Paste flashcards (Question | Answer or Q:/A:)…",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m4cb98086fcd4": {
+      "it": "✓ Importa",
+      "en": "✓ Import",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mc547a6e2024b": {
+      "it": "Archivio locale:",
+      "en": "Local deck:",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m46fef234ea07": {
+      "it": "↓ Esporta",
+      "en": "↓ Export",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mb28632ba9b56": {
+      "it": "↑ Importa",
+      "en": "↑ Import",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "ma91934fd97d3": {
+      "it": "Quantità",
+      "en": "Quantità",
+      "known": false,
+      "origins": [
+        "apps\\android\\native\\app\\src\\main\\assets\\app\\index.html"
+      ]
+    },
+    "m701dbbc49597": {
+      "it": "Incolla le flashcard (D | R o D:/R:)…",
+      "en": "Paste flashcards (Q | A or Q:/A:)…",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
     }
   },
   "aliases": {
@@ -59474,7 +60447,7 @@
     "Ramo:": "mb8a50d7f479c",
     "Branch:": "mb8a50d7f479c",
     "Solo ramo selezionato": "mc0fcfb55cb9a",
-    "Selected branch only": "mc0fcfb55cb9a",
+    "Selected branch only": "m71c7888cd554",
     "Mostra di nuovo tutta la mappa": "ma78012b9588d",
     "Show the whole map again": "ma78012b9588d",
     "Limita la vista al ramo selezionato, senza modificare la mappa": "md70c1ec7e726",
@@ -65922,7 +66895,7 @@
     "not reviewed yet": "m55897a687385",
     "Not studied": "m513380fa62f1",
     "Uncertain": "mce8c5e6f6e51",
-    "Confident": "m5c48854c18ad",
+    "Confident": "m13001081172d",
     "Ultimo stato": "m174bdb9251a1",
     "Last rating": "m174bdb9251a1",
     "Ripasso previsto": "mf3e51836b858",
@@ -68932,6 +69905,235 @@
     "Esporta audio (.wav / .mp3)": "m2f8221b1a883",
     "Export audio (.wav / .mp3)": "m2f8221b1a883",
     "Genera ed esporta audio": "m60bf6652e741",
-    "Generate & export audio": "m60bf6652e741"
+    "Generate & export audio": "m60bf6652e741",
+    "Attaccato": "m12bfaeb16ac8",
+    "Collega Google Drive…": "m4ebba3f268e3",
+    "Connect Google Drive…": "m4ebba3f268e3",
+    "Account Google nel browser": "ma1d74b1e729c",
+    "Google Account in browser": "ma1d74b1e729c",
+    "Google Drive collegato · Gestisci": "m3145592016bd",
+    "Google Drive connected · Manage": "m3145592016bd",
+    "Client secret OAuth mancante in questa build (vedi Dettagli)": "m0d7143d55c76",
+    "OAuth client secret missing in this build (see Details)": "m0d7143d55c76",
+    "Serve l’identificativo pubblico di una vera applicazione OAuth registrata dal produttore di Glauka. Non inserire password o token.": "m975f1a4275e8",
+    "A real public OAuth application ID registered by the Glauka publisher is required. Never enter passwords or tokens.": "m975f1a4275e8",
+    "Questa build di Glauka non include il Google Desktop OAuth Client Secret necessario per completare il collegamento con Google Drive. Puoi inserirlo qui sotto (Configurazione dell’editore) o aggiornare alla prossima release.": "ma357173d28ca",
+    "This build of Glauka is missing the Google Desktop OAuth Client Secret needed to complete Google Drive connection. Enter it under Publisher setup below or update to the next release.": "ma357173d28ca",
+    "Google: registra un client OAuth di tipo App desktop. Oltre a PKCE e redirect loopback locale, Google richiede Client ID e Client Secret.": "mbe03c9f18d31",
+    "Google: register a Desktop app OAuth client. In addition to PKCE and the local loopback redirect, Google requires both Client ID and Client Secret.": "mbe03c9f18d31",
+    "— Valori diversi —": "m3969897a58c0",
+    "— Mixed values —": "m3969897a58c0",
+    "Misto": "m4baee80b2440",
+    "Mixed": "m4baee80b2440",
+    "Rami gerarchici": "m3559f47701a3",
+    "Linee essenziali": "mced9b58ddf2f",
+    "Curve sottili": "mf2e8ce7bc000",
+    "Tratteggiati": "m56815d71296c",
+    "Onde leggere": "mae371a347657",
+    "Stacca i rami dal nodo centrale": "ma4c8a0d9bb0f",
+    "Distanza iniziale dal centro": "m1d0cbf657f90",
+    "14 px": "m4319b05bd0ba",
+    "Qui scegli il percorso dei collegamenti. Spessore e distacco valgono per tutte le modalità.": "m104da839cee5",
+    "Attached": "m12bfaeb16ac8",
+    "Branches & connections": "m079f3d321fb4",
+    "Scegli lo stile visivo dei collegamenti, il distacco dal nodo centrale e lo spessore.": "m77a679bdcd1e",
+    "Choose connector geometry, center node separation and line thickness.": "m77a679bdcd1e",
+    "Server spento": "m3a777b3c056e",
+    "Server off": "m3a777b3c056e",
+    "È tutto ok: VoiceStudio è un programma locale separato (facoltativo) per voci clonate offline su localhost:3900. Non è indispensabile per ascoltare le mappe.": "m45eba69aac1a",
+    "Everything is fine: VoiceStudio is a separate optional local app for offline cloned voices on localhost:3900. You do not need it to listen to maps.": "m45eba69aac1a",
+    "Ascolta con": "m20070686719e",
+    "Listen with": "m20070686719e",
+    "Voce HD (gratis)": "mabdb2add8006",
+    "HD Voice (free)": "mabdb2add8006",
+    "Neurale Offline": "m89037801697d",
+    "Offline Neural": "m89037801697d",
+    "Voce nativa migliore": "md3f018ef6a0a",
+    "Best native voice": "md3f018ef6a0a",
+    "Voce AI (API)": "mf55fde31c0d9",
+    "AI Voice (API)": "mf55fde31c0d9",
+    "⏳ Preparo…": "m53940d178e53",
+    "⏳ Loading…": "m53940d178e53",
+    "Modello neurale non ancora scaricato in Studio AI: uso la voce migliore disponibile.": "ma3c6f97a1ea5",
+    "Neural model not downloaded yet in AI Studio: using best available voice.": "ma3c6f97a1ea5",
+    "4 ore": "m4b53dc56df31",
+    "4 hrs": "m4b53dc56df31",
+    "1 giorno": "m7f265ef4a2ba",
+    "1 day": "m7f265ef4a2ba",
+    "giorni": "m9a6d779730fe",
+    "days": "m9a6d779730fe",
+    "Google AI Mode aperto: copia le righe generate e incollale qui sotto (prompt copiato negli appunti).": "mb0b965d5d198",
+    "Google AI Mode opened: copy generated lines and paste them below (prompt copied to clipboard).": "mb0b965d5d198",
+    "Crea flashcard manuali o AI, sfoglia il passato e ripassa con SM-2.": "m9e346084f959",
+    "Create manual or AI flashcards, browse past decks and review with SM-2.": "m9d72199586e6",
+    "en-US": "mbe02ed39e12d",
+    "Mappa corrente": "m53cb71e49cb8",
+    "Current map": "m53cb71e49cb8",
+    "flashcard mostrate su": "m872eef35c9d4",
+    "flashcards shown out of": "m872eef35c9d4",
+    "Nessuna flashcard corrisponde alla ricerca.": "mc3c32c8ddc2d",
+    "No flashcards match this search.": "mc3c32c8ddc2d",
+    "Non ci sono ancora flashcard salvate. Creane una qui o generala con AI!": "mdfa2d82f0d85",
+    "No saved flashcards yet. Create one right now or generate from a map!": "mdfa2d82f0d85",
+    "Mappa passata": "m2e30edf00ed8",
+    "Past map": "m2e30edf00ed8",
+    "Manuale": "mf2c7fbfe5d84",
+    "Manual": "mf2c7fbfe5d84",
+    "Nuova": "m02b9a6525449",
+    "New": "m02b9a6525449",
+    "Map closed": "m8c4fda67b992",
+    "▶ Studia": "m3aac66998a68",
+    "▶ Study": "m3aac66998a68",
+    "🎯 Nodo": "m4b7150190c62",
+    "🎯 Node": "m4b7150190c62",
+    "Elimina flashcard": "mb28ece5b44b1",
+    "Delete flashcard": "mb28ece5b44b1",
+    "Delete this flashcard and its review history?": "m16e69b200ff4",
+    "Mappa salvata": "m4601a6119186",
+    "Saved map": "m4601a6119186",
+    "Collegata a:": "m2ea6b39d62d1",
+    "Inserisci sia la domanda che la risposta.": "m06079a8766e7",
+    "Enter both the question and the answer.": "m06079a8766e7",
+    "Flashcard aggiornata": "m8b138eab8802",
+    "Flashcard updated": "m8b138eab8802",
+    "Flashcard salvata nel mazzo": "m4696a9c804c6",
+    "Flashcard saved to deck": "m4696a9c804c6",
+    "🎴 Flashcard · Studio & Ripasso": "maf0c001d1dfe",
+    "🎴 Flashcards · Study & Review": "maf0c001d1dfe",
+    "Mazzi SM-2 · creazione manuale o AI · archivio di tutte le mappe": "m347659584693",
+    "SM-2 decks · manual or AI creation · saved across every map": "m347659584693",
+    "Flashcard · Studio e Ripasso": "m23c929a0eb0c",
+    "Flashcards · Study & Review": "m23c929a0eb0c",
+    "🗂 Archivio & Passato": "ma50474f2f33a",
+    "🗂 Archive & Past": "ma50474f2f33a",
+    "✎ Modifica card": "m61450bdaf152",
+    "✎ Edit card": "m61450bdaf152",
+    "＋ Nuova card": "mb016893e82b1",
+    "＋ New card": "mb016893e82b1",
+    "＋ Crea la prima flashcard": "mca36fe7a41a4",
+    "＋ Create first flashcard": "mca36fe7a41a4",
+    "🔍 Gratis con Google AI Mode": "m65df79f3ec1d",
+    "🔍 Free with Google AI Mode": "m65df79f3ec1d",
+    "✨ Genera con API AI": "m5d35b8abfb9a",
+    "✨ Generate with AI API": "m5d35b8abfb9a",
+    "Sessione completata! Ottimo lavoro: fai una pausa o cambia filtro per ripassare altre carte.": "m085838cc224b",
+    "Session complete! Great work: take a break or change filter to review more cards.": "m085838cc224b",
+    "🤖 Genera con AI o Google AI Mode · Esporta / Importa archivio": "mc0247772e094",
+    "🤖 Generate with AI or Google AI Mode · Export / Import deck": "mc0247772e094",
+    "Genera gratis con Google (AI Mode)": "m062a7ca1df1d",
+    "Generate free with Google (AI Mode)": "m062a7ca1df1d",
+    "0 crediti API": "mbeece11bb0c0",
+    "0 API credits": "mbeece11bb0c0",
+    "1. Apri Google AI Mode con i concetti della tua mappa · 2. Copia le righe generate e incollale qui sotto.": "mf51f4168271c",
+    "1. Open Google AI Mode with your map concepts · 2. Copy the generated lines and paste them below.": "mf51f4168271c",
+    "🔍 Apri Google AI Mode con questa mappa": "m33200714f2dd",
+    "🔍 Open Google AI Mode for this map": "m33200714f2dd",
+    "📋 Copia solo il prompt": "m57548cb5ee4e",
+    "📋 Copy prompt only": "m57548cb5ee4e",
+    "Incolla qui le flashcard da Google AI Mode (es. Domanda | Risposta o D:/R:)…": "mf9b0261f3c73",
+    "Paste flashcards from Google AI Mode here (e.g. Question | Answer or Q:/A:)…": "mf9b0261f3c73",
+    "✓ Importa flashcard incollate nel mazzo": "md98947a74e2a",
+    "✓ Import pasted flashcards into deck": "md98947a74e2a",
+    "in archivio": "m9058fef74673",
+    "saved": "m9058fef74673",
+    "▶ Studia 10 scadenze": "mfb8143a1c9b4",
+    "▶ Study 10 due": "mfb8143a1c9b4",
+    "▶ Ripassa mazzo": "m1d24475b7f11",
+    "▶ Review deck": "m1d24475b7f11",
+    "＋ Nuova flashcard": "mf7eb22169fc3",
+    "＋ New flashcard": "mf7eb22169fc3",
+    "＋ Crea card": "mf47d3f1fe547",
+    "＋ Add card": "mf47d3f1fe547",
+    "Cerca domanda, risposta, mappa o ramo…": "mfe206f4e2dfa",
+    "Search question, answer, map or branch…": "mfe206f4e2dfa",
+    "＋ Aggiungi card": "mf47d3f1fe547",
+    "Modifica questa flashcard": "m9ccb60e7beff",
+    "Edit this flashcard": "m9ccb60e7beff",
+    "Nuova flashcard manuale (offline)": "m0f45c6a0924d",
+    "New manual flashcard (offline)": "m0f45c6a0924d",
+    "Domanda (Fronte)": "md2664216d1f3",
+    "Question (Front)": "md2664216d1f3",
+    "Es. Cosa collega la valvola mitrale?": "m4e228a3a31d5",
+    "E.g. What does the mitral valve connect?": "m4e228a3a31d5",
+    "Risposta (Retro)": "mf45ee8285c19",
+    "Answer (Back)": "mf45ee8285c19",
+    "Scrivi una risposta chiara e sintetica…": "m14dd65c1e606",
+    "Write a clear, concise answer…": "m14dd65c1e606",
+    "✓ Salva modifiche": "m18a854871af4",
+    "✓ Save changes": "m18a854871af4",
+    "✓ Save to deck": "m2d622833478f",
+    "✓ Salva e aggiungi un'altra": "mf829a1e8fd8b",
+    "✓ Save & add another": "mf829a1e8fd8b",
+    "Due / unseen": "m83ac80b41eb0",
+    "Tutte le flashcard salvate (incluse passate)": "mf3825ae67826",
+    "All saved flashcards (past & current)": "mf3825ae67826",
+    "Solo questa mappa": "m5e53b78b5ec0",
+    "Current map only": "m5e53b78b5ec0",
+    "Difficili (Non so / Incerto)": "mf303041af9a9",
+    "Difficult (Don’t know / Unsure)": "mf303041af9a9",
+    "Da aggiornare (mappa modificata)": "mc9834b845418",
+    "Need updating (map changed)": "mc9834b845418",
+    "Prompt copiato: incollalo in Google AI Mode o nel tuo assistente": "m6b948f76c8d8",
+    "Prompt copied: paste it into Google AI Mode or your assistant": "m6b948f76c8d8",
+    "Nessuna flashcard riconosciuta. Usa righe «Domanda | Risposta» o «D: … / R: …».": "me04b315d0b37",
+    "No flashcards recognized. Use 'Question | Answer' or 'Q: ... / A: ...' lines.": "me04b315d0b37",
+    "flashcard aggiunte al mazzo!": "m884a3709e64b",
+    "flashcards added to deck!": "m884a3709e64b",
+    ")?.value ||": "m034d8da2ad1c",
+    "Question | Answer": "mc6b57c539b5f",
+    "Q: ... / A: ...": "m449b20c6ec00",
+    "+ tr(": "m09261ff958de",
+    "Le flashcard restano salvate per ogni mappa e conservano tutta la cronologia di ripasso.": "m3b2fd01db92b",
+    "🎴 Studia flashcard in scadenza": "m5ce59cb6fbaf",
+    "🎴 Study due flashcards": "m5ce59cb6fbaf",
+    "Nasconde temporaneamente le etichette sulla mappa per ripeterle a memoria.": "m71220e34494f",
+    "Temporarily hides map labels so you can recall them from memory.": "m71220e34494f",
+    "Scegli l’ambito qui sopra e premi Nascondi concetti.": "m7d733bc8a19b",
+    "Pick a scope above and hide concepts.": "m7d733bc8a19b",
+    "Quiz interattivo dai tuoi rami, appunti e flashcard.": "mcc54baea9837",
+    "Interactive quiz generated from your branches, notes and flashcards.": "mcc54baea9837",
+    "✨ Proponi con AI": "mb5c33a349fec",
+    "✨ Propose with AI": "mb5c33a349fec",
+    "risposte registrate su questa mappa.": "mf80bf663dc27",
+    "answers recorded on this map.": "mf80bf663dc27",
+    "🎴 Flashcard": "m0e75bd78d975",
+    "🎴 Flashcards": "m0e75bd78d975",
+    "🖼 Quiz Immagini": "m6028533e66dc",
+    "🖼 Image Quiz": "m6028533e66dc",
+    "Modalità locale · 100% basata su rami, note e flashcard (senza inviare dati all’esterno).": "m1ab779ede5c7",
+    "Local mode · 100% from your branches, notes and flashcards (no data leaves the device).": "m1ab779ede5c7",
+    "Altri strumenti (Anki, Scadenze, Percorso)": "mc12980175e4a",
+    "More tools (Anki, Schedule, Path)": "mc12980175e4a",
+    "Funzioni complementari collegate ai tuoi rami reali.": "m8afffd6e42ac",
+    "Companion views connected to your real branches.": "m8afffd6e42ac",
+    "Il mazzo è vuoto. Crea la tua prima flashcard, chiedi gratis a Google AI Mode o usa la tua API.": "m162dee3e9900",
+    "Your deck is empty. Create a manual card, generate free with Google AI Mode, or use your API.": "m162dee3e9900",
+    "🗑 Delete": "mf69ac66dcd66",
+    "✨ Crea flashcard con AI o Google · Archivio JSON": "m5a24de85712f",
+    "✨ Create flashcards with AI or Google · JSON Archive": "m5a24de85712f",
+    "Numero di flashcard": "m5434254a015c",
+    "Number of flashcards": "m5434254a015c",
+    "La tua AI · API": "mb645c6b28be5",
+    "Your AI · API": "mb645c6b28be5",
+    "Diretta": "m002c7c68468b",
+    "Usa il tuo modello configurato in AI Settings.": "m996ddaf6d757",
+    "Uses your configured AI Settings provider.": "m996ddaf6d757",
+    "↻ Aggiorna obsolete": "md541c37112c0",
+    "↻ Refresh outdated": "md541c37112c0",
+    "📋 Copia prompt": "m09ade330dcf5",
+    "📋 Copy prompt": "m09ade330dcf5",
+    "Incolla le flashcard (Domanda | Risposta o D:/R:)…": "mf8766054d825",
+    "Paste flashcards (Question | Answer or Q:/A:)…": "mf8766054d825",
+    "✓ Importa": "m4cb98086fcd4",
+    "✓ Import": "m4cb98086fcd4",
+    "Archivio locale:": "mc547a6e2024b",
+    "Local deck:": "mc547a6e2024b",
+    "↓ Esporta": "m46fef234ea07",
+    "↓ Export": "m46fef234ea07",
+    "↑ Importa": "mb28632ba9b56",
+    "↑ Import": "mb28632ba9b56",
+    "Quantità": "ma91934fd97d3",
+    "Incolla le flashcard (D | R o D:/R:)…": "m701dbbc49597",
+    "Paste flashcards (Q | A or Q:/A:)…": "m701dbbc49597"
   }
 }

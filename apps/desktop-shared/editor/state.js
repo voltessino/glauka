@@ -5,6 +5,7 @@
      */
     // Desktop user preference. Explicit per-map overrides are kept in the project file.
     const nm68ClampGap=value=>Number.isFinite(+value)?Math.max(30,Math.min(220,+value)):150;
+    const nmClampRootBranchGap=value=>value!==undefined&&value!==null&&Number.isFinite(+value)?Math.round(Math.max(0,Math.min(48,+value))):14;
     const NM64_WRAP_PREF_KEY='nm64_default_wrap_chars';
     function nm64PreferredWrap(){
       try{const v=Number(localStorage.getItem(NM64_WRAP_PREF_KEY));
@@ -36,6 +37,7 @@
         this.balanceBias = 50; // 0 left, 50 balanced by subtree heights, 100 right
         this.compactness = 55; // compact initial spacing; saved documents keep their explicit value
         this.branchGapX=nm70PreferredGap(); // explicit user default or minimum gap for new maps
+        this.rootBranchGap = 14;
         this.strokeScale = 1;
         this.typographyPreset = 'uniform';
         this.typographyScale = 1;
@@ -202,6 +204,7 @@
           selectedImageId: this.selectedImageId,
           selectedRelationshipId: this.selectedRelationshipId,
           strokeScale: this.strokeScale,
+          rootBranchGap: nmClampRootBranchGap(this.rootBranchGap),
           balanceBias: this.balanceBias, compactness: this.compactness, branchGapX:this.branchGapX,
           typographyPreset: this.typographyPreset, typographyScale: this.typographyScale,
           branchStyle: this.branchStyle, defaultLabelWrapChars: this.defaultLabelWrapChars,wrapCustom:this.wrapCustom,
@@ -295,6 +298,7 @@
         this.selectedImageId = prev.selectedImageId;
         this.selectedRelationshipId = prev.selectedRelationshipId || null;
         if (prev.strokeScale !== undefined) this.strokeScale = prev.strokeScale;
+        if (prev.rootBranchGap !== undefined) this.rootBranchGap = nmClampRootBranchGap(prev.rootBranchGap);
         this.balanceBias=Number.isFinite(+prev.balanceBias)?Math.max(0,Math.min(100,+prev.balanceBias)):50;
         this.compactness=Number.isFinite(+prev.compactness)?Math.max(55,Math.min(145,+prev.compactness)):100;
         this.branchGapX=nm68ClampGap(prev.branchGapX);
@@ -318,6 +322,7 @@
         this.selectedImageId = next.selectedImageId;
         this.selectedRelationshipId = next.selectedRelationshipId || null;
         if (next.strokeScale !== undefined) this.strokeScale = next.strokeScale;
+        if (next.rootBranchGap !== undefined) this.rootBranchGap = nmClampRootBranchGap(next.rootBranchGap);
         this.balanceBias=Number.isFinite(+next.balanceBias)?Math.max(0,Math.min(100,+next.balanceBias)):50;
         this.compactness=Number.isFinite(+next.compactness)?Math.max(55,Math.min(145,+next.compactness)):100;
         this.branchGapX=nm68ClampGap(next.branchGapX);

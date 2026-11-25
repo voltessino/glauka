@@ -75,6 +75,7 @@
         s.images = MindMapStateMachine.cloneImages(original.images);
         s.relationships = MindMapStateMachine.cloneRelationships(original.relationships);
         s.thresholdY = original.thresholdY;
+        s.rootBranchGap = nmClampRootBranchGap(original.rootBranchGap);
         s.strokeScale = original.strokeScale;
         nmAndroidRestoreSpacing(s,original);
         s.activeThemeId = original.activeThemeId;

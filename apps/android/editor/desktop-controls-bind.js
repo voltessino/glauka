@@ -47,13 +47,19 @@
       // Compact layout telemetry; persist preference per desktop profile.
       const hud=document.querySelector('.hud-bottom-left'),minibtn=v6El('v6-show-layout');
       const setHudVisible=visible=>{
-        hud?.classList.toggle('hidden',!visible);minibtn?.classList.toggle('hidden',visible);
+        hud?.classList.toggle('hidden',!visible);
+        if(minibtn){
+          minibtn.classList.remove('hidden');
+          minibtn.classList.toggle('is-active',visible);
+          minibtn.setAttribute('aria-expanded',String(visible));
+          minibtn.setAttribute('aria-pressed',String(visible));
+        }
         try{localStorage.setItem('neuromap.hud.layout.visible.v6',visible?'1':'0');}catch(_){}
       };
       let visible=false;try{visible=localStorage.getItem('neuromap.hud.layout.visible.v6')==='1';}catch(_){}
       setHudVisible(visible);
       v6El('v6-hide-layout')?.addEventListener('click',()=>setHudVisible(false));
-      minibtn?.addEventListener('click',()=>setHudVisible(true));
+      minibtn?.addEventListener('click',()=>setHudVisible(hud?.classList.contains('hidden')??true));
       v6El('v6-toggle-layout')?.addEventListener('click',()=>{setHudVisible(hud.classList.contains('hidden'));this.hideMenus();});
       // Native Open has the original absolute filename, which the browser File
       // picker intentionally does not disclose. Ctrl+O uses these menu controls.

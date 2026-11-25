@@ -73,6 +73,7 @@
         s.relationships = MindMapStateMachine.cloneRelationships(original.relationships);
         s.thresholdY = original.thresholdY;
         s.balanceBias=original.balanceBias??50;s.compactness=original.compactness??100;
+        s.rootBranchGap = nmClampRootBranchGap(original.rootBranchGap);
         s.strokeScale = original.strokeScale;
         s.activeThemeId = original.activeThemeId;
         s.typographyPreset=original.typographyPreset; s.typographyScale=original.typographyScale;

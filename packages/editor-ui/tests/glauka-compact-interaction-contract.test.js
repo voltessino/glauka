@@ -28,17 +28,19 @@ test("image controls live outside style and clicking image does not open style",
  for(const name of ["#nm-knowledge-panel > .nm-kn-header","#nm-ai-studio > header","#nm-insert-panel > header"])
   assert.ok(css.includes(name),name);
 });
-test("context menu keeps dangerous or advanced commands under an opt-in disclosure",()=>{
+test("context menu exposes quick bar, editbar, and open 2-col sections cleanly",()=>{
  const source=read("apps/desktop-shared/editor/context-menu-refresh.js");
- const css=read("apps/desktop-shared/editor/editor.css");
+ const css=read("packages/editor-ui/workspace-layout.css");
  assert.match(source,/function compactGroup\(group,kind\)/);
- assert.match(source,/group\.append\(primary,more\)/);
- assert.match(source,/more\.open=false/);
- assert.match(source,/Altre azioni sul ramo/);
- assert.match(source,/Altre azioni sull’immagine/);
+ assert.match(source,/nm-context-primary-node/);
+ assert.match(source,/nm-context-editbar-node/);
+ assert.match(source,/nm-context-workspace-grid/);
+ assert.match(source,/groupBox\.open=true/);
+ assert.doesNotMatch(source,/more\.open=false/);
  assert.match(source,/ctx-add-child/);
  assert.match(source,/ctx-img-copy/);
- assert.match(css,/#context-menu \.nm-context-other > summary:focus-visible/);
+ assert.match(css,/\.nm-context-refined \.nm-context-editbar/);
+ assert.match(css,/\.nm-context-refined \.nm-context-grid/);
 });
 
 test("image PNG conversion works for native PNG, JPEG, unavailable fetch and invalid dimensions",async()=>{

@@ -14,6 +14,7 @@
           this.layout.balanceBias=this.state.balanceBias??50;
           this.layout.compactness=this.state.compactness??100;
           this.layout.branchGapX=nm68ClampGap(this.state.branchGapX);
+          this.layout.rootBranchGap=nmClampRootBranchGap(this.state.rootBranchGap);
           this.splitMetrics = this.layout.computeLayout(this.state.root, this.state.thresholdY, this.state.images);
         }
         this.updateStatus(); this.positionEditor(); this.updateImageControls(); this.requestRender();

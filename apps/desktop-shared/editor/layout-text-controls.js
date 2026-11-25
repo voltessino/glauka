@@ -23,16 +23,36 @@ NeuroMapApp.prototype.nm68SetTextIndent = function(value){
 };
 NeuroMapApp.prototype.nm68ToggleBullets = function(){
   this.closeEditor(true);
+  const toggleNodes = (nodes) => {
+    const allBulleted=nodes.every(n=>String(n.text||'').split(/\r?\n/).every(l=>!l.trim()||/^\s*[•●]\s/.test(l)));
+    for(const node of nodes){
+      const text=String(node.text||'');
+      const lines=text.split(/\r?\n/);
+      if(allBulleted)node.text=lines.map(l=>l.replace(/^\s*[•●]\s/, '')).join('\n');
+      else node.text=lines.map(l=>l.trim()?(/^[ \t]*[•●]\s/.test(l)?l:'• '+l):l).join('\n');
+    }
+    return allBulleted;
+  };
+  if(typeof this.nm70BatchStyle === 'function'){
+    let sampleNodes = [];
+    if(typeof this.nm70ScopeAllNodes === 'function') sampleNodes = this.nm70ScopeAllNodes();
+    else if(typeof this.nm70ScopeNodes === 'function') sampleNodes = this.nm70ScopeNodes();
+    if(!sampleNodes.length)return;
+    const removeBullets=sampleNodes.every(n=>String(n.text||'').split(/\r?\n/).every(l=>!l.trim()||/^\s*[•●]\s/.test(l)));
+    this.nm70BatchStyle('font-style', n => {
+      const text=String(n.text||'');
+      const lines=text.split(/\r?\n/);
+      n.text=removeBullets
+        ? lines.map(l=>l.replace(/^\s*[•●]\s/, '')).join('\n')
+        : lines.map(l=>l.trim()?(/^[ \t]*[•●]\s/.test(l)?l:'• '+l):l).join('\n');
+    });
+    this.showToast(removeBullets?'Elenco puntato rimosso':'Elenco puntato applicato','TESTO');
+    return;
+  }
   const nodes=this.nm68SelectedNodes();
   if(!nodes.length)return;
-  const allBulleted=nodes.every(n=>String(n.text||'').split(/\r?\n/).every(l=>!l.trim()||/^\s*[•●]\s/.test(l)));
   this.state.pushHistory();
-  for(const node of nodes){
-    const text=String(node.text||'');
-    const lines=text.split(/\r?\n/);
-    if(allBulleted)node.text=lines.map(l=>l.replace(/^\s*[•●]\s/, '')).join('\n');
-    else node.text=lines.map(l=>l.trim()?(/^[ \t]*[•●]\s/.test(l)?l:'• '+l):l).join('\n');
-  }
+  const allBulleted=toggleNodes(nodes);
   this.markChanged();this.showToast(allBulleted?'Elenco puntato rimosso':'Elenco puntato applicato','TESTO');
 };
 NeuroMapApp.prototype.nm68SetBranchGap = function(value){

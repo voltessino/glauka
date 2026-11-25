@@ -109,6 +109,12 @@
      tr('Mostrati i primi 80 risultati.','Showing the first 80 results.')));
    };
    drawList();
+   if(srs?.due){
+    button(tr('🎴 Studia flashcard in scadenza','🎴 Study due flashcards'),()=>{
+     const b=document.getElementById('btn-flashcards');
+     if(b)b.click();else app.openFlashcards?.();
+    }).className='v4-primary';
+   }
    button(tr('Evidenzia errori sulla mappa','Show mistakes on map'),()=>{
     app.renderer._nmAdaptiveBadges=new Map(report.nodes.filter(n=>
       n.mistakes>0).map(n=>[n.nodeId,n]));

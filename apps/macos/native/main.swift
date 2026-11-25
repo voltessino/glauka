@@ -551,6 +551,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, 
         }
         decisionHandler(.cancel)
     }
+    func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
+        guard let url = navigationAction.request.url,
+              (url.scheme == "https" || url.scheme == "http"),
+              let host = url.host, !host.isEmpty, host != "127.0.0.1", host != "localhost",
+              url.user == nil, url.password == nil else {
+            return nil
+        }
+        NSWorkspace.shared.open(url)
+        return nil
+    }
     // The JS Save / Discard / Cancel dialog is still authoritative whenever
     // WebKit responds. If WebKit hangs, never terminate without a native choice.
     private func finishClose(allowed: Bool, attempt: Int) {
@@ -679,6 +689,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, 
         let alert = NSAlert(); alert.messageText = message; alert.addButton(withTitle: "OK")
         alert.addButton(withTitle: GlaukaNativeLanguage.text("cancel"))
         completionHandler(alert.runModal() == .alertFirstButtonReturn)
+    }
+    func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
+        let alert = NSAlert(); alert.messageText = prompt
+        alert.addButton(withTitle: "OK")
+        alert.addButton(withTitle: GlaukaNativeLanguage.text("cancel"))
+        let input = NSTextField(frame: NSRect(x: 0, y: 0, width: 280, height: 24))
+        input.stringValue = defaultText ?? ""
+        alert.accessoryView = input
+        completionHandler(alert.runModal() == .alertFirstButtonReturn ? input.stringValue : nil)
     }
     func windowWillClose(_ notification: Notification) { closeAllowed = true; NSApp.terminate(nil) }
     func applicationWillTerminate(_ notification: Notification) { if backend?.isRunning == true { backend?.terminate() } }

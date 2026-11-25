@@ -98,6 +98,24 @@
 #gl-settings-center #nm-map-refinements select{width:min(240px,100%);max-width:100%;min-height:36px;background:var(--nm-skin-canvas,#fff);color:inherit;border-color:var(--nm-skin-stroke,#c5ceda)}
 #gl-settings-center #nm-map-refinements input[type="range"]{width:168px;min-width:160px}
 #gl-settings-center #nm-map-refinements p{margin:0;font:400 13px/1.45 system-ui;color:var(--nm-skin-muted,#625e70)}
+#gl-settings-center #gl-settings-branches{margin:28px 0 0;display:flex;flex-direction:column;gap:12px}
+#gl-settings-center #gl-settings-branches h4{margin:0;font:700 18px/1.25 system-ui;color:var(--nm-skin-ink,#16243d)}
+#gl-settings-center #gl-settings-branches .gl-branches-subtitle{margin:0 0 4px;font:400 13px/1.45 system-ui;color:var(--nm-skin-muted,#625e70)}
+#gl-settings-center #gl-branches-control{display:flex;flex-direction:column;gap:10px}
+#gl-settings-center #gl-branches-control #nm54-branch-picker{margin:0}
+#gl-settings-center #gl-branches-control #nm54-branch-picker>summary{background:var(--nm-skin-surface,#fff)!important;color:var(--nm-skin-ink,#16243d)!important;border:1px solid var(--nm-skin-stroke,#c5ceda)!important;min-height:42px}
+#gl-settings-center #gl-branches-control #nm54-style-grid{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(146px,1fr))!important;gap:9px!important;max-height:none!important;overflow:visible!important;padding:10px!important;background:var(--nm-skin-top,#f4f5f9)!important;border:1px solid var(--nm-skin-stroke,#c5ceda)!important;box-shadow:none!important;border-radius:12px}
+#gl-settings-center #gl-branches-control #nm54-style-grid .nm54-style{min-height:84px!important;padding:8px 6px!important;border-radius:11px!important;background:var(--nm-skin-surface,#fff)!important;color:var(--nm-skin-ink,#16243d)!important;border:1px solid var(--nm-skin-stroke,#c5ceda)!important;gap:6px}
+#gl-settings-center #gl-branches-control #nm54-style-grid .nm54-style .nm54-style-caption{color:var(--nm-skin-ink,#16243d)!important}
+#gl-settings-center #gl-branches-control #nm54-style-grid .nm54-style:hover{border-color:var(--nm-theme-action,#6441df)!important;background:color-mix(in srgb,var(--nm-theme-action,#6441df) 9%,var(--nm-skin-surface,#fff))!important}
+#gl-settings-center #gl-branches-control #nm54-style-grid .nm54-style[aria-pressed="true"]{border-color:var(--nm-theme-action,#6441df)!important;background:color-mix(in srgb,var(--nm-theme-action,#6441df) 16%,var(--nm-skin-surface,#fff))!important;box-shadow:inset 0 0 0 1.5px var(--nm-theme-action,#6441df)!important;color:var(--nm-skin-ink,#16243d)!important}
+#gl-settings-center #gl-branches-control #nm54-style-grid .nm54-style[aria-pressed="true"] .nm54-style-caption{color:var(--nm-skin-ink,#16243d)!important;font-weight:700!important}
+#gl-settings-center #gl-branches-control #nm54-style-grid .nm54-preview{width:128px!important;max-width:100%!important;height:46px!important}
+#gl-settings-center #gl-branches-control .nm54-row{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:34px;margin-top:4px;font:600 13.5px/1.3 system-ui;color:var(--nm-skin-ink,#16243d)}
+#gl-settings-center #gl-branches-control .nm54-row output{font:650 13px/1 ui-monospace,monospace;color:var(--nm-skin-ink,#16243d)}
+#gl-settings-center #gl-branches-control input[type="range"]{width:100%;accent-color:var(--nm-theme-action,#6441df)}
+#gl-settings-center #gl-branches-control .gl-root-gap-toggle-row input[type="checkbox"]{width:20px;height:20px;accent-color:var(--nm-theme-action,#6441df);cursor:pointer}
+#gl-settings-center #gl-branches-control .nm54-hint{margin:2px 0;font:400 12.5px/1.45 system-ui;color:var(--nm-skin-muted,#625e70)}
 #gl-settings-back{display:none}
 #gl-settings-quick{min-width:32px;min-height:32px}
 body.glauka-mobile-app #gl-settings-quick,
@@ -115,7 +133,7 @@ body.glauka-mobile-app #gl-settings-back{display:inline-flex;align-items:center;
 `;
   const categories = [
     ["general", "Generali", "General", "lingua language salvataggio autosave dispositivo device home benvenuto comandi"],
-    ["appearance", "Aspetto", "Appearance", "tema theme contrasto contrast dimensione size accento accent spaziatura spacing pannelli animazioni sfondo background trama texture tipografia font"],
+    ["appearance", "Aspetto", "Appearance", "tema theme contrasto contrast dimensione size accento accent spaziatura spacing pannelli animazioni sfondo background trama texture tipografia font rami collegamenti spessore distacco nodo centrale branch branches stroke gap"],
     ["navigation", "Navigazione e zoom", "Navigation and zoom", "zoom velocità speed minimappa minimap cursore ingrandimento modifica autofocus viste zen focus schermo"],
     ["editor", "Editor e mappe", "Editor and maps", "compattezza spaziatura spacing animazioni rami comparsa durata prestazioni disegno importazione suddivisione nodi wrap a capo libreria creativa qualità"],
     ["study", "Studio e strumenti", "Study and tools", "studio flashcard ripasso quiz ocr pdf scansioni appunti immagini hotspot dashboard riepilogo"],
@@ -1059,11 +1077,34 @@ body.glauka-mobile-app #gl-settings-back{display:inline-flex;align-items:center;
       park.hidden = true;
       document.body.append(park);
     }
-    for (const id of ["nm-ui-skin-settings", "nm-orbit-desktop-settings", "nm-motion-settings", "gl-edit-interaction-preferences"]) {
+    for (const id of ["nm-ui-skin-settings", "nm-orbit-desktop-settings", "nm-motion-settings", "gl-edit-interaction-preferences", "gl-branches-control"]) {
       const section = document.getElementById(id);
       if (section && section.parentElement !== park) park.append(section);
     }
     return park;
+  }
+  function branchesHost() {
+    let host = document.getElementById("gl-settings-branches");
+    if (!host) {
+      host = document.createElement("section");
+      host.id = "gl-settings-branches";
+      host.className = "nm6-skiptranslate";
+      const heading = document.createElement("h4");
+      const sub = document.createElement("p");
+      sub.className = "gl-branches-subtitle";
+      const labelBranches = () => {
+        heading.textContent = tr("Rami e collegamenti", "Branches & connections");
+        sub.textContent = tr(
+          "Scegli lo stile visivo dei collegamenti, il distacco dal nodo centrale e lo spessore.",
+          "Choose connector geometry, center node separation and line thickness.",
+        );
+      };
+      labelBranches();
+      root.NeuroMapWorkspaceLocale?.watch(labelBranches);
+      host.append(heading, sub);
+    }
+    if (!host.isConnected) legacyPark().append(host);
+    return host;
   }
   function formatHost() {
     if (globalThis.GlaukaMobile || document.querySelector(".glauka-map-background")) return null;
@@ -1128,8 +1169,16 @@ body.glauka-mobile-app #gl-settings-back{display:inline-flex;align-items:center;
     apply();
   }
   function placeMapTools() {
-    if (globalThis.GlaukaMobile || document.querySelector(".glauka-map-background")) return;
     legacyPark();
+    const branchesBox = branchesHost();
+    const branchesControl = document.getElementById("gl-branches-control") || document.getElementById("nm54-style-grid")?.closest(".nm54-control");
+    if (branchesControl && branchesBox) {
+      branchesControl.id = branchesControl.id || "gl-branches-control";
+      if (branchesControl.parentElement !== branchesBox) branchesBox.append(branchesControl);
+      const picker = document.getElementById("nm54-branch-picker");
+      if (picker) picker.open = true;
+    }
+    if (globalThis.GlaukaMobile || document.querySelector(".glauka-map-background")) return;
     const host = formatHost();
     if (!host) return;
     const sidebar = document.getElementById("inspector-sidebar");
@@ -1150,11 +1199,13 @@ body.glauka-mobile-app #gl-settings-back{display:inline-flex;align-items:center;
   }
   function render(id) {
     current = id;
+    const parkedBranches = document.getElementById("gl-settings-branches");
+    if (parkedBranches) legacyPark().append(parkedBranches);
     if (!globalThis.GlaukaMobile && !document.querySelector(".glauka-map-background")) {
       const parked = document.getElementById("gl-format-map-canvas");
       if (parked) legacyPark().append(parked);
-      placeMapTools();
     }
+    placeMapTools();
     const body = document.getElementById("gl-settings-body");
     const nav = document.getElementById("gl-settings-nav");
     const headTitle = document.getElementById("gl-settings-section-title");
@@ -1170,9 +1221,13 @@ body.glauka-mobile-app #gl-settings-back{display:inline-flex;align-items:center;
     }
     const page = built[found[0]];
     body.append(page);
-    if (!globalThis.GlaukaMobile && !document.querySelector(".glauka-map-background") && found[0] === "appearance") {
-      const host = document.getElementById("gl-format-map-canvas");
-      if (host) page.append(host);
+    if (found[0] === "appearance") {
+      const branchesHostEl = document.getElementById("gl-settings-branches");
+      if (branchesHostEl) page.append(branchesHostEl);
+      if (!globalThis.GlaukaMobile && !document.querySelector(".glauka-map-background")) {
+        const host = document.getElementById("gl-format-map-canvas");
+        if (host) page.append(host);
+      }
     }
     const query = (document.getElementById("gl-settings-search")?.value || "").trim().toLocaleLowerCase();
     if (query) {

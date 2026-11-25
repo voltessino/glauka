@@ -105,15 +105,17 @@
   border:1px solid var(--nm-ui-line,var(--nm-skin-stroke,#d7deed));background:var(--nm-ui-top,var(--nm-skin-top,#f4f6fc))}
  #nm-learn-panel .nm-learn-stat strong{font-size:16px;line-height:1.15;color:var(--nm-theme-action,#5b3fd0)}
  #nm-learn-panel .nm-learn-stat span{font-size:11px;color:var(--nm-ui-muted,var(--nm-skin-muted,#5c6680))}
- #nm-learn-panel .nm-learn-toolbox{display:grid;gap:8px;padding:11px;border-radius:12px;margin-top:4px;
+ #nm-learn-panel .nm-learn-toolbox{display:grid;gap:8px;padding:9px 11px;border-radius:12px;margin-top:4px;
   border:1px solid var(--nm-ui-line,var(--nm-skin-stroke,#d7deed));
   background:var(--nm-ui-top,var(--nm-skin-top,#f4f6fc))}
- #nm-learn-panel .nm-learn-toolbox>summary{cursor:pointer;font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:space-between;list-style:none}
+ #nm-learn-panel .nm-learn-toolbox>summary{cursor:pointer;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:space-between;list-style:none;color:var(--nm-ui-muted,var(--nm-skin-muted,#5c6680))}
+ #nm-learn-panel .nm-learn-toolbox>summary::after{content:'▾';font-size:11px;opacity:.75;transition:transform .16s ease}
+ #nm-learn-panel .nm-learn-toolbox[open]>summary::after{transform:rotate(180deg)}
  #nm-learn-panel .nm-learn-toolbox>summary::-webkit-details-marker{display:none}
  #nm-learn-panel .nm-learn-toolbox-note{font-size:11.5px;color:var(--nm-ui-muted,var(--nm-skin-muted,#5c6680));line-height:1.4}
  #nm-learn-panel .nm-learn-toolbox-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
  #nm-learn-panel .nm-learn-tool-card{display:flex!important;align-items:flex-start!important;gap:8px;text-align:left!important;
-  padding:9px!important;min-height:54px!important;border-radius:10px!important;
+  padding:8px!important;min-height:48px!important;border-radius:10px!important;
   background:var(--nm-ui-surface,var(--nm-skin-surface,#ffffff))!important;
   border:1px solid var(--nm-ui-line,var(--nm-skin-stroke,#d7deed))!important}
  #nm-learn-panel .nm-learn-tool-card:hover{border-color:var(--nm-theme-focus,#7c5ce7)!important}
@@ -123,6 +125,19 @@
  #nm-learn-panel .nm-learn-tool-copy{display:grid;gap:2px;min-width:0}
  #nm-learn-panel .nm-learn-tool-copy strong{font-size:12px;font-weight:700;line-height:1.25}
  #nm-learn-panel .nm-learn-tool-copy small{font-size:10.5px;line-height:1.3;color:var(--nm-ui-muted,var(--nm-skin-muted,#5c6680))}
+ #nm-learn-panel .nm-learn-quickbar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+ #nm-learn-panel .nm-learn-quickpill{display:inline-flex!important;align-items:center;justify-content:center;gap:6px;
+  min-height:36px!important;padding:6px 9px!important;border-radius:10px!important;font-size:12px!important;font-weight:700!important;
+  border:1px solid color-mix(in srgb,var(--nm-theme-action,#5b3fd0) 32%,var(--nm-skin-stroke,#d7deed))!important;
+  background:color-mix(in srgb,var(--nm-theme-action,#5b3fd0) 9%,var(--nm-skin-top,#f4f6fc))!important;
+  color:var(--nm-skin-ink,#141926)!important}
+ #nm-learn-panel .nm-learn-quickpill:hover{border-color:var(--nm-theme-action,#5b3fd0)!important}
+ #nm-learn-panel .nm-learn-badge{padding:1px 6px;border-radius:999px;font-size:10.5px;font-weight:750;
+  background:var(--nm-theme-action,#5b3fd0);color:#fff}
+ #nm-learn-panel .nm-learn-scope{grid-template-columns:auto minmax(0,1fr);align-items:center;gap:8px}
+ #nm-learn-panel .nm-learn-row button.v4-primary{border-color:var(--nm-theme-action,#5b3fd0)!important;
+  background:var(--nm-theme-action,#5b3fd0)!important;color:#fff!important;font-weight:700!important}
+ #nm-learn-panel .nm-learn-offline-note{font-size:11px;line-height:1.4;opacity:.88;margin-top:2px}
  @media(max-width:420px){
   #nm-learn-panel{padding:12px;gap:10px}
   #nm-learn-panel .nm-learn-tabs button{font-size:11px}
@@ -198,37 +213,60 @@
   const plannerBtn=el('button','',tr('Esame','Exam'));
   recallBtn.type=quizBtn.type=radarBtn.type=plannerBtn.type='button';
   tabs.append(recallBtn,quizBtn,radarBtn,plannerBtn);
+  const quickBar=el('div','nm-learn-quickbar');
+  const flashQuickBtn=el('button','nm-learn-quickpill');flashQuickBtn.type='button';flashQuickBtn.id='nm-learn-flash-btn';
+  const flashQuickText=el('span','',tr('🎴 Flashcard','🎴 Flashcards'));
+  const flashQuickBadge=el('span','nm-learn-badge','0');
+  flashQuickBtn.append(flashQuickText,flashQuickBadge);
+  flashQuickBtn.addEventListener('click',()=>{
+   const b=document.getElementById('btn-flashcards');
+   if(b)b.click();else app.openFlashcards?.();
+  });
+  const visualQuickBtn=el('button','nm-learn-quickpill',tr('🖼 Quiz Immagini','🖼 Image Quiz'));visualQuickBtn.type='button';visualQuickBtn.id='nm-learn-visual-btn';
+  visualQuickBtn.addEventListener('click',()=>{
+   if(app._nmVisualStudy?.open)app._nmVisualStudy.open();else document.getElementById('nm-tool-visual-study')?.click();
+  });
+  quickBar.append(flashQuickBtn,visualQuickBtn);
   const commands=el('div','nm-learn-commands nm-panel-fixed');
   const scopeLabel=el('label','nm-learn-muted nm-learn-field nm-learn-scope');
-  const scopeCaption=el('span','',tr('Ambito dello studio','Study scope'));
+  const scopeCaption=el('span','',tr('Ambito','Scope'));
   const scope=el('select');scope.setAttribute('aria-label',tr('Ambito','Scope'));
   for(const [key,it,en] of [['all','Mappa intera','Entire map'],['selected','Ramo selezionato','Selected branch'],['node','Nodo selezionato','Selected node']]){
    const opt=el('option','',tr(it,en));opt.value=key;scope.append(opt);
   }
   scopeLabel.append(scopeCaption,scope);
-  commands.append(tabs,scopeLabel);
+  commands.append(quickBar,tabs,scopeLabel);
+  function refreshQuickbar(){
+   const cards=Array.isArray(app.studyCards)?app.studyCards:[];
+   const now=Date.now();
+   const due=cards.filter(c=>c&&app.v5Staleness?.(c)==='fresh'&&((c.sr?.dueAt||0)<=now)).length;
+   flashQuickBadge.textContent=due>0?String(due):String(cards.length);
+   flashQuickText.textContent=tr('🎴 Flashcard','🎴 Flashcards');
+   visualQuickBtn.textContent=tr('🖼 Quiz Immagini','🖼 Image Quiz');
+  }
   function translateShell(){
    recallBtn.textContent=tr('Ripeti a memoria','Recall concepts');radarBtn.textContent=tr('Da ripassare','Review mistakes');title.textContent=tr('Studia la mappa','Study the map');
    plannerBtn.textContent=tr('Esame','Exam');
-   scopeCaption.textContent=tr('Ambito dello studio','Study scope');
+   scopeCaption.textContent=tr('Ambito','Scope');
    scope.setAttribute('aria-label',tr('Ambito','Scope'));
    scope.children[0].textContent=tr('Mappa intera','Entire map');
    scope.children[1].textContent=tr('Ramo selezionato','Selected branch');
    scope.children[2].textContent=tr('Nodo selezionato','Selected node');
    close.title=tr('Chiudi','Close');close.setAttribute('aria-label',close.title);
+   refreshQuickbar();
    const question=body.querySelector('.nm-learn-question'),item=session.quiz?.items[session.quiz.index];
    if(question&&item)question.textContent=questionText(item);
   }
   root.NeuroMapWorkspaceLocale?.watch(translateShell);
-  const offline=el('p','nm-learn-muted');
-  const labelOffline=()=>offline.textContent=tr('Ripasso offline · Senza AI. Le domande si basano sui tuoi rami e appunti: controlla le risposte nelle fonti. Non è una verifica automatica dei contenuti.','Offline review · No AI. Questions use your branches and notes: check answers against your sources. This does not automatically verify the content.');
+  const offline=el('p','nm-learn-muted nm-learn-offline-note');
+  const labelOffline=()=>offline.textContent=tr('Modalità locale · 100% basata su rami, note e flashcard (senza inviare dati all’esterno).','Local mode · 100% from your branches, notes and flashcards (no data leaves the device).');
   labelOffline();root.NeuroMapWorkspaceLocale?.watch(labelOffline);
   const intro=el('p','nm-learn-muted'),status=el('p','nm-learn-summary');
   status.setAttribute('aria-live','polite');
   const controls=el('div','nm-learn-row'),body=el('div','nm-learn-quiz');
-  const toolbox=el('details','nm-learn-toolbox');toolbox.open=true;
-  const toolboxTitle=el('summary','',tr('Strumenti di studio collegati','Connected study tools'));
-  const toolboxNote=el('p','nm-learn-toolbox-note',tr('Flashcard, punti sulle immagini e lettura sequenziale lavorano sui tuoi rami e aggiornano Da ripassare.','Flashcards, image hotspots, and guided reading work on your real branches and feed Review mistakes.'));
+  const toolbox=el('details','nm-learn-toolbox');toolbox.open=false;
+  const toolboxTitle=el('summary','',tr('Altri strumenti (Anki, Scadenze, Percorso)','More tools (Anki, Schedule, Path)'));
+  const toolboxNote=el('p','nm-learn-toolbox-note',tr('Funzioni complementari collegate ai tuoi rami reali.','Companion views connected to your real branches.'));
   const toolboxGrid=el('div','nm-learn-toolbox-grid');
   function toolIconSvg(paths){
    if(typeof document.createElementNS!=='function')return null;
@@ -240,9 +278,7 @@
    return s;
   }
   const connectedTools=[
-   {id:'flash',paths:['M3 4h14v15H3zM7 1h14v15','M8 9a2 2 0 0 1 4 0c0 2-2 1-2 3'],it:'Domande e risposte',en:'Flashcards',hintIt:'Schede SM-2',hintEn:'SM-2 deck',run:()=>document.getElementById('btn-flashcards')?.click()},
-   {id:'visual',paths:['M3 3h18v18H3z','M4 17l5-5 4 4 3-3 4 4'],it:'Ripassa su immagini',en:'Study with images',hintIt:'Quiz visivo hotspot',hintEn:'Hotspot quiz',run:()=>{if(app._nmVisualStudy?.open)app._nmVisualStudy.open();else document.getElementById('nm-tool-visual-study')?.click()}},
-   {id:'schedule',paths:['M3 5h18v16H3zM3 10h18M7 2v6M17 2v6'],it:'Scadenze dei ripassi',en:'Review schedule',hintIt:'Radar completo SM-2',hintEn:'Full SM-2 radar',run:()=>app._nmKnowledge?.open?.('radar',{fromStudy:true})},
+   {id:'schedule',paths:['M3 5h18v16H3zM3 10h18M7 2v6M17 2v6'],it:'Scadenze complete',en:'Full schedule',hintIt:'Radar SM-2 dettagliato',hintEn:'Detailed SM-2 radar',run:()=>app._nmKnowledge?.open?.('radar',{fromStudy:true})},
    {id:'journey',paths:['M4 4h7v6H4zM13 14h7v6h-7z','M11 7h5v7'],it:'Leggi passo passo',en:'Read step by step',hintIt:'Percorso guidato',hintEn:'Guided reading flow',run:()=>app._nmKnowledge?.open?.('journey',{fromStudy:true})},
    {id:'compare',paths:['M2 4h8v16H2zM14 4h8v16h-8z'],it:'Confronta due rami',en:'Compare branches',hintIt:'Analisi affiancata',hintEn:'Side-by-side diff',run:()=>document.getElementById('nm616-compare-open')?.click()},
    {id:'anki',paths:['M5 2h14v20H5z','M8 8h8M8 15h8'],it:'Scambia con Anki',en:'Exchange with Anki',hintIt:'Import / export TSV',hintEn:'TSV deck swap',run:()=>document.getElementById('nm-tool-anki')?.click()}
@@ -261,15 +297,15 @@
   }
   toolbox.append(toolboxTitle,toolboxNote,toolboxGrid);
   const refreshToolboxText=()=>{
-   toolboxTitle.textContent=tr('Strumenti di studio collegati','Connected study tools');
-   toolboxNote.textContent=tr('Flashcard, punti sulle immagini e lettura sequenziale lavorano sui tuoi rami e aggiornano Da ripassare.','Flashcards, image hotspots, and guided reading work on your real branches and feed Review mistakes.');
+   toolboxTitle.textContent=tr('Altri strumenti (Anki, Scadenze, Percorso)','More tools (Anki, Schedule, Path)');
+   toolboxNote.textContent=tr('Funzioni complementari collegate ai tuoi rami reali.','Companion views connected to your real branches.');
    for(const row of toolboxGrid._items){
     row.ttl.textContent=tr(row.item.it,row.item.en);
     row.sub.textContent=tr(row.item.hintIt,row.item.hintEn);
    }
   };
   root.NeuroMapWorkspaceLocale?.watch(refreshToolboxText);
-  panel.append(head,commands,offline,intro,controls,status,body,toolbox);
+  panel.append(head,commands,intro,controls,status,body,offline,toolbox);
   document.body.append(panel);
   const session={visible:false,mode:'recall',mask:null,quiz:null,stop:()=>{
    resetRecallPointer();

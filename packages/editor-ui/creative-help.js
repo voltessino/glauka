@@ -156,7 +156,7 @@
         return;
       }
       const el = target instanceof Element ? target.closest("[title]") : null;
-      if (!el || !el.getAttribute("title").trim()) {
+      if (!el || !el.getAttribute("title").trim() || el.getAttribute("aria-expanded") === "true") {
         if (!owner?.contains(target)) hide();
         return;
       }

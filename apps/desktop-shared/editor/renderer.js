@@ -227,10 +227,14 @@
         const u = totalSiblings > 1 ? siblingIndex / (totalSiblings - 1) : 0.5;
         const fanFactor = u - 0.5;
 
+        const rootGap = this.state.rootBranchGap !== undefined && this.state.rootBranchGap !== null && Number.isFinite(+this.state.rootBranchGap)
+          ? Math.max(0, Math.min(48, +this.state.rootBranchGap)) : 14;
         let startX, startY;
         if (isRootParent) {
-          startX = pLayout.x + dir * (pLayout.width * 0.36);
-          startY = pLayout.y + fanFactor * Math.min(pLayout.height * 0.42, 22);
+          startX = rootGap > 0
+            ? pLayout.x + dir * (pLayout.width * 0.5 + rootGap)
+            : pLayout.x + dir * (pLayout.width * 0.36);
+          startY = pLayout.y + fanFactor * Math.min(pLayout.height * (rootGap > 0 ? 0.36 : 0.42), rootGap > 0 ? 18 : 22);
         } else {
           startX = pLayout.attachOutX;
           startY = pLayout.attachOutY;
@@ -312,7 +316,13 @@
         const dx=c.x-p.x,dy=c.y-p.y,len=Math.hypot(dx,dy);
         if(len<1)return null;
         const ux=dx/len,uy=dy/len,nx=-uy,ny=ux;
-        const pInset=parent.side==='root'?Math.min(p.width,p.height)*0.25:Math.min(p.width,p.height)*0.14;
+        const rootGap = this.state.rootBranchGap !== undefined && this.state.rootBranchGap !== null && Number.isFinite(+this.state.rootBranchGap)
+          ? Math.max(0, Math.min(48, +this.state.rootBranchGap)) : 14;
+        const rx = Math.max(1, p.width * 0.5), ry = Math.max(1, p.height * 0.5);
+        const edgeRadius = 1 / Math.max(1e-6, Math.hypot(ux / rx, uy / ry));
+        const pInset=parent.side==='root'
+          ? (rootGap > 0 ? edgeRadius + rootGap : Math.min(p.width,p.height)*0.25)
+          : Math.min(p.width,p.height)*0.14;
         const cInset=Math.min(c.width,c.height)*0.2;
         const start={x:p.x+ux*pInset,y:p.y+uy*pInset};
         const end={x:c.x-ux*cInset,y:c.y-uy*cInset};
@@ -373,6 +383,7 @@
           // Shape controls the PATH. Stroke width is independent and handled
           // exclusively by the existing "Spessore" slider.
           const shape=this.state.branchStyle;
+          const scale=this.state.strokeScale||1;
           const width=Math.max(.8,2.6*(this.state.strokeScale||1));
           ctx.strokeStyle=grad;ctx.lineWidth=width;
           ctx.lineCap='round';ctx.lineJoin='round';ctx.beginPath();
@@ -380,14 +391,16 @@
           if(shape==='straight'){
             ctx.lineTo(g.endX,g.endY);
           }else if(shape==='dashed'){
-            ctx.setLineDash([10,6]);
+            const s=Math.sqrt(scale);
+            ctx.setLineDash([8.5*s,5.5*s]);
             ctx.bezierCurveTo(g.cp1x,g.cp1y,g.cp2x,g.cp2y,g.endX,g.endY);
           }else if(shape==='wave'){
             const dx=g.endX-g.startX,dy=g.endY-g.startY;
-            ctx.bezierCurveTo(g.startX+dx*.28,g.startY-dy*.65,g.startX+dx*.68,g.endY+dy*.55,g.endX,g.endY);
+            const amp=Math.abs(dy)<16?(g.dir*18):(dy*.62);
+            ctx.bezierCurveTo(g.startX+dx*.28,g.startY-amp,g.startX+dx*.68,g.endY+amp*.88,g.endX,g.endY);
           }else if(shape==='fork'){
-            const mid=g.startX+(g.endX-g.startX)*.52;
-            ctx.lineTo(mid,g.startY);ctx.lineTo(g.endX,g.endY);
+            const mid1=g.startX+(g.endX-g.startX)*.38,mid2=g.startX+(g.endX-g.startX)*.72;
+            ctx.lineTo(mid1,g.startY);ctx.lineTo(mid2,g.endY);ctx.lineTo(g.endX,g.endY);
           }else if(shape==='elbow'){
             // Small rounded corners instead of a sharp, overlapping wedge.
             const mid=g.startX+(g.endX-g.startX)*.52;
@@ -402,16 +415,20 @@
               ctx.lineTo(g.endX,g.endY);
             }
           }else{
-            // Outward-facing broad arc; distinct from the S-like neon cubic.
-            const bow=(g.endY-g.startY)*.52;
+            // Outward-facing broad arc; keeps curvature on near-horizontal branches too.
+            const rawDy=g.endY-g.startY;
+            const bow=Math.abs(rawDy)<14?(siblingIndex%2===0?-22:22):rawDy*.52;
             ctx.quadraticCurveTo((g.startX+g.endX)*.5,g.startY+bow*1.35,g.endX,g.endY);
           }
           ctx.lineTo(g.underlineEndX,g.underlineEndY);
           ctx.stroke();
           if(shape==='dashed')ctx.setLineDash([]);
         }else if(this.state.branchStyle==='neon'){
-          // Uniform cubic tube. Thickness follows the slider; the path stays an even S.
-          const width=Math.max(1.8,3.1*(this.state.strokeScale||1)),half=width/2,steps=28,upper=[],lower=[];
+          // Sculptural tapered cubic ribbon with rounded origin and smooth transition into label underline.
+          const scale=this.state.strokeScale||1,isPrimary=(g.pLayout?g.pLayout.depth===0:parent?.side==='root');
+          const startW=Math.max(2.2,(isPrimary?5.6:3.3)*scale);
+          const endW=Math.max(1.2,(isPrimary?2.1:1.45)*scale);
+          const steps=28,upper=[],lower=[];
           for(let i=0;i<=steps;i++){
             const t=i/steps,u=1-t;
             const x=u*u*u*g.startX+3*u*u*t*g.cp1x+3*u*t*t*g.cp2x+t*t*t*g.endX;
@@ -419,32 +436,62 @@
             const tx=3*u*u*(g.cp1x-g.startX)+6*u*t*(g.cp2x-g.cp1x)+3*t*t*(g.endX-g.cp2x);
             const ty=3*u*u*(g.cp1y-g.startY)+6*u*t*(g.cp2y-g.cp1y)+3*t*t*(g.endY-g.cp2y);
             const len=Math.hypot(tx,ty)||1,nx=-ty/len,ny=tx/len;
+            const half=(endW+(startW-endW)*Math.pow(u,1.25))*0.5;
             upper.push([x+nx*half,y+ny*half]);lower.push([x-nx*half,y-ny*half]);
           }
           ctx.fillStyle=grad;ctx.beginPath();ctx.moveTo(upper[0][0],upper[0][1]);
           for(let i=1;i<upper.length;i++)ctx.lineTo(upper[i][0],upper[i][1]);
           for(let i=lower.length-1;i>=0;i--)ctx.lineTo(lower[i][0],lower[i][1]);
           ctx.closePath();ctx.fill();
-          ctx.strokeStyle=grad;ctx.lineWidth=g.endWidth;ctx.lineCap='round';
+          ctx.beginPath();ctx.arc(g.startX,g.startY,startW*0.5,0,Math.PI*2);ctx.fill();
+          ctx.strokeStyle=grad;ctx.lineWidth=endW;ctx.lineCap='round';
           ctx.beginPath();ctx.moveTo(g.endX,g.endY);ctx.lineTo(g.underlineEndX,g.underlineEndY);ctx.stroke();
         }else if(this.state.branchStyle==='thickparents'){
-          const trunkX=g.startX+(g.endX-g.startX)*0.28,span=Math.abs(g.endX-trunkX);
-          ctx.strokeStyle=grad;ctx.lineWidth=Math.max(2.2,5.4*(this.state.strokeScale||1));
-          ctx.lineCap='round';ctx.lineJoin='round';ctx.beginPath();
-          ctx.moveTo(g.startX,g.startY);ctx.lineTo(trunkX,g.startY);
-          ctx.bezierCurveTo(trunkX+g.dir*span*0.62,g.startY,g.endX-g.dir*span*0.16,g.endY,g.endX,g.endY);
-          ctx.lineTo(g.underlineEndX,g.underlineEndY);ctx.stroke();
+          const scale=this.state.strokeScale||1,isPrimary=(g.pLayout?g.pLayout.depth===0:parent?.side==='root'),dir=g.dir??(g.endX>=g.startX?1:-1);
+          const trunkX=g.startX+(g.endX-g.startX)*0.24,span=Math.abs(g.endX-trunkX);
+          const cp1x=trunkX+dir*span*0.62,cp2x=g.endX-dir*span*0.16;
+          if(isPrimary){
+            const startW=Math.max(3.2,7.2*scale),endW=Math.max(1.6,2.4*scale);
+            const steps=24,upper=[],lower=[];
+            for(let i=0;i<=steps;i++){
+              const t=i/steps,u=1-t;
+              const x=u*u*u*trunkX+3*u*u*t*cp1x+3*u*t*t*cp2x+t*t*t*g.endX;
+              const y=u*u*u*g.startY+3*u*u*t*g.startY+3*u*t*t*g.endY+t*t*t*g.endY;
+              const tx=3*u*u*(cp1x-trunkX)+6*u*t*(cp2x-cp1x)+3*t*t*(g.endX-cp2x);
+              const ty=6*u*t*(g.endY-g.startY)+3*t*t*(0);
+              const len=Math.hypot(tx,ty)||1,nx=-ty/len,ny=tx/len;
+              const half=(endW+(startW-endW)*Math.pow(u,1.15))*0.5;
+              upper.push([x+nx*half,y+ny*half]);lower.push([x-nx*half,y-ny*half]);
+            }
+            ctx.fillStyle=grad;ctx.beginPath();
+            ctx.moveTo(g.startX,g.startY-startW*0.5);
+            for(const p of upper)ctx.lineTo(p[0],p[1]);
+            for(let i=lower.length-1;i>=0;i--)ctx.lineTo(lower[i][0],lower[i][1]);
+            ctx.lineTo(g.startX,g.startY+startW*0.5);
+            ctx.closePath();ctx.fill();
+            ctx.beginPath();ctx.arc(g.startX,g.startY,startW*0.5,0,Math.PI*2);ctx.fill();
+            ctx.strokeStyle=grad;ctx.lineWidth=endW;ctx.lineCap='round';
+            ctx.beginPath();ctx.moveTo(g.endX,g.endY);ctx.lineTo(g.underlineEndX,g.underlineEndY);ctx.stroke();
+          }else{
+            const childDepth=g.cLayout?.depth??child?.depth??1;
+            ctx.strokeStyle=grad;ctx.lineWidth=Math.max(1.2,(2.8-Math.min(1.4,childDepth*0.3))*scale);
+            ctx.lineCap='round';ctx.lineJoin='round';ctx.beginPath();
+            ctx.moveTo(g.startX,g.startY);ctx.lineTo(trunkX,g.startY);
+            ctx.bezierCurveTo(cp1x,g.startY,cp2x,g.endY,g.endX,g.endY);
+            ctx.lineTo(g.underlineEndX,g.underlineEndY);ctx.stroke();
+          }
         }else if(this.state.branchStyle==='xmind8'){
-          const stubX=g.startX+(g.endX-g.startX)*0.18,span=Math.abs(g.endX-stubX);
-          ctx.lineWidth=1.7*(this.state.strokeScale||1);ctx.lineCap='round';ctx.lineJoin='round';
+          const scale=this.state.strokeScale||1,isPrimary=(g.pLayout?g.pLayout.depth===0:parent?.side==='root'),dir=g.dir??(g.endX>=g.startX?1:-1);
+          const stubX=g.startX+(g.endX-g.startX)*0.22,span=Math.abs(g.endX-stubX);
+          ctx.strokeStyle=grad;ctx.lineWidth=Math.max(1.2,(isPrimary?2.45:1.65)*scale);ctx.lineCap='round';ctx.lineJoin='round';
           ctx.beginPath();ctx.moveTo(g.startX,g.startY);ctx.lineTo(stubX,g.startY);
-          ctx.bezierCurveTo(stubX+g.dir*span*0.7,g.startY,g.endX-g.dir*span*0.08,g.endY,g.endX,g.endY);
+          ctx.bezierCurveTo(stubX+dir*span*0.66,g.startY,g.endX-dir*span*0.12,g.endY,g.endX,g.endY);
           ctx.lineTo(g.underlineEndX,g.underlineEndY);ctx.stroke();
         }else if(this.state.branchStyle==='simple'){
           const dx=g.endX-g.startX,dy=g.endY-g.startY;
-          ctx.lineWidth=1.35*(this.state.strokeScale||1);ctx.lineCap='round';ctx.beginPath();
+          ctx.strokeStyle=grad;ctx.lineWidth=Math.max(1,1.45*(this.state.strokeScale||1));ctx.lineCap='round';ctx.beginPath();
           ctx.moveTo(g.startX,g.startY);
-          ctx.bezierCurveTo(g.startX+dx*0.46,g.startY+dy*0.06,g.endX-dx*0.22,g.endY-dy*0.06,g.endX,g.endY);
+          ctx.bezierCurveTo(g.startX+dx*0.42,g.startY+dy*0.04,g.endX-dx*0.24,g.endY-dy*0.04,g.endX,g.endY);
           ctx.lineTo(g.underlineEndX,g.underlineEndY);ctx.stroke();
         }else{
           ctx.fillStyle = grad;

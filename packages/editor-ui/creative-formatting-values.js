@@ -4,6 +4,7 @@
       const v = values?.[key];
       const ranges = {
         strokeScale: [0.5, 3],
+        rootBranchGap: [0, 48],
         branchGapX: [30, 220],
         compactness: [55, 145],
         balanceBias: [0, 100],
@@ -25,7 +26,11 @@
           "elbow",
           "straight",
           "arc",
+          "dashed",
+          "wave",
+          "fork",
         ],
+        nodeShape: ["plain", "pill", "card", "outline", "hex", "circuit", "glass"],
         typographyPreset: [
           "uniform",
           "balanced",
@@ -120,6 +125,7 @@
     const base = {
       branchStyle: "xmind8",
       strokeScale: 1,
+      rootBranchGap: 14,
       branchGapX: 30,
       compactness: 55,
       balanceBias: 50,

@@ -13,6 +13,7 @@
           this.layout._nmBias=this.state.thresholdY;
           this.layout.compactness=this.state.compactness??100;
           this.layout.branchGapX=this.state.branchGapX??150;
+          this.layout.rootBranchGap=nmClampRootBranchGap(this.state.rootBranchGap);
           this.layout.branchStyle=this.state.branchStyle||'neon';
           this.splitMetrics = this.layout.computeLayout(this.state.root, this.state.thresholdY);
           // Skip paint outside the viewport on large maps; exports always paint the full map.

@@ -13,9 +13,27 @@ test('Cloud has one setup action per provider; technical details only appear on 
  await expect(dialog.locator('svg.gl-cloud-provider-logo[aria-hidden=true]')).toHaveCount(3);
  for(let i=0;i<3;i++){
   const button=actions.nth(i);await expect(button).toHaveAttribute('aria-expanded','false');await button.click();
-  const id=await button.getAttribute('aria-controls');const region=page.locator('#'+id);await expect(region).toBeVisible();await expect(region).toBeFocused();await expect(region).toContainText('non devi creare un’app OAuth');await expect(region.locator('input')).toBeHidden();await region.locator('.gl-cloud-admin>summary').click();await expect(region.locator('input')).toBeVisible();await expect(region.locator('a[target=_blank][rel="noopener noreferrer"]')).toHaveCount(2);
+  const id=await button.getAttribute('aria-controls');const region=page.locator('#'+id);await expect(region).toBeVisible();await expect(region).toBeFocused();await expect(region).toContainText('non devi creare un’app OAuth');await expect(region.locator('input').first()).toBeHidden();await region.locator('.gl-cloud-admin>summary').click();await expect(region.locator('input').first()).toBeVisible();await expect(region.locator('a[target=_blank][rel="noopener noreferrer"]')).toHaveCount(2);
   await button.click();await expect(region).toBeHidden();await expect(button).toHaveAttribute('aria-expanded','false');
  }
+});
+test('Google missing client secret opens inline setup and quick menu connects Drive',async({page})=>{
+ await page.goto('about:blank');await page.setContent('<div id="dropdown-file"></div><div class="tab-bar"></div>');
+ await page.evaluate(()=>{window.GlaukaI18n={pair:(it,en)=>it};window.neuromapDesktop={cloudAuth:{status:async()=>({supported:true,google:{configured:true,secretConfigured:false,connected:false},dropbox:{configured:false},onedrive:{configured:false}}),getPublicConfig:async()=>({google:'853375558787-test.apps.googleusercontent.com',callback:'http://127.0.0.1/callback'})}};});
+ await page.addScriptTag({path:path.resolve('apps/desktop-shared/src/cloud_panel.js')});
+ await page.locator('#gl-google-account-quick').click();
+ const menu=page.locator('#gl-google-account-menu');
+ await expect(menu).toBeVisible();
+ await menu.getByRole('button',{name:'Collega Google Drive…'}).click();
+ const dialog=page.locator('#gl-cloud-dialog');
+ await expect(dialog).toBeVisible();
+ await expect(dialog.locator('.gl-cloud-row').first()).toContainText('Client secret OAuth mancante');
+ await dialog.locator('.gl-cloud-row').first().getByRole('button',{name:'Dettagli',exact:true}).click();
+ const region=dialog.locator('#gl-cloud-setup-google');
+ await expect(region).toBeVisible();
+ await expect(region.locator('.gl-cloud-admin')).toHaveAttribute('open','');
+ await expect(region.locator('input[type="password"]')).toBeVisible();
+ await expect(region.locator('input[type="text"]')).toHaveValue('853375558787-test.apps.googleusercontent.com');
 });
 test('Android panels keep a single close action instead of two identical controls',async({page})=>{
  await page.setViewportSize({width:393,height:852});await page.goto('http://127.0.0.1:5173/app/index.html');await page.waitForFunction(()=>window.neuroMapApp&&window.GlaukaAndroidStylePanel);

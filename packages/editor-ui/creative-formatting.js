@@ -20,6 +20,13 @@
       ["strokeScale"],
     ],
     [
+      "root-gap",
+      "Distacco dal nodo centrale",
+      "Center node branch gap",
+      "#nm-root-branch-gap",
+      ["rootBranchGap"],
+    ],
+    [
       "gap",
       "Distanza fra nodo e sottorami",
       "Distance from node to children",
@@ -96,6 +103,14 @@
       "Text style",
       "#btn-weight-bold",
       ["fontWeight", "fontItalic", "fontUnderline", "fontStrike", "fontFamily", "fontColor"],
+      "node",
+    ],
+    [
+      "node-shape",
+      "Contorno del testo",
+      "Text outline",
+      "#glauka-node-shape",
+      ["nodeShape"],
       "node",
     ],
     [

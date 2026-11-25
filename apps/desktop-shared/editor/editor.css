@@ -1180,8 +1180,9 @@
     .v4-feedback{font-size:11px;color:#6ee7b7;min-height:16px;padding-top:7px;white-space:pre-wrap;}
     .v4-feedback.ai-error{color:#fda4af;}
     .v4-editor{box-sizing:border-box;width:100%;min-height:350px;resize:vertical;font:12px/1.75 ui-monospace,SFMono-Regular,Consolas,monospace!important;}
-    .v4-explain{position:fixed;top:110px;right:24px;width:min(410px,calc(100vw - 30px));max-height:75vh;overflow:auto;z-index:2150;padding:18px;border-radius:17px;background:rgba(13,19,36,.96);border:1px solid rgba(129,140,248,.35);box-shadow:0 20px 70px rgba(0,0,0,.65)}
-    .v4-explain-text{white-space:pre-wrap;color:#d4e1f5;font-size:12px;line-height:1.7;max-height:55vh;overflow-y:auto;}
+    .v4-explain{position:fixed;top:110px;right:24px;width:min(410px,calc(100vw - 30px));max-height:75vh;overflow:auto;z-index:2150;padding:18px;border-radius:17px;background:rgba(13,19,36,.96);border:1px solid rgba(129,140,248,.35);box-shadow:0 20px 70px rgba(0,0,0,.65);user-select:text;-webkit-user-select:text}
+    .v4-explain-text{white-space:pre-wrap;color:#d4e1f5;font-size:12px;line-height:1.7;max-height:55vh;overflow-y:auto;user-select:text!important;-webkit-user-select:text!important;cursor:text}
+    .v4-explain-text *,#ai-explain-text *,.nm67-rich-text,.nm67-rich-text *{user-select:text!important;-webkit-user-select:text!important;cursor:text}
     .v4-modal button:disabled{opacity:.48;cursor:not-allowed}
     @media(max-width:680px){.v4-fields{grid-template-columns:1fr}.v4-field,.v4-span-2{grid-column:1}.v4-tool-btn span{display:none}.v4-modal{padding:15px}.v4-backdrop{padding:6px}.v4-ratings{gap:4px}.v4-rate{padding:10px 6px;font-size:10px}#find-overlay{top:65px}}
 
@@ -1227,6 +1228,7 @@
     .v6-hud-close:hover{background:#af6af730;color:white}
     .v6-layout-minibtn{position:fixed;bottom:15px;left:15px;z-index:21;background:#0c1830eb;color:#9fb4d3;border:1px solid #394667;padding:9px 12px;border-radius:10px;cursor:pointer;font-size:11px;box-shadow:0 5px 24px #0007}
     .v6-layout-minibtn:hover{color:#fff;border-color:#8b5cf6}
+    .v6-layout-minibtn.is-active,.v6-layout-minibtn[aria-expanded="true"]{color:#fff;border-color:var(--nm-theme-focus,#8b5cf6);background:color-mix(in srgb,var(--nm-theme-action,#6441df) 22%,#0c1830);box-shadow:0 0 0 1.5px var(--nm-theme-focus,#8b5cf6),0 6px 24px #0008}
     .v6-key-status{font:10px/1.5 Inter,system-ui;color:#8faccc}
     .v6-layout-minibtn.hidden{display:none!important}
 

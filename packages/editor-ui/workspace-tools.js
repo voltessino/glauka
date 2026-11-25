@@ -62,10 +62,10 @@
     ],
     flashcards: [
       "btn-flashcards",
-      "Domande e risposte",
-      "Question and answer cards",
-      "Crea e ripassa flashcard SM-2 · alimenta Quiz e Scadenze in Studio.",
-      "Create and review SM-2 cards · feeds Quiz and due dates in Study.",
+      "Flashcard",
+      "Flashcards",
+      "Crea flashcard manuali o AI, sfoglia il passato e ripassa con SM-2.",
+      "Create manual or AI flashcards, browse past decks and review with SM-2.",
     ],
     visual: [
       "nm-tool-visual-study",

@@ -380,7 +380,8 @@
         "packages/editor-ui/ai-illustrations.js",
         "packages/editor-ui/ai-studio.js",
         "packages\\editor-ui\\ai-illustrations.js",
-        "packages\\editor-ui\\creative-tools-object-dialog.js"
+        "packages\\editor-ui\\creative-tools-object-dialog.js",
+        "packages\\editor-ui\\study-today.js"
       ]
     },
     "m93e07c86a616": {
@@ -393,7 +394,8 @@
         "packages/editor-ui/ai-illustrations.js",
         "packages/editor-ui/ai-studio.js",
         "packages\\editor-ui\\ai-illustrations.js",
-        "packages\\editor-ui\\navigation-experience-render.js"
+        "packages\\editor-ui\\navigation-experience-render.js",
+        "packages\\editor-ui\\study-today.js"
       ]
     },
     "m4b9531875cfa": {
@@ -3125,7 +3127,8 @@
         "apps/desktop-shared/editor/shell.js",
         "apps\\desktop-shared\\editor\\ocr-ui.js",
         "packages/editor-ui/export-hub-ui.js",
-        "packages\\editor-ui\\export-hub-ui.js"
+        "packages\\editor-ui\\export-hub-ui.js",
+        "packages\\editor-ui\\study-today.js"
       ]
     },
     "m15f21199c16a": {
@@ -5804,7 +5807,8 @@
       "known": true,
       "origins": [
         "apps/desktop-shared/editor/shell.js",
-        "packages/editor-ui/localization.js"
+        "packages/editor-ui/localization.js",
+        "packages\\editor-ui\\study-today.js"
       ]
     },
     "mf1b7284b1f90": {
@@ -15524,7 +15528,8 @@
       "known": true,
       "origins": [
         "apps/desktop-shared/editor/shell.js",
-        "apps\\desktop-shared\\editor\\learn-ui.js"
+        "apps\\desktop-shared\\editor\\learn-ui.js",
+        "packages\\editor-ui\\study-today.js"
       ]
     },
     "mb59b6fab017d": {
@@ -59454,6 +59459,22 @@
       "origins": [
         "packages\\editor-ui\\study-today.js"
       ]
+    },
+    "m5758bd378dab": {
+      "it": "Più schede (scegli)…",
+      "en": "Multiple maps (choose)…",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m829a6a649470": {
+      "it": "Solo attiva",
+      "en": "Active only",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
     }
   },
   "aliases": {
@@ -70134,6 +70155,11 @@
     "↑ Import": "mb28632ba9b56",
     "Quantità": "ma91934fd97d3",
     "Incolla le flashcard (D | R o D:/R:)…": "m701dbbc49597",
-    "Paste flashcards (Q | A or Q:/A:)…": "m701dbbc49597"
+    "Paste flashcards (Q | A or Q:/A:)…": "m701dbbc49597",
+    "Più schede (scegli)…": "m5758bd378dab",
+    "Multiple maps (choose)…": "m5758bd378dab",
+    "All maps (max 8)": "mf2089f1a1bcb",
+    "Solo attiva": "m829a6a649470",
+    "Active only": "m829a6a649470"
   }
 }

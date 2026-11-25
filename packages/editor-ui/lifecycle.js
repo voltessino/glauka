@@ -55,7 +55,19 @@
   const draft=a.editorNodeId&&document.getElementById('inline-editor-input')?.value.trim();
   return a.tabs.some(t=>t.state.isDirty)||!!(draft&&draft!==a.state.findNode(a.editorNodeId)?.text);
  }
- async function flush(){const a=app();if(!a)return true;if(a._desktopRecoveryReady)await a._desktopRecoveryReady;clearTimeout(a.saveTimer);a.closeEditor(true);const revision=a._nmRecoveryRevision;const ok=await a.persistWorkspace();return ok===true&&revision===a._nmRecoveryRevision;}
+ async function flush(){
+  const a=app();if(!a)return true;
+  if(a._desktopRecoveryReady)await a._desktopRecoveryReady;
+  clearTimeout(a.saveTimer);a.saveTimer=null;
+  const hadDraft=Boolean(a.editorNodeId);a.closeEditor(true);
+  const rev=a._nmRecoveryRevision||0;
+  if(!hadDraft&&a._nmLastPersistedRevision===rev&&(!a._nativeWorkspaceWrites||a._nativeWorkspaceWrites.isIdle?.()))return true;
+  a._nmClosingFlush=true;
+  try{
+   const ok=await a.persistWorkspace();
+   return ok===true&&rev===(a._nmRecoveryRevision||0);
+  }finally{a._nmClosingFlush=false;}
+ }
  let closing,approvedNativeExit=false,discardedNativeExit=false;
  async function discardRecovery(a){
   // Do not let an in-flight checkpoint recreate an intentionally discarded

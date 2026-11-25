@@ -12,6 +12,7 @@
         this.drag = null; this.relationshipSourceId = null;
         this.selectionAnchorId = null; this.internalClipboard = null; this._clipboardPlain = null;
         this.renderQueued = false; this.toastTimer = null; this.saveTimer = null;
+        this._nmRecoveryRevision = 0; this._nmLastPersistedRevision = 0;
         this.state.initStarterTree();
         this.addTab(this.state, this.state.root.text, true);
         const recoveryBridge=window.neuromapDesktop || window.NeuroMapRecovery?.bridge;
@@ -31,6 +32,7 @@
               this._nmRecoveryBlocked=false;
               this._nmInitialWorkspaceRestored=true;
               this._nmHomePlaceholder=false;
+              this._nmLastPersistedRevision=this._nmRecoveryRevision||0;
               this.recalculateAndRender();
               if(!this.tabs.find(t=>t.id===this.activeTabId)?.camera)this.fitToScreen();
               this.renderTabBar();

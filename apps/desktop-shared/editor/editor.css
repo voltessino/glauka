@@ -1754,13 +1754,13 @@
 /* Edit the canvas label in place: no duplicate card above the selected node. */
 #inline-editor-container #inline-editor-input {
   box-sizing:border-box!important; min-width:0!important; min-height:0!important;
-  max-height:none!important; padding:4px 6px!important; margin:0!important;
-  overflow-wrap:anywhere!important; word-break:normal!important;
+  max-height:none!important; padding:2px 4px!important; margin:0!important;
+  overflow-wrap:normal!important; word-break:normal!important;
   border:0!important; border-radius:3px!important; background:transparent!important;
   box-shadow:0 1px 0 0 var(--accent-indigo,#7750d9)!important;
-  outline:0!important; resize:none!important; white-space:pre-wrap!important;
+  outline:0!important; resize:none!important;
   backdrop-filter:none!important; -webkit-backdrop-filter:none!important;
-  overflow:auto!important; user-select:text!important; -webkit-user-select:text!important;
+  overflow-x:auto!important; overflow-y:hidden!important; user-select:text!important; -webkit-user-select:text!important;
 }
 #inline-editor-container #inline-editor-input:focus-visible {box-shadow:0 1px 0 0 var(--accent-indigo,#7750d9)!important;}
 

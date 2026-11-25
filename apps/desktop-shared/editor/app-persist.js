@@ -6,6 +6,7 @@
         // A close during startup must not overwrite the workspace still being read.
         if(this._desktopRecoveryPending)return this._desktopRecoveryReady.then(()=>this.persistWorkspace());
         if(this._nmRecoveryBlocked)return false;
+        clearTimeout(this.saveTimer);this.saveTimer=null;
         try {
           this.saveActiveTabSnapshot();
           if(typeof NeuroMapAtlasLibrary!=='undefined'&&typeof NeuroMapKnowledgeCore!=='undefined'){
@@ -24,6 +25,7 @@
             viewWorkspace:nmCleanViewWorkspace(t.viewWorkspace)}))};
           globalThis.NeuroMapRecovery?.validate(doc);
           const json=NeuroMapSafeJSON.stringify(doc);
+          const saveRev=this._nmRecoveryRevision||0;
           if (window.neuromapDesktop) {
             // Native workspace writes must be serialized. OS/network completion
             // can otherwise reorder saves and overwrite the latest snapshot
@@ -34,9 +36,10 @@
             }
             return this._nativeWorkspaceWrites.write(json).then(() => {
               this._desktopAutosaveWarned=false;
+              if((this._nmRecoveryRevision||0)===saveRev)this._nmLastPersistedRevision=saveRev;
               // The write queue can coalesce A then B and resolve both callers
               // with B. Never upload A merely because its promise completed.
-              if(window.GlaukaCloudSync&&this._nativeWorkspaceWrites.isIdle()){
+              if(!this._nmClosingFlush&&window.GlaukaCloudSync&&this._nativeWorkspaceWrites.isIdle()){
                 void window.neuromapDesktop.readWorkspace()
                   .then(onDisk=>{if(typeof onDisk==='string'&&this._nativeWorkspaceWrites.isIdle())
                     window.GlaukaCloudSync?.onWorkspaceSaved(onDisk);})

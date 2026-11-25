@@ -118,7 +118,8 @@
         $('inline-editor-input').addEventListener('input',()=>{
           if(!this.editorNodeId)return;
           this.layout.editingLabel={id:this.editorNodeId,text:$('inline-editor-input').value};
-          this.recalculateAndRender();
+          if(typeof this.scheduleInlineRelayout==='function')this.scheduleInlineRelayout();
+          else this.recalculateAndRender();
         });
         window.visualViewport?.addEventListener('resize',()=>this.positionEditor(),{passive:true});
         window.visualViewport?.addEventListener('scroll',()=>this.positionEditor(),{passive:true});

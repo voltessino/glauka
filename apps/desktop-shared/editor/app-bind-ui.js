@@ -124,11 +124,12 @@
           else if(e.key==='Escape'){e.preventDefault();this.closeEditor(false);}
           else if(e.key==='Tab'){e.preventDefault();this.closeEditor(true);this.addChild();}
         });
-        // Live-size the discreet editor for pasted and multiline node text.
+        // Coalesce full tree relayout so fast typing in WKWebView/WebView2 never stutters.
         $('inline-editor-input').addEventListener('input',()=>{
           if(!this.editorNodeId)return;
           this.layout.editingLabel={id:this.editorNodeId,text:$('inline-editor-input').value};
-          this.recalculateAndRender();
+          if(typeof this.scheduleInlineRelayout==='function')this.scheduleInlineRelayout();
+          else this.recalculateAndRender();
         });
         $('inline-editor-input').addEventListener('blur',()=>this.closeEditor(true));
         this.canvas.addEventListener('contextmenu',e=>{e.preventDefault();this.closeEditor(true);this.showContextMenu(e.clientX,e.clientY,this.findHit(e.clientX,e.clientY));});

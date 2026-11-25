@@ -36,6 +36,34 @@
       this._v5Deck=this.v5Deck();this._v5CardIndex=0;this._flashShowAnswer=false;
       this._v5Requeued=new Set();this.renderFlashcard();
     };
+    NeuroMapApp.prototype.v5AncestorPath=function(tab,node){
+      if(!tab?.state||!node)return '';
+      const path=[];let cur=tab.state.findNode(node.parentId);
+      while(cur){path.unshift(cur.text);cur=tab.state.findNode(cur.parentId);}
+      const title=String(tab.title||'').trim().toLocaleLowerCase();
+      if(path.length&&title&&String(path[0]||'').trim().toLocaleLowerCase()===title)path.shift();
+      return path.join(' › ').slice(0,400);
+    };
+    NeuroMapApp.prototype.v5FormatCardBreadcrumb=function(card){
+      const tr=(it,en)=>globalThis.GlaukaI18n?.pair(it,en)??it;
+      const tab=this.tabs?.find?.(t=>t.id===card?.sourceTabId);
+      const node=card&&this.v5FindStudyNode?.(card);
+      const base=tab?.title||tr("Scheda non aperta","Project not open");
+      let parts=[];
+      if(tab&&node){
+        parts=this.v5AncestorPath(tab,node).split(' › ').filter(Boolean);
+      }else{
+        parts=String(card?.breadcrumb||'').split(' › ').map(s=>s.trim()).filter(Boolean);
+        if(!node&&!card?.parentBreadcrumb&&parts.length>=2)parts.pop();
+      }
+      const combined=[];
+      for(const seg of [base,...parts]){
+        const clean=String(seg||'').trim();if(!clean)continue;
+        if(combined.length&&combined[combined.length-1].toLocaleLowerCase()===clean.toLocaleLowerCase())continue;
+        combined.push(clean);
+      }
+      return combined.join(' › ')||tr("Concetto","Concept");
+    };
     NeuroMapApp.prototype.renderFlashcard=function(){
       const tr=(it,en)=>globalThis.GlaukaI18n?.pair(it,en)??it;
       const c=this.v5CurrentCard(),body=$v5('flash-card-content');body.replaceChildren();
@@ -55,8 +83,7 @@
       eyebrow.textContent=this._flashShowAnswer?tr("Risposta","Answer"):tr("Domanda","Question");body.append(eyebrow);
       if(status!=='fresh'){const stale=document.createElement('div');stale.className='v5-card-stale';
         stale.textContent=status==='missing'?tr("⚠ Nodo di origine non trovato · carta conservata","⚠ Source concept not found · card retained"):tr("⚠ Mappa modificata · verifica o rigenera la risposta","⚠ Map changed · check or regenerate the answer");body.append(stale);}
-      const tab=this.tabs.find(t=>t.id===c.sourceTabId);
-      const loc=document.createElement('div');loc.className='flash-breadcrumb';loc.textContent=(tab?.title||tr("Scheda non aperta","Project not open"))+' › '+(c.breadcrumb||tr("Concetto","Concept"));body.append(loc);
+      const loc=document.createElement('div');loc.className='flash-breadcrumb';loc.textContent=this.v5FormatCardBreadcrumb(c);body.append(loc);
       const name=document.createElement('h3');name.className='flash-heading';name.textContent=this._flashShowAnswer?c.answer:c.question;body.append(name);
       if(!this._flashShowAnswer){const p=document.createElement('p');p.className='flash-hint';p.textContent=globalThis.GlaukaMobile?tr("Prova a rispondere, poi tocca Mostra risposta per controllare.","Try answering, then tap Show answer to check."):tr("Prova a rispondere a voce, poi premi Spazio per controllare.","Try answering aloud, then press Space to check.");body.append(p);}
       else{const t=document.createElement('div');t.className='v5-note';
@@ -115,8 +142,6 @@
       if(!tab?.state)return null;
       const node=tab.state.findNode(input?.nodeId||tab.state.selectedNodeId)||tab.state.root;
       if(!node)return null;
-      const path=[];let cur=node;
-      while(cur){path.unshift(cur.text);cur=tab.state.findNode(cur.parentId);}
       const source=globalThis.NeuroMapLearningCore?.nodeSource?.(node)||null;
       const card={
         id:v5CardId(),
@@ -125,7 +150,8 @@
         sourceNodeId:node.id,
         sourceTabId:tab.id,
         sourceSignature:this.v5Signature(node,tab.state),
-        breadcrumb:path.join(' › ').slice(0,400),
+        breadcrumb:this.v5AncestorPath(tab,node),
+        parentBreadcrumb:true,
         createdAt:Date.now(),
         manual:true,
         srStatus:0,
@@ -167,32 +193,56 @@
       if(engine?.isSupported?.()){engine.speak(clean,{mode:'native',lang,rate:1});return true;}
       return false;
     };
+    NeuroMapApp.prototype.v5ResolveTargetTabs=function(scopeValue){
+      const all=Array.isArray(this.tabs)?this.tabs.filter(t=>t?.state?.root):[];
+      const active=all.find(t=>t.id===this.activeTabId)||all[0];
+      if(!active)return [];
+      if(scopeValue==='all')return all.slice(0,8);
+      if(scopeValue==='selectedTabs'){
+        const picked=new Set(Array.isArray(this._v5SelectedTabIds)?this._v5SelectedTabIds:[]);
+        const filtered=all.filter(t=>picked.has(t.id)).slice(0,8);
+        return filtered.length?filtered:[active];
+      }
+      return [active];
+    };
     NeuroMapApp.prototype.v5BuildGoogleCardsPrompt=function(scopeValue,count){
-      const tab=this.tabs.find(t=>t.id===this.activeTabId)||this.tabs[0];
-      const selected=tab?.state?.findNode?.(tab?.state?.selectedNodeId);
-      const startNode=scopeValue==='node'||scopeValue==='selected'?(selected||tab?.state?.root):tab?.state?.root;
-      if(!tab?.state||!startNode)return null;
-      const lines=[];const queue=[{n:startNode,d:0}];let idx=0;
-      const maxNodes=scopeValue==='node'?1:45;
-      while(idx<queue.length&&lines.length<maxNodes){
-        const {n,d}=queue[idx++];
-        const txt=v5SafeText(n.text).slice(0,80);
-        if(txt){
-          const indent='  '.repeat(Math.min(d,3));
-          const note=v5SafeText(n.notes).slice(0,80);
-          lines.push(note?`${indent}- ${txt} (${note})`:`${indent}- ${txt}`);
+      const targetTabs=this.v5ResolveTargetTabs(scopeValue);
+      if(!targetTabs.length)return null;
+      const lines=[];const perTabMax=targetTabs.length>1?Math.max(8,Math.floor(54/targetTabs.length)):45;
+      let firstStart=null;
+      for(const tab of targetTabs){
+        const selected=tab.state.findNode(tab.state.selectedNodeId);
+        const startNode=targetTabs.length===1&&(scopeValue==='node'||scopeValue==='selected')?(selected||tab.state.root):tab.state.root;
+        if(!firstStart)firstStart=startNode;
+        if(targetTabs.length>1)lines.push(`=== ${(tab.title||'Mappa').slice(0,60)} ===`);
+        const queue=[{n:startNode,d:0}];let idx=0,tabCount=0;
+        const cap=targetTabs.length===1&&scopeValue==='node'?1:perTabMax;
+        while(idx<queue.length&&tabCount<cap){
+          const {n,d}=queue[idx++];
+          const txt=v5SafeText(n.text).slice(0,80);
+          if(txt){
+            const indent='  '.repeat(Math.min(d,3));
+            const note=v5SafeText(n.notes).slice(0,80);
+            lines.push(note?`${indent}- ${txt} (${note})`:`${indent}- ${txt}`);
+            tabCount++;
+          }
+          if(!(targetTabs.length===1&&scopeValue==='node')){for(const c of n.children||[])queue.push({n:c,d:d+1});}
         }
-        if(scopeValue!=='node'){for(const c of n.children||[])queue.push({n:c,d:d+1});}
       }
       const nCards=v5Bound(Number(count)||10,3,30);
       const en=document.documentElement?.lang==='en';
-      const header=en
-        ?`Create ${nCards} concise active-recall flashcards ONLY from this mind map (${tab.title||'Map'}). Format every card strictly on one line as Question | Answer, without intro or extra Markdown:\n`
-        :`Crea ${nCards} flashcard sintetiche di richiamo attivo SOLO da questa mappa (${tab.title||'Mappa'}). Formato rigoroso una per riga: Domanda | Risposta (senza introduzione né elenco numerato extra):\n`;
+      const titles=targetTabs.map(t=>t.title||'Map').join(', ').slice(0,120);
+      const header=targetTabs.length>1
+        ?(en
+          ?`Create ${nCards} concise active-recall flashcards distributed across these ${targetTabs.length} mind maps (${titles}). Format strictly one per line as Question | Answer, without intro or extra Markdown:\n`
+          :`Crea ${nCards} flashcard sintetiche di richiamo attivo distribuite tra queste ${targetTabs.length} mappe (${titles}). Formato rigoroso una per riga: Domanda | Risposta (senza introduzione né elenco numerato extra):\n`)
+        :(en
+          ?`Create ${nCards} concise active-recall flashcards ONLY from this mind map (${titles}). Format every card strictly on one line as Question | Answer, without intro or extra Markdown:\n`
+          :`Crea ${nCards} flashcard sintetiche di richiamo attivo SOLO da questa mappa (${titles}). Formato rigoroso una per riga: Domanda | Risposta (senza introduzione né elenco numerato extra):\n`);
       const body=lines.join('\n');
       const fullPrompt=header+body;
       const urlQuery=header+body.slice(0,1450);
-      return {tab,startNode,fullPrompt,url:'https://www.google.com/search?udm=50&q='+encodeURIComponent(urlQuery)};
+      return {tab:targetTabs[0],tabs:targetTabs,startNode:firstStart,fullPrompt,url:'https://www.google.com/search?udm=50&q='+encodeURIComponent(urlQuery)};
     };
     NeuroMapApp.prototype.v5OpenGoogleAIModeFlashcards=function(){
       const scope=$v5('v5-study-scope')?.value||'active';
@@ -204,13 +254,19 @@
       this.v5CardStatus(globalThis.GlaukaI18n?.pair('Google AI Mode aperto: copia le righe generate e incollale qui sotto (prompt copiato negli appunti).','Google AI Mode opened: copy generated lines and paste them below (prompt copied to clipboard).'));
       return built;
     };
-    NeuroMapApp.prototype.v5ImportTextCards=function(rawText){
+    NeuroMapApp.prototype.v5ImportTextCards=function(rawText,scopeValue){
       const raw=String(rawText||'').trim();
       if(!raw)return 0;
-      const tab=this.tabs.find(t=>t.id===this.activeTabId)||this.tabs[0];
-      if(!tab?.state)return 0;
-      const allNodes=tab.state.getAllNodes?tab.state.getAllNodes():[tab.state.root].filter(Boolean);
-      const fallbackNode=tab.state.findNode(tab.state.selectedNodeId)||tab.state.root;
+      const scope=scopeValue||$v5('v5-study-scope')?.value||'active';
+      const targetTabs=this.v5ResolveTargetTabs(scope);
+      const primaryTab=this.tabs.find(t=>t.id===this.activeTabId)||targetTabs[0];
+      if(!primaryTab?.state)return 0;
+      const nodePool=[];
+      for(const t of targetTabs){
+        const list=t.state.getAllNodes?t.state.getAllNodes():[t.state.root].filter(Boolean);
+        for(const n of list)nodePool.push({tab:t,node:n});
+      }
+      const fallbackNode=primaryTab.state.findNode(primaryTab.state.selectedNodeId)||primaryTab.state.root;
       const pairs=[];
       const stripMd=s=>v5SafeText(String(s||'').replace(/^\s*(?:[-*•]+|\d+[.)])\s+/,'').replace(/\*\*([^*]+)\*\*/g,'$1').replace(/^`+|`+$/g,''));
       let parsedJson=false;
@@ -255,13 +311,14 @@
       if(!pairs.length)return 0;
       const matchNode=(q,a)=>{
         const hay=(q+' '+a).toLocaleLowerCase();
-        let best=fallbackNode,bestScore=0;
-        for(const n of allNodes){
-          const label=String(n.text||'').trim().toLocaleLowerCase();
+        let bestTab=primaryTab,best=fallbackNode,bestScore=0;
+        for(const item of nodePool){
+          const label=String(item.node?.text||'').trim().toLocaleLowerCase();
           if(label.length<3)continue;
-          if(hay.includes(label)&&label.length>bestScore){best=n;bestScore=label.length;}
+          const bonus=item.tab.id===primaryTab.id?0.1:0;
+          if(hay.includes(label)&&(label.length+bonus)>bestScore){bestTab=item.tab;best=item.node;bestScore=label.length+bonus;}
         }
-        return best;
+        return {tab:bestTab,node:best};
       };
       this.studyCards ||= [];
       const existing=new Set(this.studyCards.map(c=>String(c.sourceTabId||'')+'|'+String(c.question||'').toLocaleLowerCase()));
@@ -269,10 +326,10 @@
       for(const {q,a} of pairs.slice(0,80)){
         const qClean=q.slice(0,240),aClean=a.slice(0,700);
         if(qClean.length<3||aClean.length<1)continue;
-        const key=tab.id+'|'+qClean.toLocaleLowerCase();
-        if(existing.has(key))continue;
         const target=matchNode(qClean,aClean);
-        const card=this.v5CreateManualCard({question:qClean,answer:aClean,tabId:tab.id,nodeId:target?.id});
+        const key=(target.tab?.id||primaryTab.id)+'|'+qClean.toLocaleLowerCase();
+        if(existing.has(key))continue;
+        const card=this.v5CreateManualCard({question:qClean,answer:aClean,tabId:target.tab?.id||primaryTab.id,nodeId:target.node?.id});
         if(card){card.manual=false;card.googleAiMode=true;existing.add(key);added++;}
       }
       if(added){this.scheduleSave();this.restartFlashcards();}
@@ -358,10 +415,10 @@
         if(!node||!ids.has(node.id))return null;
         const question=v5SafeText(item.question).slice(0,240),answer=v5SafeText(item.answer).slice(0,700);
         if(question.length<7||answer.length<2)return null;
-        const path=[];let cur=node;while(cur){path.unshift(cur.text);cur=tab.state.findNode(cur.parentId);}
         const source=globalThis.NeuroMapLearningCore?.nodeSource?.(node)||null;
         return {id:v5CardId(),question,answer,sourceNodeId:node.id,sourceTabId:tab.id,
-          sourceSignature:this.v5Signature(node,tab.state),breadcrumb:path.join(' › ').slice(0,400),
+          sourceSignature:this.v5Signature(node,tab.state),breadcrumb:this.v5AncestorPath(tab,node),
+          parentBreadcrumb:true,
           createdAt:Date.now(),srStatus:0,sr:{dueAt:0,lastReviewedAt:0,intervalDays:0,reviews:0,lapses:0},
           ...(source?{source}:{})};
       }).filter(Boolean);
@@ -373,10 +430,11 @@
       const choice=$v5('v5-study-scope').value, count=v5Bound(Number($v5('v5-study-count').value)||10,3,30);
       const tab=this.tabs.find(t=>t.id===this.activeTabId);
       const selected=tab.state.findNode(tab.state.selectedNodeId);
-      const tasks=choice==='all'?this.tabs.slice(0,8).map(t=>({tab:t,root:t.state.root})):
+      const tasks=(choice==='all'||choice==='selectedTabs')?this.v5ResolveTargetTabs(choice).map(t=>({tab:t,root:t.state.root})):
         choice==='node'?[{tab,root:selected||tab.state.root,onlyNode:!!selected}]:
         choice==='selected'?[{tab,root:selected||tab.state.root}]:
         [{tab,root:tab.state.root}];
+      const perTabCount=tasks.length>1?Math.max(3,Math.ceil(count/tasks.length)):count;
       const button=$v5('v5-generate-cards');button.disabled=true;this._v5GenRunning=true;
       const all=[];try{
         for(let i=0;i<tasks.length;i++){
@@ -385,8 +443,8 @@
           if(ctx.sampled<ctx.total)this.v5CardStatus(`Scheda ${i+1}/${tasks.length}: campione distribuito su ${ctx.sampled}/${ctx.total} nodi (limite di costo per richiesta). Ripeti per coprirne altri.`);
           const response=await this.aiClient.chat(
             'Sei un esaminatore attento alla precisione. Formula domande di richiamo attivo sui contenuti FORNITI, senza aggiungere informazioni non presenti. Rispondi solo JSON valido.',
-            `Scheda: ${item.tab.title}. Genera ${count} domande DIFFERENTI che valutino collegamenti, cause, spiegazioni o confronto fra concetti, non mere elencazioni. Usa soltanto i dati contenuti nella mappa. Gli appunti personali non sono nel testo. Se un nodo riporta source, quella è l'unica pagina citabile. Per ogni carta restituisci: {"sourceId":"id esatto di un nodo", "question":"domanda concisa nella lingua selezionata", "answer":"risposta rigorosa nella lingua selezionata, basata sulla mappa"}. JSON di forma {"cards":[...]}. Non inventare dati: dove manca evidenza fai una domanda limitata ai termini presenti. Ogni sourceId deve appartenere all'elenco dato.\nMAPPA:\n${ctx.lines}`,
-            {maxTokens:Math.min(1800,700+count*95),timeout:70000});
+            `Scheda: ${item.tab.title}. Genera ${perTabCount} domande DIFFERENTI che valutino collegamenti, cause, spiegazioni o confronto fra concetti, non mere elencazioni. Usa soltanto i dati contenuti nella mappa. Gli appunti personali non sono nel testo. Se un nodo riporta source, quella è l'unica pagina citabile. Per ogni carta restituisci: {"sourceId":"id esatto di un nodo", "question":"domanda concisa nella lingua selezionata", "answer":"risposta rigorosa nella lingua selezionata, basata sulla mappa"}. JSON di forma {"cards":[...]}. Non inventare dati: dove manca evidenza fai una domanda limitata ai termini presenti. Ogni sourceId deve appartenere all'elenco dato.\nMAPPA:\n${ctx.lines}`,
+            {maxTokens:Math.min(1800,700+perTabCount*95),timeout:70000});
           all.push(...this.v5ParseAICards(response,item.tab,ctx.ids));
         }
         if(!all.length)throw Error('Nessuna carta AI valida. Controlla che il provider riporti gli ID dei nodi.');

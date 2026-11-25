@@ -169,7 +169,16 @@
       const scopeField = el("div", "glauka-gen-field");
       const scopeLabel = el("span", "glauka-gen-label");
       scopeField.append(scopeLabel);
-      if (scopeEl) scopeField.append(scopeEl);
+      if (scopeEl) {
+        if (!scopeEl.querySelector('option[value="selectedTabs"]')) {
+          const optMulti = el("option", "", tr("Più schede (scegli)…", "Multiple maps (choose)…"));
+          optMulti.value = "selectedTabs";
+          const allOpt = scopeEl.querySelector('option[value="all"]');
+          if (allOpt) allOpt.before(optMulti);
+          else scopeEl.append(optMulti);
+        }
+        scopeField.append(scopeEl);
+      }
 
       const countField = el("div", "glauka-gen-field glauka-gen-count-field");
       const countLabel = el("span", "glauka-gen-label");
@@ -243,7 +252,22 @@
       if (importFileEl) archiveBtns.append(importFileEl);
       archiveBar.append(archiveLabel, archiveBtns);
 
-      toolsBody.append(genConfig, genGrid, archiveBar);
+      const sheetPicker = el("div", "glauka-sheet-picker");
+      sheetPicker.id = "glauka-sheet-picker";
+      sheetPicker.hidden = true;
+      const sheetPickerHead = el("div", "glauka-sheet-picker-head");
+      const sheetPickerTitle = el("span");
+      const sheetPickerActions = el("div", "glauka-sheet-picker-actions");
+      const sheetAllBtn = el("button", "glauka-sheet-quick-btn");
+      sheetAllBtn.type = "button";
+      const sheetActiveBtn = el("button", "glauka-sheet-quick-btn");
+      sheetActiveBtn.type = "button";
+      sheetPickerActions.append(sheetAllBtn, sheetActiveBtn);
+      sheetPickerHead.append(sheetPickerTitle, sheetPickerActions);
+      const sheetChipsWrap = el("div", "glauka-sheet-chips");
+      sheetPicker.append(sheetPickerHead, sheetChipsWrap);
+
+      toolsBody.append(genConfig, sheetPicker, genGrid, archiveBar);
       tools.append(toolsBody);
 
       if (filterRow) studyPane.append(filterRow, meter);
@@ -339,7 +363,11 @@
           parts.unshift(cur.text);
           cur = tab.state.findNode(cur.parentId);
         }
-        return (tab.title || tr("Mappa", "Map")) + " › " + parts.join(" › ");
+        const title = String(tab.title || tr("Mappa", "Map")).trim();
+        if (parts.length && String(parts[0] || "").trim().toLocaleLowerCase() === title.toLocaleLowerCase()) {
+          parts.shift();
+        }
+        return [title, ...parts].filter(Boolean).join(" › ");
       }
 
       function renderArchive() {
@@ -419,9 +447,11 @@
           const crumb = el(
             "small",
             "glauka-lib-crumb",
-            (tab?.title || tr("Scheda non aperta", "Map closed")) +
-              " › " +
-              (card.breadcrumb || tr("Concetto", "Concept")),
+            a.v5FormatCardBreadcrumb
+              ? a.v5FormatCardBreadcrumb(card)
+              : (tab?.title || tr("Scheda non aperta", "Map closed")) +
+                  " › " +
+                  (card.breadcrumb || tr("Concetto", "Concept")),
           );
           const date = formatDate(card.sr?.lastReviewedAt || card.createdAt);
           if (date) crumb.textContent += " · " + date;
@@ -639,6 +669,56 @@
           p.setAttribute("aria-pressed", active ? "true" : "false");
         }
 
+        const openTabs = Array.isArray(a.tabs) ? a.tabs.filter((t) => t?.state?.root) : [];
+        const validIds = new Set(openTabs.map((t) => t.id));
+        if (!Array.isArray(a._v5SelectedTabIds) || !a._v5SelectedTabIds.some((id) => validIds.has(id))) {
+          a._v5SelectedTabIds = openTabs.length ? [a.activeTabId && validIds.has(a.activeTabId) ? a.activeTabId : openTabs[0].id] : [];
+        } else {
+          a._v5SelectedTabIds = a._v5SelectedTabIds.filter((id) => validIds.has(id));
+        }
+        const pickedSet = new Set(a._v5SelectedTabIds);
+        if (scopeEl) {
+          const scopeLabels = {
+            active: tr("Mappa intera", "Current map"),
+            selected: tr("Ramo selezionato", "Selected branch"),
+            node: tr("Nodo selezionato", "Selected node"),
+            selectedTabs: tr("Più schede (scegli)…", "Multiple maps (choose)…"),
+            all: tr("Tutte le schede (max 8)", "All maps (max 8)"),
+          };
+          for (const opt of scopeEl.options) {
+            if (scopeLabels[opt.value]) opt.textContent = scopeLabels[opt.value];
+          }
+        }
+        const scopeVal = scopeEl?.value || "active";
+        sheetPicker.hidden = scopeVal !== "selectedTabs";
+        sheetAllBtn.textContent = tr("Tutte", "All");
+        sheetActiveBtn.textContent = tr("Solo attiva", "Active only");
+        sheetChipsWrap.replaceChildren();
+        for (const t of openTabs.slice(0, 16)) {
+          const checked = pickedSet.has(t.id);
+          const chip = el("button", "glauka-sheet-chip" + (checked ? " is-checked" : ""), (checked ? "✓ " : "") + (t.title || tr("Mappa", "Map")));
+          chip.type = "button";
+          chip.dataset.tabId = t.id;
+          chip.setAttribute("aria-pressed", checked ? "true" : "false");
+          chip.addEventListener("click", () => {
+            const cur = new Set(a._v5SelectedTabIds || []);
+            if (cur.has(t.id) && cur.size > 1) cur.delete(t.id);
+            else cur.add(t.id);
+            a._v5SelectedTabIds = [...cur];
+            refresh();
+          });
+          sheetChipsWrap.append(chip);
+        }
+        const targetCount = scopeVal === "all"
+          ? Math.min(8, openTabs.length)
+          : scopeVal === "selectedTabs"
+            ? Math.min(8, Math.max(1, pickedSet.size))
+            : 1;
+        sheetPickerTitle.textContent = tr(
+          `Schede incluse (${targetCount}):`,
+          `Included maps (${targetCount}):`,
+        );
+
         toolsTitle.textContent = tr(
           "✨ Crea flashcard con AI o Google · Archivio JSON",
           "✨ Create flashcards with AI or Google · JSON Archive",
@@ -647,10 +727,15 @@
         countLabel.textContent = tr("Numero di flashcard", "Number of flashcards");
         apiTitle.textContent = tr("La tua AI · API", "Your AI · API");
         apiBadge.textContent = tr("Diretta", "Direct");
-        apiHint.textContent = tr(
-          "Usa il tuo modello configurato in AI Settings.",
-          "Uses your configured AI Settings provider.",
-        );
+        apiHint.textContent = targetCount > 1
+          ? tr(
+              `Genera ~${wantedCount} flashcard distribuite su ${targetCount} schede.`,
+              `Generates ~${wantedCount} flashcards across ${targetCount} maps.`,
+            )
+          : tr(
+              "Usa il tuo modello configurato in AI Settings.",
+              "Uses your configured AI Settings provider.",
+            );
         if (genBtn) {
           genBtn.textContent = tr(
             `✨ Genera ${wantedCount} flashcard`,
@@ -660,10 +745,15 @@
         if (regenBtn) regenBtn.textContent = tr("↻ Aggiorna obsolete", "↻ Refresh outdated");
         googleTitle.textContent = tr("Google AI Mode", "Google AI Mode");
         googleBadge.textContent = tr("0 crediti API", "0 API credits");
-        googleHint.textContent = tr(
-          `Apri Google con prompt per ${wantedCount} flashcard, poi incolla sotto.`,
-          `Open Google with a ${wantedCount}-card prompt, then paste below.`,
-        );
+        googleHint.textContent = targetCount > 1
+          ? tr(
+              `Apri Google con prompt per ${wantedCount} flashcard su ${targetCount} schede.`,
+              `Open Google with a ${wantedCount}-card prompt across ${targetCount} maps.`,
+            )
+          : tr(
+              `Apri Google con prompt per ${wantedCount} flashcard, poi incolla sotto.`,
+              `Open Google with a ${wantedCount}-card prompt, then paste below.`,
+            );
         googleOpenBtn.textContent = tr(
           `🔍 Apri Google (${wantedCount})`,
           `🔍 Open Google (${wantedCount})`,
@@ -772,6 +862,15 @@
         tools.open = true;
         tools.scrollIntoView?.({ block: "nearest" });
       });
+      scopeEl?.addEventListener("change", () => refresh());
+      sheetAllBtn.addEventListener("click", () => {
+        a._v5SelectedTabIds = (a.tabs || []).filter((t) => t?.state?.root).slice(0, 8).map((t) => t.id);
+        refresh();
+      });
+      sheetActiveBtn.addEventListener("click", () => {
+        a._v5SelectedTabIds = a.activeTabId ? [a.activeTabId] : [];
+        refresh();
+      });
       for (const pill of countPills) {
         pill.addEventListener("click", () => {
           if (countInput) countInput.value = pill.dataset.count || "10";
@@ -804,7 +903,8 @@
         );
       });
       googleImportBtn.addEventListener("click", () => {
-        const added = a.v5ImportTextCards?.(googleTextarea.value) || 0;
+        const scope = document.getElementById("v5-study-scope")?.value || "active";
+        const added = a.v5ImportTextCards?.(googleTextarea.value, scope) || 0;
         if (!added) {
           a.showToast?.(
             tr(

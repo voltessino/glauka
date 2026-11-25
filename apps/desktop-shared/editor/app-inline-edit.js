@@ -16,22 +16,30 @@
         const art=window.NeuroMapCreativeCore?.objectGeometry(node,m);
         const labelY=art?art.labelY+art.labelHeight/2:m.y-2;
         const icon=node.illustration?.svg?(m.iconSize||31)+(m.iconGap||9):0;
-        // Use the node interior, not an independently growing floating textbox.
-        const rawWidth=Math.max(20,(art?.labelWidth||m.width-icon-12)*zoom);
+        const textVal=String(field.value??node.text??'');
+        const singleLine=(m.lines?.length||1)<=1&&!textVal.includes('\n');
+        // Give DOM font metrics headroom above Canvas textWidth so double-clicking never unexpectedly wraps onto a second line.
+        const baseW=Math.max(art?.labelWidth||0,m.width-icon,(m.textWidth||32)+32);
+        const rawWidth=Math.max(20,baseW*zoom);
         const width=Math.min(rawWidth,Math.max(60,viewportWidth-24));
-        field.style.setProperty('font-family',window.GlaukaNodeText?.cssFamily(node)||'Inter, sans-serif','important');
-        field.style.setProperty('font-size',font+'px','important');
-        field.style.setProperty('font-weight',String(m.fontWeight||node.fontWeight||400),'important');
-        field.style.setProperty('font-style',node.fontItalic?'italic':'normal','important');
-        field.style.setProperty('text-decoration',[node.fontUnderline?'underline':'',node.fontStrike?'line-through':''].filter(Boolean).join(' ')||'none','important');
-        field.style.setProperty('text-align',node.labelAlign||'center','important');
-        field.style.setProperty('line-height',lineHeight+'px','important');
+        const setImp=(prop,val)=>{if(field.style.getPropertyValue?.(prop)!==val)field.style.setProperty(prop,val,'important');};
+        setImp('font-family',window.GlaukaNodeText?.cssFamily(node)||'Inter, sans-serif');
+        setImp('font-size',font+'px');
+        setImp('font-weight',String(m.fontWeight||node.fontWeight||400));
+        setImp('font-style',node.fontItalic?'italic':'normal');
+        setImp('text-decoration',[node.fontUnderline?'underline':'',node.fontStrike?'line-through':''].filter(Boolean).join(' ')||'none');
+        setImp('text-align',node.labelAlign||'center');
+        setImp('line-height',lineHeight+'px');
+        setImp('white-space',singleLine?'pre':'pre-wrap');
         const light=window.NeuroMapGraphics?.light?.();
-        field.style.setProperty('color',window.GlaukaNodeText?.color(node)||((art||node.side==='root')?'#ffffff':light?'#152139':'#f1f5f9'),'important');
-        field.style.width=width+'px';
+        setImp('color',window.GlaukaNodeText?.color(node)||((art||node.side==='root')?'#ffffff':light?'#152139':'#f1f5f9'));
+        const wPx=Math.ceil(width)+'px';
+        if(field.style.width!==wPx)field.style.width=wPx;
         const labelHeight=(art?.labelHeight||m.height-4)*zoom;
-        const height=Math.min(labelHeight,Math.max(lineHeight+8,(m.lines?.length||1)*lineHeight+8),Math.max(24,viewportHeight-110));
-        field.style.height=height+'px';
+        const targetLines=singleLine?1:Math.max(m.lines?.length||1,textVal.split('\n').length);
+        const height=Math.min(Math.max(labelHeight,targetLines*lineHeight+8),Math.max(24,viewportHeight-110));
+        const hPx=Math.ceil(height)+'px';
+        if(field.style.height!==hPx)field.style.height=hPx;
         let pos=this.renderer.worldToScreen(m.x+icon/2,labelY);
         // Keep the actual node visible above the keyboard, moving the camera
         // rather than opening a second editor somewhere else on screen.
@@ -78,7 +86,28 @@
         field.focus({ preventScroll: true });
         if (initialText === null) field.select();
       }
+      scheduleInlineRelayout() {
+        const field=document.getElementById('inline-editor-input');
+        const container=document.getElementById('inline-editor-container');
+        if(field&&container&&field.scrollWidth>field.clientWidth+2){
+          const vw=window.visualViewport?.width||innerWidth;
+          const nextW=Math.min(Math.max(field.clientWidth,field.scrollWidth+12),Math.max(60,vw-24));
+          const oldW=field.clientWidth;
+          if(nextW>oldW){
+            field.style.width=nextW+'px';
+            const leftNum=parseFloat(container.style.left);
+            if(Number.isFinite(leftNum))container.style.left=Math.max(8,leftNum-(nextW-oldW)/2)+'px';
+          }
+        }
+        clearTimeout(this._inlineRelayoutTimer);
+        this._inlineRelayoutTimer=setTimeout(()=>{
+          this._inlineRelayoutTimer=null;
+          if(this.editorNodeId)this.recalculateAndRender();
+        },90);
+      }
       closeEditor(commit) {
+        clearTimeout(this._inlineRelayoutTimer);
+        this._inlineRelayoutTimer=null;
         if (!this.editorNodeId) return;
         const id = this.editorNodeId;
         const field = document.getElementById('inline-editor-input');

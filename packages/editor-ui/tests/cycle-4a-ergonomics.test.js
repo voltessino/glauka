@@ -45,3 +45,11 @@ test('Android close control uses a larger touch area',()=>{
  const css=read('apps/android/native/app/src/main/assets/assets/mobile-app.css');
  assert.match(css,/body\.glauka-mobile-app \.tab-close-btn \{\s*width: 48px;\s*height: 48px;/);
 });
+
+test('prisma skin CSS excludes the startup splash and teardown skips duplicate flushes',()=>{
+ const brand=read('packages/editor-ui/glauka-brand.css');
+ assert.match(brand,/body\.nm-workspace-v2\[data-nm-skin="prisma"\]\s*>\s*:not\([^)]*#glauka-startup[^)]*\)/);
+ const lifecycle=read('packages/editor-ui/lifecycle.js');
+ assert.match(lifecycle,/pagehide',\(\)=>\{if\(!approvedNativeExit&&!discardedNativeExit\)flush\(\)/);
+ assert.match(lifecycle,/visibilitychange',\(\)=>\{if\(document\.hidden&&!approvedNativeExit&&!discardedNativeExit\)flush\(\)/);
+});

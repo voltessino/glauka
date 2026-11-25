@@ -43,7 +43,7 @@
     html.glauka-booting body>:not(#glauka-startup):not(script):not(style){visibility:hidden!important}
     #glauka-startup{position:fixed;inset:0;z-index:2147483640;display:grid;place-content:center;gap:14px;text-align:center;background:#fff!important;color:#1b1b27!important;font:16px "Segoe UI",sans-serif;transition:opacity .25s ease}
     /* One fixed typeface: the brand font arrives mid-startup and would restyle the text. */
-    #glauka-startup,#glauka-startup *{font-family:"Segoe UI",system-ui,sans-serif!important}
+    html #glauka-startup,html #glauka-startup *{font-family:"Segoe UI",system-ui,sans-serif!important}
     #glauka-startup[hidden],#glauka-startup [hidden]{display:none!important}#glauka-startup svg{width:48px;height:48px;margin:auto}#glauka-startup p{color:#625e70!important;font-size:13px;font-weight:400;line-height:1.4;margin:0}#glauka-startup strong{color:inherit!important;font-size:20px;font-weight:700;line-height:1.2;letter-spacing:-0.01em;margin:0}
     html.glauka-dark-theme #glauka-startup{background:#0f1422!important;color:#e2e8f0!important}
     html.glauka-dark-theme #glauka-startup p{color:#cbd5e1!important}

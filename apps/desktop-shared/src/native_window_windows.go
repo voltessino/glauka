@@ -98,6 +98,7 @@ func runNativeDesktop(address, configDir string) error {
 			stopCloseTimer()
 			if approved {
 				closing = true
+				user.NewProc("ShowWindow").Call(hwnd, 0)
 				user.NewProc("PostMessageW").Call(hwnd, 0x10, 0, 0)
 			}
 		})

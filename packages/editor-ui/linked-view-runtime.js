@@ -42,7 +42,7 @@
       const signature=[camera.x,camera.y,camera.zoom].map(n=>Math.round(n*10000)/10000).join('|');
       if(signature!==this._nmViewportSaveSignature){
         this._nmViewportSaveSignature=signature;
-        this.scheduleSave?.();
+        if(!this._nmHomePlaceholder)this.scheduleSave?.();
       }
     }
     return requestRender.apply(this,args);

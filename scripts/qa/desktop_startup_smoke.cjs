@@ -49,13 +49,26 @@ const {chromium}=require('@playwright/test');
         dark:document.documentElement.classList.contains('glauka-dark-theme'),
         background:getComputedStyle(splash).backgroundColor,
         textColor:getComputedStyle(document.getElementById('glauka-startup-status')).color,
-        titleColor:getComputedStyle(splash.querySelector('strong')).color
+        titleColor:getComputedStyle(splash.querySelector('strong')).color,
+        titleFont:getComputedStyle(splash.querySelector('strong')).fontFamily,
+        textFont:getComputedStyle(document.getElementById('glauka-startup-status')).fontFamily
       };
     });
     if(visual.nonce!==nonceMatch[1])throw Error('Startup theme script missing native CSP nonce');
     if(visual.dark!==(theme!=='prisma')||visual.background!==background||visual.textColor!==textColor||visual.titleColor!==titleColor)
       throw Error('Incorrect splash appearance after reload: '+JSON.stringify({theme,visual}));
+    if(/Glauka Sans/i.test(visual.titleFont)||/Glauka Sans/i.test(visual.textFont))
+      throw Error('Splash switched to Glauka Sans at initial load: '+JSON.stringify({theme,visual}));
     await page.waitForFunction(()=>window.neuroMapApp?.tabs&&!document.documentElement.classList.contains('glauka-booting'),{},{timeout:15000});
+    const settledFonts=await page.evaluate(()=>{
+      const splash=document.getElementById('glauka-startup');
+      return {
+        titleFont:getComputedStyle(splash.querySelector('strong')).fontFamily,
+        textFont:getComputedStyle(document.getElementById('glauka-startup-status')).fontFamily
+      };
+    });
+    if(settledFonts.titleFont!==visual.titleFont||settledFonts.textFont!==visual.textFont)
+      throw Error('Splash typeface changed mid-startup: '+JSON.stringify({theme,visual,settledFonts}));
   }
   await assertStartupAppearance('slate','rgb(15, 20, 34)','rgb(203, 213, 225)','rgb(226, 232, 240)');
   await assertStartupAppearance('prisma','rgb(255, 255, 255)','rgb(98, 94, 112)','rgb(27, 27, 39)');

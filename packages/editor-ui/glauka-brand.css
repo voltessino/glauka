@@ -3,9 +3,9 @@ body[data-nm-skin="prisma"] {
   --font-sans: "Glauka Sans", "Segoe UI", sans-serif;
 }
 body.nm-workspace-v2[data-nm-skin="prisma"]
-  > :not(canvas, script, style, #inline-editor-container),
+  > :not(canvas, script, style, #inline-editor-container, #glauka-startup),
 body.nm-workspace-v2[data-nm-skin="prisma"]
-  > :not(canvas, script, style, #inline-editor-container)
+  > :not(canvas, script, style, #inline-editor-container, #glauka-startup)
   :is(button, input, select, textarea, p, label, summary, h1, h2, h3, strong) {
   font-family: "Glauka Sans", "Segoe UI", sans-serif !important;
 }

@@ -235,8 +235,8 @@
     this.closeEditor(true);this.persistWorkspace();
     if(dirty(this)||hasDraft()){e.preventDefault();e.returnValue='';}
    });
-   window.addEventListener('pagehide',()=>{if(!discardedNativeExit)flush();});
-   document.addEventListener('visibilitychange',()=>{if(document.hidden&&!discardedNativeExit)flush();});
+   window.addEventListener('pagehide',()=>{if(!approvedNativeExit&&!discardedNativeExit)flush();});
+   document.addEventListener('visibilitychange',()=>{if(document.hidden&&!approvedNativeExit&&!discardedNativeExit)flush();});
    document.getElementById('inline-editor-input')?.addEventListener('input',()=>this.scheduleSave());
    return result;
   };

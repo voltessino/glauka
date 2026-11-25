@@ -240,7 +240,7 @@ def bundles():
     fonts = ''
     for weight in (400, 600):
         font = base64.b64encode((UI / f'vendor/fonts/dm-sans-{weight}.woff2').read_bytes()).decode('ascii')
-        fonts += f'@font-face{{font-family:"Glauka Sans";src:url(data:font/woff2;base64,{font}) format("woff2");font-weight:{weight};font-display:swap;}}\n'
+        fonts += f'@font-face{{font-family:"Glauka Sans";src:url(data:font/woff2;base64,{font}) format("woff2");font-weight:{weight};font-display:block;}}\n'
     brand_css = replace_once(brand_css, '/* @glauka-fonts */', fonts + '\n/* '+read(UI / 'vendor/fonts/DM-Sans-OFL.txt').replace('*/', '* /')+' */\n')
     brand = replace_once(read(UI / 'glauka-brand.js'), '/* @glauka-mark */ ""', json.dumps(read(ROOT / 'packages/brand/glauka-mark.svg')))
     brand = replace_once(brand, '/* @glauka-brand-styles */ ""', json.dumps(brand_css))

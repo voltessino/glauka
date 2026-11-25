@@ -20,6 +20,7 @@ type desktopWindowState struct {
 	pages        map[string]desktopWindowLease
 	closedAt     time.Time
 	loadingUntil time.Time
+	wake         chan struct{}
 }
 
 func (w *desktopWindowState) update(id, state string, hidden bool, now time.Time, sequence ...uint64) {
@@ -68,6 +69,10 @@ func (w *desktopWindowState) update(id, state string, hidden bool, now time.Time
 	w.pages[id] = desktopWindowLease{seen: now, hidden: hidden, closed: closed, sequence: seq, streams: prior.streams}
 	if closed {
 		w.closedAt = now
+		if w.wake != nil {
+			close(w.wake)
+			w.wake = nil
+		}
 	} else {
 		w.closedAt = time.Time{}
 	}
@@ -192,6 +197,28 @@ func (w *desktopWindowState) pageClosed(id string) bool {
 	p, ok := w.pages[id]
 	return !ok || p.closed
 }
+func (w *desktopWindowState) signal() <-chan struct{} {
+	w.mu.Lock()
+	defer w.mu.Unlock()
+	if w.wake == nil {
+		w.wake = make(chan struct{})
+	}
+	return w.wake
+}
+func (s *service) beginShutdown() {
+	s.shutdownOnce.Do(func() {
+		if s.shutdownCh != nil {
+			close(s.shutdownCh)
+		}
+		s.mu.Lock()
+		for _, active := range s.active {
+			if active != nil && active.cancel != nil {
+				active.cancel()
+			}
+		}
+		s.mu.Unlock()
+	})
+}
 func (s *service) windowLiveRoute(w http.ResponseWriter, r *http.Request) {
 	if !s.secure(w, r) {
 		return
@@ -222,16 +249,19 @@ func (s *service) windowLiveRoute(w http.ResponseWriter, r *http.Request) {
 	}
 	tick := time.NewTicker(time.Second)
 	defer tick.Stop()
-	// No periodic payload is needed on loopback: even a frozen page cannot fill
-	// a receive buffer. Context cancellation detects a destroyed browser document.
+	// Wake immediately on window close or backend shutdown instead of waiting for tick.
 	for {
+		if s.windows.pageClosed(q.WindowID) {
+			return
+		}
+		wake := s.windows.signal()
 		select {
 		case <-r.Context().Done():
 			return
+		case <-s.shutdownCh:
+			return
+		case <-wake:
 		case <-tick.C:
-			if s.windows.pageClosed(q.WindowID) {
-				return
-			}
 		}
 	}
 }

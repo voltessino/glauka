@@ -38,6 +38,8 @@ type service struct {
 	configDir               string
 	mu                      sync.Mutex
 	active                  map[string]*activeAIRequest
+	shutdownOnce            sync.Once
+	shutdownCh              chan struct{}
 	workspaceMu             sync.Mutex
 	projectSaveMu           sync.Mutex
 	lastHeartbeat           atomic.Int64
@@ -966,7 +968,7 @@ func run() error {
 		}
 	}
 	s := &service{secret: randomToken(), ipcToken: randomToken(), cspNonce: randomToken(),
-		configDir: dir, active: map[string]*activeAIRequest{}}
+		configDir: dir, active: map[string]*activeAIRequest{}, shutdownCh: make(chan struct{})}
 	s.loadPaths()
 	noteStoreMigration(s.configDir)
 	s.externalQueue = append(s.externalQueue,forwardedPaths(os.Args)...)
@@ -990,7 +992,8 @@ func run() error {
 	}
 	server := &http.Server{Handler: localOnlyHeaders(s.cspNonce, s.routes()), ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 120 * time.Second, IdleTimeout: 65 * time.Second, MaxHeaderBytes: 1 << 18}
 	defer func() {
-		ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
+		s.beginShutdown()
+		ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 		defer cancel()
 		_ = server.Shutdown(ctx)
 		_ = server.Close()

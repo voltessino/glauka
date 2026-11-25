@@ -392,7 +392,7 @@
   ],
   "closure_input_sha256": {
     "apps/desktop-shared/editor/sources.json": "fb1ea6514583c3beebe072f0ab7b308b21a498bd87f7d32dfe14551e6b6c2e15",
-    "scripts/release/prepare.py": "f6128bfb80a2a127f64ae7ea09ea9225065dd4033d129b47c3d2a40f5800ab7f",
+    "scripts/release/prepare.py": "6d8b2b127fa5b6bf5f359b1b4cfbf5ea41780473322f4567bf58b6055b6a5c58",
     "apps/android/editor/sources.json": "5e136cb6faeff809aa268d1ac601c08189a97597675d19d9397dd89eb484d360",
     "scripts/release/pdfjs_vendor.py": "e49edd825a3ee4b0bc909fc458324ec7a3425bbb180f5da69c4e8f85621001af",
     "scripts/release/ocr_vendor.py": "fa270f0c19830d7cee395e8ab1720ea6cc7b7b708fc3d373e4f79aca22c333df",

@@ -43,6 +43,33 @@ test("note and link icons are clickable and a plain root keeps its box", async (
   expect(result.lines).toContain("Ramo lungo");
 });
 
+test("short node editing stays aligned without a stray underline", async ({ page }) => {
+  await openEditor(page);
+  const result = await page.evaluate(() => {
+    const app = window.neuroMapApp;
+    const child = app.state.root.children[1];
+    app.selectNode(child.id);
+    app.editSelected();
+    const field = document.getElementById("inline-editor-input");
+    const box = field.getBoundingClientRect();
+    const m = app.layout.getLayout(child.id);
+    const pt = app.renderer.worldToScreen(m.x, m.y);
+    const zoom = app.renderer.camera.zoom;
+    const cs = getComputedStyle(field);
+    app.closeEditor(false);
+    return {
+      inputW: box.width,
+      nodeW: m.width * zoom,
+      inputBottom: box.bottom,
+      nodeBottom: pt.y + (m.height * zoom) / 2,
+      boxShadow: cs.boxShadow,
+    };
+  });
+  expect(result.boxShadow).toBe("none");
+  expect(result.inputW).toBeLessThanOrEqual(result.nodeW + 14);
+  expect(result.inputBottom).toBeLessThanOrEqual(result.nodeBottom + 4);
+});
+
 test("a long label stays wrapped in the writing box and on the map", async ({ page }) => {
   await openEditor(page);
   const result = await page.evaluate(() => {

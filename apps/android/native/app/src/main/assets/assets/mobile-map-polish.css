@@ -169,13 +169,13 @@ body.glauka-mobile-app #gl-mobile-node-actions button{flex-direction:column;gap:
   box-sizing:border-box!important; min-width:0!important; min-height:0!important;
   max-height:none!important; padding:4px 6px!important; margin:0!important;
   overflow-wrap:anywhere!important; word-break:normal!important;
-  border:0!important; border-radius:3px!important; background:transparent!important;
-  box-shadow:0 1px 0 0 var(--accent-indigo,#7750d9)!important;
+  border:0!important; border-radius:6px!important; background:transparent!important;
+  box-shadow:none!important;
   outline:0!important; resize:none!important; white-space:pre-wrap!important;
   backdrop-filter:none!important; -webkit-backdrop-filter:none!important;
   overflow:auto!important; user-select:text!important; -webkit-user-select:text!important;
 }
-#inline-editor-container #inline-editor-input:focus-visible {box-shadow:0 1px 0 0 var(--accent-indigo,#7750d9)!important;}
+#inline-editor-container #inline-editor-input:focus-visible {box-shadow:none!important;}
 
 /* Preview the real chrome while changing its accent, without a blur/tint. */
 #gl-android-style-overlay.gl-interface-preview {background:transparent!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}

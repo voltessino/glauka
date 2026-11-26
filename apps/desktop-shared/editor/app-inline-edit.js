@@ -17,10 +17,12 @@
         const labelY=art?art.labelY+art.labelHeight/2:m.y-2;
         const icon=node.illustration?.svg?(m.iconSize||31)+(m.iconGap||9):0;
         const textVal=String(field.value??node.text??'');
-        // Keep a readable width, then wrap. A long line must not stay on one clipped row.
-        const baseW=Math.max(art?.labelWidth||0,m.width-icon,(m.textWidth||32)+32,220/Math.max(zoom,0.2));
-        const rawWidth=Math.max(20,baseW*zoom);
-        const width=Math.min(Math.max(160,rawWidth),Math.max(60,viewportWidth-24));
+        // Hug the node box by default; widen smoothly only when the user types long content.
+        const nodeW=Math.max(art?.labelWidth||0,m.width-icon,(m.textWidth||32)+28);
+        const longDraft=textVal.length>28||textVal.includes('\n')||(m.lines?.length||1)>1;
+        const baseW=longDraft?Math.max(nodeW,240/Math.max(zoom,0.4)):nodeW;
+        const rawWidth=Math.max(24,baseW*zoom);
+        const width=Math.min(rawWidth,Math.max(60,viewportWidth-24));
         const setImp=(prop,val)=>{if(field.style.getPropertyValue?.(prop)!==val)field.style.setProperty(prop,val,'important');};
         setImp('font-family',window.GlaukaNodeText?.cssFamily(node)||'Inter, sans-serif');
         setImp('font-size',font+'px');
@@ -40,11 +42,25 @@
         const labelHeight=(art?.labelHeight||m.height-4)*zoom;
         const maxHeight=Math.max(48,Math.min(viewportHeight*0.72,viewportHeight-110));
         setImp('max-height',maxHeight+'px');
-        field.style.height='auto';
-        const grown=Math.max(labelHeight,field.scrollHeight||0,textVal?lineHeight+8:32);
-        const height=Math.min(grown,maxHeight);
-        const hPx=Math.ceil(height)+'px';
-        if(field.style.height!==hPx)field.style.height=hPx;
+        field.style.height='1px';
+        const contentHeight=field.scrollHeight||0;
+        const singleRow=!textVal.includes('\n')&&(m.lines?.length||1)<=1&&contentHeight<=lineHeight+10;
+        const padY=singleRow?Math.max(2,Math.floor((labelHeight-lineHeight)/2)):2;
+        setImp('padding',`${padY}px 4px`);
+        if(singleRow){
+          const height=Math.min(Math.max(labelHeight,lineHeight+padY*2),maxHeight);
+          const hPx=Math.ceil(height)+'px';
+          if(field.style.height!==hPx)field.style.height=hPx;
+          var editorH=height;
+        }else{
+          field.style.height='1px';
+          const grown=Math.max(labelHeight,field.scrollHeight||0,textVal?lineHeight+8:32);
+          const height=Math.min(grown,maxHeight);
+          const hPx=Math.ceil(height)+'px';
+          if(field.style.height!==hPx)field.style.height=hPx;
+          var editorH=height;
+        }
+        const height=editorH;
         let pos=this.renderer.worldToScreen(m.x+icon/2,labelY);
         // Keep the actual node visible above the keyboard, moving the camera
         // rather than opening a second editor somewhere else on screen.

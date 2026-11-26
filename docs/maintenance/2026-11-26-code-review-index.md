@@ -7,7 +7,7 @@ Fotografia di partenza su `main` (`5fd88a3d` e successivi). Serve a lavorare **a
 | Zona | Contenuto | Isolamento | Stato |
 | --- | --- | --- | --- |
 | **A** | Sito, Video Studio, license-manager, docs, inventari Git | Alto | **In corso** — sito + gate Video Studio |
-| **B** | Lingue, icone, OCR/PDF, Cloud, AI UI, packaging nativo | Medio | Baseline: lingue e OCR/PDF già verdi |
+| **B** | Lingue, icone, OCR/PDF, Cloud, AI UI, packaging nativo | Medio | Lingue: PR orfane Orbit + NM_I18N; OCR/PDF verdi |
 | **C** | Nodi, layout, drag, zoom, file, salvataggi, viste, studio | Basso (molto collegato) | Solo con bug/lentezza misurata |
 
 ## 18 aree prodotto (FEATURE_MAP)
@@ -38,9 +38,9 @@ Sito / Video Studio da soli non richiedono sync.
 
 ## Baseline Zona B (26 nov 2026)
 
-- Lingue: 8 cataloghi × 7063 chiavi allineati; `test_interface_locales` 6/6 OK; structure shell dictionary/locale OK.
+- Lingue: cataloghi allineati; `test_interface_locales` OK; structure shell dictionary/locale OK.
 - OCR vendor: 3/3 OK. PDF.js vendor: 5/5 OK.
-- Nessun buco cataloghi da chiudere subito; prossima fetta = pezzo isolato con prova di non-uso (es. license-manager o packaging), non il cuore editor.
+- Fetta lingue: rimosse 12 chiavi orfane di `mobile-orbit-toggle.js` (7051 chiavi) e chiavi `NM_I18N` non usate (`plan`/`free`/`pro`/`activated`/`yes`; su Android anche `local`).
 
 ## Prossime fette proposte
 

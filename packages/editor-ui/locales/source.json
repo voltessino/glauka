@@ -40781,102 +40781,6 @@
         "apps/android/native/app/src/main/assets/assets/mobile-74.js"
       ]
     },
-    "m171b420665c0": {
-      "it": "Aspetto interfaccia",
-      "en": "Aspetto interfaccia",
-      "known": false,
-      "origins": [
-        "apps/android/native/app/src/main/assets/assets/mobile-orbit-toggle.js"
-      ]
-    },
-    "ma5faef425313": {
-      "it": "Cambia solo l’interfaccia. I colori e lo stile della mappa restano invariati.",
-      "en": "Cambia solo l’interfaccia. I colori e lo stile della mappa restano invariati.",
-      "known": false,
-      "origins": [
-        "apps/android/native/app/src/main/assets/assets/mobile-orbit-toggle.js"
-      ]
-    },
-    "m4675d1e60d21": {
-      "it": "✦ Orbit attivo",
-      "en": "✦ Orbit attivo",
-      "known": false,
-      "origins": [
-        "apps/android/native/app/src/main/assets/assets/mobile-orbit-toggle.js"
-      ]
-    },
-    "md639f4bd5b91": {
-      "it": "✦ Attiva Orbit",
-      "en": "✦ Attiva Orbit",
-      "known": false,
-      "origins": [
-        "apps/android/native/app/src/main/assets/assets/mobile-orbit-toggle.js"
-      ]
-    },
-    "m46821f0b7acc": {
-      "it": "App appearance",
-      "en": "App appearance",
-      "known": false,
-      "origins": [
-        "apps/android/native/app/src/main/assets/assets/mobile-orbit-toggle.js"
-      ]
-    },
-    "m52bf73dfa4be": {
-      "it": "Changes only the app interface. Map colors and styles stay unchanged.",
-      "en": "Changes only the app interface. Map colors and styles stay unchanged.",
-      "known": false,
-      "origins": [
-        "apps/android/native/app/src/main/assets/assets/mobile-orbit-toggle.js"
-      ]
-    },
-    "mc43297e91f9a": {
-      "it": "✦ Orbit enabled",
-      "en": "✦ Orbit enabled",
-      "known": false,
-      "origins": [
-        "apps/android/native/app/src/main/assets/assets/mobile-orbit-toggle.js"
-      ]
-    },
-    "mda930aa7dc2e": {
-      "it": "✦ Enable Orbit",
-      "en": "✦ Enable Orbit",
-      "known": false,
-      "origins": [
-        "apps/android/native/app/src/main/assets/assets/mobile-orbit-toggle.js"
-      ]
-    },
-    "mf17fc57bdd18": {
-      "it": "Orbit accent",
-      "en": "Orbit accent",
-      "known": false,
-      "origins": [
-        "apps/android/native/app/src/main/assets/assets/mobile-orbit-toggle.js"
-      ]
-    },
-    "m51a75b67f459": {
-      "it": "screen and (max-width: 850px)",
-      "en": "screen and (max-width: 850px)",
-      "known": false,
-      "origins": [
-        "apps/android/native/app/src/main/assets/assets/mobile-orbit-toggle.js"
-      ]
-    },
-    "m7cdbbb1be0b2": {
-      "it": "not all",
-      "en": "not all",
-      "known": false,
-      "origins": [
-        "apps/android/native/app/src/main/assets/assets/mobile-orbit-toggle.js"
-      ]
-    },
-    "m924a30b070ac": {
-      "it": "inspector-section nm6-skiptranslate",
-      "en": "inspector-section nm6-skiptranslate",
-      "known": false,
-      "origins": [
-        "apps/android/native/app/src/main/assets/assets/mobile-orbit-toggle.js"
-      ]
-    },
     "m858b37fe231a": {
       "it": "Esportazione superiore a 12 MB: usa il backup desktop.",
       "en": "Esportazione superiore a 12 MB: usa il backup desktop.",
@@ -66605,18 +66509,6 @@
     "Unsaved note": "mf4b84010435c",
     "Scartare le modifiche prima di cambiare sezione?": "m25cd1b5772d4",
     "Discard edits before switching tools?": "m25cd1b5772d4",
-    "Aspetto interfaccia": "m171b420665c0",
-    "Cambia solo l’interfaccia. I colori e lo stile della mappa restano invariati.": "ma5faef425313",
-    "✦ Orbit attivo": "m4675d1e60d21",
-    "✦ Attiva Orbit": "md639f4bd5b91",
-    "App appearance": "m46821f0b7acc",
-    "Changes only the app interface. Map colors and styles stay unchanged.": "m52bf73dfa4be",
-    "✦ Orbit enabled": "mc43297e91f9a",
-    "✦ Enable Orbit": "mda930aa7dc2e",
-    "Orbit accent": "mf17fc57bdd18",
-    "screen and (max-width: 850px)": "m51a75b67f459",
-    "not all": "m7cdbbb1be0b2",
-    "inspector-section nm6-skiptranslate": "m924a30b070ac",
     "Esportazione superiore a 12 MB: usa il backup desktop.": "m858b37fe231a",
     "Attendi il caricamento della mappa": "m392221b41f12",
     "Tocca prima un nodo": "m98460cc8b10e",

@@ -3,7 +3,7 @@
   Layout.prototype._nmCachedMeasurements=true;
   const measure=Layout.prototype.measureNode;
   Layout.prototype.measureNode=function(node,depth=0){
-   const measuredText=this.editingLabel?.id===node.id?this.editingLabel.text:node.text;
+   const measuredText=this.editingLabel?.id===(node.logicalId||node.id)?this.editingLabel.text:node.text;
    const type=this.getNodeTypography(node,depth),signature=JSON.stringify([fontEpoch,measuredText,type.fontSize,type.fontWeight,!!node.fontItalic,node.fontFamily||null,node.side==='root',depth===1,node.labelWrapChars||this.defaultLabelWrapChars,node.labelIndent||0,!!node.illustration?.svg,node.objectArt?.id||null,Number(node.objectArt?.size)||null]);
    const cache=this._nmMeasurements||(this._nmMeasurements=new WeakMap()),old=cache.get(node),stats=this._nmMeasureStats||(this._nmMeasureStats={hits:0,misses:0});
    if(old?.signature===signature){stats.hits++;return {...old.size,lines:old.size.lines.slice()};}

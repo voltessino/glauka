@@ -43,7 +43,7 @@
         this.measureCtx.font = `${node.fontItalic ? 'italic ' : ''}${fontWeight} ${fontSize}px ${globalThis.GlaukaNodeText?.cssFamily(node)||'Inter, -apple-system, sans-serif'}`;
         const charLimit = Math.max(8,Math.min(60,Number(node.labelWrapChars || this.defaultLabelWrapChars)||18));
         // Draft geometry never changes saved text or Undo.
-        const text=this.editingLabel && this.editingLabel.id===node.id?this.editingLabel.text:node.text;
+        const text=this.editingLabel && this.editingLabel.id===(node.logicalId||node.id)?this.editingLabel.text:node.text;
         const lines = this.wrapNodeText(text, charLimit);
         const indent=Math.max(0,Math.min(45,Number(node.labelIndent)||0));
         const textWidth = Math.max(20,...lines.map((line,i)=>this.measureCtx.measureText(line).width+(i?indent:0)));

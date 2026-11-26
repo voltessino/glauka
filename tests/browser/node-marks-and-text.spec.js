@@ -70,6 +70,59 @@ test("short node editing stays aligned without a stray underline", async ({ page
   expect(result.inputBottom).toBeLessThanOrEqual(result.nodeBottom + 4);
 });
 
+test("continuous typing and deletion never overflows node box or shows scrollbars", async ({ page }) => {
+  await openEditor(page);
+  await page.evaluate(() => {
+    const app = window.neuroMapApp;
+    app.state.branchStyle = "xmind8";
+    app.state.defaultLabelWrapChars = 28;
+    const child = app.state.root.children[1];
+    child.text = "a";
+    app.recalculateAndRender();
+    app.selectNode(child.id);
+    app.renderer.camera.zoom = 0.85;
+    app.recalculateAndRender();
+    app.editSelected();
+  });
+  const sample = "sdjasdjasfjasfjasfjasfjasfjasfjasfjasfjas";
+  for (let i = 0; i < sample.length; i++) {
+    await page.keyboard.type(sample[i]);
+    const step = await page.evaluate(() => {
+      const app = window.neuroMapApp;
+      const child = app.state.root.children[1];
+      const field = document.getElementById("inline-editor-input");
+      const box = field.getBoundingClientRect();
+      const m = app.layout.getLayout(child.id);
+      const pt = app.renderer.worldToScreen(m.x, m.y);
+      const zoom = app.renderer.camera.zoom;
+      return {
+        len: field.value.length,
+        overflowsBoxX: box.width > m.width * zoom + 2,
+        underfillsBoxX: box.width < m.width * zoom - 4,
+        overflowsBoxBottom: box.bottom > pt.y + (m.height * zoom) / 2 + 4,
+        hasScrollbar: field.scrollHeight > field.clientHeight,
+      };
+    });
+    expect(step.overflowsBoxX, `char ${step.len} overflows X`).toBe(false);
+    expect(step.underfillsBoxX, `char ${step.len} underfills X`).toBe(false);
+    expect(step.overflowsBoxBottom, `char ${step.len} overflows Bottom`).toBe(false);
+    expect(step.hasScrollbar, `char ${step.len} has scrollbar`).toBe(false);
+  }
+  await page.keyboard.press("Control+a");
+  await page.keyboard.type("a");
+  const shrunk = await page.evaluate(() => {
+    const app = window.neuroMapApp;
+    const child = app.state.root.children[1];
+    const m = app.layout.getLayout(child.id);
+    const box = document.getElementById("inline-editor-input").getBoundingClientRect();
+    app.closeEditor(true);
+    return { mw: Math.round(m.width), mh: Math.round(m.height), rw: Math.round(box.width), zoom: app.renderer.camera.zoom };
+  });
+  expect(shrunk.mw).toBeLessThanOrEqual(96);
+  expect(shrunk.mh).toBeLessThanOrEqual(40);
+  expect(shrunk.rw).toBeLessThanOrEqual(Math.ceil(96 * shrunk.zoom));
+});
+
 test("a long label stays wrapped in the writing box and on the map", async ({ page }) => {
   await openEditor(page);
   const result = await page.evaluate(() => {

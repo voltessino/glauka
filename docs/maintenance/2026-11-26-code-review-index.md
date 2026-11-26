@@ -18,6 +18,7 @@ Fotografia di partenza su `main` (`5fd88a3d` e successivi). Serve a lavorare **a
 
 1. **Zona A · sito:** stub CSS/JS, living-canvas/story-paths, PNG legacy non linkati, tour-player inutilizzato; test packaging e Playwright aggiornati.
 2. **Zona A · Video Studio:** rimosso il passo duplicato `p6-p7-targeted` dal release-gate (già coperto da `qa.cjs --fast`); tolto export morto `escapeHTML` da `review.cjs`.
+3. **Zona A · license-manager:** rimosso `launch_desk.py` (avvio non usato; i launcher usano `-m glauka_license_manager`). Lasciati `apply_public_key.py` e `installa.ps1` (possibile uso manuale).
 
 Dettaglio: [design](../superpowers/specs/2026-11-26-code-review-campaign-design.md), [piano sito](../superpowers/plans/2026-11-26-zone-a-website-dead-weight.md).
 

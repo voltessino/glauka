@@ -69,7 +69,6 @@ async function main(){
  const completeFile=path.join(media,basename+'.mp4');
  const captionFile=path.join(media,basename+'.it.vtt');
  const proofFile=path.join(media,basename+'.provenance.json');
- const configFile=path.join(media,'tour-config.js');
  const browser=await chromium.launch({
   executablePath:process.env.CHROMIUM_EXECUTABLE_PATH||undefined,
   args:['--no-sandbox']
@@ -277,18 +276,6 @@ async function main(){
   fs.writeFileSync(captionFile,subtitleFile(),'utf8');
   fs.writeFileSync(path.join(media,basename+'.en.vtt'),subtitleFile('en'),'utf8');
   fs.writeFileSync(proofFile,JSON.stringify(proof,null,2)+'\n','utf8');
-  const config={
-    available:true,verified:true,durationSeconds:total,
-    source:'../media/'+basename+'.mp4',
-    captions:'../media/'+basename+'.it.vtt',
-    poster:'../media/'+basename+'.png',
-    englishCaptions:'../media/'+basename+'.en.vtt',
-    chapters:chapterList,
-    aiDemo:liveAI?'live configured provider':'local labelled fixture',
-    provenance:basename+'.provenance.json'
-  };
-  fs.writeFileSync(configFile,'window.GlaukaTourConfig = Object.freeze('+
-    JSON.stringify(config,null,2)+');\n');
   console.log('Verified real product tour:',completeFile,'duration',duration,
    'frames',frames,'SHA256',hash);
   console.log('Markdown measured:',JSON.stringify(outcome));

@@ -1,10 +1,12 @@
 """Content-only anteprima deployment must not overwrite OVH access controls."""
 from pathlib import Path
 import re
+import sys
 import tempfile
 import unittest
 import zipfile
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from build_anteprima_update import build_update, validate_links
 
 
@@ -18,17 +20,19 @@ class ExistingAnteprimaUpdateTests(unittest.TestCase):
             self.assertTrue((folder / "index.html").is_file())
             self.assertTrue((folder / "home-en.html").is_file())
             self.assertTrue((folder / "release-config.js").is_file())
-            self.assertTrue((folder / "launch.css").is_file())
-            self.assertTrue((folder / "site-evolution.css").is_file())
-            self.assertTrue((folder / "site-evolution.js").is_file())
-            for example in ("anatomia-mappa", "anatomia-mappa-en", "matematica-mappa"):
+            self.assertFalse((folder / "launch.css").exists())
+            self.assertFalse((folder / "site-evolution.css").exists())
+            self.assertFalse((folder / "living-canvas.js").exists())
+            self.assertFalse((folder / "story-paths.js").exists())
+            self.assertFalse((folder / "product-guide.js").exists())
+            for example in ("anatomia-mappa", "anatomia-mappa-en"):
                 self.assertTrue((folder / f"assets/examples/{example}.png").is_file())
+            self.assertTrue((folder / "assets/examples/it/matematica.png").is_file())
+            self.assertFalse((folder / "assets/examples/matematica-mappa.png").exists())
             self.assertFalse((folder / "media/glauka-demo.mp4").exists())
-            for name in ("work", "study", "ideas"):
-                self.assertTrue((folder / f"assets/{name}.png").is_file())
-            self.assertTrue((folder / "product-guide.js").is_file())
-            self.assertTrue((folder / "living-canvas.js").is_file())
-            self.assertTrue((folder / "story-paths.js").is_file())
+            for name in ("work", "study", "ideas", "organize"):
+                self.assertFalse((folder / f"assets/{name}.png").exists())
+            self.assertTrue((folder / "home.js").is_file())
             self.assertTrue((folder / "cinema.js").is_file())
             self.assertTrue((folder / "faq.js").is_file())
             self.assertTrue((folder / "release-status.js").is_file())
@@ -51,8 +55,8 @@ class ExistingAnteprimaUpdateTests(unittest.TestCase):
             validate_links(folder)
             for name in (".htaccess", ".htpasswd", ".htpasswd-glauka-preview"):
                 self.assertFalse((folder / name).exists())
-            self.assertNotIn("../", (folder / "index.html").read_text())
-            self.assertNotIn("../", (folder / "home-en.html").read_text())
+            self.assertNotIn("../", (folder / "index.html").read_text(encoding="utf-8"))
+            self.assertNotIn("../", (folder / "home-en.html").read_text(encoding="utf-8"))
             self.assertTrue((folder.parent / "LEGGIMI-ANTEPRIMA.txt").is_file())
 
             with zipfile.ZipFile(archive) as bundle:
@@ -93,7 +97,7 @@ class ExistingAnteprimaUpdateTests(unittest.TestCase):
     def test_update_instructions_explicitly_preserve_ovh_protection(self):
         with tempfile.TemporaryDirectory() as tmp:
             folder, _ = build_update(Path(tmp) / "update")
-            instructions = (folder.parent / "LEGGIMI-ANTEPRIMA.txt").read_text()
+            instructions = (folder.parent / "LEGGIMI-ANTEPRIMA.txt").read_text(encoding="utf-8")
             self.assertIn(".htaccess", instructions)
             self.assertIn(".htpasswd-glauka-preview", instructions)
             self.assertIn("anteprima/anteprima/", instructions)

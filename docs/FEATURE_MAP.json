@@ -473,16 +473,17 @@
       ],
       "common": [],
       "desktop": [
-        "apps/website/index.html",
-        "apps/website/app.js",
-        "apps/website/styles.css",
+        "apps/website/home-review/index.html",
+        "apps/website/home-review/home.js",
+        "apps/website/home-review/home.css",
         "scripts/release/package_website_preview.py"
       ],
       "android": [],
       "tests": [
-        "scripts/release/test_package_website_preview.py"
+        "scripts/release/test_package_website_preview.py",
+        "tests/website/home-review.spec.js"
       ],
-      "warning": "Il sito non è la build desktop o Android."
+      "warning": "Il sito selezionato è home-review/; il packaging OVH non include i prototipi."
     }
   ]
 }

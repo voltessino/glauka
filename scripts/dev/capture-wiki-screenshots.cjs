@@ -8,6 +8,10 @@ const { chromium } = require("@playwright/test");
 
 const root = path.resolve(__dirname, "../..");
 const out = path.join(root, "apps/website/home-review/assets/wiki");
+const only = new Set(process.argv.slice(2).filter((name) => name.endsWith(".png")));
+function wanted(name) {
+  return !only.size || only.has(name);
+}
 const demo = {
   text: "Una pianta in classe",
   children: [
@@ -64,9 +68,11 @@ function startServer(platform, port) {
   return child;
 }
 
-async function shot(page, name) {
+async function shot(page, name, options = {}) {
+  if (!wanted(name)) return;
   const file = path.join(out, name);
-  await page.screenshot({ path: file, animations: "disabled" });
+  if (options.locator) await options.locator.screenshot({ path: file, animations: "disabled" });
+  else await page.screenshot({ path: file, animations: "disabled", clip: options.clip });
   const size = fs.statSync(file).size;
   if (size < 8000) throw new Error(name + " looks empty (" + size + " bytes)");
   console.log("saved", name, size);
@@ -127,10 +133,86 @@ async function prepareDesktop(page) {
   await page.waitForTimeout(400);
 }
 
+async function captureFocusShots(page) {
+  await closeFloaters(page);
+  const openedAi = await page.evaluate(() => {
+    document.getElementById("nm67-notes-overlay")?.classList.add("hidden");
+    const learn = document.getElementById("nm-learn-panel");
+    if (learn) learn.hidden = true;
+    const panel = document.getElementById("nm-ai-studio");
+    if (!panel) return false;
+    panel.hidden = false;
+    panel.classList.remove("hidden");
+    panel.style.display = "flex";
+    return true;
+  });
+  if (!openedAi) throw new Error("AI Studio panel was not found");
+  await page.waitForTimeout(300);
+  await page.evaluate(() => document.getElementById("nm-ai-task-listen")?.scrollIntoView({ block: "center" }));
+  await page.waitForTimeout(150);
+  await shot(page, "ai-studio.png", { locator: page.locator("#nm-ai-studio") });
+  if (wanted("listen.png")) {
+    if (!(await clickId(page, "nm-ai-task-listen"))) throw new Error("Listen task was not found");
+    await page.waitForTimeout(300);
+    await page.evaluate(() => {
+      const field = document.getElementById("nm-ai-listen-script");
+      if (field) {
+        field.value = "Le radici assorbono acqua e tengono la pianta ferma.";
+        field.dispatchEvent(new Event("input", { bubbles: true }));
+      }
+      const online = [...document.querySelectorAll(".nm-ai-listen-mode")].find((el) => (el.innerText || "").includes("Online"));
+      online?.click();
+    });
+    await page.waitForTimeout(250);
+    await page.evaluate(() => {
+      const button = document.getElementById("nm-ai-listen-elaborate");
+      let scroller = button?.parentElement;
+      while (scroller && scroller.scrollHeight <= scroller.clientHeight + 4) scroller = scroller.parentElement;
+      if (button && scroller) {
+        const top = button.getBoundingClientRect().top - scroller.getBoundingClientRect().top + scroller.scrollTop;
+        scroller.scrollTop = Math.max(0, top - 80);
+      }
+    });
+    await page.waitForTimeout(200);
+    const box = await page.locator("#nm-ai-studio").boundingBox();
+    if (!box) throw new Error("Listen panel was not visible");
+    await shot(page, "listen.png", {
+      clip: {
+        x: Math.round(box.x),
+        y: Math.round(box.y),
+        width: Math.round(box.width),
+        height: Math.round(box.height)
+      }
+    });
+  }
+  if (!wanted("suggest.png")) return;
+  await closeFloaters(page);
+  await page.evaluate(() => {
+    const app = window.neuroMapApp;
+    const node = app.state.root;
+    app.selectNode?.(node.id, "single");
+    app.fitToScreen?.();
+    app.editSelected?.("");
+  });
+  const input = page.locator("#inline-editor-input");
+  await input.waitFor({ state: "visible", timeout: 8000 });
+  await input.fill("cuore");
+  await input.dispatchEvent("input");
+  await page.waitForSelector("#nm-inline-smart-suggest:not([hidden])", { timeout: 8000 });
+  await page.waitForTimeout(250);
+  await shot(page, "suggest.png");
+}
+
 async function captureDesktop(browser) {
   const page = await browser.newPage({ viewport: { width: 1200, height: 720 }, deviceScaleFactor: 1, locale: "it-IT" });
   await page.route("**/*", (route) => route.request().url().startsWith("http://127.0.0.1:5174/") ? route.continue() : route.abort());
   await prepareDesktop(page);
+  const focusOnly = only.size > 0 && [...only].every((name) => ["ai-studio.png", "listen.png", "suggest.png"].includes(name));
+  if (focusOnly) {
+    await captureFocusShots(page);
+    await page.close();
+    return;
+  }
   await shot(page, "workspace.png");
   const views = [
     ["orgchart", "view-org.png"],
@@ -195,21 +277,7 @@ async function captureDesktop(browser) {
   });
   await page.waitForTimeout(200);
   await shot(page, "google-ai.png");
-  await closeFloaters(page);
-  const openedAi = await page.evaluate(() => {
-    document.getElementById("nm67-notes-overlay")?.classList.add("hidden");
-    const learn = document.getElementById("nm-learn-panel");
-    if (learn) learn.hidden = true;
-    const panel = document.getElementById("nm-ai-studio");
-    if (!panel) return false;
-    panel.hidden = false;
-    panel.classList.remove("hidden");
-    panel.style.display = "flex";
-    return true;
-  });
-  if (!openedAi) throw new Error("AI Studio panel was not found");
-  await page.waitForTimeout(300);
-  await shot(page, "ai-studio.png");
+  await captureFocusShots(page);
   await closeFloaters(page);
   if (!(await clickId(page, "nm-ocr-launch"))) throw new Error("OCR command was not found");
   await page.waitForTimeout(400);
@@ -258,7 +326,9 @@ function compress() {
     "from PIL import Image",
     "folder = Path(" + JSON.stringify(out) + ")",
     "total = 0",
-    "for path in folder.glob('*.png'):",
+    "names = " + JSON.stringify(only.size ? [...only] : []) ,
+    "paths = [folder / name for name in names] if names else list(folder.glob('*.png'))",
+    "for path in paths:",
     "    image = Image.open(path).convert('RGB')",
     "    limit = 720 if path.name == 'android.png' else 1200",
     "    if image.width > limit:",
@@ -281,8 +351,9 @@ function compress() {
 
 (async () => {
   fs.mkdirSync(out, { recursive: true });
+  const needPhone = wanted("android.png");
   const desktop = startServer("macos", 5174);
-  const phone = startServer("android", 5173);
+  const phone = needPhone ? startServer("android", 5173) : null;
   const browser = await chromium.launch({
     executablePath: process.env.CHROMIUM_EXECUTABLE_PATH || undefined,
     args: ["--no-sandbox"]
@@ -290,13 +361,15 @@ function compress() {
   try {
     await waitFor("http://127.0.0.1:5174/index.html", desktop);
     await captureDesktop(browser);
-    await waitFor("http://127.0.0.1:5173/app/index.html", phone);
-    await captureAndroid(browser);
+    if (needPhone) {
+      await waitFor("http://127.0.0.1:5173/app/index.html", phone);
+      await captureAndroid(browser);
+    }
     await compress();
   } finally {
     await browser.close();
     desktop.kill();
-    phone.kill();
+    if (phone) phone.kill();
   }
 })().catch((error) => {
   console.error(error);

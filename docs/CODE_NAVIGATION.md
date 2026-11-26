@@ -14,7 +14,7 @@
 | Interfaccia e moduli condivisi | [`packages/editor-ui/`](../packages/editor-ui) | Controlli, drag, stili, AI, grafica, test JS |
 | Desktop Windows e macOS | [`apps/desktop-shared/editor/`](../apps/desktop-shared/editor) e [`apps/desktop-shared/src/`](../apps/desktop-shared/src) | Editor JS e backend/bridge Go comuni a Windows e Mac |
 | Android | [`apps/android/editor/`](../apps/android/editor) e [`apps/android/native/`](../apps/android/native) | Editor mobile JS, WebView/Java, gesti, storage |
-| Packaging e prove | [`scripts/release/`](../scripts/release), [`scripts/qa/`](../scripts/qa), [`tests/browser/`](../tests/browser) | Generazione delle build e test locali |
+| Packaging e prove | [`scripts/release/`](../scripts/release), [`scripts/qa/`](../scripts/qa), [`tests/browser/`](../tests/browser) | Generazione delle build e test locali; aggiornamento manuale della repo pubblica: [`export_open_source.py`](../scripts/release/export_open_source.py) → [`voltessino/glauka`](https://github.com/voltessino/glauka) ([guida](maintenance/2026-11-26-public-glauka-sync.md)) |
 
 Windows aggiunge solo [`apps/windows/`](../apps/windows) e macOS [`apps/macos/`](../apps/macos): **non sono due editor JS indipendenti**. L'edizione Android Free mantiene alcune implementazioni e limitazioni distinte dall'edizione desktop Developer.
 
@@ -92,5 +92,6 @@ Le build e i collaudi sono **locali**, senza avviare GitHub Actions. Leggere [`d
 - Per dimensioni dei controller, duplicazioni, test fragili e verifiche locali di build, vedere l'[audit organizzativo del 1 novembre](qa/2026-11-01-code-organization-audit.md), riferito al commit indicato nel rapporto.
 - Gli [interventi successivi all'audit](qa/2026-11-01-organization-stability-followup.md) documentano cataloghi, fixture autosave, sorgenti condivisi, montaggio AI e limiti delle verifiche.
 - Per la matrice delle funzioni multipiattaforma, vedere [`PLATFORM_PARITY.md`](PLATFORM_PARITY.md).
+- Per tenere aggiornata la copia pubblica Open Source (`voltessino/glauka`), usare la [guida di sync](maintenance/2026-11-26-public-glauka-sync.md): non è automatica e non include sito, Video Studio né pezzi Pro.
 - Aggiornare **questa mappa** se cambia il ruolo o il percorso di un componente; non replicare l'elenco completo dei file, che diventa obsoleto rapidamente.
 - Migliorare la navigazione non modifica i permessi del connettore GitHub. L'accesso ai repository privati richiede comunque un'autorizzazione attiva.

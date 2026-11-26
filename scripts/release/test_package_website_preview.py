@@ -109,7 +109,10 @@ class WebsitePreviewTest(unittest.TestCase):
         links.feed(html)
         self.assertNotIn("../", html)
         self.assertNotIn("Confronta le proposte", html)
-        self.assertIn("Anteprima privata", html)
+        self.assertIn('id="hero-title"', html)
+        self.assertIn("cinema.js", html)
+        self.assertNotIn("living-canvas.js", html)
+        self.assertNotIn("story-paths.js", html)
         for relative in links.paths:
             path = (self.public / relative).resolve()
             self.assertTrue(path.is_relative_to(self.public.resolve()))
@@ -126,12 +129,15 @@ class WebsitePreviewTest(unittest.TestCase):
             path = (self.public / relative).resolve()
             self.assertTrue(path.is_relative_to(self.public.resolve()))
             self.assertTrue(path.is_file(), relative)
-        self.assertTrue((self.public / "home-en.js").is_file())
-        self.assertTrue((self.public / "launch.css").is_file())
-        self.assertTrue((self.public / "site-evolution.css").is_file())
-        self.assertTrue((self.public / "site-evolution.js").is_file())
-        for example in ("anatomia-mappa", "matematica-mappa"):
-            self.assertTrue((self.public / f"assets/examples/{example}.png").is_file())
+        self.assertFalse((self.public / "home-en.js").exists())
+        self.assertFalse((self.public / "launch.css").exists())
+        self.assertFalse((self.public / "living-canvas.js").exists())
+        self.assertFalse((self.public / "story-paths.js").exists())
+        self.assertTrue((self.public / "home.js").is_file())
+        self.assertTrue((self.public / "cinema.js").is_file())
+        self.assertTrue((self.public / "assets/examples/anatomia-mappa.png").is_file())
+        self.assertFalse((self.public / "assets/examples/matematica-mappa.png").exists())
+        self.assertFalse((self.public / "assets/views/view-mindmap.png").exists())
         for language in ("it", "en"):
             for view in ("mindmap", "orgchart", "tree", "network", "flow", "kanban", "timeline"):
                 self.assertEqual((self.public / f"assets/views/{language}/view-{view}.png").read_bytes(), (Path(__file__).resolve().parents[2] / "apps/website/home-review" / f"assets/views/{language}/view-{view}.png").read_bytes())
@@ -149,11 +155,14 @@ class WebsitePreviewTest(unittest.TestCase):
             self.assertIn("preview/1-HOME-FTP/.htpasswd-glauka-preview", bundle.namelist())
             self.assertIn("preview/2-CARTELLA-DEL-DOMINIO/anteprima/.htaccess", bundle.namelist())
         self.assertFalse((self.public / "media/glauka-demo.mp4").exists())
-        self.assertTrue((self.public / "product-guide.js").is_file())
+        self.assertFalse((self.public / "product-guide.js").exists())
+        self.assertTrue((self.public / "ai-map.js").is_file())
         self.assertEqual([p.name for p in self.public.rglob("*.mp4")], ["glauka-studio-reel.mp4"])
-        self.assertNotIn("<video", (self.public / "index.html").read_text())
-        for name in ("work", "study", "ideas"):
-            self.assertTrue((self.public / f"assets/{name}.png").is_file())
+        packaged = (self.public / "index.html").read_text()
+        self.assertIn('<video id="cinema-video" preload="none"', packaged)
+        self.assertIn("data-cinema", packaged)
+        for name in ("work", "study", "ideas", "organize"):
+            self.assertFalse((self.public / f"assets/{name}.png").exists())
 
     def test_rebuild_refuses_to_rotate_existing_credentials(self):
         private = self.output / "1-HOME-FTP/.htpasswd-glauka-preview"

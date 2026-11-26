@@ -7,7 +7,7 @@ Fotografia di partenza su `main` (`5fd88a3d` e successivi). Serve a lavorare **a
 | Zona | Contenuto | Isolamento | Stato |
 | --- | --- | --- | --- |
 | **A** | Sito, Video Studio, license-manager, docs, inventari Git | Alto | **In corso** — sito + gate Video Studio |
-| **B** | Lingue, icone, OCR/PDF, Cloud, AI UI, packaging nativo | Medio | In coda |
+| **B** | Lingue, icone, OCR/PDF, Cloud, AI UI, packaging nativo | Medio | Baseline: lingue e OCR/PDF già verdi |
 | **C** | Nodi, layout, drag, zoom, file, salvataggi, viste, studio | Basso (molto collegato) | Solo con bug/lentezza misurata |
 
 ## 18 aree prodotto (FEATURE_MAP)
@@ -35,8 +35,14 @@ Procedura: [`2026-11-26-public-glauka-sync.md`](2026-11-26-public-glauka-sync.md
 Ultimo sync pubblico: `ae1efeb` ← privata `32986cb0`.  
 Sito / Video Studio da soli non richiedono sync.
 
+## Baseline Zona B (26 nov 2026)
+
+- Lingue: 8 cataloghi × 7063 chiavi allineati; `test_interface_locales` 6/6 OK; structure shell dictionary/locale OK.
+- OCR vendor: 3/3 OK. PDF.js vendor: 5/5 OK.
+- Nessun buco cataloghi da chiudere subito; prossima fetta = pezzo isolato con prova di non-uso (es. license-manager o packaging), non il cuore editor.
+
 ## Prossime fette proposte
 
-1. Zona B: un bordo alla volta (lingue / OCR / packaging) con prova concreta.
+1. Zona B: un bordo alla volta solo se emerge peso morto verificato.
 2. Zona C: un solo tema solo con prova misurata.
 3. Dopo ogni pezzo open: export + push su `voltessino/glauka`.

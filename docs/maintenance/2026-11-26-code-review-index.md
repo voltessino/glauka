@@ -32,7 +32,7 @@ Dettaglio: [design](../superpowers/specs/2026-11-26-code-review-campaign-design.
 
 Allineata dal proprietario (26 nov 2026): aggiornamento **diretto** dopo ogni pezzo di nucleo open.  
 Procedura: [`2026-11-26-public-glauka-sync.md`](2026-11-26-public-glauka-sync.md).  
-Ultimo sync pubblico: `ae1efeb` ← privata `32986cb0`.  
+Ultimo sync pubblico: `1cb9260` ← privata `5560d8f1`.  
 Sito / Video Studio da soli non richiedono sync.
 
 ## Baseline Zona B (26 nov 2026)

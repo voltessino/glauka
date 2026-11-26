@@ -71,7 +71,7 @@ Glauka uses an **Open Core + Dual-License** model: everything required to build,
 | On-Device OCR, Flashcards, MathJax & Exports | ✅ Included | ✅ Included |
 | Android Free APK ([v0.6.22 Release](https://github.com/voltessino/glauka/releases/tag/v0.6.22)) | ✅ Included | — |
 | **AI Studio** (Map Gen, Expand, Q&A over PDF, Voice Dictation) | ❌ Excluded | ✅ Proprietary (BYOK) |
-| **Studio Vocale** (Neural HD, Online TTS & VoiceStudio Connector) | ❌ Excluded | ✅ Proprietary |
+| **Studio Vocale** (Neural HD, Online TTS & Glauka Studio Connector) | ❌ Excluded | ✅ Proprietary |
 
 ---
 

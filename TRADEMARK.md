@@ -5,7 +5,7 @@ The Open Source edition of Glauka is licensed under the **GNU Affero General Pub
 ## Why AGPLv3 + Dual-Licensing?
 
 - **Open Source Protection:** Anyone is free to inspect, run, study, and contribute to Glauka under AGPLv3. If you modify Glauka or host a modified version over a network, AGPLv3 requires you to make your full modified source code available under the same AGPLv3 terms.
-- **Commercial License:** Copyright holder **Glauka / `voltessino`** retains full rights to release dual-licensed proprietary editions — including **Glauka Pro** (AI Studio, neural/cloud speech engines, VoiceStudio connector, OCR/PDF AI, and Store packages at https://glauka.it and the Microsoft Store). Organizations needing proprietary rights without AGPLv3 obligations can contact `glauka.app@outlook.com`.
+- **Commercial License:** Copyright holder **Glauka / `voltessino`** retains full rights to release dual-licensed proprietary editions — including **Glauka Pro** (AI Studio, neural/cloud speech engines, Glauka Studio connector, OCR/PDF AI, and Store packages at https://glauka.it and the Microsoft Store). Organizations needing proprietary rights without AGPLv3 obligations can contact `glauka.app@outlook.com`.
 
 ## Trademarks
 

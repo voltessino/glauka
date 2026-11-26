@@ -35,6 +35,12 @@ class ExistingAnteprimaUpdateTests(unittest.TestCase):
             self.assertTrue((folder / "media/glauka-studio-reel.mp4").is_file())
             self.assertTrue((folder / "media/glauka-studio-reel.png").is_file())
             self.assertTrue((folder / "ai-map.js").is_file())
+            self.assertTrue((folder / "wiki.css").is_file())
+            self.assertTrue((folder / "wiki.js").is_file())
+            self.assertTrue((folder / "guida/index.html").is_file())
+            self.assertTrue((folder / "guide/index.html").is_file())
+            self.assertNotIn("../../", (folder / "guida/index.html").read_text(encoding="utf-8"))
+            self.assertIn("../wiki.css", (folder / "guida/index.html").read_text(encoding="utf-8"))
             self.assertTrue((folder / "glauka-home-audit.js").is_file())
             for language in ("it", "en"):
                 for view in ("mindmap", "orgchart", "tree", "network", "flow", "kanban", "timeline"):

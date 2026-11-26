@@ -106,15 +106,6 @@
       queuedWorkspace=pending.catch(()=>{});
       return pending;
     },
-      install:(lang='it-IT',modelId='')=>api('tts/neural/install',{lang,modelId}),
-      remove:()=>api('tts/neural/remove',{}),
-      speak:({text,lang='it-IT',modelId='',rate=1})=>api('tts/neural/speak',{text,lang,modelId,rate}),
-    }),
-      speak:({text,lang='it-IT',voice='isabella',rate=1})=>api('tts/edge/speak',{text,lang,voice,rate}),
-    }),
-      speak:({text,voice='',model='',speed=1,lang='it-IT'}={})=>api('tts/voicestudio/speak',{text,voice,model,speed,lang}),
-      transcribe:(audio)=>api('tts/voicestudio/transcribe',audio),
-    }),
     lanPair:Object.freeze({
       start:payload=>api('lan/start',payload),
       poll:sessionId=>api('lan/poll',{sessionId}),

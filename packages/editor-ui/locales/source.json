@@ -59475,6 +59475,310 @@
       "origins": [
         "packages\\editor-ui\\study-today.js"
       ]
+    },
+    "m05744cc3e38e": {
+      "it": "Plugin Glauka Studio (locale · nessuna chiave API)",
+      "en": "Glauka Studio plugin (local · no API key)",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/ai-studio-methods-audio.js"
+      ]
+    },
+    "m5ff15dfbbd18": {
+      "it": "Plugin Glauka Studio disponibile solo su Desktop",
+      "en": "Glauka Studio plugin is available on Desktop only",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/ai-studio-methods-audio.js"
+      ]
+    },
+    "m763b844b2112": {
+      "it": "Il plugin Glauka Studio richiede Glauka Desktop con Glauka Studio installato.",
+      "en": "The Glauka Studio plugin requires Glauka Desktop with Glauka Studio installed.",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/ai-studio-methods-audio.js"
+      ]
+    },
+    "m6a4769577f1c": {
+      "it": "Predefinita di Glauka Studio",
+      "en": "Glauka Studio default",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/ai-studio-methods-audio.js"
+      ]
+    },
+    "mc266b95132ee": {
+      "it": "Apertura di Glauka Studio in corso…",
+      "en": "Opening Glauka Studio…",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/ai-studio-methods-audio.js"
+      ]
+    },
+    "m4c6aa89a485f": {
+      "it": "Attivo",
+      "en": "Active",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/ai-studio-methods-audio.js"
+      ]
+    },
+    "mee3da2eb3616": {
+      "it": "Pronto · Auto",
+      "en": "Ready · Auto",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/ai-studio-methods-audio.js"
+      ]
+    },
+    "md04d881d0234": {
+      "it": "Plugin opzionale",
+      "en": "Optional plugin",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/ai-studio-methods-audio.js"
+      ]
+    },
+    "m97549ae133e2": {
+      "it": "Glauka Studio è il plugin vocale opzionale dell'ecosistema Glauka: aggiunge voci neurali HD (Kokoro, Chatterbox), clonazione vocale e dettatura locale senza duplicare i modelli in Glauka.",
+      "en": "Glauka Studio is the optional voice plugin for Glauka: it adds HD neural voices (Kokoro, Chatterbox), voice cloning and local dictation without duplicating models inside Glauka.",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/ai-studio-methods-audio.js"
+      ]
+    },
+    "md7768e4c410d": {
+      "it": "Il plugin Glauka Studio funziona sull’app Desktop Windows/macOS. Su Android e Web usa Nativo, Online o Voce AI.",
+      "en": "The Glauka Studio plugin runs on the Windows/macOS Desktop app. On Android & Web, use Native, Online or AI Voice.",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/ai-studio-methods-audio.js"
+      ]
+    },
+    "ma304bae4e3e7": {
+      "it": "Plugin Glauka Studio non installato su questo computer.",
+      "en": "Glauka Studio plugin is not installed on this computer.",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/ai-studio-methods-audio.js"
+      ]
+    },
+    "mab0e05812aed": {
+      "it": "Verifica del plugin Glauka Studio…",
+      "en": "Checking Glauka Studio plugin…",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/ai-studio-methods-audio.js"
+      ]
+    },
+    "m43bcef9d48f5": {
+      "it": "Voci neurali HD e profili clonati da Glauka Studio, con avvio automatico e zero cloud.",
+      "en": "HD neural voices and cloned profiles from Glauka Studio, with auto-start and zero cloud.",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/ai-studio-methods-audio.js"
+      ]
+    },
+    "m7f5a95c35021": {
+      "it": "Voce HD gratuita senza chiavi. Premi Elabora per ascoltare subito e riavvolgere ovunque.",
+      "en": "Free HD voice with no API key. Press Process to listen right away and seek anywhere.",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/ai-studio-methods-audio.js"
+      ]
+    },
+    "m4d4b0c9cb8d0": {
+      "it": "Voce offline leggera di cortesia per chi non usa Glauka Studio.",
+      "en": "Lightweight offline courtesy voice for users without Glauka Studio.",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/ai-studio-methods-audio.js"
+      ]
+    },
+    "m34fad7e26a35": {
+      "it": "Lettura immediata per frasi con le voci del dispositivo (0 MB, offline).",
+      "en": "Instant sentence-by-sentence reading with built-in device voices (0 MB, offline).",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/ai-studio-methods-audio.js"
+      ]
+    },
+    "m13ae5a44938b": {
+      "it": "Hai già Glauka Studio installato con voci offline IT/EN superiori: non serve scaricare duplicati qui. Seleziona «Glauka Studio» sopra!",
+      "en": "Glauka Studio already provides offline IT/EN voices on this PC: no duplicate downloads needed here. Select “Glauka Studio” above!",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/ai-studio-methods-audio.js"
+      ]
+    },
+    "m76ad4b84e098": {
+      "it": "Voce offline scaricabile disponibile su Windows/macOS Desktop.",
+      "en": "Downloadable offline voice available on Windows/macOS Desktop.",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/ai-studio-methods-audio.js"
+      ]
+    },
+    "m73c79f4096f4": {
+      "it": "frasi",
+      "en": "parts",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/ai-studio-methods-audio.js"
+      ]
+    },
+    "m260f76914795": {
+      "it": "Voce dispositivo",
+      "en": "Device voice",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/ai-studio-methods-audio.js"
+      ]
+    },
+    "m9828e9a3b90b": {
+      "it": "Testo modificato · Rielabora",
+      "en": "Text edited · Reprocess",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/ai-studio-methods-audio.js"
+      ]
+    },
+    "me256351013b4": {
+      "it": "Audio pronto 100%",
+      "en": "Audio ready 100%",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/ai-studio-methods-audio.js"
+      ]
+    },
+    "m8fbe2e2ad3e0": {
+      "it": "Rielabora audio",
+      "en": "Reprocess audio",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/ai-studio-methods-audio.js"
+      ]
+    },
+    "m67ca550ed149": {
+      "it": "Elaborato ✓",
+      "en": "Processed ✓",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/ai-studio-methods-audio.js"
+      ]
+    },
+    "m1ea743a21589": {
+      "it": "Elabora e ascolta",
+      "en": "Process & listen",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/ai-studio-methods-audio.js"
+      ]
+    },
+    "mf486b9ea3585": {
+      "it": "Riascolta",
+      "en": "Play",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/ai-studio-methods-audio.js"
+      ]
+    },
+    "m134ebd9983d9": {
+      "it": "In ascolto",
+      "en": "Playing",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/ai-studio-methods-audio.js"
+      ]
+    },
+    "md5b89babbe6a": {
+      "it": "Il testo è stato modificato: premi «Rielabora audio» per rigenerare la traccia.",
+      "en": "Script edited: press “Reprocess audio” to update the track.",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/ai-studio-methods-audio.js"
+      ]
+    },
+    "m17f0963dfe0d": {
+      "it": "Motore (opz. es. kokoro / chatterbox)",
+      "en": "Engine (opt. e.g. kokoro / chatterbox)",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/ai-studio-mount-panel-preview.js"
+      ]
+    },
+    "m87c7c6380734": {
+      "it": "Posizione nell'audio",
+      "en": "Audio timeline position",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/ai-studio-mount-panel-preview.js"
+      ]
+    },
+    "m32021b15d4a0": {
+      "it": "Suggerimenti simboli e illustrazioni",
+      "en": "Symbol and illustration suggestions",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/inline-smart-suggest.js"
+      ]
+    },
+    "mfa555d58cb16": {
+      "it": "Nascondi suggerimenti",
+      "en": "Hide suggestions",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/inline-smart-suggest.js"
+      ]
+    },
+    "m17e6b3ff7372": {
+      "it": "Tipo di suggerimenti durante la scrittura",
+      "en": "Suggestion types while typing",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/settings-center.js"
+      ]
+    },
+    "m2db4e4c5fe45": {
+      "it": "Assistenza rapida alla scrittura",
+      "en": "Smart typing assistance",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/settings-center.js"
+      ]
+    },
+    "md48e3dccd3b2": {
+      "it": "Suggerimenti simboli e SVG mentre scrivi",
+      "en": "Suggest symbols & SVGs while typing",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/settings-center.js"
+      ]
+    },
+    "mdc90366dd950": {
+      "it": "Propone in locale simboli e icone vettoriali pertinenti senza rallentare la digitazione.",
+      "en": "Suggests matching local symbols and vector icons with zero typing lag.",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/settings-center.js"
+      ]
+    },
+    "m977cf6e6623e": {
+      "it": "Elementi da suggerire",
+      "en": "Suggested items",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/settings-center.js"
+      ]
+    },
+    "m48afb435ae8a": {
+      "it": "Scegli se mostrare simboli testuali, illustrazioni SVG o entrambi.",
+      "en": "Choose whether to show text symbols, SVG illustrations, or both.",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/settings-center.js"
+      ]
     }
   },
   "aliases": {
@@ -70160,6 +70464,82 @@
     "Multiple maps (choose)…": "m5758bd378dab",
     "All maps (max 8)": "mf2089f1a1bcb",
     "Solo attiva": "m829a6a649470",
-    "Active only": "m829a6a649470"
+    "Active only": "m829a6a649470",
+    "Plugin Glauka Studio (locale · nessuna chiave API)": "m05744cc3e38e",
+    "Glauka Studio plugin (local · no API key)": "m05744cc3e38e",
+    "Plugin Glauka Studio disponibile solo su Desktop": "m5ff15dfbbd18",
+    "Glauka Studio plugin is available on Desktop only": "m5ff15dfbbd18",
+    "Il plugin Glauka Studio richiede Glauka Desktop con Glauka Studio installato.": "m763b844b2112",
+    "The Glauka Studio plugin requires Glauka Desktop with Glauka Studio installed.": "m763b844b2112",
+    "Predefinita di Glauka Studio": "m6a4769577f1c",
+    "Glauka Studio default": "m6a4769577f1c",
+    "Apertura di Glauka Studio in corso…": "mc266b95132ee",
+    "Opening Glauka Studio…": "mc266b95132ee",
+    "Attivo": "m4c6aa89a485f",
+    "Active": "m4c6aa89a485f",
+    "Pronto · Auto": "mee3da2eb3616",
+    "Ready · Auto": "mee3da2eb3616",
+    "Plugin opzionale": "md04d881d0234",
+    "Optional plugin": "md04d881d0234",
+    "Glauka Studio è il plugin vocale opzionale dell'ecosistema Glauka: aggiunge voci neurali HD (Kokoro, Chatterbox), clonazione vocale e dettatura locale senza duplicare i modelli in Glauka.": "m97549ae133e2",
+    "Glauka Studio is the optional voice plugin for Glauka: it adds HD neural voices (Kokoro, Chatterbox), voice cloning and local dictation without duplicating models inside Glauka.": "m97549ae133e2",
+    "Il plugin Glauka Studio funziona sull’app Desktop Windows/macOS. Su Android e Web usa Nativo, Online o Voce AI.": "md7768e4c410d",
+    "The Glauka Studio plugin runs on the Windows/macOS Desktop app. On Android & Web, use Native, Online or AI Voice.": "md7768e4c410d",
+    "Plugin Glauka Studio non installato su questo computer.": "ma304bae4e3e7",
+    "Glauka Studio plugin is not installed on this computer.": "ma304bae4e3e7",
+    "Verifica del plugin Glauka Studio…": "mab0e05812aed",
+    "Checking Glauka Studio plugin…": "mab0e05812aed",
+    "Voci neurali HD e profili clonati da Glauka Studio, con avvio automatico e zero cloud.": "m43bcef9d48f5",
+    "HD neural voices and cloned profiles from Glauka Studio, with auto-start and zero cloud.": "m43bcef9d48f5",
+    "Voce HD gratuita senza chiavi. Premi Elabora per ascoltare subito e riavvolgere ovunque.": "m7f5a95c35021",
+    "Free HD voice with no API key. Press Process to listen right away and seek anywhere.": "m7f5a95c35021",
+    "Voce offline leggera di cortesia per chi non usa Glauka Studio.": "m4d4b0c9cb8d0",
+    "Lightweight offline courtesy voice for users without Glauka Studio.": "m4d4b0c9cb8d0",
+    "Lettura immediata per frasi con le voci del dispositivo (0 MB, offline).": "m34fad7e26a35",
+    "Instant sentence-by-sentence reading with built-in device voices (0 MB, offline).": "m34fad7e26a35",
+    "Hai già Glauka Studio installato con voci offline IT/EN superiori: non serve scaricare duplicati qui. Seleziona «Glauka Studio» sopra!": "m13ae5a44938b",
+    "Glauka Studio already provides offline IT/EN voices on this PC: no duplicate downloads needed here. Select “Glauka Studio” above!": "m13ae5a44938b",
+    "Voce offline scaricabile disponibile su Windows/macOS Desktop.": "m76ad4b84e098",
+    "Downloadable offline voice available on Windows/macOS Desktop.": "m76ad4b84e098",
+    "frasi": "m73c79f4096f4",
+    "parts": "m73c79f4096f4",
+    "Voce dispositivo": "m260f76914795",
+    "Device voice": "m260f76914795",
+    "Testo modificato · Rielabora": "m9828e9a3b90b",
+    "Text edited · Reprocess": "m9828e9a3b90b",
+    "Audio pronto 100%": "me256351013b4",
+    "Audio ready 100%": "me256351013b4",
+    "Rielabora audio": "m8fbe2e2ad3e0",
+    "Reprocess audio": "m8fbe2e2ad3e0",
+    "Elaborato ✓": "m67ca550ed149",
+    "Processed ✓": "m67ca550ed149",
+    "Elabora e ascolta": "m1ea743a21589",
+    "Process & listen": "m1ea743a21589",
+    "Riascolta": "mf486b9ea3585",
+    "Play": "mf486b9ea3585",
+    "In ascolto": "m134ebd9983d9",
+    "Playing": "m134ebd9983d9",
+    "Il testo è stato modificato: premi «Rielabora audio» per rigenerare la traccia.": "md5b89babbe6a",
+    "Script edited: press “Reprocess audio” to update the track.": "md5b89babbe6a",
+    "Motore (opz. es. kokoro / chatterbox)": "m17f0963dfe0d",
+    "Engine (opt. e.g. kokoro / chatterbox)": "m17f0963dfe0d",
+    "Posizione nell'audio": "m87c7c6380734",
+    "Audio timeline position": "m87c7c6380734",
+    "Suggerimenti simboli e illustrazioni": "m32021b15d4a0",
+    "Symbol and illustration suggestions": "m32021b15d4a0",
+    "Nascondi suggerimenti": "mfa555d58cb16",
+    "Hide suggestions": "mfa555d58cb16",
+    "Tipo di suggerimenti durante la scrittura": "m17e6b3ff7372",
+    "Suggestion types while typing": "m17e6b3ff7372",
+    "Assistenza rapida alla scrittura": "m2db4e4c5fe45",
+    "Smart typing assistance": "m2db4e4c5fe45",
+    "Suggerimenti simboli e SVG mentre scrivi": "md48e3dccd3b2",
+    "Suggest symbols & SVGs while typing": "md48e3dccd3b2",
+    "Propone in locale simboli e icone vettoriali pertinenti senza rallentare la digitazione.": "mdc90366dd950",
+    "Suggests matching local symbols and vector icons with zero typing lag.": "mdc90366dd950",
+    "Elementi da suggerire": "m977cf6e6623e",
+    "Suggested items": "m977cf6e6623e",
+    "Scegli se mostrare simboli testuali, illustrazioni SVG o entrambi.": "m48afb435ae8a",
+    "Choose whether to show text symbols, SVG illustrations, or both.": "m48afb435ae8a"
   }
 }

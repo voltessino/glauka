@@ -26,5 +26,11 @@
       "save-recovery",
       "graphics"
     ]
+  },
+  "glauka_studio": {
+    "version": "1.0.0",
+    "port": 3940,
+    "windows_url": "https://glauka.it/#download",
+    "macos_url": "https://glauka.it/#download"
   }
 }

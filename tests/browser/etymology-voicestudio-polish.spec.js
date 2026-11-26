@@ -73,18 +73,20 @@ test('Spiega Etimologia text is selectable and persists Ascolta con engine prefe
   await expect(page.locator('#ai-explain-tts-mode')).toHaveValue('api');
 });
 
-test('VoiceStudio card shows clear offline guide when server is off and unlocks controls when active', async ({ page }) => {
+test('Glauka Studio plugin card shows clear optional guide when absent and syncs voices when installed', async ({ page }) => {
   await bootApp(page, 'it');
 
   await page.evaluate(() => {
     window.neuromapDesktop = {
-      voiceStudio: {
+      glaukaStudio: {
         status: async () => ({
+          installed: false,
+          running: false,
           available: false,
-          url: 'http://127.0.0.1:3900',
+          downloadUrl: 'https://glauka.it/#download',
           voices: [],
-          error: 'connection refused',
         }),
+        launch: async () => ({ ok: true }),
         speak: async () => ({ ok: false }),
         transcribe: async () => ({ ok: false }),
       },
@@ -93,30 +95,33 @@ test('VoiceStudio card shows clear offline guide when server is off and unlocks 
     window.neuroMapApp.aiStudio.chooseTask('listen');
   });
 
-  const studioBtn = page.locator('.nm-ai-listen-modes button', { hasText: /VoiceStudio/i });
+  const studioBtn = page.locator('#nm-ai-listen-mode-glauka-studio');
   await studioBtn.click();
-  await page.evaluate(() => window.neuroMapApp.aiStudio.refreshVoiceStudioStatus());
+  await page.evaluate(() => window.neuroMapApp.aiStudio.refreshGlaukaStudioStatus());
 
-  const card = page.locator('#nm-ai-listen-voicestudio-card');
+  const card = page.locator('#nm-ai-listen-glauka-studio-card');
   await expect(card).toBeVisible();
-  await expect(page.locator('#nm-ai-vs-pill')).toHaveText(/Server spento/i);
-  const guide = page.locator('#nm-ai-vs-guide');
+  await expect(page.locator('#nm-ai-gs-pill')).toHaveText(/Plugin opzionale/i);
+  const guide = page.locator('#nm-ai-gs-guide');
   await expect(guide).toBeVisible();
-  await expect(guide).toContainText('Online (gratis)');
-  await expect(guide).toContainText('localhost:3900');
+  await expect(guide).toContainText('Online');
+  await expect(page.locator('#nm-ai-gs-download')).toBeVisible();
 
   await page.evaluate(async () => {
-    window.neuromapDesktop.voiceStudio.status = async () => ({
+    window.neuromapDesktop.glaukaStudio.status = async () => ({
+      installed: true,
+      running: false,
       available: true,
-      url: 'http://127.0.0.1:3900',
-      voices: [{ id: 'giulia-studio', name: 'Giulia Studio (Clone)' }],
+      canLaunch: true,
+      voices: [{ id: 'giulia-studio', name: 'Giulia Studio (Clone)', cloned: true }],
     });
-    await window.neuroMapApp.aiStudio.refreshVoiceStudioStatus();
+    await window.neuroMapApp.aiStudio.refreshGlaukaStudioStatus();
   });
 
-  await expect(page.locator('#nm-ai-vs-pill')).toHaveText(/Connesso/i);
+  await expect(page.locator('#nm-ai-gs-pill')).toHaveText(/Pronto/i);
   await expect(guide).toBeHidden();
-  await expect(page.locator('#nm-ai-vs-voice-select')).toBeVisible();
+  await expect(page.locator('#nm-ai-gs-open')).toBeVisible();
+  await expect(page.locator('#nm-ai-gs-voice-select')).toBeVisible();
 });
 
 test('Flashcard Studio clearly identifies Flashcards, creates cards manually, imports Google AI Mode lines, and browses past decks', async ({ page }) => {

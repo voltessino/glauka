@@ -321,6 +321,7 @@ def bundles():
     marker_font = base64.b64encode((UI / 'vendor/markers/NeuroMapSymbols.ttf').read_bytes()).decode('ascii')
     marker_css = "@font-face{font-family:NeuroMapSymbols;src:url(data:font/ttf;base64,"+marker_font+") format('truetype');font-display:block;}"
     creative = replace_once(creative, '/* @neuromap-marker-font */ ""', json.dumps(marker_css))
+    creative += '\n' + read(UI / 'ai-illustrations.js') + '\n' + read(UI / 'inline-smart-suggest.js')
     result['creative-tools'] = replace_once(creative, '/* @neuromap-creative-styles */ ""',
                                             json.dumps(read(UI / 'creative-tools.css')))
     export_panel = replace_once(read(UI / 'export-hub-ui-panel.js'),

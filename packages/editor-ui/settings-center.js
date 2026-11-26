@@ -715,7 +715,57 @@ body.glauka-mobile-app #gl-settings-back{display:inline-flex;align-items:center;
         SettingsRow(tr("Durata della comparsa", "Appearance duration"), tr("Solo per i nuovi rami.", "Only for new branches."), branchDurationControl)
       );
     }
+    let smartSuggestOn = true;
+    try {
+      const rawSuggest = localStorage.getItem("glauka.edit.smartSuggest.v1");
+      smartSuggestOn = rawSuggest == null ? true : rawSuggest !== "0";
+    } catch {
+      smartSuggestOn = true;
+    }
+    const smartSuggestModeValue = (() => {
+      try {
+        const m = localStorage.getItem("glauka.edit.smartSuggestMode.v1") || "all";
+        return m === "symbols" || m === "svg" ? m : "all";
+      } catch {
+        return "all";
+      }
+    })();
+    const smartSuggestModeSelect = choice(
+      "gl-settings-smart-suggest-mode",
+      [
+        ["all", "Simboli e illustrazioni SVG", "Symbols & SVG illustrations"],
+        ["symbols", "Solo simboli rapidi", "Quick symbols only"],
+        ["svg", "Solo illustrazioni SVG", "SVG illustrations only"],
+      ],
+      smartSuggestModeValue,
+      tr("Tipo di suggerimenti durante la scrittura", "Suggestion types while typing"),
+      (value) => {
+        root.NeuroMapInlineSuggest?.setMode?.(value);
+        lsSet("glauka.edit.smartSuggestMode.v1", value);
+      },
+    );
+    smartSuggestModeSelect.disabled = !smartSuggestOn;
+    const smartSuggestToggle = SettingsSwitch(
+      smartSuggestOn,
+      (checked) => {
+        root.NeuroMapInlineSuggest?.setEnabled?.(checked);
+        lsSet("glauka.edit.smartSuggest.v1", checked ? "1" : "0");
+        smartSuggestModeSelect.disabled = !checked;
+      },
+      "gl-settings-smart-suggest",
+    );
     editorRows.push(
+      heading(tr("Assistenza rapida alla scrittura", "Smart typing assistance")),
+      SettingsRow(
+        tr("Suggerimenti simboli e SVG mentre scrivi", "Suggest symbols & SVGs while typing"),
+        tr("Propone in locale simboli e icone vettoriali pertinenti senza rallentare la digitazione.", "Suggests matching local symbols and vector icons with zero typing lag."),
+        smartSuggestToggle,
+      ),
+      SettingsRow(
+        tr("Elementi da suggerire", "Suggested items"),
+        tr("Scegli se mostrare simboli testuali, illustrazioni SVG o entrambi.", "Choose whether to show text symbols, SVG illustrations, or both."),
+        smartSuggestModeSelect,
+      ),
       heading(tr("Prestazioni", "Performance")),
       SettingsRow(tr("Disegno rapido per mappe grandi", "Fast rendering for large maps"), tr("Prima i rami visibili. Nodi ed esportazioni restano completi.", "On-screen branches first. Nodes and exports stay complete."), performance)
     );

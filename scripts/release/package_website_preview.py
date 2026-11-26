@@ -40,6 +40,12 @@ HOME_FILES = (
     "cinema.js",
     "faq.js",
     "release-status.js",
+    "wiki.css",
+    "wiki.js",
+)
+WIKI_PAGES = (
+    "guida/index.html",
+    "guide/index.html",
 )
 MEDIA_FILES = (
     "glauka-studio-reel.mp4",
@@ -88,6 +94,24 @@ ErrorDocument 403 "Apri l'anteprima con HTTPS: https://glauka.it/anteprima/"
 '''
 
 
+def rewrite_public_paths(content: str) -> str:
+    return (
+        content.replace("../assets/", "assets/")
+        .replace("../media/", "media/")
+        .replace("../release-config.js", "release-config.js")
+        .replace("../styles/", "styles/")
+    )
+
+
+def rewrite_wiki_page(content: str) -> str:
+    """Guide pages live one folder down, so parent links stay inside the site."""
+    return (
+        content.replace("../../assets/", "../assets/")
+        .replace("../../styles/", "../styles/")
+        .replace("../../media/", "../media/")
+    )
+
+
 def build(output: Path, ftp_home: str, site: Path = SITE) -> Path:
     config = apache_config(ftp_home)
     output = Path(output)
@@ -112,17 +136,16 @@ def build(output: Path, ftp_home: str, site: Path = SITE) -> Path:
     (credentials / ".htpasswd-glauka-preview").write_text("anteprima:" + encoded + "\n")
     (credentials / ".htpasswd-glauka-preview").chmod(0o600)
     for name in HOME_FILES:
-        content = (site / "home-review" / name).read_text()
-        content = (
-            content.replace("../assets/", "assets/")
-            .replace("../media/", "media/")
-            .replace("../release-config.js", "release-config.js")
-            .replace("../styles/", "styles/")
-        )
+        content = rewrite_public_paths((site / "home-review" / name).read_text())
         if name == "index.html":
             content = re.sub(r'<a\s+href="\.\./prisma-evolutions/">.*?</a>', "", content, flags=re.S)
             content = content.replace("Anteprima locale del sito · Non ancora pubblicata", "Anteprima privata · Sito in preparazione")
         (public / name).write_text(content, encoding="utf-8")
+    home = site / "home-review"
+    for name in WIKI_PAGES:
+        target = public / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(rewrite_wiki_page((home / name).read_text(encoding="utf-8")), encoding="utf-8")
     shutil.copyfile(site / "release-config.js", public / "release-config.js")
     if (site / "styles").exists():
         shutil.copytree(site / "styles", public / "styles", dirs_exist_ok=True)
@@ -138,6 +161,8 @@ def build(output: Path, ftp_home: str, site: Path = SITE) -> Path:
     for name in MEDIA_FILES:
         shutil.copyfile(site / "media" / name, public / "media" / name)
     copy_privacy_notice(public, site)
+    from build_anteprima_update import validate_links
+    validate_links(public)
     (public / ".htaccess").write_text(config)
     (output / "ACCESSO-ANTEPRIMA.txt").write_text(
         "ACCESSO PRIVATO ALL'ANTEPRIMA\n\n"

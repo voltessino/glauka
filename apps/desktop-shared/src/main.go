@@ -491,7 +491,7 @@ func (s *service) routes() *http.ServeMux {
 	s.cloudTransportRoutes(mux)
 	// Optional on-demand local neural TTS model manager (0 MB bundled in binary).
 	// Keyless online voice. Offline playback stays on the neural route above.
-	// Optional local VoiceStudio loopback connector (127.0.0.1:3900 only).
+	// Optional Glauka Studio companion plugin connector (127.0.0.1:3940 loopback + local manifest).
 	mux.HandleFunc("/__desktop/settings/read", func(w http.ResponseWriter, r *http.Request) {
 		if !s.secure(w, r) {
 			return

@@ -13,7 +13,10 @@ import shutil
 from urllib.parse import unquote, urlsplit
 import zipfile
 
-from package_website_preview import HOME_FILES, MEDIA_FILES, SITE, copy_privacy_notice
+from package_website_preview import (
+    HOME_FILES, MEDIA_FILES, SITE, WIKI_PAGES, copy_privacy_notice,
+    rewrite_public_paths, rewrite_wiki_page,
+)
 
 
 class LocalLinks(HTMLParser):
@@ -33,16 +36,19 @@ class LocalLinks(HTMLParser):
 
 
 def validate_links(target: Path) -> None:
-    """Reject broken or escaping relative paths in both language versions."""
-    for name in ("index.html", "home-en.html"):
-        body = (target / name).read_text(encoding="utf-8")
+    """Reject broken or escaping relative paths in both language versions and the guide."""
+    pages = ("index.html", "home-en.html", *WIKI_PAGES)
+    root = target.resolve()
+    for name in pages:
+        page = target / name
+        body = page.read_text(encoding="utf-8")
         parser = LocalLinks()
         parser.feed(body)
-        if "../" in body:
+        if name in ("index.html", "home-en.html") and "../" in body:
             raise ValueError(f"Nonportable parent path in {name}")
         for relative in parser.paths:
-            linked = (target / relative).resolve()
-            if not linked.is_relative_to(target.resolve()) or not linked.is_file():
+            linked = (page.parent / relative).resolve()
+            if not linked.is_relative_to(root) or not linked.is_file():
                 raise ValueError(f"Broken/escaping link in {name}: {relative}")
     for css in target.glob("*.css"):
         for raw in re.findall(r'''url\(\s*['"]?([^)'" ]+)''', css.read_text(encoding="utf-8")):
@@ -58,17 +64,21 @@ def copy_website_contents(target: Path, site: Path = SITE) -> list[str]:
     copied: list[str] = []
     home = site / "home-review"
     for name in HOME_FILES:
-        body = (home / name).read_text(encoding="utf-8")
-        body = (body.replace("../assets/", "assets/")
-                    .replace("../media/", "media/")
-                    .replace("../release-config.js", "release-config.js")
-                    .replace("../styles/", "styles/"))
+        body = rewrite_public_paths((home / name).read_text(encoding="utf-8"))
         if name == "index.html":
             body = re.sub(r'<a\s+href="\.\./prisma-evolutions/">.*?</a>', "",
                           body, flags=re.S)
             body = body.replace("Anteprima locale del sito · Non ancora pubblicata",
                                 "Anteprima privata · Sito in preparazione")
         (target / name).write_text(body, encoding="utf-8")
+        copied.append(name)
+    for name in WIKI_PAGES:
+        destination = target / name
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_text(
+            rewrite_wiki_page((home / name).read_text(encoding="utf-8")),
+            encoding="utf-8",
+        )
         copied.append(name)
 
     shutil.copyfile(site / "release-config.js", target / "release-config.js")

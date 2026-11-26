@@ -128,6 +128,25 @@ func windowsPick(save, multiple, export bool, suggested string) ([]string, error
 	if err != nil {
 		return nil, err
 	}
+	return showWindowsPicker(config, save)
+}
+func desktopLinkFileDialog() (string, error) {
+	config, err := filePickerConfig(false, false, false, "")
+	if err != nil {
+		return "", err
+	}
+	// The last filter is "all files", so a node can point at a document or picture.
+	if n := len(config.filters); n > 0 {
+		config.index = uint32(n)
+	}
+	paths, err := showWindowsPicker(config, false)
+	if err != nil || len(paths) == 0 {
+		return "", err
+	}
+	return paths[0], nil
+}
+func showWindowsPicker(config pickerConfig, save bool) ([]string, error) {
+	var err error
 	if !pickerMu.TryLock() {
 		return nil, fmt.Errorf("È già aperta una finestra di scelta file")
 	}
@@ -202,7 +221,7 @@ func windowsPick(save, multiple, export bool, suggested string) ([]string, error
 	if err = pickerError("visualizzazione", hr); err != nil {
 		return nil, err
 	}
-	if !multiple {
+	if config.options&pickerMultiple == 0 {
 		var item *pickerCOM
 		if err = pickerError("risultato", dialog.call(pickerGetResult, uintptr(unsafe.Pointer(&item)))); err != nil {
 			return nil, err

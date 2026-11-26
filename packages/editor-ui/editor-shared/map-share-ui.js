@@ -7,6 +7,16 @@
  if(!Transfer)return;
  const tr=(it,en)=>(root.GlaukaI18n?.pair(it,en) ?? (document.documentElement.lang==='en'?en:it));
  const el=(name,cls,txt)=>{const node=document.createElement(name);if(cls)node.className=cls;if(txt!==undefined)node.textContent=txt;return node;};
+ function safeUuid(){
+  if(typeof root.crypto?.randomUUID==='function')return root.crypto.randomUUID();
+  if(typeof root.NeuroMapRecovery?.requestId==='function')return root.NeuroMapRecovery.requestId();
+  const bytes=new Uint8Array(16);
+  if(typeof root.crypto?.getRandomValues==='function')root.crypto.getRandomValues(bytes);
+  else for(let i=0;i<16;i++)bytes[i]=Math.floor(Math.random()*256);
+  bytes[6]=(bytes[6]&0x0f)|0x40;bytes[8]=(bytes[8]&0x3f)|0x80;
+  const hex=[...bytes].map(b=>b.toString(16).padStart(2,'0')).join('');
+  return `${hex.slice(0,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}-${hex.slice(16,20)}-${hex.slice(20)}`;
+ }
  function svgIcon(paths,size=18){
   if(typeof document.createElementNS!=='function')return document.createElement('span');
   const ns='http://www.w3.org/2000/svg',s=document.createElementNS(ns,'svg');
@@ -106,7 +116,7 @@
  function androidLanRequest(host,port,pin,path,body){
   return new Promise((resolve,reject)=>{
    if(!root.GlaukaLanPair?.request){reject(Error(tr('Bridge Wi-Fi Android non disponibile','Android Wi-Fi bridge unavailable')));return;}
-   const id='lan_'+crypto.randomUUID().replace(/-/g,'').slice(0,20);
+   const id='lan_'+safeUuid().replace(/-/g,'').slice(0,20);
    const timer=setTimeout(()=>{lanPendingCallbacks.delete(id);reject(Error(tr('Connessione Wi-Fi scaduta','Wi-Fi connection timed out')));},16000);
    lanPendingCallbacks.set(id,{resolve,reject,timer});
    try{
@@ -123,7 +133,7 @@
  function deviceId(){
   const key='glauka.f11.device';
   let id=localStorage.getItem(key);
-  if(!/^[0-9a-f-]{36}$/i.test(id||'')){id=crypto.randomUUID();localStorage.setItem(key,id);}
+  if(!/^[0-9a-f-]{36}$/i.test(id||'')){id=safeUuid();localStorage.setItem(key,id);}
   return id;
  }
  function deviceNameDefault(){
@@ -374,7 +384,7 @@
    app.saveActiveTabSnapshot?.();
    const tab=selected();if(!tab)throw Error('Missing map');
    ownerId=tab.id;
-   tab.f11MapId=tab.f11MapId||crypto.randomUUID();
+   tab.f11MapId=tab.f11MapId||safeUuid();
    const project=projectFromTab(app,tab);
    const copy=await Transfer.prepareCopy(project,{mapId:tab.f11MapId,deviceId:deviceId(),sha256});
    sealed=Transfer.sealFile(copy.handoff);
@@ -386,7 +396,7 @@
    try{
     app.saveActiveTabSnapshot?.();
     const tab=selected();if(!tab||token!==previewToken)return;
-    tab.f11MapId=tab.f11MapId||crypto.randomUUID();
+    tab.f11MapId=tab.f11MapId||safeUuid();
     const project=projectFromTab(app,tab);
     const copy=await Transfer.prepareCopy(project,{mapId:tab.f11MapId,deviceId:deviceId(),sha256});
     if(token!==previewToken)return;

@@ -272,6 +272,8 @@
             }
             nodeElements.push(`<text x="${(labelX+(i?(labelAlign==='left'?labelIndent:labelAlign==='right'?-labelIndent:labelIndent*.5):0)).toFixed(2)}" y="${(m.y+(isRoot?0:-2)+(i-(lines.length-1)/2)*lineH).toFixed(2)}" dominant-baseline="central" fill="${globalThis.GlaukaNodeText?.color(node)||(isRoot?'#fff':NeuroMapGraphics.light()?'#152139':'#f1f5f9')}" font-family="${globalThis.GlaukaNodeText?.svgFamily(node)||'Inter, -apple-system, sans-serif'}" font-size="${m.fontSize||18}" font-weight="${m.fontWeight??400}" text-decoration="${[node.fontUnderline?'underline':'',node.fontStrike?'line-through':''].filter(Boolean).join(' ')||'none'}" font-style="${node.fontItalic?'italic':'normal'}" text-anchor="${anchor}">${escapeXml(line)}</text>`);
           });
+          const linkMarks=globalThis.GlaukaNodeLinks?.svgMarks?.(node,m);
+          if(linkMarks)nodeElements.push(linkMarks);
 
           }
 
@@ -739,8 +741,10 @@
           }
 
           const originalSide=[topic.side,topic.position,topic.direction].find(v=>v==='left'||v==='right')||null;
+          const link=globalThis.GlaukaNodeLinks?.classify?.(topic.href);
           return {
             text,sidePinned:originalSide,
+            ...(link?.ok?{linkUrl:link.value}:{}),
             image: nodeImage,
             children: attachedChildren.map(convertTopic)
           };
@@ -802,7 +806,9 @@
           }
 
           const originalSide=[topicEl.getAttribute('side'),topicEl.getAttribute('position'),topicEl.getAttribute('direction')].find(v=>v==='left'||v==='right')||null;
-          return { text, sidePinned:originalSide, image: nodeImage, children: childrenList };
+          const rawHref=topicEl.getAttribute('xlink:href')||topicEl.getAttribute('href')||'';
+          const link=globalThis.GlaukaNodeLinks?.classify?.(rawHref);
+          return { text, sidePinned:originalSide, ...(link?.ok?{linkUrl:link.value}:{}), image: nodeImage, children: childrenList };
         };
 
         return convertTopicEl(rootTopicEl);

@@ -1,6 +1,7 @@
     NeuroMapGraphics.install(NeuroMapApp,OrganicCanvasRenderer,OrganicLayoutEngine);
     NeuroMapDrag.install(NeuroMapApp);
     globalThis.NeuroMapCanvasPremium?.install(NeuroMapApp, OrganicCanvasRenderer);
+    globalThis.GlaukaNodeLinks?.install(NeuroMapApp);
     globalThis.NeuroMapAreaSelection?.install(NeuroMapApp);
     globalThis.NeuroMapCameraDynamics?.install(NeuroMapApp, {minZoom: 0.001, maxZoom: 3.5});
     NeuroMapDesktopWorkflow.install(NeuroMapApp,MindMapStateMachine,{NM615,NM613,NM614,NM611,Layout:OrganicLayoutEngine});

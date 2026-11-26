@@ -310,6 +310,7 @@
       ctx.fillText(box.label, glyph.x, glyph.y);
       ctx.restore();
     }
+    root.GlaukaNodeLinks?.paint?.(renderer, node, m);
     return true;
   }
   function paintRootFocus(renderer, box) {

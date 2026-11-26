@@ -59683,6 +59683,126 @@
       "origins": [
         "packages/editor-ui/settings-center.js"
       ]
+    },
+    "m8338580fb007": {
+      "it": "Indirizzo non consentito. Usa https, http o un file del computer.",
+      "en": "That address is not allowed. Use https, http, or a file on this computer.",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/node-links.js"
+      ]
+    },
+    "m75b0ae0ea405": {
+      "it": "Collega link o file",
+      "en": "Link a page or file",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/node-links.js"
+      ]
+    },
+    "mcf9c915c63ed": {
+      "it": "Sul ramo compare solo l’icona. Un file si apre soltanto da quell’icona. Programmi e script chiedono una conferma.",
+      "en": "The branch shows only the icon. A file opens only from that icon. Programs and scripts ask for confirmation.",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/node-links.js"
+      ]
+    },
+    "mfbaf2c2181b8": {
+      "it": "Scegli un file sul computer…",
+      "en": "Choose a file on this computer…",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/node-links.js"
+      ]
+    },
+    "m1bca3d2f1c9a": {
+      "it": "Salva collegamento",
+      "en": "Save link",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/node-links.js"
+      ]
+    },
+    "mc0d14039f6d2": {
+      "it": "La scelta del file è disponibile nell’app Desktop.",
+      "en": "Choosing a file is available in the desktop app.",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/node-links.js"
+      ]
+    },
+    "m4972ebd12417": {
+      "it": "File non scelto",
+      "en": "File not chosen",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/node-links.js"
+      ]
+    },
+    "m63d806eb99b1": {
+      "it": "I file del computer si aprono dall’app Desktop.",
+      "en": "Files on this computer open from the desktop app.",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/node-links.js"
+      ]
+    },
+    "m32cc93eac390": {
+      "it": "Aprire questo file?",
+      "en": "Open this file?",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/node-links.js"
+      ]
+    },
+    "m2f5337d58184": {
+      "it": "Questo file può essere un programma o uno script. Si apre solo se lo confermi adesso.",
+      "en": "This file may be a program or a script. It opens only if you confirm now.",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/node-links.js"
+      ]
+    },
+    "m86274e7f473c": {
+      "it": "Conferma necessaria prima di aprire il file.",
+      "en": "Confirmation is required before opening the file.",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/node-links.js"
+      ]
+    },
+    "mf0ac98afd130": {
+      "it": "Impossibile aprire il collegamento",
+      "en": "The link could not be opened",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/node-links.js"
+      ]
+    },
+    "m4efa2c47e8e6": {
+      "it": "Nessun collegamento",
+      "en": "No link",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/node-links.js"
+      ]
+    },
+    "mf65f748fd098": {
+      "it": "Collega link o file…",
+      "en": "Link a page or file…",
+      "known": true,
+      "origins": [
+        "packages/editor-ui/node-links.js"
+      ]
+    },
+    "mbc06ce7b3ad6": {
+      "it": "Salva tutto in un unico file (.gk)…",
+      "en": "Save everything in one file (.gk)…",
+      "known": true,
+      "origins": [
+        "apps/desktop-shared/editor/saving.js"
+      ]
     }
   },
   "aliases": {
@@ -70432,6 +70552,36 @@
     "Elementi da suggerire": "m977cf6e6623e",
     "Suggested items": "m977cf6e6623e",
     "Scegli se mostrare simboli testuali, illustrazioni SVG o entrambi.": "m48afb435ae8a",
-    "Choose whether to show text symbols, SVG illustrations, or both.": "m48afb435ae8a"
+    "Choose whether to show text symbols, SVG illustrations, or both.": "m48afb435ae8a",
+    "Indirizzo non consentito. Usa https, http o un file del computer.": "m8338580fb007",
+    "That address is not allowed. Use https, http, or a file on this computer.": "m8338580fb007",
+    "Collega link o file": "m75b0ae0ea405",
+    "Link a page or file": "m75b0ae0ea405",
+    "Sul ramo compare solo l’icona. Un file si apre soltanto da quell’icona. Programmi e script chiedono una conferma.": "mcf9c915c63ed",
+    "The branch shows only the icon. A file opens only from that icon. Programs and scripts ask for confirmation.": "mcf9c915c63ed",
+    "Scegli un file sul computer…": "mfbaf2c2181b8",
+    "Choose a file on this computer…": "mfbaf2c2181b8",
+    "Salva collegamento": "m1bca3d2f1c9a",
+    "Save link": "m1bca3d2f1c9a",
+    "La scelta del file è disponibile nell’app Desktop.": "mc0d14039f6d2",
+    "Choosing a file is available in the desktop app.": "mc0d14039f6d2",
+    "File non scelto": "m4972ebd12417",
+    "File not chosen": "m4972ebd12417",
+    "I file del computer si aprono dall’app Desktop.": "m63d806eb99b1",
+    "Files on this computer open from the desktop app.": "m63d806eb99b1",
+    "Aprire questo file?": "m32cc93eac390",
+    "Open this file?": "m32cc93eac390",
+    "Questo file può essere un programma o uno script. Si apre solo se lo confermi adesso.": "m2f5337d58184",
+    "This file may be a program or a script. It opens only if you confirm now.": "m2f5337d58184",
+    "Conferma necessaria prima di aprire il file.": "m86274e7f473c",
+    "Confirmation is required before opening the file.": "m86274e7f473c",
+    "Impossibile aprire il collegamento": "mf0ac98afd130",
+    "The link could not be opened": "mf0ac98afd130",
+    "Nessun collegamento": "m4efa2c47e8e6",
+    "No link": "m4efa2c47e8e6",
+    "Collega link o file…": "mf65f748fd098",
+    "Link a page or file…": "mf65f748fd098",
+    "Salva tutto in un unico file (.gk)…": "mbc06ce7b3ad6",
+    "Save everything in one file (.gk)…": "mbc06ce7b3ad6"
   }
 }

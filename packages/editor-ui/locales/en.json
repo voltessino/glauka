@@ -7049,5 +7049,20 @@
   "md48e3dccd3b2": "Suggest symbols & SVGs while typing",
   "mdc90366dd950": "Suggests matching local symbols and vector icons with zero typing lag.",
   "m977cf6e6623e": "Suggested items",
-  "m48afb435ae8a": "Choose whether to show text symbols, SVG illustrations, or both."
+  "m48afb435ae8a": "Choose whether to show text symbols, SVG illustrations, or both.",
+  "m8338580fb007": "That address is not allowed. Use https, http, or a file on this computer.",
+  "m75b0ae0ea405": "Link a page or file",
+  "mcf9c915c63ed": "The branch shows only the icon. A file opens only from that icon. Programs and scripts ask for confirmation.",
+  "mfbaf2c2181b8": "Choose a file on this computer…",
+  "m1bca3d2f1c9a": "Save link",
+  "mc0d14039f6d2": "Choosing a file is available in the desktop app.",
+  "m4972ebd12417": "File not chosen",
+  "m63d806eb99b1": "Files on this computer open from the desktop app.",
+  "m32cc93eac390": "Open this file?",
+  "m2f5337d58184": "This file may be a program or a script. It opens only if you confirm now.",
+  "m86274e7f473c": "Confirmation is required before opening the file.",
+  "mf0ac98afd130": "The link could not be opened",
+  "m4efa2c47e8e6": "No link",
+  "mf65f748fd098": "Link a page or file…",
+  "mbc06ce7b3ad6": "Save everything in one file (.gk)…"
 }

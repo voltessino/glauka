@@ -259,6 +259,7 @@
     "packages/editor-ui/map-refinements.css",
     "packages/editor-ui/map-refinements.js",
     "packages/editor-ui/map-style-core.js",
+    "packages/editor-ui/node-links.js",
     "packages/editor-ui/node-text-core.js",
     "packages/editor-ui/node-text-tools.js",
     "packages/editor-ui/object-gallery-healthicons.js",
@@ -393,7 +394,7 @@
   ],
   "closure_input_sha256": {
     "apps/desktop-shared/editor/sources.json": "fb1ea6514583c3beebe072f0ab7b308b21a498bd87f7d32dfe14551e6b6c2e15",
-    "scripts/release/prepare.py": "1788e2f49d0c882a662e34b9f75738fd330e891fc21007c93a6c7ee8041faa1b",
+    "scripts/release/prepare.py": "d7a176082f414c1d6eef57abffa9d7534a7d8f8f0f1848a914d22e82e1c8fd88",
     "apps/android/editor/sources.json": "5e136cb6faeff809aa268d1ac601c08189a97597675d19d9397dd89eb484d360",
     "scripts/release/pdfjs_vendor.py": "e49edd825a3ee4b0bc909fc458324ec7a3425bbb180f5da69c4e8f85621001af",
     "scripts/release/ocr_vendor.py": "fa270f0c19830d7cee395e8ab1720ea6cc7b7b708fc3d373e4f79aca22c333df",

@@ -7049,5 +7049,20 @@
   "md48e3dccd3b2": "Sugerir símbolos y SVG al escribir",
   "mdc90366dd950": "Sugiere localmente símbolos e iconos vectoriales relevantes sin ralentizar la escritura.",
   "m977cf6e6623e": "Elementos sugeridos",
-  "m48afb435ae8a": "Elige si mostrar símbolos de texto, ilustraciones SVG o ambos."
+  "m48afb435ae8a": "Elige si mostrar símbolos de texto, ilustraciones SVG o ambos.",
+  "m8338580fb007": "Dirección no permitida. Usa https, http o un archivo de este equipo.",
+  "m75b0ae0ea405": "Vincular página o archivo",
+  "mcf9c915c63ed": "La rama muestra solo el icono. Un archivo solo se abre desde ese icono. Los programas y scripts piden confirmación.",
+  "mfbaf2c2181b8": "Elegir un archivo en este equipo…",
+  "m1bca3d2f1c9a": "Guardar enlace",
+  "mc0d14039f6d2": "La selección de archivos está disponible en la app de escritorio.",
+  "m4972ebd12417": "No se eligió ningún archivo",
+  "m63d806eb99b1": "Los archivos de este equipo se abren desde la app de escritorio.",
+  "m32cc93eac390": "¿Abrir este archivo?",
+  "m2f5337d58184": "Este archivo puede ser un programa o un script. Solo se abrirá si lo confirmas ahora.",
+  "m86274e7f473c": "Se requiere confirmación antes de abrir el archivo.",
+  "mf0ac98afd130": "No se pudo abrir el enlace",
+  "m4efa2c47e8e6": "Sin enlace",
+  "mf65f748fd098": "Vincular página o archivo…",
+  "mbc06ce7b3ad6": "Guardar todo en un solo archivo (.gk)…"
 }

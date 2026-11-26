@@ -64,9 +64,28 @@
         on('ctx-img-toggle-zlayer',()=>{if(this.state.toggleImageZLayer(this.state.selectedImageId))this.markChanged();});
         on('ctx-img-reset-aspect',()=>{if(this.state.resetImageAspectRatio(this.state.selectedImageId))this.markChanged();});
         const imageInput=$('node-image-input');
-        const chooseImage=()=>imageInput?.click();
-        on('menu-add-image',chooseImage);on('ctx-add-image',chooseImage);
-        imageInput?.addEventListener('change',e=>{for(const file of e.target.files){if(file.type.startsWith('image/'))this.io.attachImageFileToNode(file,this.state.selectedNodeId);}imageInput.value='';});
+        // WebKit on macOS ignores a file button hidden with display:none.
+        const revealFileInput=(el)=>{
+          if(!el)return;
+          el.classList.remove('hidden');
+          el.style.setProperty('display','block','important');
+          el.style.position='fixed';
+          el.style.left='8px';
+          el.style.bottom='8px';
+          el.style.width='8px';
+          el.style.height='8px';
+          el.style.opacity='0.02';
+          el.style.zIndex='4000';
+          el.click();
+        };
+        const hideFileInput=(el)=>{
+          if(!el)return;
+          el.classList.add('hidden');
+          el.style.display='';
+        };
+        on('menu-add-image',()=>revealFileInput(imageInput));on('ctx-add-image',()=>revealFileInput(imageInput));
+        imageInput?.addEventListener('change',e=>{for(const file of e.target.files){if(file.type.startsWith('image/'))this.io.attachImageFileToNode(file,this.state.selectedNodeId);}imageInput.value='';hideFileInput(imageInput);});
+        imageInput?.addEventListener('cancel',()=>hideFileInput(imageInput));
         const threshold=$('threshold-slider'),thresholdMenu=$('menu-threshold-slider'),compact=$('nm67-compact-slider');
         const recordStart=(slider)=>{
           const snapshot=()=>this.state.pushHistory();
@@ -101,12 +120,14 @@
           b.onclick=()=>{if(this.state.updateNodeColorWithPropagation(this.state.selectedNodeId,color))this.markChanged();};swatches?.appendChild(b);});
         $('inspector-color-picker')?.addEventListener('change',e=>{if(this.state.updateNodeColorWithPropagation(this.state.selectedNodeId,e.target.value))this.markChanged();});
         const input=$('file-import-input');
-        on('btn-import-files-new-tabs',()=>{this.importMode='new';input.click();});
-        on('btn-import-file-current',()=>{this.importMode='current';input.click();});
+        on('btn-import-files-new-tabs',()=>{this.importMode='new';revealFileInput(input);});
+        on('btn-import-file-current',()=>{this.importMode='current';revealFileInput(input);});
         input.addEventListener('change',async e=>{
           const files=[...e.target.files];e.target.value='';
+          hideFileInput(input);
           await this.importFiles(files,this.importMode==='new');
         });
+        input.addEventListener('cancel',()=>hideFileInput(input));
         const pasteModal=$('paste-modal');
         const dismissPaste=()=>pasteModal.classList.add('hidden');
         on('btn-import-paste',()=>{pasteModal.classList.remove('hidden');$('paste-modal-textarea').focus();});
@@ -249,7 +270,7 @@
           // Preserve native editing and native clipboard behavior inside text fields.
           if(inputFocused){if(e.key==='Escape'&&e.target.id!=='inline-editor-input'){this.closeFind();}return;}
           if(mod&&e.key.toLowerCase()==='s'){e.preventDefault();this.saveToFile(e.shiftKey);return;}
-          if(mod&&e.key.toLowerCase()==='o'){e.preventDefault();this.importMode='new';$('file-import-input').click();return;}
+          if(mod&&e.key.toLowerCase()==='o'){e.preventDefault();this.importMode='new';revealFileInput($('file-import-input'));return;}
           if(mod&&e.key.toLowerCase()==='t'){e.preventDefault();this.createNewTab();return;}
           if(mod&&e.key.toLowerCase()==='w'){e.preventDefault();this.closeTab();return;}
           if(mod&&e.key.toLowerCase()==='k'){e.preventDefault();this.openFind();return;}

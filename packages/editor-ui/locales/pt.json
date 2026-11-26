@@ -7049,5 +7049,20 @@
   "md48e3dccd3b2": "Sugerir símbolos e SVGs ao digitar",
   "mdc90366dd950": "Sugere localmente símbolos e ícones vetoriais relevantes sem atrasar a digitação.",
   "m977cf6e6623e": "Itens sugeridos",
-  "m48afb435ae8a": "Escolha se deseja mostrar símbolos de texto, ilustrações SVG ou ambos."
+  "m48afb435ae8a": "Escolha se deseja mostrar símbolos de texto, ilustrações SVG ou ambos.",
+  "m8338580fb007": "Endereço não permitido. Use https, http ou um arquivo neste computador.",
+  "m75b0ae0ea405": "Vincular página ou arquivo",
+  "mcf9c915c63ed": "O ramo mostra apenas o ícone. Um arquivo só abre por esse ícone. Programas e scripts pedem confirmação.",
+  "mfbaf2c2181b8": "Escolher um arquivo neste computador…",
+  "m1bca3d2f1c9a": "Salvar link",
+  "mc0d14039f6d2": "A seleção de arquivos está disponível no app para computador.",
+  "m4972ebd12417": "Nenhum arquivo escolhido",
+  "m63d806eb99b1": "Arquivos deste computador abrem pelo app para computador.",
+  "m32cc93eac390": "Abrir este arquivo?",
+  "m2f5337d58184": "Este arquivo pode ser um programa ou um script. Ele só será aberto se você confirmar agora.",
+  "m86274e7f473c": "É necessária confirmação antes de abrir o arquivo.",
+  "mf0ac98afd130": "Não foi possível abrir o link",
+  "m4efa2c47e8e6": "Nenhum link",
+  "mf65f748fd098": "Vincular página ou arquivo…",
+  "mbc06ce7b3ad6": "Salvar tudo em um único arquivo (.gk)…"
 }

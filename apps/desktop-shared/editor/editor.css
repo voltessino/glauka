@@ -1423,7 +1423,7 @@
     .nm68-row output{white-space:nowrap;color:#b4a2ff;font-family:var(--font-mono);font-size:12px}
     #nm68-text-indent{width:100%;accent-color:#8b5cf6}
     #nm68-branch-gap{width:100%;accent-color:#8b5cf6}
-    #inline-editor-input{height:auto;min-height:48px;max-height:min(45vh,320px);line-height:1.32;resize:vertical;white-space:pre-wrap}
+    #inline-editor-input{height:auto;min-height:48px;max-height:min(72vh,calc(100vh - 110px));line-height:1.32;resize:none;white-space:pre-wrap;overflow-wrap:break-word;overflow-x:hidden;overflow-y:auto}
     .nm54-modal :is(input,select,button),#iconify-modal :is(input,select,button){box-sizing:border-box;min-width:0}
     .nm54-modal .nm54-searchbar{display:flex;align-items:stretch;gap:8px;flex-wrap:wrap}
     .nm54-modal .nm54-searchbar input{flex:1 1 190px;width:auto;min-width:0}
@@ -1754,13 +1754,13 @@
 /* Edit the canvas label in place: no duplicate card above the selected node. */
 #inline-editor-container #inline-editor-input {
   box-sizing:border-box!important; min-width:0!important; min-height:0!important;
-  max-height:none!important; padding:2px 4px!important; margin:0!important;
-  overflow-wrap:normal!important; word-break:normal!important;
+  max-height:min(72vh,calc(100vh - 110px))!important; padding:2px 4px!important; margin:0!important;
+  overflow-wrap:break-word!important; word-break:normal!important; white-space:pre-wrap!important;
   border:0!important; border-radius:3px!important; background:transparent!important;
   box-shadow:0 1px 0 0 var(--accent-indigo,#7750d9)!important;
   outline:0!important; resize:none!important;
   backdrop-filter:none!important; -webkit-backdrop-filter:none!important;
-  overflow-x:auto!important; overflow-y:hidden!important; user-select:text!important; -webkit-user-select:text!important;
+  overflow-x:hidden!important; overflow-y:auto!important; user-select:text!important; -webkit-user-select:text!important;
 }
 #inline-editor-container #inline-editor-input:focus-visible {box-shadow:0 1px 0 0 var(--accent-indigo,#7750d9)!important;}
 

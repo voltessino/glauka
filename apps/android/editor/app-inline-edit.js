@@ -17,11 +17,9 @@
         const labelY=art?art.labelY+art.labelHeight/2:m.y-2;
         const icon=node.illustration?.svg?(m.iconSize||31)+(m.iconGap||9):0;
         const textVal=String(field.value??node.text??'');
-        const singleLine=(m.lines?.length||1)<=1&&!textVal.includes('\n');
-        // Give DOM font metrics headroom above Canvas textWidth so double-clicking never unexpectedly wraps onto a second line.
-        const baseW=Math.max(art?.labelWidth||0,m.width-icon,(m.textWidth||32)+32);
+        const baseW=Math.max(art?.labelWidth||0,m.width-icon,(m.textWidth||32)+32,220/Math.max(zoom,0.2));
         const rawWidth=Math.max(20,baseW*zoom);
-        const width=Math.min(rawWidth,Math.max(60,viewportWidth-24));
+        const width=Math.min(Math.max(160,rawWidth),Math.max(60,viewportWidth-24));
         const setImp=(prop,val)=>{if(field.style.getPropertyValue?.(prop)!==val)field.style.setProperty(prop,val,'important');};
         setImp('font-family',window.GlaukaNodeText?.cssFamily(node)||'Inter, sans-serif');
         setImp('font-size',font+'px');
@@ -30,14 +28,20 @@
         setImp('text-decoration',[node.fontUnderline?'underline':'',node.fontStrike?'line-through':''].filter(Boolean).join(' ')||'none');
         setImp('text-align',node.labelAlign||'center');
         setImp('line-height',lineHeight+'px');
-        setImp('white-space',singleLine?'pre':'pre-wrap');
+        setImp('white-space','pre-wrap');
+        setImp('overflow-wrap','break-word');
+        setImp('overflow-x','hidden');
+        setImp('overflow-y','auto');
         const light=window.NeuroMapGraphics?.light?.();
         setImp('color',window.GlaukaNodeText?.color(node)||((art||node.side==='root')?'#ffffff':light?'#152139':'#f1f5f9'));
         const wPx=Math.ceil(width)+'px';
         if(field.style.width!==wPx)field.style.width=wPx;
         const labelHeight=(art?.labelHeight||m.height-4)*zoom;
-        const targetLines=singleLine?1:Math.max(m.lines?.length||1,textVal.split('\n').length);
-        const height=Math.min(Math.max(labelHeight,targetLines*lineHeight+8),Math.max(24,viewportHeight-110));
+        const maxHeight=Math.max(48,Math.min(viewportHeight*0.72,viewportHeight-110));
+        setImp('max-height',maxHeight+'px');
+        field.style.height='auto';
+        const grown=Math.max(labelHeight,field.scrollHeight||0,textVal?lineHeight+8:32);
+        const height=Math.min(grown,maxHeight);
         const hPx=Math.ceil(height)+'px';
         if(field.style.height!==hPx)field.style.height=hPx;
         let pos=this.renderer.worldToScreen(m.x+icon/2,labelY);
@@ -81,18 +85,7 @@
         if (initialText === null) field.select();
       }
       scheduleInlineRelayout() {
-        const field=document.getElementById('inline-editor-input');
-        const container=document.getElementById('inline-editor-container');
-        if(field&&container&&field.scrollWidth>field.clientWidth+2){
-          const vw=window.visualViewport?.width||innerWidth;
-          const nextW=Math.min(Math.max(field.clientWidth,field.scrollWidth+12),Math.max(60,vw-24));
-          const oldW=field.clientWidth;
-          if(nextW>oldW){
-            field.style.width=nextW+'px';
-            const leftNum=parseFloat(container.style.left);
-            if(Number.isFinite(leftNum))container.style.left=Math.max(8,leftNum-(nextW-oldW)/2)+'px';
-          }
-        }
+        this.positionEditor();
         clearTimeout(this._inlineRelayoutTimer);
         this._inlineRelayoutTimer=setTimeout(()=>{
           this._inlineRelayoutTimer=null;

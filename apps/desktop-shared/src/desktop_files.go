@@ -188,6 +188,7 @@ type storedNode struct {
 	ID       string        `json:"id"`
 	Text     string        `json:"text"`
 	Notes    string        `json:"notes"`
+	LinkURL  string        `json:"linkUrl"`
 	Children []*storedNode `json:"children"`
 }
 type storedImage struct {
@@ -270,6 +271,13 @@ func encodeXMind(content string, rawSheets []json.RawMessage) ([]byte, error) {
 			o := map[string]any{"id": n.ID, "title": n.Text, "class": "topic"}
 			if n.Notes != "" {
 				o["notes"] = map[string]any{"plain": map[string]any{"content": n.Notes}}
+			}
+			if choice, err := classifyLinkTarget(n.LinkURL); err == nil {
+				href := choice.Value
+				if choice.Kind == "file" {
+					href = fileLinkHref(choice.Value)
+				}
+				o["href"] = href
 			}
 			if image, ok := attached[n.ID]; ok {
 				o["image"] = image

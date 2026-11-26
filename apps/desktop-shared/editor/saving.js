@@ -16,6 +16,19 @@ const NM614 = {
       relationships:MindMapStateMachine.cloneRelationships(state.relationships)
     };
   },
+  workspaceDocument(app,tabs){
+    return {
+      schema:'NeuroMapArchitect-WorkspaceBatch-v6',
+      savedAt:new Date().toISOString(),
+      activeTabId:app.activeTabId,
+      tabs:tabs.filter(t=>t?.state?.root).map(t=>({
+        id:t.id,
+        title:t.state.root.text,
+        ...this.serialize(app,t),
+        root:MindMapStateMachine.cloneTree(t.state.root)
+      }))
+    };
+  },
   fingerprint(app,tab){const s=tab.state;
     return NeuroMapSafeJSON.stringify([s.root,s.images,s.relationships,s.thresholdY,s.balanceBias,s.compactness,s.branchGapX,
       s.strokeScale,s.activeThemeId,s.typographyPreset,s.typographyScale,s.branchStyle,s.defaultLabelWrapChars,s.wrapCustom,
@@ -28,10 +41,11 @@ const NM614 = {
     if(!tab||!tab.state?.root)return {ok:false};
     try{
       app.saveActiveTabSnapshot();
-      const linked=!!tab.filePath && /\.xmind$/i.test(tab.filePath);
-      const siblings=linked?app.tabs.filter(t=>t.filePath===tab.filePath):[tab];
+      const batch=!saveAs && !!tab.batchFile && !!tab.filePath && /\.gk$/i.test(tab.filePath);
+      const linked=!batch && !!tab.filePath && /\.xmind$/i.test(tab.filePath);
+      const siblings=batch?app.tabs.filter(t=>t.batchFile&&t.filePath===tab.filePath):(linked?app.tabs.filter(t=>t.filePath===tab.filePath):[tab]);
       const savedFingerprints=new Map(siblings.map(t=>[t.id,this.fingerprint(app,t)]));
-      const payload=this.serialize(app,tab);
+      const payload=batch?this.workspaceDocument(app,siblings):this.serialize(app,tab);
       const originalName=tab.fileName||app.io.sanitizeFilename(tab.state.root.text)+'.gk';
        const filename=saveAs&&/\.(neuromap|glk)$/i.test(originalName)?originalName.replace(/\.(neuromap|glk)$/i,'.gk'):originalName;
       if(window.neuromapDesktop){
@@ -41,7 +55,9 @@ const NM614 = {
         if(!result||result.cancelled)return {ok:false,cancelled:true};
         // Never clear a dirty indicator if the user continued editing while saving.
         tab.filePath=result.path;tab.fileName=result.name;
-        const group=linked&&!saveAs?siblings:[tab];
+        const group=(linked||batch)&&!saveAs?siblings:[tab];
+        if(batch)for(const t of group){t.filePath=result.path;t.fileName=result.name;t.batchFile=true;}
+        else if(saveAs)tab.batchFile=false;
         for(const t of group){
           t.state.isDirty=this.fingerprint(app,t)!==savedFingerprints.get(t.id);
         }
@@ -116,7 +132,10 @@ const NM614 = {
       for(const id of ids){
         const tab=app.tabs.find(t=>t.id===id);if(!tab)continue;
         if(tab.filePath&&/\.xmind$/i.test(tab.filePath)&&savedXmind.has(tab.filePath)){ok++;continue;}
-        const result=await this.performSave(app,tab,false);
+        // A tab inside one combined .gk must not replace that file with a single map.
+        const separate=!!(tab.batchFile&&tab.filePath&&/\.gk$/i.test(tab.filePath));
+        const result=await this.performSave(app,tab,separate);
+        if(result.ok&&separate)tab.batchFile=false;
         if(result.cancelled){cancelled=true;break;}
         if(result.ok){ok++;if(tab.filePath&&/\.xmind$/i.test(tab.filePath))savedXmind.add(tab.filePath);}
         else failed++;
@@ -125,6 +144,48 @@ const NM614 = {
       app.showToast(`Salvataggio schede: ${ok}/${ids.length} riuscito${failed?' · '+failed+' errori':''}${cancelled?' · interrotto':''}`,
         failed?'ERRORE':cancelled?'INTERROTTO':'SALVA TUTTE');
       return !failed&&!cancelled&&ok===ids.length;
+    });
+  },
+  async saveAllInOne(app){
+    if(!this.prepareSave(app))return false;
+    if(!app.tabs.length)return false;
+    const ids=app.tabs.map(t=>t.id);
+    return this.enqueue(app,async()=>{
+      const tabs=ids.map(id=>app.tabs.find(t=>t.id===id)).filter(t=>t?.state?.root);
+      if(!tabs.length)return false;
+      const savedFingerprints=new Map(tabs.map(t=>[t.id,this.fingerprint(app,t)]));
+      const payload=this.workspaceDocument(app,tabs);
+      const filename='Glauka-mappe.gk';
+      try{
+        if(window.neuromapDesktop){
+          const result=await window.neuromapDesktop.saveProject({json:NeuroMapSafeJSON.stringify(payload),filename,filePath:null,saveAs:true});
+          if(!result||result.cancelled)return false;
+          for(const t of tabs){
+            t.filePath=result.path;t.fileName=result.name;t.batchFile=true;
+            t.state.isDirty=this.fingerprint(app,t)!==savedFingerprints.get(t.id);
+          }
+          app.renderTabBar();app.scheduleSave();
+          app.showToast('Tutte le schede sono in un unico file: '+result.name,'SALVATO');
+          return true;
+        }
+        const json=NeuroMapSafeJSON.stringify(payload,2);
+        if(typeof window.showSaveFilePicker==='function'){
+          const handle=await showSaveFilePicker({suggestedName:filename,types:[{description:'Progetto Glauka',accept:{'application/json':['.gk']}}]});
+          const writer=await handle.createWritable();
+          try{await writer.write(json);await writer.close();}catch(error){await writer.abort?.().catch(()=>{});throw error;}
+          for(const t of tabs){
+            t.fileHandle=handle;t.batchFile=true;t.fileName=handle.name||filename;
+            t.state.isDirty=this.fingerprint(app,t)!==savedFingerprints.get(t.id);
+          }
+        }else app.io.triggerDownload(new Blob([json],{type:'application/json'}),filename);
+        app.renderTabBar();app.scheduleSave();
+        app.showToast('Tutte le schede sono in un unico file .gk','SALVATO');
+        return true;
+      }catch(error){
+        if(error?.name==='AbortError')return false;
+        app.showToast('Impossibile salvare il file unico: '+error.message,'ERRORE');
+        return false;
+      }
     });
   },
   mountDock(){
@@ -184,6 +245,28 @@ const NM614 = {
 };
 NeuroMapApp.prototype.saveActiveTabSafe=function(saveAs=false){return NM614.saveOne(this,saveAs);};
 NeuroMapApp.prototype.saveAllTabs=function(){return NM614.saveAll(this);};
+NeuroMapApp.prototype.saveAllInOneFile=function(){return NM614.saveAllInOne(this);};
+function nm614MountBatchSave(){
+  const anchor=document.getElementById('menu-save-all-tabs');
+  if(!anchor||document.getElementById('menu-save-workspace'))return;
+  const button=document.createElement('button');
+  button.id='menu-save-workspace';button.type='button';button.className='dropdown-item';
+  const label=document.createElement('span');
+  label.dataset.it='Salva tutto in un unico file (.gk)…';
+  label.dataset.en='Save everything in one file (.gk)…';
+  label.setAttribute('data-glauka-ui-pair','');
+  label.textContent=globalThis.GlaukaI18n?.pair?.(label.dataset.it,label.dataset.en)||label.dataset.it;
+  button.append(label);
+  button.addEventListener('click',()=>window.neuroMapApp?.saveAllInOneFile?.());
+  anchor.after(button);
+}
+function nm614ScheduleBatchSave(){
+  if(typeof document==='undefined')return;
+  const run=()=>setTimeout(nm614MountBatchSave);
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run);
+  else run();
+}
+nm614ScheduleBatchSave();
 NeuroMapApp.prototype.saveToFile=function(as=false){return as?this.saveAllTabs():this.saveActiveTabSafe(false);};
 MindMapIOManager.prototype.saveProjectFile=function(as=false){return NM614.saveOne(this.app,as);};
 // Stop legacy listeners from mapping Ctrl+Shift+S to Save As.

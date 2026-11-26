@@ -11,7 +11,7 @@
           const clampRootGap=typeof nmClampRootBranchGap==='function'?nmClampRootBranchGap:(v=>v!=null&&Number.isFinite(+v)?Math.round(Math.max(0,Math.min(48,+v))):14);
           const doc={version:3,editorDraft:this.editorNodeId?{nodeId:this.editorNodeId,text:document.getElementById('inline-editor-input').value,tabId:this.activeTabId}:null,studyCards:this.studyCards||[],
             learningAttempts:(this.learningAttempts||[]).slice(-2500),learningPlans:(this.learningPlans||[]).slice(-20),
-            activeTabId:this.activeTabId,tabs:this.tabs.map(t=>({id:t.id,title:t.title,filePath:t.filePath||null,fileName:t.fileName||null,originSheetIndex:t.originSheetIndex??null,
+            activeTabId:this.activeTabId,tabs:this.tabs.map(t=>({id:t.id,title:t.title,filePath:t.filePath||null,fileName:t.fileName||null,originSheetIndex:t.originSheetIndex??null,batchFile:!!t.batchFile,
             isDirty:!!t.state.isDirty,root:t.state.root,images:t.state.images,relationships:t.state.relationships,
             thresholdY:t.state.thresholdY,balanceBias:t.state.balanceBias,compactness:t.state.compactness,branchGapX:t.state.branchGapX,rootBranchGap:clampRootGap(t.state.rootBranchGap),wrapCustom:t.state.wrapCustom,strokeScale:t.state.strokeScale,activeThemeId:t.state.activeThemeId,
             typographyPreset:t.state.typographyPreset,typographyScale:t.state.typographyScale,branchStyle:t.state.branchStyle,defaultLabelWrapChars:t.state.defaultLabelWrapChars,camera:t.camera}))};
@@ -72,7 +72,7 @@
             state.selectedNodeId=state.root.id;state.selectedNodeIds=[state.root.id];
             state.isDirty=obj.isDirty!==false;
             restored.push({id:obj.id||state.generateId(),title:obj.title||state.root.text,state,
-              filePath:window.neuromapDesktop && typeof obj.filePath==='string'?obj.filePath:null,fileName:obj.fileName||null,originSheetIndex:obj.originSheetIndex??null,
+              filePath:window.neuromapDesktop && typeof obj.filePath==='string'?obj.filePath:null,fileName:obj.fileName||null,originSheetIndex:obj.originSheetIndex??null,batchFile:Boolean(obj.batchFile),
               camera:globalThis.NeuroMapRecovery?.camera(obj.camera,.12)||null});
           }
           if (!restored.length) return;

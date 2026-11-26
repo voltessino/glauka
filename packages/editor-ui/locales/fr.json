@@ -7049,5 +7049,20 @@
   "md48e3dccd3b2": "Suggérer des symboles et SVG pendant la saisie",
   "mdc90366dd950": "Propose localement des symboles et icônes vectorielles pertinents sans ralentir la frappe.",
   "m977cf6e6623e": "Éléments suggérés",
-  "m48afb435ae8a": "Choisissez d’afficher les symboles texte, les illustrations SVG ou les deux."
+  "m48afb435ae8a": "Choisissez d’afficher les symboles texte, les illustrations SVG ou les deux.",
+  "m8338580fb007": "Adresse non autorisée. Utilisez https, http ou un fichier sur cet ordinateur.",
+  "m75b0ae0ea405": "Lier une page ou un fichier",
+  "mcf9c915c63ed": "La branche affiche uniquement l’icône. Un fichier s’ouvre uniquement depuis cette icône. Les programmes et scripts demandent confirmation.",
+  "mfbaf2c2181b8": "Choisir un fichier sur cet ordinateur…",
+  "m1bca3d2f1c9a": "Enregistrer le lien",
+  "mc0d14039f6d2": "La sélection de fichiers est disponible dans l’application de bureau.",
+  "m4972ebd12417": "Aucun fichier choisi",
+  "m63d806eb99b1": "Les fichiers de cet ordinateur s’ouvrent depuis l’application de bureau.",
+  "m32cc93eac390": "Ouvrir ce fichier ?",
+  "m2f5337d58184": "Ce fichier peut être un programme ou un script. Il ne s’ouvrira que si vous confirmez maintenant.",
+  "m86274e7f473c": "Une confirmation est requise avant d’ouvrir le fichier.",
+  "mf0ac98afd130": "Impossible d’ouvrir le lien",
+  "m4efa2c47e8e6": "Aucun lien",
+  "mf65f748fd098": "Lier une page ou un fichier…",
+  "mbc06ce7b3ad6": "Tout enregistrer dans un seul fichier (.gk)…"
 }

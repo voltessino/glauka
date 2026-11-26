@@ -83,7 +83,7 @@
       parseTextHierarchy(text, ext) {
         if (ext === 'json' || ext === 'neuromap' || ext === 'glk' || ext === 'gk') {
           const d = JSON.parse(text);
-          if (d.schema === 'NeuroMapArchitect-WorkspaceBatch-v6' && Array.isArray(d.tabs)) return { workspace:d.tabs };
+          if (d.schema === 'NeuroMapArchitect-WorkspaceBatch-v6' && Array.isArray(d.tabs)) return { workspace:d.tabs, activeTabId:typeof d.activeTabId==='string'?d.activeTabId:'', batch:true };
           const root = d.root || d;
           if (!root || typeof root !== 'object' || !root.text) throw Error('JSON senza nodo principale valido.');
           return { root, meta:d };
@@ -181,7 +181,7 @@
             state.typographyPreset=item.typographyPreset||'uniform'; state.typographyScale=Number(item.typographyScale)||1;
             state.branchStyle=item.branchStyle||'neon';state.defaultLabelWrapChars=Number(item.defaultLabelWrapChars)||18;
             state.selectedNodeId=state.root.id;state.selectedNodeIds=[state.root.id];
-            prepared.push({state, studyCards:item.studyCards || [],
+            prepared.push({state, sourceId:item.id, studyCards:item.studyCards || [],
               learningAttempts:Array.isArray(item.learningAttempts)?item.learningAttempts.slice(0,2500):[],
               learningPlan:item.learningPlan || null});
           }
@@ -190,9 +190,11 @@
             throw Error('Questa importazione supererebbe 512 schede: dividi il progetto in più gruppi.');
           // No live state is changed until every sheet and its metadata is ready.
           this.saveActiveTabSnapshot();
-          let lastTab;
-          for (const {state, studyCards, learningAttempts, learningPlan} of prepared) {
+          let lastTab;const opened=[];
+          for (const {state, sourceId, studyCards, learningAttempts, learningPlan} of prepared) {
             lastTab=this.addTab(state,state.root.text,false);
+            if(parsed.batch){lastTab.batchFile=true;lastTab._nmSourceTabId=sourceId;}
+            opened.push(lastTab);
             this.studyCards.push(...studyCards.map(c=>({...c,sourceTabId:lastTab.id})));
             this.learningAttempts.push(...learningAttempts
               .filter(a=>a&&typeof a==='object'&&!Array.isArray(a)&&state.findNode(a.nodeId))
@@ -201,7 +203,8 @@
               this.learningPlans.push({...learningPlan,tabId:lastTab.id});
             }
           }
-          this.activateTab(lastTab.id);
+          const wanted=opened.find(t=>t._nmSourceTabId&&t._nmSourceTabId===parsed.activeTabId)||lastTab;
+          this.activateTab(wanted.id);
           this.recalculateAndRender();this.fitToScreen();this.renderTabBar();this.scheduleSave();
           return total;
         }

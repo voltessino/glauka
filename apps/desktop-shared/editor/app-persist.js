@@ -18,7 +18,7 @@
           }
           this._nmViewWorkspaceArchive=nmArchiveViewWorkspaces(this._nmViewWorkspaceArchive,this.tabs);
           const clampRootGap=typeof nmClampRootBranchGap==='function'?nmClampRootBranchGap:(v=>v!=null&&Number.isFinite(+v)?Math.round(Math.max(0,Math.min(48,+v))):14);
-          const doc={version:3,viewWorkspaceArchive:this._nmViewWorkspaceArchive,atlasLibrary:(this._nmAtlasArchive||[]),atlasEdges:(this._nmAtlasEdges||[]).slice(0,500),journeyProgress:this._nmJourneyProgress||{},editorDraft:this.editorNodeId?{nodeId:this.editorNodeId,text:document.getElementById('inline-editor-input').value,tabId:this.activeTabId}:null,studyCards:this.studyCards||[],learningAttempts:NeuroMapLearningCore.cleanAttempts(this.learningAttempts||[]),learningPlans:NeuroMapAdaptiveCore.cleanPlans(this.learningPlans),activeTabId:this.activeTabId,tabs:this.tabs.map(t=>({id:t.id,title:t.title,filePath:t.filePath||null,fileName:t.fileName||null,originSheetIndex:t.originSheetIndex??null,
+          const doc={version:3,viewWorkspaceArchive:this._nmViewWorkspaceArchive,atlasLibrary:(this._nmAtlasArchive||[]),atlasEdges:(this._nmAtlasEdges||[]).slice(0,500),journeyProgress:this._nmJourneyProgress||{},editorDraft:this.editorNodeId?{nodeId:this.editorNodeId,text:document.getElementById('inline-editor-input').value,tabId:this.activeTabId}:null,studyCards:this.studyCards||[],learningAttempts:NeuroMapLearningCore.cleanAttempts(this.learningAttempts||[]),learningPlans:NeuroMapAdaptiveCore.cleanPlans(this.learningPlans),activeTabId:this.activeTabId,tabs:this.tabs.map(t=>({id:t.id,title:t.title,filePath:t.filePath||null,fileName:t.fileName||null,originSheetIndex:t.originSheetIndex??null,batchFile:!!t.batchFile,
             isDirty:!!t.state.isDirty,root:t.state.root,images:t.state.images,relationships:t.state.relationships,
             thresholdY:t.state.thresholdY,balanceBias:t.state.balanceBias??50,compactness:t.state.compactness??100,branchGapX:nm68ClampGap(t.state.branchGapX),rootBranchGap:clampRootGap(t.state.rootBranchGap),strokeScale:t.state.strokeScale,activeThemeId:t.state.activeThemeId,
             typographyPreset:t.state.typographyPreset,typographyScale:t.state.typographyScale,branchStyle:t.state.branchStyle,defaultLabelWrapChars:t.state.defaultLabelWrapChars,wrapCustom:!!t.state.wrapCustom,camera:nmCleanCanvasCamera(t.camera),
@@ -102,6 +102,7 @@
             state.isDirty=obj.isDirty!==false;
             restored.push({id:obj.id||state.generateId(),title:obj.title||state.root.text,state,
               filePath:window.neuromapDesktop && typeof obj.filePath==='string'?obj.filePath:null,fileName:obj.fileName||null,originSheetIndex:obj.originSheetIndex??null,
+              batchFile:Boolean(obj.batchFile)&&/\.gk$/i.test(String(obj.filePath||'')),
               camera:nmCleanCanvasCamera(obj.camera),viewWorkspace:nmCleanViewWorkspace(obj.viewWorkspace)});
           }
           if (!restored.length) return;

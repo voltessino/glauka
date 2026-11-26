@@ -868,6 +868,57 @@ func (s *service) routes() *http.ServeMux {
 		}
 		responseJSON(w, 200, result)
 	})
+	mux.HandleFunc("/__desktop/file/pick-link", func(w http.ResponseWriter, r *http.Request) {
+		if !s.secure(w, r) {
+			return
+		}
+		path, err := desktopLinkFileDialog()
+		if err != nil {
+			responseJSON(w, 500, response{Message: err.Error()})
+			return
+		}
+		if path == "" {
+			responseJSON(w, 200, map[string]any{"cancelled": true})
+			return
+		}
+		choice, err := classifyLinkTarget(path)
+		if err != nil {
+			responseJSON(w, 400, response{Message: err.Error()})
+			return
+		}
+		responseJSON(w, 200, map[string]any{
+			"cancelled": false, "kind": choice.Kind, "path": choice.Value,
+			"name": filepath.Base(choice.Value), "executable": choice.Executable,
+		})
+	})
+	mux.HandleFunc("/__desktop/file/open-link", func(w http.ResponseWriter, r *http.Request) {
+		if !s.secure(w, r) {
+			return
+		}
+		var q struct {
+			Target  string `json:"target"`
+			Confirm bool   `json:"confirm"`
+		}
+		if !readJSON(w, r, &q, 8192) {
+			return
+		}
+		choice, err := classifyLinkTarget(q.Target)
+		if err != nil {
+			responseJSON(w, 400, response{Message: err.Error()})
+			return
+		}
+		// A map load must never reach this route. Even here, scripts and
+		// programs stay closed until this same request carries an explicit confirm.
+		if choice.Executable && !q.Confirm {
+			responseJSON(w, 200, map[string]any{"needsConfirm": true, "executable": true})
+			return
+		}
+		if err = openLinkedTarget(choice); err != nil {
+			responseJSON(w, 500, response{Message: "Impossibile aprire il collegamento"})
+			return
+		}
+		responseJSON(w, 200, map[string]any{"opened": true, "kind": choice.Kind})
+	})
 	mux.HandleFunc("/__desktop/secret/read", func(w http.ResponseWriter, r *http.Request) {
 		if !s.secure(w, r) {
 			return

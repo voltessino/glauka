@@ -154,6 +154,8 @@
       };
     },
     saveProject:request=>api('file/save',request),
+    pickLinkFile:()=>api('file/pick-link',{}),
+    openLinkedTarget:request=>api('file/open-link',request),
     // Read-only version discovery and explicit copy-only recovery; no project overwrite.
     listProjectHistory:filePath=>api('file/history/list',{filePath}),
     describeProjectHistory:(filePath,id)=>api('file/history/diff',{filePath,id}),

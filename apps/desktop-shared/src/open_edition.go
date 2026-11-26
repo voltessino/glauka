@@ -9,7 +9,9 @@ import (
 	"time"
 )
 
-type activeAIRequest struct{}
+type activeAIRequest struct {
+	cancel context.CancelFunc
+}
 type aiAudio struct{}
 
 func developerEdition() bool { return false }

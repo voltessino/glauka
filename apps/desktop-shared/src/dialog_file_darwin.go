@@ -55,6 +55,12 @@ func parseMacSelection(out string) ([]string, error) {
     return paths, nil
 }
 
+func desktopLinkFileDialog() (string, error) {
+	return scriptRun(`on run argv
+set f to choose file with prompt (item 1 of argv)
+return POSIX path of f
+end run`, nativeInterfaceText("Collega un file"))
+}
 func desktopMultiOpenDialog() ([]string, error) {
 	out, err := scriptRun(`on run argv
 set fs to choose file with prompt (item 1 of argv) with multiple selections allowed

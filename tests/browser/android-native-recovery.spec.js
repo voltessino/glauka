@@ -441,7 +441,7 @@ test("native recovery also works on WebViews without crypto.randomUUID", async (
 });
 test('unreadable recovery offers an actual backup picker and keeps the current workspace until import',async({page})=>{
  await boot(page,{failRead:true});await page.setViewportSize({width:320,height:568});
- const picker=page.waitForEvent('filechooser');await page.getByRole('button',{name:'Apri un backup',exact:true}).click();
+ const picker=page.waitForEvent('filechooser');await page.getByRole('button',{name:/Apri un backup/i}).click();
  await (await picker).setFiles({name:'backup.neuromap',mimeType:'application/json',buffer:Buffer.from(JSON.stringify({schema:'NeuroMapArchitect-SingleTab-v6',root:{text:'Backup opened',children:[]}}))});
  await expect.poll(()=>page.evaluate(()=>neuroMapApp.state.root.text)).toBe('Backup opened');
  expect(await page.evaluate(()=>__writes.length)).toBe(0);

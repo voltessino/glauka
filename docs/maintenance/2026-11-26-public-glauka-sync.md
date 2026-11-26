@@ -19,9 +19,10 @@ Quindi: una pulizia del **sito** o di **Video Studio** nella privata **non** ric
 
 ## Quando sincronizzare
 
-1. Dopo che le modifiche utili al nucleo sono su `main` della privata.
+1. Dopo ogni modifica al **nucleo open** (editor, Android Free, guide del nucleo).
 2. Prima di annunciare novità open source o una release Android Free pubblica.
-3. Non sincronizzare da un branch di lavoro non ancora integrato.
+3. Sito e Video Studio da soli **non** richiedono sync (restano privati).
+4. Autorizzazione del proprietario (26 nov 2026): gli agenti aggiornano **direttamente** anche `voltessino/glauka`, non solo la privata.
 
 ## Procedura (locale, senza GitHub Actions)
 

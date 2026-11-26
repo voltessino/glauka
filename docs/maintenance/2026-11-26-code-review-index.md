@@ -30,13 +30,13 @@ Dettaglio: [design](../superpowers/specs/2026-11-26-code-review-campaign-design.
 
 ## Repo pubblica `voltessino/glauka`
 
-Deve restare allineata al **nucleo open** della privata, con export manuale.  
+Allineata dal proprietario (26 nov 2026): aggiornamento **diretto** dopo ogni pezzo di nucleo open.  
 Procedura: [`2026-11-26-public-glauka-sync.md`](2026-11-26-public-glauka-sync.md).  
-Le fette Solo-sito / Solo-Video-Studio **non** bastano da sole a richiedere un sync.
+Ultimo sync pubblico: `ae1efeb` ← privata `32986cb0`.  
+Sito / Video Studio da soli non richiedono sync.
 
 ## Prossime fette proposte
 
-1. Integrare la PR Zona A (#343), poi decidere se serve un sync pubblico (solo se c’è nucleo open da portare).
-2. Zona B: un bordo alla volta (lingue / OCR / packaging) se emerge un problema concreto.
-3. Zona C: un solo tema (es. lentezza zoom o salvataggio) solo con prova misurata.
-4. Dopo ogni merge sul nucleo open: ripetere l’export verso `voltessino/glauka`.
+1. Zona B: un bordo alla volta (lingue / OCR / packaging) con prova concreta.
+2. Zona C: un solo tema solo con prova misurata.
+3. Dopo ogni pezzo open: export + push su `voltessino/glauka`.

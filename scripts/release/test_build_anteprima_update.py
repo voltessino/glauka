@@ -32,6 +32,10 @@ class ExistingAnteprimaUpdateTests(unittest.TestCase):
             self.assertFalse((folder / "media/glauka-demo.mp4").exists())
             for name in ("work", "study", "ideas", "organize"):
                 self.assertFalse((folder / f"assets/{name}.png").exists())
+            self.assertFalse((folder / "assets/features").exists())
+            cinema = (folder / "cinema.js").read_text(encoding="utf-8")
+            self.assertIn("glauka-studio-reel", cinema)
+            self.assertNotIn("glauka-feature-tour", cinema)
             self.assertTrue((folder / "home.js").is_file())
             self.assertTrue((folder / "cinema.js").is_file())
             self.assertTrue((folder / "faq.js").is_file())

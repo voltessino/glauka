@@ -163,6 +163,10 @@ class WebsitePreviewTest(unittest.TestCase):
         self.assertIn("data-cinema", packaged)
         for name in ("work", "study", "ideas", "organize"):
             self.assertFalse((self.public / f"assets/{name}.png").exists())
+        self.assertFalse((self.public / "assets/features").exists())
+        cinema = (self.public / "cinema.js").read_text()
+        self.assertIn("glauka-studio-reel", cinema)
+        self.assertNotIn("glauka-feature-tour", cinema)
 
     def test_rebuild_refuses_to_rotate_existing_credentials(self):
         private = self.output / "1-HOME-FTP/.htpasswd-glauka-preview"

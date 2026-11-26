@@ -93,6 +93,8 @@ def copy_website_contents(target: Path, site: Path = SITE) -> list[str]:
         if not src.is_file() or src.suffix.lower() not in {".png", ".svg"}:
             continue
         rel = src.relative_to(home)
+        if rel.parts[:2] == ("assets", "features"):
+            continue
         dst = target / rel
         dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(src, dst)

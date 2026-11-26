@@ -7,7 +7,7 @@ Fotografia di partenza su `main` (`5fd88a3d` e successivi). Serve a lavorare **a
 | Zona | Contenuto | Isolamento | Stato |
 | --- | --- | --- | --- |
 | **A** | Sito, Video Studio, license-manager, docs, inventari Git | Alto | **In corso** — sito + gate Video Studio |
-| **B** | Lingue, icone, OCR/PDF, Cloud, AI UI, packaging nativo | Medio | Lingue: PR orfane Orbit + NM_I18N; OCR/PDF verdi |
+| **B** | Lingue, icone, OCR/PDF, Cloud, AI UI, packaging nativo | Medio | Baseline: lingue e OCR/PDF già verdi |
 | **C** | Nodi, layout, drag, zoom, file, salvataggi, viste, studio | Basso (molto collegato) | Solo con bug/lentezza misurata |
 
 ## 18 aree prodotto (FEATURE_MAP)
@@ -19,6 +19,7 @@ Fotografia di partenza su `main` (`5fd88a3d` e successivi). Serve a lavorare **a
 1. **Zona A · sito:** stub CSS/JS, living-canvas/story-paths, PNG legacy non linkati, tour-player inutilizzato; test packaging e Playwright aggiornati.
 2. **Zona A · Video Studio:** rimosso il passo duplicato `p6-p7-targeted` dal release-gate (già coperto da `qa.cjs --fast`); tolto export morto `escapeHTML` da `review.cjs`.
 3. **Zona A · license-manager:** rimosso `launch_desk.py` (avvio non usato; i launcher usano `-m glauka_license_manager`). Lasciati `apply_public_key.py` e `installa.ps1` (possibile uso manuale).
+4. **Zona B · packaging sito:** esclusi/rimossi `assets/features/*` dai pacchetti; `cinema.js` punta di default a `glauka-studio-reel`. `ocr2_microlab.cjs` lasciato come QA-only.
 
 Dettaglio: [design](../superpowers/specs/2026-11-26-code-review-campaign-design.md), [piano sito](../superpowers/plans/2026-11-26-zone-a-website-dead-weight.md).
 
@@ -38,9 +39,9 @@ Sito / Video Studio da soli non richiedono sync.
 
 ## Baseline Zona B (26 nov 2026)
 
-- Lingue: cataloghi allineati; `test_interface_locales` OK; structure shell dictionary/locale OK.
+- Lingue: 8 cataloghi × 7063 chiavi allineati; `test_interface_locales` 6/6 OK; structure shell dictionary/locale OK.
 - OCR vendor: 3/3 OK. PDF.js vendor: 5/5 OK.
-- Fetta lingue: rimosse 12 chiavi orfane di `mobile-orbit-toggle.js` (7051 chiavi) e chiavi `NM_I18N` non usate (`plan`/`free`/`pro`/`activated`/`yes`; su Android anche `local`).
+- Packaging sito: `assets/features` ritirati; cinema default = studio-reel; `ocr2_microlab.cjs` resta QA-only.
 
 ## Prossime fette proposte
 

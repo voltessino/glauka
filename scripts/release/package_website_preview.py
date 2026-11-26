@@ -138,7 +138,10 @@ def build(output: Path, ftp_home: str, site: Path = SITE) -> Path:
     for source in sorted((site / "home-review" / "assets").rglob("*")):
         if not source.is_file() or source.suffix.lower() not in {".png", ".svg"}:
             continue
-        target = public / "assets" / source.relative_to(site / "home-review" / "assets")
+        rel = source.relative_to(site / "home-review" / "assets")
+        if rel.parts and rel.parts[0] == "features":
+            continue
+        target = public / "assets" / rel
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source, target)
     shutil.copytree(site / "assets" / "fonts", public / "assets" / "fonts")

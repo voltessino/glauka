@@ -14,7 +14,7 @@ async function bootApp(page, lang = 'it') {
   });
 }
 
-test('Spiega Etimologia text is selectable and persists Ascolta con engine preference', async ({ page }) => {
+test('Spiega Etimologia has single Ascolta button and shares quick-read voice preference from Settings across Flashcards and Etymology', async ({ page }) => {
   await bootApp(page, 'it');
 
   await page.evaluate(() => {
@@ -47,30 +47,104 @@ test('Spiega Etimologia text is selectable and persists Ascolta con engine prefe
   });
   expect(selectedText).toContain('glaukos');
 
-  const modeSelect = page.locator('#ai-explain-tts-mode');
-  await expect(modeSelect).toBeVisible();
-  await modeSelect.selectOption('api');
-  expect(await page.evaluate(() => localStorage.getItem('glauka.explain.ttsMode.v1'))).toBe('api');
+  // Etymology panel keeps ONE single Ascolta button and zero duplicate inline Ascolta selector.
+  await expect(page.locator('#ai-explain-panel #ai-explain-speak')).toHaveCount(1);
+  await expect(page.locator('#ai-explain-panel #ai-explain-tts-mode')).toHaveCount(0);
+  await expect(page.locator('#ai-explain-panel button')).toHaveCount(3); // close (×), Ascolta, Salva
 
-  const spokenMode = await page.evaluate(() => {
+  // Default quick-read mode prefers non-native HD voice ('edge') and speaks using that preference.
+  const defaultSpoken = await page.evaluate(() => {
     let recorded = null;
     const studio = window.neuroMapApp.aiStudio;
     const orig = studio.speakWithMode;
     studio.speakWithMode = async function (txt, opts) {
-      recorded = { txt, mode: opts?.mode, explain: Boolean(opts?.explain) };
+      recorded = { txt, mode: opts?.mode, voice: opts?.voice, explain: Boolean(opts?.explain) };
       return true;
     };
     document.getElementById('ai-explain-speak').click();
     studio.speakWithMode = orig;
     return recorded;
   });
-  expect(spokenMode?.mode).toBe('api');
-  expect(spokenMode?.explain).toBe(true);
-  expect(spokenMode?.txt).toContain('glaukos');
+  expect(defaultSpoken?.mode).toBe('edge');
+  expect(defaultSpoken?.explain).toBe(true);
 
+  // Configure engine & specific voice centrally in Impostazioni -> Studio e strumenti.
+  await page.evaluate(() => {
+    document.getElementById('ai-explain-panel').classList.add('hidden');
+    window.neuroMapSpeechEngine?.stop?.();
+  });
+  await page.locator('#gl-settings-quick').click();
+  await page.locator('#gl-settings-nav button[data-category="study"]').click();
+
+  const modeSelect = page.locator('#gl-settings-quick-tts-mode');
+  const voiceSelect = page.locator('#gl-settings-quick-tts-voice');
+  await expect(modeSelect).toBeVisible();
+  await expect(voiceSelect).toBeVisible();
+  await modeSelect.selectOption('edge');
+  await voiceSelect.selectOption('diego');
+
+  expect(await page.evaluate(() => localStorage.getItem('glauka.explain.ttsMode.v1'))).toBe('edge');
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('glauka.quickRead.ttsVoices.v1')).edge)).toBe('diego');
+
+  await modeSelect.selectOption('api');
+  await voiceSelect.selectOption('nova');
+  expect(await page.evaluate(() => localStorage.getItem('glauka.explain.ttsMode.v1'))).toBe('api');
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('glauka.quickRead.ttsVoices.v1')).api)).toBe('nova');
+
+  await page.keyboard.press('Escape');
+
+  const explainCustom = await page.evaluate(() => {
+    let recorded = null;
+    const studio = window.neuroMapApp.aiStudio;
+    const orig = studio.speakWithMode;
+    studio.speakWithMode = async function (txt, opts) {
+      recorded = { txt, mode: opts?.mode, voice: opts?.voice, explain: Boolean(opts?.explain) };
+      return true;
+    };
+    document.getElementById('ai-explain-panel').classList.remove('hidden');
+    document.getElementById('ai-explain-speak').click();
+    studio.speakWithMode = orig;
+    return recorded;
+  });
+  expect(explainCustom?.mode).toBe('api');
+  expect(explainCustom?.voice).toBe('nova');
+  expect(explainCustom?.explain).toBe(true);
+  expect(explainCustom?.txt).toContain('glaukos');
+
+  // Reload persists settings in Settings and applies them to Flashcards Ascolta too.
   await page.reload();
-  await page.waitForFunction(() => window.neuroMapApp?.aiStudio && document.querySelector('#ai-explain-tts-mode option[value="api"]'));
-  await expect(page.locator('#ai-explain-tts-mode')).toHaveValue('api');
+  await page.waitForFunction(() => window.neuroMapApp?.aiStudio);
+  await page.evaluate(() => {
+    document.querySelectorAll('.nm6-shade').forEach((el) => el.classList.add('hidden'));
+    window.neuroMapApp.studyCards = [{
+      id: 'tts-fc-1',
+      sourceTabId: window.neuroMapApp.activeTabId,
+      sourceNodeId: window.neuroMapApp.state.root.id,
+      sourceSignature: window.neuroMapApp.v5Signature(window.neuroMapApp.state.root, window.neuroMapApp.state),
+      question: 'Cosa fa il talamus?',
+      answer: 'Stazione di relè sensoriale.',
+      srStatus: 0,
+      sr: { dueAt: 0 },
+    }];
+    window.neuroMapApp.openFlashcards();
+  });
+
+  const flashSpoken = await page.evaluate(() => {
+    let recorded = null;
+    const studio = window.neuroMapApp.aiStudio;
+    const orig = studio.speakWithMode;
+    studio.speakWithMode = async function (txt, opts) {
+      recorded = { txt, mode: opts?.mode, voice: opts?.voice, explain: Boolean(opts?.explain) };
+      return true;
+    };
+    document.getElementById('glauka-flash-speak').click();
+    studio.speakWithMode = orig;
+    return recorded;
+  });
+  expect(flashSpoken?.mode).toBe('api');
+  expect(flashSpoken?.voice).toBe('nova');
+  expect(flashSpoken?.explain).toBe(false);
+  expect(flashSpoken?.txt).toContain('talamus');
 });
 
 test('Glauka Studio plugin card shows clear optional guide when absent and syncs voices when installed', async ({ page }) => {
@@ -124,11 +198,20 @@ test('Glauka Studio plugin card shows clear optional guide when absent and syncs
   await expect(page.locator('#nm-ai-gs-voice-select')).toBeVisible();
 });
 
-test('Flashcard Studio clearly identifies Flashcards, creates cards manually, imports Google AI Mode lines, and browses past decks', async ({ page }) => {
+test('Flashcard Studio clearly identifies Flashcards, builds structured Markdown AI Mode prompts, creates/imports cards, and supports multi-select & Delete All', async ({ page }) => {
   await bootApp(page, 'it');
+  page.on('dialog', (d) => d.accept());
 
   await page.evaluate(() => {
-    window.neuroMapApp.studyCards = [
+    const app = window.neuroMapApp;
+    const root = app.state.root;
+    root.text = 'Neuroanatomia';
+    root.children = [];
+    const b1 = app.state.addChildNode(root.id, app.layoutEngine, 'Ipotalamo');
+    app.state.addChildNode(b1.id, app.layoutEngine, 'Funzioni endocrine');
+    const b2 = app.state.addChildNode(root.id, app.layoutEngine, 'Talamo');
+    app.state.addChildNode(b2.id, app.layoutEngine, 'Relè sensoriale');
+    app.studyCards = [
       {
         id: 'old-map-card',
         sourceTabId: 'past-closed-tab',
@@ -141,10 +224,23 @@ test('Flashcard Studio clearly identifies Flashcards, creates cards manually, im
         sr: { dueAt: Date.now() + 86400000 * 5, lastReviewedAt: Date.now() - 86400000, intervalDays: 5, reviews: 2, lapses: 0 },
       },
     ];
-    window.neuroMapApp.openFlashcards();
+    app.openFlashcards();
   });
 
   await expect(page.locator('#flash-modal .v4-modal-head strong')).toContainText(/Flashcard/i);
+
+  // Verify Markdown AI Mode prompt divides whole map by branch and respects prompt style options.
+  await page.locator('#glauka-study-tools > summary').click();
+  await expect(page.locator('#v5-study-prompt-style')).toBeVisible();
+  const balancedPrompt = await page.evaluate(() => window.neuroMapApp.v5BuildGoogleCardsPrompt('active', 10, 'balanced').fullPrompt);
+  expect(balancedPrompt).toContain('BILANCIATO');
+  expect(balancedPrompt).toContain('# Neuroanatomia');
+  expect(balancedPrompt).toContain('## 1. Ipotalamo');
+  expect(balancedPrompt).toContain('## 2. Talamo');
+
+  await page.locator('#v5-study-prompt-style').selectOption('detailed');
+  const detailedPrompt = await page.evaluate(() => window.neuroMapApp.v5BuildGoogleCardsPrompt('active', 12, 'detailed').fullPrompt);
+  expect(detailedPrompt).toContain('DETTAGLIATO RAMO PER RAMO');
 
   // Create manual card without AI.
   await page.locator('#glauka-flash-tabs button').nth(2).click();
@@ -154,18 +250,28 @@ test('Flashcard Studio clearly identifies Flashcards, creates cards manually, im
 
   await expect(page.locator('#flash-card-content .flash-heading')).toHaveText('Dove si trova la valvola tricuspide?');
 
-  // Import from Google AI Mode format skipping header line.
-  await page.locator('#glauka-study-tools > summary').click();
+  // Import Markdown grouped by branch headings from Google AI Mode.
   await page.locator('#glauka-google-paste-text').fill(
-    'Domanda | Risposta\nCosa fa il piccolo circolo? | Porta sangue venoso ai polmoni.'
+    '## 1. Ipotalamo\n- **Qual è un ruolo chiave dell’ipotalamo?** | Coordina sistema endocrino e SNA.\nDomanda | Risposta\nCosa fa il piccolo circolo? | Porta sangue venoso ai polmoni.'
   );
   await page.locator('#glauka-google-paste-import').click();
 
-  // Check Archive & Past tab shows all 3 real flashcards and searches cleanly.
+  // Check Archive & Past tab shows 4 flashcards, filters, and supports Select All + Bulk Delete.
   await page.locator('#glauka-flash-tabs button').nth(1).click();
-  await expect(page.locator('#glauka-lib-list .glauka-lib-row')).toHaveCount(3);
+  await expect(page.locator('#glauka-lib-list .glauka-lib-row')).toHaveCount(4);
   await page.locator('#glauka-lib-search').fill('mitocondrio');
   await expect(page.locator('#glauka-lib-list .glauka-lib-row')).toHaveCount(1);
+  await page.locator('#glauka-lib-search').fill('');
+  await expect(page.locator('#glauka-lib-list .glauka-lib-row')).toHaveCount(4);
+
+  await page.locator('#glauka-lib-select-toggle').click();
+  await page.locator('#glauka-lib-list .glauka-lib-row').first().locator('.glauka-lib-check').click();
+  await expect(page.locator('#glauka-lib-bulk-delete')).toContainText('(1)');
+
+  await page.locator('#glauka-lib-select-all').click();
+  await expect(page.locator('#glauka-lib-bulk-delete')).toContainText('(4)');
+  await page.locator('#glauka-lib-bulk-delete').click();
+  await expect(page.locator('#glauka-lib-list .glauka-lib-row')).toHaveCount(0);
 });
 
 test('Studia la mappa highlights Flashcards badge and keeps active study tools unburied', async ({ page }) => {

@@ -356,13 +356,47 @@ body[data-nm-skin="graphite"] #flash-modal .v4-rate.good { color: #6ee7b7; }
 /* Archive browser & Manual composer */
 .glauka-lib-toolbar {
   display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) auto auto;
   gap: 8px;
+}
+.glauka-lib-bulkbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  padding: 6px 9px;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--nm-skin-stroke, #cbd5e1) 65%, transparent);
+  background: color-mix(in srgb, var(--nm-theme-action, #6441df) 4%, var(--nm-skin-top, #f8fafc));
+}
+.glauka-lib-bulkbar.is-active {
+  border-color: color-mix(in srgb, var(--nm-theme-action, #6441df) 45%, var(--nm-skin-stroke, #cbd5e1));
+  background: color-mix(in srgb, var(--nm-theme-action, #6441df) 9%, var(--nm-skin-top, #f8fafc));
 }
 .glauka-lib-meta {
   font-size: 12px;
   font-weight: 600;
   color: var(--nm-skin-muted, #64748b);
+}
+.glauka-lib-bulk-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+}
+.glauka-lib-bulk-actions .v4-secondary.is-danger {
+  color: #dc2626;
+  border-color: rgba(220, 38, 38, .35);
+}
+body[data-nm-skin="graphite"] .glauka-lib-bulk-actions .v4-secondary.is-danger {
+  color: #fca5a5;
+  border-color: rgba(248, 113, 113, .4);
+}
+.glauka-lib-select-btn.is-active {
+  border-color: var(--nm-theme-action, #6441df) !important;
+  background: color-mix(in srgb, var(--nm-theme-action, #6441df) 14%, var(--nm-skin-surface, #fff)) !important;
+  color: var(--nm-theme-action, #6441df) !important;
 }
 .glauka-lib-list {
   display: grid;
@@ -378,12 +412,28 @@ body[data-nm-skin="graphite"] #flash-modal .v4-rate.good { color: #6ee7b7; }
   border-radius: 12px;
   border: 1px solid color-mix(in srgb, var(--nm-skin-stroke, #cbd5e1) 70%, transparent);
   background: var(--nm-skin-top, #f8fafc);
+  transition: border-color .14s ease, background .14s ease;
+}
+.glauka-lib-row.is-selectable {
+  cursor: pointer;
+}
+.glauka-lib-row.is-selected {
+  border-color: var(--nm-theme-action, #6441df);
+  background: color-mix(in srgb, var(--nm-theme-action, #6441df) 9%, var(--nm-skin-top, #f8fafc));
 }
 .glauka-lib-row-top {
   display: flex;
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
+}
+.glauka-lib-check {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  flex: 0 0 auto;
+  accent-color: var(--nm-theme-action, #6441df);
+  cursor: pointer;
 }
 .glauka-lib-badge {
   font-size: 10.5px;

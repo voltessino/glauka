@@ -180,6 +180,27 @@
         scopeField.append(scopeEl);
       }
 
+      const styleField = el("div", "glauka-gen-field");
+      const styleLabel = el("span", "glauka-gen-label");
+      const styleEl = el("select");
+      styleEl.id = "v5-study-prompt-style";
+      for (const [val, itLbl, enLbl] of [
+        ["balanced", "Bilanciato · concetti chiave e chiarezza", "Balanced · key concepts & clear phrasing"],
+        ["detailed", "Dettagliato · stretto ramo per ramo", "Detailed · branch by branch"],
+        ["core", "Essenziale · solo pilastri principali", "Essential · core pillars only"],
+      ]) {
+        const opt = el("option", "", tr(itLbl, enLbl));
+        opt.value = val;
+        styleEl.append(opt);
+      }
+      try {
+        const savedStyle = localStorage.getItem("glauka.study.promptStyle.v1");
+        if (savedStyle && ["balanced", "detailed", "core"].includes(savedStyle)) {
+          styleEl.value = savedStyle;
+        }
+      } catch {}
+      styleField.append(styleLabel, styleEl);
+
       const countField = el("div", "glauka-gen-field glauka-gen-count-field");
       const countLabel = el("span", "glauka-gen-label");
       const countControls = el("div", "glauka-count-controls");
@@ -201,7 +222,7 @@
       }
       if (countOldWrap) countOldWrap.hidden = true;
       countField.append(countLabel, countControls);
-      genConfig.append(scopeField, countField);
+      genConfig.append(scopeField, styleField, countField);
 
       const genGrid = el("div", "glauka-gen-grid");
 
@@ -284,7 +305,7 @@
       if (statusNode) studyPane.append(statusNode);
       if (captionRow) studyPane.append(captionRow);
 
-      // Pane 2: Archive & Past cards browser.
+      // Pane 2: Archive & Past cards browser with multi-select and bulk actions.
       const libPane = el("div", "glauka-flash-pane glauka-flash-library");
       libPane.id = "glauka-flash-library";
       libPane.hidden = true;
@@ -306,13 +327,49 @@
         opt.value = val;
         libFilter.append(opt);
       }
+      const libSelectToggleBtn = el("button", "v4-secondary glauka-lib-select-btn");
+      libSelectToggleBtn.type = "button";
+      libSelectToggleBtn.id = "glauka-lib-select-toggle";
+      libSelectToggleBtn.setAttribute("aria-pressed", "false");
       const libAddBtn = el("button", "v4-primary glauka-lib-add");
       libAddBtn.type = "button";
-      libToolbar.append(libSearch, libFilter, libAddBtn);
+      libToolbar.append(libSearch, libFilter, libSelectToggleBtn, libAddBtn);
+
+      const libBulkBar = el("div", "glauka-lib-bulkbar");
+      libBulkBar.id = "glauka-lib-bulkbar";
       const libCount = el("div", "glauka-lib-meta");
+      const libBulkActions = el("div", "glauka-lib-bulk-actions");
+      const libSelectAllBtn = el("button", "v4-secondary");
+      libSelectAllBtn.type = "button";
+      libSelectAllBtn.id = "glauka-lib-select-all";
+      const libBulkStudyBtn = el("button", "v4-secondary");
+      libBulkStudyBtn.type = "button";
+      libBulkStudyBtn.id = "glauka-lib-bulk-study";
+      const libBulkResetBtn = el("button", "v4-secondary");
+      libBulkResetBtn.type = "button";
+      libBulkResetBtn.id = "glauka-lib-bulk-reset";
+      const libBulkGoodBtn = el("button", "v4-secondary");
+      libBulkGoodBtn.type = "button";
+      libBulkGoodBtn.id = "glauka-lib-bulk-good";
+      const libBulkExportBtn = el("button", "v4-secondary");
+      libBulkExportBtn.type = "button";
+      libBulkExportBtn.id = "glauka-lib-bulk-export";
+      const libBulkDeleteBtn = el("button", "v4-secondary is-danger");
+      libBulkDeleteBtn.type = "button";
+      libBulkDeleteBtn.id = "glauka-lib-bulk-delete";
+      libBulkActions.append(
+        libSelectAllBtn,
+        libBulkStudyBtn,
+        libBulkResetBtn,
+        libBulkGoodBtn,
+        libBulkExportBtn,
+        libBulkDeleteBtn,
+      );
+      libBulkBar.append(libCount, libBulkActions);
+
       const libList = el("div", "glauka-lib-list");
       libList.id = "glauka-lib-list";
-      libPane.append(libToolbar, libCount, libList);
+      libPane.append(libToolbar, libBulkBar, libList);
       studyPane.after(libPane);
 
       // Pane 3: Manual Composer & Quick Editor.
@@ -352,6 +409,9 @@
 
       let activeView = "study";
       let editingCardId = null;
+      let archiveSelectMode = false;
+      const selectedArchiveIds = new Set();
+      let currentArchiveMatches = [];
 
       function currentTargetBreadcrumb() {
         const tab = a.tabs?.find?.((t) => t.id === a.activeTabId);
@@ -368,6 +428,60 @@
           parts.shift();
         }
         return [title, ...parts].filter(Boolean).join(" › ");
+      }
+
+      function updateBulkBar(items, allCards) {
+        currentArchiveMatches = items;
+        const validSet = new Set(allCards.map((c) => c.id));
+        for (const id of [...selectedArchiveIds]) {
+          if (!validSet.has(id)) selectedArchiveIds.delete(id);
+        }
+        const selectedCount = selectedArchiveIds.size;
+        const allVisibleSelected =
+          items.length > 0 && items.every((c) => selectedArchiveIds.has(c.id));
+
+        libSelectToggleBtn.classList.toggle("is-active", archiveSelectMode || selectedCount > 0);
+        libSelectToggleBtn.setAttribute("aria-pressed", String(archiveSelectMode || selectedCount > 0));
+        libSelectToggleBtn.textContent = archiveSelectMode
+          ? tr("✓ Fine selezione", "✓ Done")
+          : tr("☑ Seleziona", "☑ Select");
+
+        libBulkBar.classList.toggle("is-active", selectedCount > 0 || archiveSelectMode);
+        libCount.textContent =
+          items.length +
+          " " +
+          tr("flashcard mostrate su", "flashcards shown out of") +
+          " " +
+          allCards.length +
+          (selectedCount > 0
+            ? " · " + selectedCount + " " + tr("selezionate", "selected")
+            : "");
+
+        libSelectAllBtn.hidden = items.length === 0;
+        libSelectAllBtn.textContent = allVisibleSelected
+          ? tr("Deseleziona tutte", "Deselect all")
+          : tr(`☑ Seleziona tutte (${items.length})`, `☑ Select all (${items.length})`);
+
+        const hasSel = selectedCount > 0;
+        for (const b of [
+          libBulkStudyBtn,
+          libBulkResetBtn,
+          libBulkGoodBtn,
+          libBulkExportBtn,
+          libBulkDeleteBtn,
+        ]) {
+          b.hidden = !hasSel;
+        }
+        if (hasSel) {
+          libBulkStudyBtn.textContent = tr(`▶ Studia (${selectedCount})`, `▶ Study (${selectedCount})`);
+          libBulkResetBtn.textContent = tr("↺ Azzera ripassi", "↺ Reset progress");
+          libBulkGoodBtn.textContent = tr("✓ Consolidate", "✓ Mark confident");
+          libBulkExportBtn.textContent = tr(`↓ Esporta (${selectedCount})`, `↓ Export (${selectedCount})`);
+          const deletingEvery = selectedCount === allCards.length;
+          libBulkDeleteBtn.textContent = deletingEvery
+            ? tr(`🗑 Elimina tutte (${selectedCount})`, `🗑 Delete all (${selectedCount})`)
+            : tr(`🗑 Elimina (${selectedCount})`, `🗑 Delete (${selectedCount})`);
+        }
       }
 
       function renderArchive() {
@@ -401,12 +515,7 @@
           })
           .sort((x, y) => (Number(y.createdAt) || 0) - (Number(x.createdAt) || 0));
 
-        libCount.textContent =
-          items.length +
-          " " +
-          tr("flashcard mostrate su", "flashcards shown out of") +
-          " " +
-          allCards.length;
+        updateBulkBar(items, allCards);
         libList.replaceChildren();
         if (!items.length) {
           const empty = el(
@@ -428,8 +537,31 @@
         for (const card of items.slice(0, 120)) {
           const tab = tabMap.get(card.sourceTabId);
           const node = a.v5FindStudyNode?.(card);
-          const row = el("article", "glauka-lib-row");
+          const isChecked = selectedArchiveIds.has(card.id);
+          const row = el(
+            "article",
+            "glauka-lib-row" +
+              (archiveSelectMode ? " is-selectable" : "") +
+              (isChecked ? " is-selected" : ""),
+          );
           const top = el("div", "glauka-lib-row-top");
+          const check = document.createElement("input");
+          check.type = "checkbox";
+          check.className = "glauka-lib-check";
+          check.checked = isChecked;
+          check.setAttribute(
+            "aria-label",
+            tr("Seleziona flashcard: ", "Select flashcard: ") + (card.question || ""),
+          );
+          const toggleCardSelection = (checkedState) => {
+            if (checkedState) selectedArchiveIds.add(card.id);
+            else selectedArchiveIds.delete(card.id);
+            row.classList.toggle("is-selected", checkedState);
+            check.checked = checkedState;
+            updateBulkBar(items, allCards);
+          };
+          check.addEventListener("change", () => toggleCardSelection(check.checked));
+
           const badge = el("span", "glauka-lib-badge");
           if (!tab) {
             badge.dataset.tone = "past";
@@ -455,7 +587,7 @@
           );
           const date = formatDate(card.sr?.lastReviewedAt || card.createdAt);
           if (date) crumb.textContent += " · " + date;
-          top.append(badge, crumb);
+          top.append(check, badge, crumb);
 
           const qText = el("div", "glauka-lib-q", card.question);
           const aText = el("div", "glauka-lib-a", card.answer);
@@ -494,10 +626,17 @@
           delOne.addEventListener("click", () => {
             if (!confirm(tr("Eliminare questa flashcard e la sua cronologia?", "Delete this flashcard and its review history?")))
               return;
+            selectedArchiveIds.delete(card.id);
             a.studyCards = (a.studyCards || []).filter((x) => x.id !== card.id);
             a.scheduleSave();
             a.restartFlashcards();
             renderArchive();
+          });
+
+          row.addEventListener("click", (ev) => {
+            if (!archiveSelectMode) return;
+            if (ev.target.closest?.("button, input, a, select")) return;
+            toggleCardSelection(!selectedArchiveIds.has(card.id));
           });
 
           rowActions.append(studyOne, editOne, jumpOne, delOne);
@@ -643,7 +782,15 @@
         meterFill.style.width = `${pct}%`;
 
         cardTools.hidden = !current;
-        speakBtn.textContent = tr("🔊 Ascolta", "🔊 Listen");
+        const speechSt = root.NeuroMapSpeech?.getSharedEngine?.(root)?.state?.()?.state;
+        const flashPlaying = Boolean(a._v5FlashSpeaking && (speechSt === "playing" || speechSt === "loading"));
+        speakBtn.textContent =
+          speechSt === "loading" && a._v5FlashSpeaking
+            ? tr("⏳ Preparo…", "⏳ Loading…")
+            : flashPlaying
+              ? tr("⏹ Ferma", "⏹ Stop")
+              : tr("🔊 Ascolta", "🔊 Listen");
+        speakBtn.setAttribute("aria-pressed", String(flashPlaying));
         editCardBtn.textContent = tr("✎ Modifica", "✎ Edit");
         if (removeCardBtn) {
           removeCardBtn.textContent = tr("🗑 Elimina", "🗑 Delete");
@@ -724,6 +871,17 @@
           "✨ Create flashcards with AI or Google · JSON Archive",
         );
         scopeLabel.textContent = tr("Ambito", "Scope");
+        styleLabel.textContent = tr("Dettaglio domande", "Question detail");
+        {
+          const styleLabels = {
+            balanced: tr("Bilanciato · concetti chiave e chiarezza", "Balanced · key concepts & clear phrasing"),
+            detailed: tr("Dettagliato · stretto ramo per ramo", "Detailed · branch by branch"),
+            core: tr("Essenziale · solo pilastri principali", "Essential · core pillars only"),
+          };
+          for (const opt of styleEl.options) {
+            if (styleLabels[opt.value]) opt.textContent = styleLabels[opt.value];
+          }
+        }
         countLabel.textContent = tr("Numero di flashcard", "Number of flashcards");
         apiTitle.textContent = tr("La tua AI · API", "Your AI · API");
         apiBadge.textContent = tr("Diretta", "Direct");
@@ -863,6 +1021,10 @@
         tools.scrollIntoView?.({ block: "nearest" });
       });
       scopeEl?.addEventListener("change", () => refresh());
+      styleEl.addEventListener("change", () => {
+        try { localStorage.setItem("glauka.study.promptStyle.v1", styleEl.value); } catch {}
+        refresh();
+      });
       sheetAllBtn.addEventListener("click", () => {
         a._v5SelectedTabIds = (a.tabs || []).filter((t) => t?.state?.root).slice(0, 8).map((t) => t.id);
         refresh();
@@ -892,13 +1054,17 @@
       googleCopyBtn.addEventListener("click", () => {
         const scope = document.getElementById("v5-study-scope")?.value || "active";
         const count = document.getElementById("v5-study-count")?.value || 10;
-        const built = a.v5BuildGoogleCardsPrompt?.(scope, count);
+        const style = styleEl.value || "balanced";
+        const built = a.v5BuildGoogleCardsPrompt?.(scope, count, style);
         if (!built) return;
         try {
           navigator.clipboard?.writeText?.(built.fullPrompt)?.catch?.(() => {});
         } catch {}
         a.showToast?.(
-          tr("Prompt copiato: incollalo in Google AI Mode o nel tuo assistente", "Prompt copied: paste it into Google AI Mode or your assistant"),
+          tr(
+            `Prompt Markdown copiato (${built.fullPrompt.length} caratteri): incollalo in Google AI Mode o nel tuo assistente`,
+            `Markdown prompt copied (${built.fullPrompt.length} chars): paste it into Google AI Mode or your assistant`,
+          ),
           "FLASHCARD",
         );
       });
@@ -927,6 +1093,7 @@
       });
 
       speakBtn.addEventListener("click", () => a.v5SpeakFlashcard?.());
+      root.NeuroMapSpeech?.getSharedEngine?.(root)?.onChange?.(() => refresh());
       editCardBtn.addEventListener("click", () => {
         const cur = a.v5CurrentCard?.();
         if (cur) openComposer(cur);
@@ -941,6 +1108,111 @@
 
       libSearch.addEventListener("input", () => renderArchive());
       libFilter.addEventListener("change", () => renderArchive());
+      libSelectToggleBtn.addEventListener("click", () => {
+        archiveSelectMode = !archiveSelectMode;
+        if (!archiveSelectMode) selectedArchiveIds.clear();
+        renderArchive();
+      });
+      libSelectAllBtn.addEventListener("click", () => {
+        const allSelected =
+          currentArchiveMatches.length > 0 &&
+          currentArchiveMatches.every((c) => selectedArchiveIds.has(c.id));
+        if (allSelected) {
+          for (const c of currentArchiveMatches) selectedArchiveIds.delete(c.id);
+        } else {
+          archiveSelectMode = true;
+          for (const c of currentArchiveMatches) selectedArchiveIds.add(c.id);
+        }
+        renderArchive();
+      });
+      libBulkStudyBtn.addEventListener("click", () => {
+        const chosen = (a.studyCards || []).filter((c) => selectedArchiveIds.has(c.id));
+        if (!chosen.length) return;
+        a._v5Deck = chosen;
+        a._v5CardIndex = 0;
+        a._flashShowAnswer = false;
+        a._v5Requeued = new Set();
+        a._nmBriefStudy = true;
+        setView("study");
+        a.renderFlashcard();
+      });
+      libBulkResetBtn.addEventListener("click", () => {
+        const chosen = (a.studyCards || []).filter((c) => selectedArchiveIds.has(c.id));
+        if (!chosen.length) return;
+        for (const c of chosen) {
+          c.srStatus = 0;
+          c.sr = { dueAt: 0, lastReviewedAt: 0, intervalDays: 0, reviews: 0, lapses: 0 };
+        }
+        a.scheduleSave();
+        a.restartFlashcards();
+        renderArchive();
+        a.showToast?.(
+          chosen.length + " " + tr("flashcard riportate da ripassare", "flashcards reset to due"),
+          "FLASHCARD",
+        );
+      });
+      libBulkGoodBtn.addEventListener("click", () => {
+        const chosen = (a.studyCards || []).filter((c) => selectedArchiveIds.has(c.id));
+        if (!chosen.length) return;
+        const now = Date.now();
+        for (const c of chosen) {
+          const prev = Number(c.sr?.intervalDays) || 0;
+          const nextDays = Math.max(7, Math.min(3650, Math.round(prev * 2.25) || 7));
+          c.srStatus = 3;
+          c.sr = {
+            lastReviewedAt: now,
+            dueAt: now + nextDays * 86400000,
+            intervalDays: nextDays,
+            reviews: (Number(c.sr?.reviews) || 0) + 1,
+            lapses: Number(c.sr?.lapses) || 0,
+          };
+        }
+        a.scheduleSave();
+        a.restartFlashcards();
+        renderArchive();
+        a.showToast?.(
+          chosen.length + " " + tr("flashcard segnate consolidate", "flashcards marked confident"),
+          "FLASHCARD",
+        );
+      });
+      libBulkExportBtn.addEventListener("click", () => {
+        const chosen = (a.studyCards || []).filter((c) => selectedArchiveIds.has(c.id));
+        if (!chosen.length) return;
+        const tabSet = new Set(chosen.map((c) => c.sourceTabId));
+        const payload = {
+          schema: "NeuroMap-StudyDeck-v1",
+          createdAt: new Date().toISOString(),
+          tabs: (a.tabs || []).filter((t) => tabSet.has(t.id)).map((t) => ({ id: t.id, title: t.title })),
+          cards: chosen,
+        };
+        a.io?.triggerDownload?.(
+          new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" }),
+          "glauka_flashcards_selezionate.json",
+        );
+        a.showToast?.(
+          chosen.length + " " + tr("flashcard esportate", "flashcards exported"),
+          "FLASHCARD",
+        );
+      });
+      libBulkDeleteBtn.addEventListener("click", () => {
+        const count = selectedArchiveIds.size;
+        if (!count) return;
+        const promptText =
+          count === (a.studyCards || []).length
+            ? tr(`Eliminare TUTTE le ${count} flashcard e la loro cronologia?`, `Delete ALL ${count} flashcards and their review history?`)
+            : tr(`Eliminare le ${count} flashcard selezionate e la loro cronologia?`, `Delete ${count} selected flashcards and their review history?`);
+        if (!confirm(promptText)) return;
+        a.studyCards = (a.studyCards || []).filter((c) => !selectedArchiveIds.has(c.id));
+        selectedArchiveIds.clear();
+        archiveSelectMode = false;
+        a.scheduleSave();
+        a.restartFlashcards();
+        renderArchive();
+        a.showToast?.(
+          count + " " + tr("flashcard eliminate", "flashcards deleted"),
+          "FLASHCARD",
+        );
+      });
 
       action.addEventListener("click", () => {
         const val = summary(a);

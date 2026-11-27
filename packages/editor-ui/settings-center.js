@@ -136,7 +136,7 @@ body.glauka-mobile-app #gl-settings-back{display:inline-flex;align-items:center;
     ["appearance", "Aspetto", "Appearance", "tema theme contrasto contrast dimensione size accento accent spaziatura spacing pannelli animazioni sfondo background trama texture tipografia font rami collegamenti spessore distacco nodo centrale branch branches stroke gap"],
     ["navigation", "Navigazione e zoom", "Navigation and zoom", "zoom velocità speed minimappa minimap cursore ingrandimento modifica autofocus viste zen focus schermo"],
     ["editor", "Editor e mappe", "Editor and maps", "compattezza spaziatura spacing animazioni rami comparsa durata prestazioni disegno importazione suddivisione nodi wrap a capo libreria creativa qualità"],
-    ["study", "Studio e strumenti", "Study and tools", "studio flashcard ripasso quiz ocr pdf scansioni appunti immagini hotspot dashboard riepilogo"],
+    ["study", "Studio e strumenti", "Study and tools", "studio flashcard ripasso quiz ocr pdf scansioni appunti immagini hotspot dashboard riepilogo voce audio lettura rapida ascolta etimologia tts"],
     ["ai", "AI e API", "AI and API", "provider modello voce chiave key studio assistente illustra audit coerenza"],
     ["cloud", "Cloud e dispositivi", "Cloud and devices", "drive dropbox onedrive condividi trasferisci qr dispositivi device confronta copie"],
     ["files", "Importazione ed esportazione", "Import and export", "import export nodi suddivisione json gk html xmind opml markdown"],
@@ -880,6 +880,140 @@ body.glauka-mobile-app #gl-settings-back{display:inline-flex;align-items:center;
       },
       "gl-settings-open-dashboard"
     );
+    const quickTtsCfg = root.NeuroMapAppSettings?.quickSpeech?.read?.(root, root.neuroMapApp) || {
+      mode: "edge",
+      voice: "",
+      voices: {},
+      availableModes: ["native"]
+    };
+    const quickModeSelect = document.createElement("select");
+    quickModeSelect.id = "gl-settings-quick-tts-mode";
+    quickModeSelect.setAttribute("aria-label", tr("Motore vocale letture rapide", "Quick read-aloud voice engine"));
+    const QUICK_MODE_LABELS = {
+      edge: ["Voce HD online (gratis)", "HD online voice (free)"],
+      neural: ["Voce neurale offline", "Offline neural voice"],
+      "glauka-studio": ["Glauka Studio ✦ (plugin)", "Glauka Studio ✦ (plugin)"],
+      api: ["Voce AI (chiave API)", "AI voice (API key)"],
+      native: ["Voce di sistema (dispositivo)", "System voice (device)"]
+    };
+    for (const m of quickTtsCfg.availableModes || ["native"]) {
+      const opt = document.createElement("option");
+      opt.value = m;
+      const lbl = QUICK_MODE_LABELS[m] || [m, m];
+      opt.textContent = tr(lbl[0], lbl[1]);
+      quickModeSelect.append(opt);
+    }
+    quickModeSelect.value = quickTtsCfg.mode;
+
+    const quickVoiceWrap = document.createElement("div");
+    quickVoiceWrap.style.display = "flex";
+    quickVoiceWrap.style.alignItems = "center";
+    quickVoiceWrap.style.gap = "8px";
+    quickVoiceWrap.style.flexWrap = "wrap";
+    const quickVoiceSelect = document.createElement("select");
+    quickVoiceSelect.id = "gl-settings-quick-tts-voice";
+    quickVoiceSelect.setAttribute("aria-label", tr("Voce preferita per letture rapide", "Preferred quick read-aloud voice"));
+    const quickTestBtn = document.createElement("button");
+    quickTestBtn.type = "button";
+    quickTestBtn.id = "gl-settings-quick-tts-test";
+    quickTestBtn.textContent = tr("▶ Prova voce", "▶ Test voice");
+    quickVoiceWrap.append(quickVoiceSelect, quickTestBtn);
+
+    function populateQuickVoices(mode, gsVoices = null) {
+      const savedAll = root.NeuroMapAppSettings?.quickSpeech?.read?.(root, root.neuroMapApp) || {};
+      const preferred = savedAll.voices?.[mode] ?? "";
+      const catalog = root.NeuroMapAppSettings?.quickSpeech?.CATALOG || {};
+      quickVoiceSelect.replaceChildren();
+      const addOpt = (val, text) => {
+        const o = document.createElement("option");
+        o.value = val;
+        o.textContent = text;
+        quickVoiceSelect.append(o);
+      };
+      if (catalog[mode]) {
+        for (const [val, itLbl, enLbl] of catalog[mode]) addOpt(val, tr(itLbl, enLbl));
+      } else if (mode === "glauka-studio") {
+        addOpt("default", tr("Predefinita di Glauka Studio", "Glauka Studio default"));
+        for (const item of Array.isArray(gsVoices) ? gsVoices : []) {
+          const vid = String(typeof item === "string" ? item : (item?.id ?? item?.ID ?? item?.name ?? "")).trim();
+          const vname = String(typeof item === "string" ? item : (item?.name ?? item?.Name ?? vid)).trim();
+          if (vid && vid !== "default") addOpt(vid, vname || vid);
+        }
+      } else {
+        addOpt("", tr("Predefinita della lingua", "Language default"));
+        const rawVoices = (() => {
+          try { return globalThis.speechSynthesis?.getVoices?.() || []; } catch { return []; }
+        })();
+        for (const v of rawVoices.slice(0, 40)) {
+          if (!v?.voiceURI) continue;
+          addOpt(v.voiceURI, `${v.name || v.voiceURI} (${v.lang || ""})`);
+        }
+      }
+      const opts = [...(quickVoiceSelect.options || quickVoiceSelect.children || [])];
+      if (preferred && !opts.some((o) => o.value === preferred)) addOpt(preferred, preferred);
+      const nextVal = preferred && opts.some((o) => o.value === preferred)
+        ? preferred
+        : (opts[0]?.value ?? "");
+      quickVoiceSelect.value = nextVal;
+    }
+
+    populateQuickVoices(quickModeSelect.value);
+    if (quickModeSelect.value === "glauka-studio" && root.neuromapDesktop?.glaukaStudio?.status) {
+      Promise.resolve(root.neuromapDesktop.glaukaStudio.status())
+        .then((st) => {
+          if (quickModeSelect.value === "glauka-studio") populateQuickVoices("glauka-studio", st?.voices);
+        })
+        .catch(() => {});
+    }
+    if (typeof globalThis.speechSynthesis?.addEventListener === "function") {
+      try {
+        globalThis.speechSynthesis.addEventListener("voiceschanged", () => {
+          if (quickModeSelect.value === "native") populateQuickVoices("native");
+        }, { once: true });
+      } catch { /* ignore */ }
+    }
+
+    quickModeSelect.addEventListener("change", () => {
+      const m = quickModeSelect.value;
+      root.NeuroMapAppSettings?.quickSpeech?.write?.({ mode: m });
+      populateQuickVoices(m);
+      root.NeuroMapAppSettings?.quickSpeech?.write?.({ mode: m, voice: quickVoiceSelect.value || "" });
+      if (m === "glauka-studio" && root.neuromapDesktop?.glaukaStudio?.status) {
+        Promise.resolve(root.neuromapDesktop.glaukaStudio.status())
+          .then((st) => {
+            if (quickModeSelect.value === "glauka-studio") populateQuickVoices("glauka-studio", st?.voices);
+          })
+          .catch(() => {});
+      }
+    });
+    quickVoiceSelect.addEventListener("change", () => {
+      root.NeuroMapAppSettings?.quickSpeech?.write?.({
+        mode: quickModeSelect.value,
+        voice: quickVoiceSelect.value || ""
+      });
+    });
+    quickTestBtn.addEventListener("click", () => {
+      const lang = document.documentElement?.lang === "en" ? "en-US" : "it-IT";
+      const sample = lang.startsWith("en")
+        ? "Quick voice preview for flashcards and explanations."
+        : "Anteprima della voce per flashcard e spiegazioni.";
+      const mode = quickModeSelect.value || "native";
+      const voice = quickVoiceSelect.value || "";
+      root.NeuroMapAppSettings?.quickSpeech?.write?.({ mode, voice });
+      const studio = root.neuroMapApp?.aiStudio;
+      if (mode !== "native" && typeof studio?.speakWithMode === "function") {
+        const started = studio.speakWithMode(sample, { mode, voice, lang, rate: 1, isPreview: true, explain: false });
+        if (started !== false) return;
+      }
+      const speechApi = root.NeuroMapSpeech;
+      const engine = speechApi?.getSharedEngine?.(root) || globalThis.__glaukaSpeechEngine || speechApi?.createSpeechEngine?.(root);
+      if (engine?.isSupported?.()) {
+        engine.speak(sample, { mode: "native", lang, rate: 1, voiceURI: voice });
+      } else {
+        root.neuroMapApp?.showToast?.(tr("Sintesi vocale non disponibile su questo dispositivo.", "Text-to-speech is unavailable on this device."), "VOCE");
+      }
+    });
+
     study.append(
       heading(tr("Studio attivo e ripasso", "Active study & review")),
       SettingsRow(
@@ -891,6 +1025,17 @@ body.glauka-mobile-app #gl-settings-back{display:inline-flex;align-items:center;
       ),
       SettingsRow(tr("Studia la mappa e scadenze SRS", "Study map & review schedule"), tr("Ripeti a memoria, consulta le scadenze dei ripassi e il piano d'esame.", "Recall from memory, track review deadlines and exam schedule."), learnBtn),
       SettingsRow(tr("Ripasso visivo su immagini (Hotspot)", "Visual hotspot image study"), tr("Nascondi etichette su schemi anatomici, grafici e immagini della mappa.", "Practice recall on hidden hotspots in diagrams and images."), imageStudyBtn),
+      heading(tr("Lettura rapida (Flashcard, Spiega & etimologia)", "Quick read-aloud (Flashcards, Explain & etymology)")),
+      SettingsRow(
+        tr("Motore vocale per pulsanti Ascolta", "Voice engine for Listen buttons"),
+        tr("Usato per flashcard e spiegazioni brevi. «Ascolta la mappa» in Studio AI mantiene le sue impostazioni complete separate.", "Used for flashcards and short explanations. “Listen to map” in AI Studio keeps its own full settings."),
+        quickModeSelect
+      ),
+      SettingsRow(
+        tr("Voce preferita", "Preferred voice"),
+        tr("Scegli quale voce usare quando premi Ascolta su una card o spiegazione.", "Choose which voice plays when pressing Listen on a card or explanation."),
+        quickVoiceWrap
+      ),
       heading(tr("Documenti, OCR e appunti", "Documents, OCR & notes")),
       SettingsRow(tr("OCR · Testo da PDF e scansioni", "OCR · Text from PDFs & scans"), tr("Riconosci testo locale sul dispositivo da PDF o immagini senza inviarli in rete.", "Extract text locally on device from scanned PDFs and photos."), ocrBtn),
       SettingsRow(tr("Appunti rapidi, wiki e citazioni PDF", "Quick notes, wiki & PDF citations"), tr("Collega note, database personalizzati e riferimenti puntuali alle pagine PDF.", "Link rich notes, structured fields and exact PDF page references."), notesSourcesBtn),

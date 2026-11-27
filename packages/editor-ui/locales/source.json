@@ -632,6 +632,7 @@
         "packages\\editor-ui\\continuation-layout.js",
         "packages\\editor-ui\\export-hub-ui.js",
         "packages\\editor-ui\\linked-view-toolbars-flow.js",
+        "packages\\editor-ui\\node-links.js",
         "packages\\editor-ui\\settings-center.js",
         "packages\\editor-ui\\study-today.js"
       ]
@@ -842,7 +843,8 @@
       "en": "Deselect all",
       "known": true,
       "origins": [
-        "packages/editor-ui/ai-studio.js"
+        "packages/editor-ui/ai-studio.js",
+        "packages\\editor-ui\\study-today.js"
       ]
     },
     "ma90539c1a171": {
@@ -2305,7 +2307,8 @@
         "packages/editor-ui/creative-markers.js",
         "packages/editor-ui/linked-views.js",
         "packages\\editor-ui\\creative-markers-mount.js",
-        "packages\\editor-ui\\linked-view-camera-workspace-panels.js"
+        "packages\\editor-ui\\linked-view-camera-workspace-panels.js",
+        "packages\\editor-ui\\node-links.js"
       ]
     },
     "m130011756125": {
@@ -13554,7 +13557,8 @@
       "origins": [
         "apps/desktop-shared/editor/learn-adaptive-ui.js",
         "apps\\desktop-shared\\editor\\learn-adaptive-ui.js",
-        "packages/editor-ui/menu-ux.js"
+        "packages/editor-ui/menu-ux.js",
+        "packages\\editor-ui\\node-links.js"
       ]
     },
     "mcb6b5484297e": {
@@ -23994,11 +23998,12 @@
     },
     "mebd7dc0ecbbd": {
       "it": "Collegamento",
-      "en": "Collegamento",
-      "known": false,
+      "en": "Link",
+      "known": true,
       "origins": [
         "packages/editor-ui/linked-views.js",
-        "packages/editor-ui/workspace-layout.js"
+        "packages/editor-ui/workspace-layout.js",
+        "packages\\editor-ui\\node-links.js"
       ]
     },
     "m2fe70464aadf": {
@@ -56262,7 +56267,8 @@
       "known": true,
       "origins": [
         "packages\\editor-ui\\ai-studio-methods-audio.js",
-        "packages\\editor-ui\\ai-workflows.js"
+        "packages\\editor-ui\\ai-workflows.js",
+        "packages\\editor-ui\\settings-center.js"
       ]
     },
     "m65ec85929c4b": {
@@ -56374,7 +56380,8 @@
       "en": "⏹ Stop",
       "known": true,
       "origins": [
-        "packages\\editor-ui\\ai-workflows.js"
+        "packages\\editor-ui\\ai-workflows.js",
+        "packages\\editor-ui\\study-today.js"
       ]
     },
     "mf59c827e9612": {
@@ -58636,7 +58643,8 @@
       "en": "⏳ Loading…",
       "known": true,
       "origins": [
-        "packages\\editor-ui\\ai-workflows.js"
+        "packages\\editor-ui\\ai-workflows.js",
+        "packages\\editor-ui\\study-today.js"
       ]
     },
     "ma3c6f97a1ea5": {
@@ -59385,7 +59393,8 @@
       "en": "Glauka Studio plugin (local · no API key)",
       "known": true,
       "origins": [
-        "packages/editor-ui/ai-studio-methods-audio.js"
+        "packages/editor-ui/ai-studio-methods-audio.js",
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
       ]
     },
     "m5ff15dfbbd18": {
@@ -59393,7 +59402,8 @@
       "en": "Glauka Studio plugin is available on Desktop only",
       "known": true,
       "origins": [
-        "packages/editor-ui/ai-studio-methods-audio.js"
+        "packages/editor-ui/ai-studio-methods-audio.js",
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
       ]
     },
     "m763b844b2112": {
@@ -59401,7 +59411,8 @@
       "en": "The Glauka Studio plugin requires Glauka Desktop with Glauka Studio installed.",
       "known": true,
       "origins": [
-        "packages/editor-ui/ai-studio-methods-audio.js"
+        "packages/editor-ui/ai-studio-methods-audio.js",
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
       ]
     },
     "m6a4769577f1c": {
@@ -59409,7 +59420,9 @@
       "en": "Glauka Studio default",
       "known": true,
       "origins": [
-        "packages/editor-ui/ai-studio-methods-audio.js"
+        "packages/editor-ui/ai-studio-methods-audio.js",
+        "packages\\editor-ui\\ai-studio-methods-audio.js",
+        "packages\\editor-ui\\settings-center.js"
       ]
     },
     "mc266b95132ee": {
@@ -59417,7 +59430,8 @@
       "en": "Opening Glauka Studio…",
       "known": true,
       "origins": [
-        "packages/editor-ui/ai-studio-methods-audio.js"
+        "packages/editor-ui/ai-studio-methods-audio.js",
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
       ]
     },
     "m4c6aa89a485f": {
@@ -59425,7 +59439,8 @@
       "en": "Active",
       "known": true,
       "origins": [
-        "packages/editor-ui/ai-studio-methods-audio.js"
+        "packages/editor-ui/ai-studio-methods-audio.js",
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
       ]
     },
     "mee3da2eb3616": {
@@ -59433,7 +59448,8 @@
       "en": "Ready · Auto",
       "known": true,
       "origins": [
-        "packages/editor-ui/ai-studio-methods-audio.js"
+        "packages/editor-ui/ai-studio-methods-audio.js",
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
       ]
     },
     "md04d881d0234": {
@@ -59441,7 +59457,8 @@
       "en": "Optional plugin",
       "known": true,
       "origins": [
-        "packages/editor-ui/ai-studio-methods-audio.js"
+        "packages/editor-ui/ai-studio-methods-audio.js",
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
       ]
     },
     "m97549ae133e2": {
@@ -59449,7 +59466,8 @@
       "en": "Glauka Studio is the optional voice plugin for Glauka: it adds HD neural voices (Kokoro, Chatterbox), voice cloning and local dictation without duplicating models inside Glauka.",
       "known": true,
       "origins": [
-        "packages/editor-ui/ai-studio-methods-audio.js"
+        "packages/editor-ui/ai-studio-methods-audio.js",
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
       ]
     },
     "md7768e4c410d": {
@@ -59457,7 +59475,8 @@
       "en": "The Glauka Studio plugin runs on the Windows/macOS Desktop app. On Android & Web, use Native, Online or AI Voice.",
       "known": true,
       "origins": [
-        "packages/editor-ui/ai-studio-methods-audio.js"
+        "packages/editor-ui/ai-studio-methods-audio.js",
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
       ]
     },
     "ma304bae4e3e7": {
@@ -59465,7 +59484,8 @@
       "en": "Glauka Studio plugin is not installed on this computer.",
       "known": true,
       "origins": [
-        "packages/editor-ui/ai-studio-methods-audio.js"
+        "packages/editor-ui/ai-studio-methods-audio.js",
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
       ]
     },
     "mab0e05812aed": {
@@ -59473,7 +59493,8 @@
       "en": "Checking Glauka Studio plugin…",
       "known": true,
       "origins": [
-        "packages/editor-ui/ai-studio-methods-audio.js"
+        "packages/editor-ui/ai-studio-methods-audio.js",
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
       ]
     },
     "m43bcef9d48f5": {
@@ -59481,7 +59502,8 @@
       "en": "HD neural voices and cloned profiles from Glauka Studio, with auto-start and zero cloud.",
       "known": true,
       "origins": [
-        "packages/editor-ui/ai-studio-methods-audio.js"
+        "packages/editor-ui/ai-studio-methods-audio.js",
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
       ]
     },
     "m7f5a95c35021": {
@@ -59489,7 +59511,8 @@
       "en": "Free HD voice with no API key. Press Process to listen right away and seek anywhere.",
       "known": true,
       "origins": [
-        "packages/editor-ui/ai-studio-methods-audio.js"
+        "packages/editor-ui/ai-studio-methods-audio.js",
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
       ]
     },
     "m4d4b0c9cb8d0": {
@@ -59497,7 +59520,8 @@
       "en": "Lightweight offline courtesy voice for users without Glauka Studio.",
       "known": true,
       "origins": [
-        "packages/editor-ui/ai-studio-methods-audio.js"
+        "packages/editor-ui/ai-studio-methods-audio.js",
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
       ]
     },
     "m34fad7e26a35": {
@@ -59505,7 +59529,8 @@
       "en": "Instant sentence-by-sentence reading with built-in device voices (0 MB, offline).",
       "known": true,
       "origins": [
-        "packages/editor-ui/ai-studio-methods-audio.js"
+        "packages/editor-ui/ai-studio-methods-audio.js",
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
       ]
     },
     "m13ae5a44938b": {
@@ -59513,7 +59538,8 @@
       "en": "Glauka Studio already provides offline IT/EN voices on this PC: no duplicate downloads needed here. Select “Glauka Studio” above!",
       "known": true,
       "origins": [
-        "packages/editor-ui/ai-studio-methods-audio.js"
+        "packages/editor-ui/ai-studio-methods-audio.js",
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
       ]
     },
     "m76ad4b84e098": {
@@ -59521,7 +59547,8 @@
       "en": "Downloadable offline voice available on Windows/macOS Desktop.",
       "known": true,
       "origins": [
-        "packages/editor-ui/ai-studio-methods-audio.js"
+        "packages/editor-ui/ai-studio-methods-audio.js",
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
       ]
     },
     "m73c79f4096f4": {
@@ -59529,7 +59556,8 @@
       "en": "parts",
       "known": true,
       "origins": [
-        "packages/editor-ui/ai-studio-methods-audio.js"
+        "packages/editor-ui/ai-studio-methods-audio.js",
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
       ]
     },
     "m260f76914795": {
@@ -59537,7 +59565,8 @@
       "en": "Device voice",
       "known": true,
       "origins": [
-        "packages/editor-ui/ai-studio-methods-audio.js"
+        "packages/editor-ui/ai-studio-methods-audio.js",
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
       ]
     },
     "m9828e9a3b90b": {
@@ -59545,7 +59574,8 @@
       "en": "Text edited · Reprocess",
       "known": true,
       "origins": [
-        "packages/editor-ui/ai-studio-methods-audio.js"
+        "packages/editor-ui/ai-studio-methods-audio.js",
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
       ]
     },
     "me256351013b4": {
@@ -59553,7 +59583,8 @@
       "en": "Audio ready 100%",
       "known": true,
       "origins": [
-        "packages/editor-ui/ai-studio-methods-audio.js"
+        "packages/editor-ui/ai-studio-methods-audio.js",
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
       ]
     },
     "m8fbe2e2ad3e0": {
@@ -59561,7 +59592,8 @@
       "en": "Reprocess audio",
       "known": true,
       "origins": [
-        "packages/editor-ui/ai-studio-methods-audio.js"
+        "packages/editor-ui/ai-studio-methods-audio.js",
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
       ]
     },
     "m67ca550ed149": {
@@ -59569,7 +59601,8 @@
       "en": "Processed ✓",
       "known": true,
       "origins": [
-        "packages/editor-ui/ai-studio-methods-audio.js"
+        "packages/editor-ui/ai-studio-methods-audio.js",
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
       ]
     },
     "m1ea743a21589": {
@@ -59577,7 +59610,8 @@
       "en": "Process & listen",
       "known": true,
       "origins": [
-        "packages/editor-ui/ai-studio-methods-audio.js"
+        "packages/editor-ui/ai-studio-methods-audio.js",
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
       ]
     },
     "mf486b9ea3585": {
@@ -59585,7 +59619,8 @@
       "en": "Play",
       "known": true,
       "origins": [
-        "packages/editor-ui/ai-studio-methods-audio.js"
+        "packages/editor-ui/ai-studio-methods-audio.js",
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
       ]
     },
     "m134ebd9983d9": {
@@ -59593,7 +59628,8 @@
       "en": "Playing",
       "known": true,
       "origins": [
-        "packages/editor-ui/ai-studio-methods-audio.js"
+        "packages/editor-ui/ai-studio-methods-audio.js",
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
       ]
     },
     "md5b89babbe6a": {
@@ -59601,7 +59637,8 @@
       "en": "Script edited: press “Reprocess audio” to update the track.",
       "known": true,
       "origins": [
-        "packages/editor-ui/ai-studio-methods-audio.js"
+        "packages/editor-ui/ai-studio-methods-audio.js",
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
       ]
     },
     "m17f0963dfe0d": {
@@ -59609,7 +59646,8 @@
       "en": "Engine (opt. e.g. kokoro / chatterbox)",
       "known": true,
       "origins": [
-        "packages/editor-ui/ai-studio-mount-panel-preview.js"
+        "packages/editor-ui/ai-studio-mount-panel-preview.js",
+        "packages\\editor-ui\\ai-studio-mount-panel-preview.js"
       ]
     },
     "m87c7c6380734": {
@@ -59617,7 +59655,8 @@
       "en": "Audio timeline position",
       "known": true,
       "origins": [
-        "packages/editor-ui/ai-studio-mount-panel-preview.js"
+        "packages/editor-ui/ai-studio-mount-panel-preview.js",
+        "packages\\editor-ui\\ai-studio-mount-panel-preview.js"
       ]
     },
     "m32021b15d4a0": {
@@ -59625,7 +59664,8 @@
       "en": "Symbol and illustration suggestions",
       "known": true,
       "origins": [
-        "packages/editor-ui/inline-smart-suggest.js"
+        "packages/editor-ui/inline-smart-suggest.js",
+        "packages\\editor-ui\\inline-smart-suggest.js"
       ]
     },
     "mfa555d58cb16": {
@@ -59633,7 +59673,8 @@
       "en": "Hide suggestions",
       "known": true,
       "origins": [
-        "packages/editor-ui/inline-smart-suggest.js"
+        "packages/editor-ui/inline-smart-suggest.js",
+        "packages\\editor-ui\\inline-smart-suggest.js"
       ]
     },
     "m17e6b3ff7372": {
@@ -59641,7 +59682,8 @@
       "en": "Suggestion types while typing",
       "known": true,
       "origins": [
-        "packages/editor-ui/settings-center.js"
+        "packages/editor-ui/settings-center.js",
+        "packages\\editor-ui\\settings-center.js"
       ]
     },
     "m2db4e4c5fe45": {
@@ -59649,7 +59691,8 @@
       "en": "Smart typing assistance",
       "known": true,
       "origins": [
-        "packages/editor-ui/settings-center.js"
+        "packages/editor-ui/settings-center.js",
+        "packages\\editor-ui\\settings-center.js"
       ]
     },
     "md48e3dccd3b2": {
@@ -59657,7 +59700,8 @@
       "en": "Suggest symbols & SVGs while typing",
       "known": true,
       "origins": [
-        "packages/editor-ui/settings-center.js"
+        "packages/editor-ui/settings-center.js",
+        "packages\\editor-ui\\settings-center.js"
       ]
     },
     "mdc90366dd950": {
@@ -59665,7 +59709,8 @@
       "en": "Suggests matching local symbols and vector icons with zero typing lag.",
       "known": true,
       "origins": [
-        "packages/editor-ui/settings-center.js"
+        "packages/editor-ui/settings-center.js",
+        "packages\\editor-ui\\settings-center.js"
       ]
     },
     "m977cf6e6623e": {
@@ -59673,7 +59718,8 @@
       "en": "Suggested items",
       "known": true,
       "origins": [
-        "packages/editor-ui/settings-center.js"
+        "packages/editor-ui/settings-center.js",
+        "packages\\editor-ui\\settings-center.js"
       ]
     },
     "m48afb435ae8a": {
@@ -59681,7 +59727,8 @@
       "en": "Choose whether to show text symbols, SVG illustrations, or both.",
       "known": true,
       "origins": [
-        "packages/editor-ui/settings-center.js"
+        "packages/editor-ui/settings-center.js",
+        "packages\\editor-ui\\settings-center.js"
       ]
     },
     "m8338580fb007": {
@@ -59689,7 +59736,8 @@
       "en": "That address is not allowed. Use https, http, or a file on this computer.",
       "known": true,
       "origins": [
-        "packages/editor-ui/node-links.js"
+        "packages/editor-ui/node-links.js",
+        "packages\\editor-ui\\node-links.js"
       ]
     },
     "m75b0ae0ea405": {
@@ -59697,7 +59745,8 @@
       "en": "Link a page or file",
       "known": true,
       "origins": [
-        "packages/editor-ui/node-links.js"
+        "packages/editor-ui/node-links.js",
+        "packages\\editor-ui\\node-links.js"
       ]
     },
     "mcf9c915c63ed": {
@@ -59705,7 +59754,8 @@
       "en": "The branch shows only the icon. A file opens only from that icon. Programs and scripts ask for confirmation.",
       "known": true,
       "origins": [
-        "packages/editor-ui/node-links.js"
+        "packages/editor-ui/node-links.js",
+        "packages\\editor-ui\\node-links.js"
       ]
     },
     "mfbaf2c2181b8": {
@@ -59713,7 +59763,8 @@
       "en": "Choose a file on this computer…",
       "known": true,
       "origins": [
-        "packages/editor-ui/node-links.js"
+        "packages/editor-ui/node-links.js",
+        "packages\\editor-ui\\node-links.js"
       ]
     },
     "m1bca3d2f1c9a": {
@@ -59721,7 +59772,8 @@
       "en": "Save link",
       "known": true,
       "origins": [
-        "packages/editor-ui/node-links.js"
+        "packages/editor-ui/node-links.js",
+        "packages\\editor-ui\\node-links.js"
       ]
     },
     "mc0d14039f6d2": {
@@ -59729,7 +59781,8 @@
       "en": "Choosing a file is available in the desktop app.",
       "known": true,
       "origins": [
-        "packages/editor-ui/node-links.js"
+        "packages/editor-ui/node-links.js",
+        "packages\\editor-ui\\node-links.js"
       ]
     },
     "m4972ebd12417": {
@@ -59737,7 +59790,8 @@
       "en": "File not chosen",
       "known": true,
       "origins": [
-        "packages/editor-ui/node-links.js"
+        "packages/editor-ui/node-links.js",
+        "packages\\editor-ui\\node-links.js"
       ]
     },
     "m63d806eb99b1": {
@@ -59745,7 +59799,8 @@
       "en": "Files on this computer open from the desktop app.",
       "known": true,
       "origins": [
-        "packages/editor-ui/node-links.js"
+        "packages/editor-ui/node-links.js",
+        "packages\\editor-ui\\node-links.js"
       ]
     },
     "m32cc93eac390": {
@@ -59753,7 +59808,8 @@
       "en": "Open this file?",
       "known": true,
       "origins": [
-        "packages/editor-ui/node-links.js"
+        "packages/editor-ui/node-links.js",
+        "packages\\editor-ui\\node-links.js"
       ]
     },
     "m2f5337d58184": {
@@ -59761,7 +59817,8 @@
       "en": "This file may be a program or a script. It opens only if you confirm now.",
       "known": true,
       "origins": [
-        "packages/editor-ui/node-links.js"
+        "packages/editor-ui/node-links.js",
+        "packages\\editor-ui\\node-links.js"
       ]
     },
     "m86274e7f473c": {
@@ -59769,7 +59826,8 @@
       "en": "Confirmation is required before opening the file.",
       "known": true,
       "origins": [
-        "packages/editor-ui/node-links.js"
+        "packages/editor-ui/node-links.js",
+        "packages\\editor-ui\\node-links.js"
       ]
     },
     "mf0ac98afd130": {
@@ -59777,7 +59835,8 @@
       "en": "The link could not be opened",
       "known": true,
       "origins": [
-        "packages/editor-ui/node-links.js"
+        "packages/editor-ui/node-links.js",
+        "packages\\editor-ui\\node-links.js"
       ]
     },
     "m4efa2c47e8e6": {
@@ -59785,7 +59844,8 @@
       "en": "No link",
       "known": true,
       "origins": [
-        "packages/editor-ui/node-links.js"
+        "packages/editor-ui/node-links.js",
+        "packages\\editor-ui\\node-links.js"
       ]
     },
     "mf65f748fd098": {
@@ -59793,7 +59853,8 @@
       "en": "Link a page or file…",
       "known": true,
       "origins": [
-        "packages/editor-ui/node-links.js"
+        "packages/editor-ui/node-links.js",
+        "packages\\editor-ui\\node-links.js"
       ]
     },
     "mbc06ce7b3ad6": {
@@ -59802,6 +59863,255 @@
       "known": true,
       "origins": [
         "apps/desktop-shared/editor/saving.js"
+      ]
+    },
+    "m634c568c0854": {
+      "it": "Google AI Mode aperto: copia le righe generate e incollale qui sotto (prompt Markdown completo copiato negli appunti).",
+      "en": "Google AI Mode opened: copy generated lines and paste them below (full Markdown prompt copied to clipboard).",
+      "known": true,
+      "origins": [
+        "apps\\android\\editor\\study-interactions.js",
+        "apps\\desktop-shared\\editor\\study-interactions.js"
+      ]
+    },
+    "m87ccb6ef4474": {
+      "it": "Approach (BALANCED): First grasp the global meaning and context of the entire map. Cover the map in the exact order of its branches, balancing the cards across branches while prioritizing what is genuinely most important, central, or exam-relevant. Rephrase concepts naturally so every card is clear and engaging for any learner (never copy raw labels mechanically).",
+      "en": "Approach (BALANCED): First grasp the global meaning and context of the entire map. Cover the map in the exact order of its branches, balancing the cards across branches while prioritizing what is genuinely most important, central, or exam-relevant. Rephrase concepts naturally so every card is clear and engaging for any learner (never copy raw labels mechanically).",
+      "known": false,
+      "origins": [
+        "apps\\android\\editor\\study-interactions.js"
+      ]
+    },
+    "m77cfeb88ddab": {
+      "it": "Modalità (BILANCIATO): Comprendi prima il contesto generale di tutta la mappa. Segui rigorosamente l’ordine dei rami distribuendo le domande tra tutte le sezioni principali, ma dai priorità ai concetti davvero importanti, ai collegamenti causa-effetto e alle distinzioni chiave. Riformula leggermente titoli e concetti in modo chiaro e naturale per renderli utili a chiunque studi.",
+      "en": "Modalità (BILANCIATO): Comprendi prima il contesto generale di tutta la mappa. Segui rigorosamente l’ordine dei rami distribuendo le domande tra tutte le sezioni principali, ma dai priorità ai concetti davvero importanti, ai collegamenti causa-effetto e alle distinzioni chiave. Riformula leggermente titoli e concetti in modo chiaro e naturale per renderli utili a chiunque studi.",
+      "known": false,
+      "origins": [
+        "apps\\android\\editor\\study-interactions.js"
+      ]
+    },
+    "m473758f13953": {
+      "it": "Approach (DETAILED BRANCH-BY-BRANCH): Walk methodically through every branch and sub-branch in exact map order. Tie each question closely to the concrete details, mechanisms, conditions, lists, and notes of its specific branch while writing smart, non-trivial questions.",
+      "en": "Approach (DETAILED BRANCH-BY-BRANCH): Walk methodically through every branch and sub-branch in exact map order. Tie each question closely to the concrete details, mechanisms, conditions, lists, and notes of its specific branch while writing smart, non-trivial questions.",
+      "known": false,
+      "origins": [
+        "apps\\android\\editor\\study-interactions.js"
+      ]
+    },
+    "m364916915b76": {
+      "it": "Modalità (DETTAGLIATO RAMO PER RAMO): Segui sistematicamente ogni ramo e sottoramo nell’ordine esatto della mappa. Collega strettamente ciascuna domanda ai dettagli, meccanismi, criteri e note del proprio ramo, evitando domande banali o copiate parola per parola.",
+      "en": "Modalità (DETTAGLIATO RAMO PER RAMO): Segui sistematicamente ogni ramo e sottoramo nell’ordine esatto della mappa. Collega strettamente ciascuna domanda ai dettagli, meccanismi, criteri e note del proprio ramo, evitando domande banali o copiate parola per parola.",
+      "known": false,
+      "origins": [
+        "apps\\android\\editor\\study-interactions.js"
+      ]
+    },
+    "mfce915a08ed9": {
+      "it": "Approach (CORE PILLARS): Focus only on the high-yield pillars, foundational principles, and key comparisons across branches in map order, omitting minor details.",
+      "en": "Approach (CORE PILLARS): Focus only on the high-yield pillars, foundational principles, and key comparisons across branches in map order, omitting minor details.",
+      "known": false,
+      "origins": [
+        "apps\\android\\editor\\study-interactions.js"
+      ]
+    },
+    "m65d0159c5ad4": {
+      "it": "Modalità (ESSENZIALE): Concentrati solo sui pilastri fondamentali, sulle idee portanti e sui confronti chiave tra rami, seguendo l’ordine della mappa e tralasciando i dettagli secondari.",
+      "en": "Modalità (ESSENZIALE): Concentrati solo sui pilastri fondamentali, sulle idee portanti e sui confronti chiave tra rami, seguendo l’ordine della mappa e tralasciando i dettagli secondari.",
+      "known": false,
+      "origins": [
+        "apps\\android\\editor\\study-interactions.js"
+      ]
+    },
+    "m9eade86b6504": {
+      "it": "Cerca immagini su Google",
+      "en": "Cerca immagini su Google",
+      "known": false,
+      "origins": [
+        "apps\\android\\editor\\study-interactions.js"
+      ]
+    },
+    "mae42c1b5be9d": {
+      "it": "✓ Fine selezione",
+      "en": "✓ Done",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m0bec3abefb3e": {
+      "it": "☑ Seleziona",
+      "en": "☑ Select",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mdeaad49aa36a": {
+      "it": "selezionate",
+      "en": "selected",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mf73bdae8f768": {
+      "it": "↺ Azzera ripassi",
+      "en": "↺ Reset progress",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m4a2204ef8e9b": {
+      "it": "✓ Consolidate",
+      "en": "✓ Mark confident",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m9abc7c217ada": {
+      "it": "Seleziona flashcard:",
+      "en": "Select flashcard:",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m0fdb30a2252b": {
+      "it": "Dettaglio domande",
+      "en": "Question detail",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mff81d006c1f9": {
+      "it": "Bilanciato · concetti chiave e chiarezza",
+      "en": "Balanced · key concepts & clear phrasing",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m3a2ece440f1b": {
+      "it": "Dettagliato · stretto ramo per ramo",
+      "en": "Detailed · branch by branch",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m4912b5731d33": {
+      "it": "Essenziale · solo pilastri principali",
+      "en": "Essential · core pillars only",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mc265062cbd9a": {
+      "it": "flashcard riportate da ripassare",
+      "en": "flashcards reset to due",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m81b04908bebc": {
+      "it": "flashcard segnate consolidate",
+      "en": "flashcards marked confident",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mb0bbe70e8e3c": {
+      "it": "flashcard esportate",
+      "en": "flashcards exported",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m8b0c24ebfb5f": {
+      "it": "flashcard eliminate",
+      "en": "flashcards deleted",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m2ce64e6c5ae2": {
+      "it": "Motore vocale letture rapide",
+      "en": "Quick read-aloud voice engine",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\settings-center.js"
+      ]
+    },
+    "m09b22cc1faab": {
+      "it": "Voce preferita per letture rapide",
+      "en": "Preferred quick read-aloud voice",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\settings-center.js"
+      ]
+    },
+    "m7641ae52f327": {
+      "it": "▶ Prova voce",
+      "en": "▶ Test voice",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\settings-center.js"
+      ]
+    },
+    "mac3be12070b1": {
+      "it": "Predefinita della lingua",
+      "en": "Language default",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\settings-center.js"
+      ]
+    },
+    "m47ee0380c5cc": {
+      "it": "Lettura rapida (Flashcard, Spiega & etimologia)",
+      "en": "Quick read-aloud (Flashcards, Explain & etymology)",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\settings-center.js"
+      ]
+    },
+    "mc95be5e87f15": {
+      "it": "Motore vocale per pulsanti Ascolta",
+      "en": "Voice engine for Listen buttons",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\settings-center.js"
+      ]
+    },
+    "m9e5de0eb7aaa": {
+      "it": "Usato per flashcard e spiegazioni brevi. «Ascolta la mappa» in Studio AI mantiene le sue impostazioni complete separate.",
+      "en": "Used for flashcards and short explanations. “Listen to map” in AI Studio keeps its own full settings.",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\settings-center.js"
+      ]
+    },
+    "m47d40aa469b8": {
+      "it": "Voce preferita",
+      "en": "Preferred voice",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\settings-center.js"
+      ]
+    },
+    "m699a11144a80": {
+      "it": "Scegli quale voce usare quando premi Ascolta su una card o spiegazione.",
+      "en": "Choose which voice plays when pressing Listen on a card or explanation.",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\settings-center.js"
       ]
     }
   },
@@ -60663,7 +60973,7 @@
     "Sì": "m85a39ab345d6",
     "Yes": "m85a39ab345d6",
     "Collega": "ma6a32dbc5618",
-    "Link": "ma6a32dbc5618",
+    "Link": "mebd7dc0ecbbd",
     "Collegamento già presente": "m05bcdca0af4a",
     "Relationship already exists": "m05bcdca0af4a",
     "Collegamenti del flusso": "mdc80e5015c35",
@@ -70582,6 +70892,61 @@
     "Collega link o file…": "mf65f748fd098",
     "Link a page or file…": "mf65f748fd098",
     "Salva tutto in un unico file (.gk)…": "mbc06ce7b3ad6",
-    "Save everything in one file (.gk)…": "mbc06ce7b3ad6"
+    "Save everything in one file (.gk)…": "mbc06ce7b3ad6",
+    "Google AI Mode aperto: copia le righe generate e incollale qui sotto (prompt Markdown completo copiato negli appunti).": "m634c568c0854",
+    "Google AI Mode opened: copy generated lines and paste them below (full Markdown prompt copied to clipboard).": "m634c568c0854",
+    "Approach (BALANCED): First grasp the global meaning and context of the entire map. Cover the map in the exact order of its branches, balancing the cards across branches while prioritizing what is genuinely most important, central, or exam-relevant. Rephrase concepts naturally so every card is clear and engaging for any learner (never copy raw labels mechanically).": "m87ccb6ef4474",
+    "Modalità (BILANCIATO): Comprendi prima il contesto generale di tutta la mappa. Segui rigorosamente l’ordine dei rami distribuendo le domande tra tutte le sezioni principali, ma dai priorità ai concetti davvero importanti, ai collegamenti causa-effetto e alle distinzioni chiave. Riformula leggermente titoli e concetti in modo chiaro e naturale per renderli utili a chiunque studi.": "m77cfeb88ddab",
+    "Approach (DETAILED BRANCH-BY-BRANCH): Walk methodically through every branch and sub-branch in exact map order. Tie each question closely to the concrete details, mechanisms, conditions, lists, and notes of its specific branch while writing smart, non-trivial questions.": "m473758f13953",
+    "Modalità (DETTAGLIATO RAMO PER RAMO): Segui sistematicamente ogni ramo e sottoramo nell’ordine esatto della mappa. Collega strettamente ciascuna domanda ai dettagli, meccanismi, criteri e note del proprio ramo, evitando domande banali o copiate parola per parola.": "m364916915b76",
+    "Approach (CORE PILLARS): Focus only on the high-yield pillars, foundational principles, and key comparisons across branches in map order, omitting minor details.": "mfce915a08ed9",
+    "Modalità (ESSENZIALE): Concentrati solo sui pilastri fondamentali, sulle idee portanti e sui confronti chiave tra rami, seguendo l’ordine della mappa e tralasciando i dettagli secondari.": "m65d0159c5ad4",
+    "Cerca immagini su Google": "m9eade86b6504",
+    "✓ Fine selezione": "mae42c1b5be9d",
+    "✓ Done": "mae42c1b5be9d",
+    "☑ Seleziona": "m0bec3abefb3e",
+    "☑ Select": "m0bec3abefb3e",
+    "selezionate": "mdeaad49aa36a",
+    "selected": "mdeaad49aa36a",
+    "↺ Azzera ripassi": "mf73bdae8f768",
+    "↺ Reset progress": "mf73bdae8f768",
+    "✓ Consolidate": "m4a2204ef8e9b",
+    "✓ Mark confident": "m4a2204ef8e9b",
+    "Seleziona flashcard:": "m9abc7c217ada",
+    "Select flashcard:": "m9abc7c217ada",
+    "Dettaglio domande": "m0fdb30a2252b",
+    "Question detail": "m0fdb30a2252b",
+    "Bilanciato · concetti chiave e chiarezza": "mff81d006c1f9",
+    "Balanced · key concepts & clear phrasing": "mff81d006c1f9",
+    "Dettagliato · stretto ramo per ramo": "m3a2ece440f1b",
+    "Detailed · branch by branch": "m3a2ece440f1b",
+    "Essenziale · solo pilastri principali": "m4912b5731d33",
+    "Essential · core pillars only": "m4912b5731d33",
+    "flashcard riportate da ripassare": "mc265062cbd9a",
+    "flashcards reset to due": "mc265062cbd9a",
+    "flashcard segnate consolidate": "m81b04908bebc",
+    "flashcards marked confident": "m81b04908bebc",
+    "flashcard esportate": "mb0bbe70e8e3c",
+    "flashcards exported": "mb0bbe70e8e3c",
+    "flashcard eliminate": "m8b0c24ebfb5f",
+    "flashcards deleted": "m8b0c24ebfb5f",
+    "Motore vocale letture rapide": "m2ce64e6c5ae2",
+    "Quick read-aloud voice engine": "m2ce64e6c5ae2",
+    "Voce preferita per letture rapide": "m09b22cc1faab",
+    "Preferred quick read-aloud voice": "m09b22cc1faab",
+    "▶ Prova voce": "m7641ae52f327",
+    "▶ Test voice": "m7641ae52f327",
+    "Predefinita della lingua": "mac3be12070b1",
+    "Language default": "mac3be12070b1",
+    "Lettura rapida (Flashcard, Spiega & etimologia)": "m47ee0380c5cc",
+    "Quick read-aloud (Flashcards, Explain & etymology)": "m47ee0380c5cc",
+    "Motore vocale per pulsanti Ascolta": "mc95be5e87f15",
+    "Voice engine for Listen buttons": "mc95be5e87f15",
+    "Usato per flashcard e spiegazioni brevi. «Ascolta la mappa» in Studio AI mantiene le sue impostazioni complete separate.": "m9e5de0eb7aaa",
+    "Used for flashcards and short explanations. “Listen to map” in AI Studio keeps its own full settings.": "m9e5de0eb7aaa",
+    "Voce preferita": "m47d40aa469b8",
+    "Preferred voice": "m47d40aa469b8",
+    "Scegli quale voce usare quando premi Ascolta su una card o spiegazione.": "m699a11144a80",
+    "Choose which voice plays when pressing Listen on a card or explanation.": "m699a11144a80"
   }
 }

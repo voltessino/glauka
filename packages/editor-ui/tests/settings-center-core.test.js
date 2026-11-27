@@ -49,3 +49,18 @@ test("mouse wheel follows the slider and trackpad keeps its own step", () => {
   assert.equal(settings.linkedGain("trackpad"), 0.002);
   assert.equal(settings.linkedGain("pinch"), 0.002);
 });
+
+test("quickSpeech defaults away from native when HD voice exists and persists selected engine and voice", () => {
+  const data = memory();
+  const deskRoot = { neuromapDesktop: { edgeTts: true }, document: { documentElement: { lang: "it" } } };
+  const initial = settings.quickSpeech.read(deskRoot, {});
+  assert.equal(initial.mode, "edge");
+  assert.equal(initial.voice, "isabella");
+  settings.quickSpeech.write({ mode: "edge", voice: "diego" });
+  settings.quickSpeech.write({ mode: "api", voice: "nova" });
+  const stored = settings.quickSpeech.read(deskRoot, { aiStudio: {} });
+  assert.equal(stored.mode, "api");
+  assert.equal(stored.voice, "nova");
+  assert.equal(stored.voices.edge, "diego");
+  assert.equal(data.get(settings.quickSpeech.MODE_KEY), "api");
+});

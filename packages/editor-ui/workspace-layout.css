@@ -1286,37 +1286,6 @@ body.nm-workspace-v2 #ai-explain-panel .v4-buttons {
   gap: 8px;
   margin-top: 10px;
 }
-body.nm-workspace-v2 .gl-explain-voice-bar {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-body.nm-workspace-v2 .gl-explain-voice-choice {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 3px 8px;
-  border-radius: 9px;
-  border: 1px solid color-mix(in srgb, var(--nm-ui-line, #64748b) 65%, transparent);
-  background: color-mix(in srgb, var(--nm-ui-top, #1e293b) 88%, transparent);
-  font: 600 11.5px/1.2 system-ui;
-  color: var(--nm-ui-muted, #cbd5e1);
-}
-body.nm-workspace-v2 .gl-explain-voice-choice select {
-  min-height: 28px;
-  max-width: 170px;
-  border: 0;
-  background: transparent;
-  color: var(--nm-ui-ink, #f8fafc);
-  font: 650 12px/1.2 system-ui;
-  cursor: pointer;
-  outline: none;
-}
-body.nm-workspace-v2 .gl-explain-voice-choice select option {
-  background: var(--nm-ui-surface, #15243b);
-  color: var(--nm-ui-ink, #f8fafc);
-}
 
 /* Redesigned Context Menu: scannable quick bars + open 2-column tool cards, zero buried drawers. */
 body.nm-workspace-v2 #context-menu.nm-context-refined {

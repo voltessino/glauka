@@ -177,20 +177,41 @@
       return card;
     };
     NeuroMapApp.prototype.v5SpeakFlashcard=function(){
+      const speechApi=globalThis.NeuroMapSpeech;
+      const engine=speechApi?.getSharedEngine?.(globalThis)||globalThis.__glaukaSpeechEngine||(speechApi?.createSpeechEngine?speechApi.createSpeechEngine(globalThis):null);
+      const st=engine?.state?.()?.state;
+      if(this._v5FlashSpeaking&&(st==='playing'||st==='loading')){
+        this._v5FlashSpeaking=false;engine?.stop?.();this.renderFlashcard?.();return false;
+      }
       const c=this.v5CurrentCard();if(!c)return false;
       const txt=String(this._flashShowAnswer?c.answer:c.question||'').trim();
       if(!txt)return false;
-      const speechApi=globalThis.NeuroMapSpeech;
-      const clean=speechApi?.cleanSpeechText?speechApi.cleanSpeechText(txt,document.documentElement?.lang||'it-IT'):txt;
       const lang=document.documentElement?.lang==='en'?'en-US':'it-IT';
-      let mode='native';
-      try{mode=localStorage.getItem('glauka.explain.ttsMode.v1')||'native';}catch{}
-      if(mode!=='native'&&typeof this.aiStudio?.speakWithMode==='function'){
-        const started=this.aiStudio.speakWithMode(clean,{mode,lang,rate:1,isPreview:true,explain:false});
-        if(started!==false)return true;
+      const clean=speechApi?.cleanSpeechText?speechApi.cleanSpeechText(txt,lang):txt;
+      const cfg=globalThis.NeuroMapAppSettings?.quickSpeech?.read?.(globalThis,this);
+      let mode=cfg?.mode;
+      if(!mode){
+        try{
+          const raw=localStorage.getItem('glauka.explain.ttsMode.v1')||'';
+          mode=raw==='voicestudio'?'glauka-studio':raw;
+        }catch{}
+        if(!mode)mode=this.aiStudio?._neuralStatus?.installed?'neural':(globalThis.neuromapDesktop?.edgeTts||this.aiStudio?'edge':'native');
       }
-      const engine=globalThis.__glaukaSpeechEngine||(speechApi?.createSpeechEngine?speechApi.createSpeechEngine(globalThis):null);
-      if(engine?.isSupported?.()){engine.speak(clean,{mode:'native',lang,rate:1});return true;}
+      let voice=cfg?.voice||'';
+      if(mode==='neural'&&!this.aiStudio?._neuralStatus?.installed){
+        mode=(globalThis.neuromapDesktop?.edgeTts||this.aiStudio)?'edge':'native';
+        voice=cfg?.voices?.[mode]||'';
+      }
+      if(mode!=='native'&&typeof this.aiStudio?.speakWithMode==='function'){
+        const started=this.aiStudio.speakWithMode(clean,{mode,voice,lang,rate:1,isPreview:true,explain:false});
+        if(started!==false){this._v5FlashSpeaking=true;return true;}
+      }
+      if(engine?.isSupported?.()){
+        this._v5FlashSpeaking=true;
+        engine.speak(clean,{mode:'native',lang,rate:1,voiceURI:voice});
+        return true;
+      }
+      this._v5FlashSpeaking=false;
       return false;
     };
     NeuroMapApp.prototype.v5ResolveTargetTabs=function(scopeValue){
@@ -205,53 +226,110 @@
       }
       return [active];
     };
-    NeuroMapApp.prototype.v5BuildGoogleCardsPrompt=function(scopeValue,count){
+    NeuroMapApp.prototype.v5BuildMarkdownOutline=function(tab,startNode,onlyNode=false,maxChars=11000){
+      if(!startNode)return '';
+      const title=v5SafeText(tab?.title||startNode.text||'Mappa').slice(0,80);
+      if(onlyNode){
+        const note=v5SafeText(startNode.notes).slice(0,220);
+        return `# ${title}\n- ${v5SafeText(startNode.text).slice(0,120)}${note?` — ${note}`:''}`;
+      }
+      const sections=[];
+      const rootChildren=Array.isArray(startNode.children)?startNode.children:[];
+      const walkBranch=(node,depth,out,limit)=>{
+        if(!node||out.length>=limit)return;
+        const txt=v5SafeText(node.text).slice(0,110);
+        const note=v5SafeText(node.notes).slice(0,160);
+        if(txt){
+          const indent='  '.repeat(Math.max(0,Math.min(depth,5)));
+          out.push(note?`${indent}- ${txt} — _${note}_`:`${indent}- ${txt}`);
+        }
+        for(const ch of node.children||[]){
+          if(out.length>=limit)break;
+          walkBranch(ch,depth+1,out,limit);
+        }
+      };
+      if(!rootChildren.length){
+        const rootNote=v5SafeText(startNode.notes).slice(0,220);
+        return `# ${title}${rootNote?`\n- ${rootNote}`:''}`;
+      }
+      const perBranchLimit=Math.max(12,Math.floor(240/Math.max(1,rootChildren.length)));
+      const header=`# ${v5SafeText(startNode.text||title).slice(0,90)}`;
+      const rootNotes=v5SafeText(startNode.notes).slice(0,220);
+      if(rootNotes)sections.push(`${header}\n> ${rootNotes}`);
+      else sections.push(header);
+      rootChildren.forEach((branch,idx)=>{
+        const rawTitle=v5SafeText(branch.text).slice(0,90).replace(/^\d+[.)]\s+/,'');
+        const branchTitle=rawTitle||`Ramo ${idx+1}`;
+        const branchNote=v5SafeText(branch.notes).slice(0,160);
+        const lines=[`## ${idx+1}. ${branchTitle}${branchNote?` — _${branchNote}_`:''}`];
+        for(const ch of branch.children||[])walkBranch(ch,0,lines,perBranchLimit);
+        sections.push(lines.join('\n'));
+      });
+      let md=sections.join('\n\n');
+      if(md.length>maxChars){
+        const cap=Math.max(240,Math.floor((maxChars-header.length-80)/Math.max(1,rootChildren.length)));
+        const balanced=[sections[0]];
+        for(let i=1;i<sections.length;i++)balanced.push(sections[i].slice(0,cap));
+        md=balanced.join('\n\n').slice(0,maxChars);
+      }
+      return md;
+    };
+    NeuroMapApp.prototype.v5BuildGoogleCardsPrompt=function(scopeValue,count,styleValue){
       const targetTabs=this.v5ResolveTargetTabs(scopeValue);
       if(!targetTabs.length)return null;
-      const lines=[];const perTabMax=targetTabs.length>1?Math.max(8,Math.floor(54/targetTabs.length)):45;
+      const nCards=v5Bound(Number(count)||10,3,30);
+      let style=styleValue||$v5('v5-study-prompt-style')?.value||'';
+      if(!style){try{style=localStorage.getItem('glauka.study.promptStyle.v1')||'';}catch{}}
+      if(!['balanced','detailed','core'].includes(style))style='balanced';
+      const en=document.documentElement?.lang==='en';
       let firstStart=null;
+      const budgetEach=Math.max(2200,Math.floor(12500/Math.max(1,targetTabs.length)));
+      const mdSections=[];
       for(const tab of targetTabs){
         const selected=tab.state.findNode(tab.state.selectedNodeId);
         const startNode=targetTabs.length===1&&(scopeValue==='node'||scopeValue==='selected')?(selected||tab.state.root):tab.state.root;
         if(!firstStart)firstStart=startNode;
-        if(targetTabs.length>1)lines.push(`=== ${(tab.title||'Mappa').slice(0,60)} ===`);
-        const queue=[{n:startNode,d:0}];let idx=0,tabCount=0;
-        const cap=targetTabs.length===1&&scopeValue==='node'?1:perTabMax;
-        while(idx<queue.length&&tabCount<cap){
-          const {n,d}=queue[idx++];
-          const txt=v5SafeText(n.text).slice(0,80);
-          if(txt){
-            const indent='  '.repeat(Math.min(d,3));
-            const note=v5SafeText(n.notes).slice(0,80);
-            lines.push(note?`${indent}- ${txt} (${note})`:`${indent}- ${txt}`);
-            tabCount++;
-          }
-          if(!(targetTabs.length===1&&scopeValue==='node')){for(const c of n.children||[])queue.push({n:c,d:d+1});}
-        }
+        mdSections.push(this.v5BuildMarkdownOutline(tab,startNode,targetTabs.length===1&&scopeValue==='node',budgetEach));
       }
-      const nCards=v5Bound(Number(count)||10,3,30);
-      const en=document.documentElement?.lang==='en';
+      const body=mdSections.join('\n\n');
       const titles=targetTabs.map(t=>t.title||'Map').join(', ').slice(0,120);
-      const header=targetTabs.length>1
-        ?(en
-          ?`Create ${nCards} concise active-recall flashcards distributed across these ${targetTabs.length} mind maps (${titles}). Format strictly one per line as Question | Answer, without intro or extra Markdown:\n`
-          :`Crea ${nCards} flashcard sintetiche di richiamo attivo distribuite tra queste ${targetTabs.length} mappe (${titles}). Formato rigoroso una per riga: Domanda | Risposta (senza introduzione né elenco numerato extra):\n`)
-        :(en
-          ?`Create ${nCards} concise active-recall flashcards ONLY from this mind map (${titles}). Format every card strictly on one line as Question | Answer, without intro or extra Markdown:\n`
-          :`Crea ${nCards} flashcard sintetiche di richiamo attivo SOLO da questa mappa (${titles}). Formato rigoroso una per riga: Domanda | Risposta (senza introduzione né elenco numerato extra):\n`);
-      const body=lines.join('\n');
+      const styleDirectives={
+        balanced: en
+          ? 'Approach (BALANCED): First grasp the global meaning and context of the entire map. Cover the map in the exact order of its branches, balancing the cards across branches while prioritizing what is genuinely most important, central, or exam-relevant. Rephrase concepts naturally so every card is clear and engaging for any learner (never copy raw labels mechanically).'
+          : 'Modalità (BILANCIATO): Comprendi prima il contesto generale di tutta la mappa. Segui rigorosamente l’ordine dei rami distribuendo le domande tra tutte le sezioni principali, ma dai priorità ai concetti davvero importanti, ai collegamenti causa-effetto e alle distinzioni chiave. Riformula leggermente titoli e concetti in modo chiaro e naturale per renderli utili a chiunque studi.',
+        detailed: en
+          ? 'Approach (DETAILED BRANCH-BY-BRANCH): Walk methodically through every branch and sub-branch in exact map order. Tie each question closely to the concrete details, mechanisms, conditions, lists, and notes of its specific branch while writing smart, non-trivial questions.'
+          : 'Modalità (DETTAGLIATO RAMO PER RAMO): Segui sistematicamente ogni ramo e sottoramo nell’ordine esatto della mappa. Collega strettamente ciascuna domanda ai dettagli, meccanismi, criteri e note del proprio ramo, evitando domande banali o copiate parola per parola.',
+        core: en
+          ? 'Approach (CORE PILLARS): Focus only on the high-yield pillars, foundational principles, and key comparisons across branches in map order, omitting minor details.'
+          : 'Modalità (ESSENZIALE): Concentrati solo sui pilastri fondamentali, sulle idee portanti e sui confronti chiave tra rami, seguendo l’ordine della mappa e tralasciando i dettagli secondari.',
+      };
+      const header=en
+        ?`Create ${nCards} high-quality active-recall flashcards based ONLY on the Markdown mind map below (${titles}).\n\nInstructions:\n1. ${styleDirectives[style]}\n2. Respect the branch sequence of the map from first branch to last.\n3. Output in clean structured Markdown grouped by branch headings (\`## Branch Name\`), and put every flashcard on a single bullet line as \`- Clear question? | Concise, accurate answer\` (no extra intro or outro).\n\nMarkdown Mind Map:\n\n`
+        :`Crea ${nCards} flashcard efficaci di richiamo attivo basate ESCLUSIVAMENTE sulla mappa concettuale Markdown seguente (${titles}).\n\nIndicazioni:\n1. ${styleDirectives[style]}\n2. Mantieni sempre l’ordine dei rami della mappa dal primo all’ultimo.\n3. Rispondi in Markdown pulito diviso per rami (\`## Nome ramo\`), scrivendo ogni flashcard su una riga puntata nel formato \`- Domanda chiara? | Risposta completa e sintetica\` (senza preamboli o commenti finali).\n\nMappa completa in Markdown:\n\n`;
       const fullPrompt=header+body;
-      const urlQuery=header+body.slice(0,1450);
-      return {tab:targetTabs[0],tabs:targetTabs,startNode:firstStart,fullPrompt,url:'https://www.google.com/search?udm=50&q='+encodeURIComponent(urlQuery)};
+      const compactOutline=body.split('\n').filter(l=>/^#{1,2}\s/.test(l)||l.startsWith('- ')).join('\n');
+      const maxUrlChars=1650;
+      let urlQuery=fullPrompt;
+      if(urlQuery.length>maxUrlChars){
+        const avail=Math.max(280,maxUrlChars-header.length-60);
+        urlQuery=header+(compactOutline.length>avail?compactOutline.slice(0,avail)+'\n…':compactOutline);
+        if(urlQuery.length>maxUrlChars)urlQuery=urlQuery.slice(0,maxUrlChars);
+      }
+      return {tab:targetTabs[0],tabs:targetTabs,startNode:firstStart,style,fullPrompt,url:'https://www.google.com/search?udm=50&q='+encodeURIComponent(urlQuery)};
     };
     NeuroMapApp.prototype.v5OpenGoogleAIModeFlashcards=function(){
       const scope=$v5('v5-study-scope')?.value||'active';
       const count=$v5('v5-study-count')?.value||10;
-      const built=this.v5BuildGoogleCardsPrompt(scope,count);
+      const style=$v5('v5-study-prompt-style')?.value||'balanced';
+      const built=this.v5BuildGoogleCardsPrompt(scope,count,style);
       if(!built)return null;
       try{globalThis.navigator?.clipboard?.writeText?.(built.fullPrompt)?.catch?.(()=>{});}catch{}
       window.open?.(built.url,'_blank','noopener,noreferrer');
-      this.v5CardStatus(globalThis.GlaukaI18n?.pair('Google AI Mode aperto: copia le righe generate e incollale qui sotto (prompt copiato negli appunti).','Google AI Mode opened: copy generated lines and paste them below (prompt copied to clipboard).'));
+      const large=built.fullPrompt.length>1650;
+      this.v5CardStatus(large
+        ?globalThis.GlaukaI18n?.pair(`Google AI Mode aperto · mappa ampia: il prompt Markdown completo (${built.fullPrompt.length} caratteri) è negli appunti: incollalo in Google AI Mode, poi incolla le flashcard qui sotto.`,`Google AI Mode opened · large map: full Markdown prompt (${built.fullPrompt.length} chars) copied to clipboard: paste it in Google AI Mode, then paste the flashcards below.`)
+        :globalThis.GlaukaI18n?.pair('Google AI Mode aperto: copia le righe generate e incollale qui sotto (prompt Markdown completo copiato negli appunti).','Google AI Mode opened: copy generated lines and paste them below (full Markdown prompt copied to clipboard).'));
       return built;
     };
     NeuroMapApp.prototype.v5ImportTextCards=function(rawText,scopeValue){
@@ -269,6 +347,7 @@
       const fallbackNode=primaryTab.state.findNode(primaryTab.state.selectedNodeId)||primaryTab.state.root;
       const pairs=[];
       const stripMd=s=>v5SafeText(String(s||'').replace(/^\s*(?:[-*•]+|\d+[.)])\s+/,'').replace(/\*\*([^*]+)\*\*/g,'$1').replace(/^`+|`+$/g,''));
+      const stripQA=s=>stripMd(s).replace(/^\s*(?:domanda|question|fronte|front|risposta|answer|retro|back|d|q|r|a)\s*[:\-]\s*/i,'').trim();
       let parsedJson=false;
       try{
         const cleanJson=raw.replace(/^```(?:json)?\s*/i,'').replace(/```\s*$/,'').trim();
@@ -278,8 +357,8 @@
           if(Array.isArray(list)){
             for(const row of list){
               if(row&&typeof row==='object'){
-                const q=stripMd(row.question||row.q||row.front),a=stripMd(row.answer||row.a||row.back);
-                if(q&&a)pairs.push({q,a});
+                const q=stripQA(row.question||row.q||row.front),a=stripQA(row.answer||row.a||row.back);
+                if(q&&a)pairs.push({q,a,branchHint:''});
               }
             }
             parsedJson=pairs.length>0;
@@ -290,32 +369,40 @@
         const qRe=/^\s*(?:domanda|question|fronte|front|d|q)\s*[:\-]\s*(.+)$/i;
         const aRe=/^\s*(?:risposta|answer|retro|back|r|a)\s*[:\-]\s*(.+)$/i;
         let pendingQ='';
+        let activeBranchHint='';
         for(const line of raw.split(/\r?\n/)){
           const cleanLine=line.trim();
-          if(!cleanLine)continue;
+          if(!cleanLine||/^[-*_]{3,}$/.test(cleanLine)||/^```/.test(cleanLine))continue;
+          const headingMatch=/^#{1,6}\s+(.+)$/.exec(cleanLine);
+          if(headingMatch&&!cleanLine.includes('|')){
+            activeBranchHint=stripMd(headingMatch[1]).replace(/^\d+[.)]\s*/,'').replace(/^ramo\s*\d*\s*[:\-]\s*/i,'').trim();
+            pendingQ='';
+            continue;
+          }
           const noBullet=cleanLine.replace(/^\s*(?:[-*•]+|\d+[.)])\s+/,'').replace(/\*\*([^*]+)\*\*/g,'$1');
           const delim=noBullet.includes('|')?'|':(noBullet.includes('\t')?'\t':null);
           if(delim){
             const parts=noBullet.split(delim);
-            const q=stripMd(parts[0]),a=stripMd(parts.slice(1).join(' '));
+            const q=stripQA(parts[0]),a=stripQA(parts.slice(1).join(' '));
             const isHeader=/^(?:domanda|question|fronte|front|-+)$/i.test(q)&&/^(?:risposta|answer|retro|back|-+)$/i.test(a);
-            if(!isHeader&&q&&a){pairs.push({q,a});pendingQ='';continue;}
+            if(!isHeader&&q&&a){pairs.push({q,a,branchHint:activeBranchHint});pendingQ='';continue;}
             if(isHeader){pendingQ='';continue;}
           }
           const qm=qRe.exec(noBullet);
           if(qm){pendingQ=stripMd(qm[1]);continue;}
           const am=aRe.exec(noBullet);
-          if(am&&pendingQ){pairs.push({q:pendingQ,a:stripMd(am[1])});pendingQ='';continue;}
+          if(am&&pendingQ){pairs.push({q:pendingQ,a:stripMd(am[1]),branchHint:activeBranchHint});pendingQ='';continue;}
         }
       }
       if(!pairs.length)return 0;
-      const matchNode=(q,a)=>{
-        const hay=(q+' '+a).toLocaleLowerCase();
+      const matchNode=(q,a,branchHint)=>{
+        const hay=(q+' '+a+' '+(branchHint||'')).toLocaleLowerCase();
+        const hintLow=String(branchHint||'').trim().toLocaleLowerCase();
         let bestTab=primaryTab,best=fallbackNode,bestScore=0;
         for(const item of nodePool){
           const label=String(item.node?.text||'').trim().toLocaleLowerCase();
           if(label.length<3)continue;
-          const bonus=item.tab.id===primaryTab.id?0.1:0;
+          const bonus=(item.tab.id===primaryTab.id?0.1:0)+(hintLow&&hintLow===label?8:(hintLow&&hintLow.includes(label)?3:0));
           if(hay.includes(label)&&(label.length+bonus)>bestScore){bestTab=item.tab;best=item.node;bestScore=label.length+bonus;}
         }
         return {tab:bestTab,node:best};
@@ -323,10 +410,10 @@
       this.studyCards ||= [];
       const existing=new Set(this.studyCards.map(c=>String(c.sourceTabId||'')+'|'+String(c.question||'').toLocaleLowerCase()));
       let added=0;
-      for(const {q,a} of pairs.slice(0,80)){
+      for(const {q,a,branchHint} of pairs.slice(0,80)){
         const qClean=q.slice(0,240),aClean=a.slice(0,700);
         if(qClean.length<3||aClean.length<1)continue;
-        const target=matchNode(qClean,aClean);
+        const target=matchNode(qClean,aClean,branchHint);
         const key=(target.tab?.id||primaryTab.id)+'|'+qClean.toLocaleLowerCase();
         if(existing.has(key))continue;
         const card=this.v5CreateManualCard({question:qClean,answer:aClean,tabId:target.tab?.id||primaryTab.id,nodeId:target.node?.id});
@@ -428,6 +515,7 @@
       if(globalThis.nmProduct?.guard&&!nmProduct.guard())return;
       if(!this.aiClient.settings.baseUrl||!this.aiClient.settings.model){this.showToast('Configura prima endpoint e modello in ✨ AI Settings','FLASHCARD');return;}
       const choice=$v5('v5-study-scope').value, count=v5Bound(Number($v5('v5-study-count').value)||10,3,30);
+      const style=$v5('v5-study-prompt-style')?.value||'balanced';
       const tab=this.tabs.find(t=>t.id===this.activeTabId);
       const selected=tab.state.findNode(tab.state.selectedNodeId);
       const tasks=(choice==='all'||choice==='selectedTabs')?this.v5ResolveTargetTabs(choice).map(t=>({tab:t,root:t.state.root})):
@@ -436,6 +524,11 @@
         [{tab,root:tab.state.root}];
       const perTabCount=tasks.length>1?Math.max(3,Math.ceil(count/tasks.length)):count;
       const button=$v5('v5-generate-cards');button.disabled=true;this._v5GenRunning=true;
+      const styleGuide=style==='detailed'
+        ?'Modalità DETTAGLIATO: segui l’ordine dei rami e collega strettamente le domande ai dettagli specifici di ciascun ramo.'
+        :(style==='core'
+          ?'Modalità ESSENZIALE: concentrati solo sui concetti portanti, cause e confronti principali nell’ordine dei rami.'
+          :'Modalità BILANCIATO: comprendi il contesto generale, segui l’ordine dei rami privilegiando i concetti più importanti e riformulando con chiarezza per lo studio.');
       const all=[];try{
         for(let i=0;i<tasks.length;i++){
           const item=tasks[i];this.v5CardStatus(`Generazione AI ${i+1}/${tasks.length}: ${item.tab.title}…`);
@@ -443,7 +536,7 @@
           if(ctx.sampled<ctx.total)this.v5CardStatus(`Scheda ${i+1}/${tasks.length}: campione distribuito su ${ctx.sampled}/${ctx.total} nodi (limite di costo per richiesta). Ripeti per coprirne altri.`);
           const response=await this.aiClient.chat(
             'Sei un esaminatore attento alla precisione. Formula domande di richiamo attivo sui contenuti FORNITI, senza aggiungere informazioni non presenti. Rispondi solo JSON valido.',
-            `Scheda: ${item.tab.title}. Genera ${perTabCount} domande DIFFERENTI che valutino collegamenti, cause, spiegazioni o confronto fra concetti, non mere elencazioni. Usa soltanto i dati contenuti nella mappa. Gli appunti personali non sono nel testo. Se un nodo riporta source, quella è l'unica pagina citabile. Per ogni carta restituisci: {"sourceId":"id esatto di un nodo", "question":"domanda concisa nella lingua selezionata", "answer":"risposta rigorosa nella lingua selezionata, basata sulla mappa"}. JSON di forma {"cards":[...]}. Non inventare dati: dove manca evidenza fai una domanda limitata ai termini presenti. Ogni sourceId deve appartenere all'elenco dato.\nMAPPA:\n${ctx.lines}`,
+            `Scheda: ${item.tab.title}. ${styleGuide} Genera ${perTabCount} domande DIFFERENTI nell’ordine dei rami che valutino collegamenti, cause, spiegazioni o confronto fra concetti, non mere elencazioni. Usa soltanto i dati contenuti nella mappa. Gli appunti personali non sono nel testo. Se un nodo riporta source, quella è l'unica pagina citabile. Per ogni carta restituisci: {"sourceId":"id esatto di un nodo", "question":"domanda concisa nella lingua selezionata", "answer":"risposta rigorosa nella lingua selezionata, basata sulla mappa"}. JSON di forma {"cards":[...]}. Non inventare dati: dove manca evidenza fai una domanda limitata ai termini presenti. Ogni sourceId deve appartenere all'elenco dato.\nMAPPA:\n${ctx.lines}`,
             {maxTokens:Math.min(1800,700+perTabCount*95),timeout:70000});
           all.push(...this.v5ParseAICards(response,item.tab,ctx.ids));
         }

@@ -4,7 +4,8 @@ const fs=require('node:fs'),path=require('node:path');
 const ROOT=path.resolve(__dirname,'../../..');
 const read=p=>fs.readFileSync(path.join(ROOT,p),'utf8');
 const gradle=read('apps/android/native/app/build.gradle');
-const workflow=read('.github/workflows/build-apk.yml');
+const localBuilder=read('scripts/release/build_android_local.py');
+const verifier=read('scripts/release/verify_android_preview.py');
 const manifest=read('apps/android/native/app/src/main/AndroidManifest.xml');
 const main=read('apps/android/native/app/src/main/java/it/neuromap/architect/preview/MainActivity.java');
 // The runtime concatenates these three classic-script slices into one scope.
@@ -17,15 +18,16 @@ const javaAsset=read('apps/android/native/app/src/main/java/it/neuromap/architec
 const javaAI=read('apps/android/native/app/src/main/java/it/neuromap/architect/preview/AndroidAiHostPolicy.java');
 test('release version is never duplicated as a hardcoded old APK version',()=>{
  const version=JSON.parse(read('versions.json')).android;
- assert.equal(version.version_code,28);
- assert.equal(version.version,'0.6.22');
+ assert.ok(Number.isInteger(version.version_code)&&version.version_code>=28);
+ assert.match(version.version,/^\d+\.\d+\.\d+$/);
  assert.match(gradle,/JsonSlurper/);
  assert.match(gradle,/androidVersion\.version_code/);
  assert.match(gradle,/androidVersion\.version/);
- assert.match(workflow,/ANDROID_VERSION_CODE/);
- assert.match(workflow,/ANDROID_VERSION_NAME/);
- assert.match(workflow,/Glauka-Android-Free-0\.6/);
- assert.doesNotMatch(workflow,/versionCode='5'|0\.5\.0-private-test/);
+ assert.match(localBuilder,/prepare\.py/);
+ assert.match(localBuilder,/verify_android_preview\.py/);
+ assert.match(verifier,/versions\.json/);
+ assert.doesNotMatch(localBuilder,/0\.5\.0-private-test/);
+ assert.equal(fs.existsSync(path.join(ROOT,'.github/workflows/build-apk.yml')),false);
  assert.match(read('scripts/release/prepare.py'),/shutil\.copyfile\(ROOT \/ 'versions\.json'/);
 });
 test('release signing and shrinking have no hardcoded credentials',()=>{

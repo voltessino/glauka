@@ -8,18 +8,20 @@ const {staticProblems}=require('./glauka-integrity-preflight.cjs');
 const root=path.resolve(__dirname,'../..');
 const read=name=>fs.readFileSync(path.join(root,name),'utf8');
 
-test('the official app version shown to people is 1.0.4',()=>{
+test('the official app version shown to people follows versions.json without legacy 7.4.0',()=>{
   const versions=JSON.parse(read('versions.json'));
-  assert.equal(versions.windows.version,'1.0.4');
-  assert.equal(versions.macos.version,'1.0.4');
-  assert.equal(versions.android.version,'0.6.22');
-  assert.equal(versions.android.version_code,28);
-  assert.notEqual(versions.editor,versions.windows.version);
+  const desktopVer=versions.windows.version;
+  assert.equal(versions.macos.version,desktopVer);
+  assert.equal(versions.editor,desktopVer);
+  assert.match(versions.android.version,/^\d+\.\d+\.\d+$/);
+  assert.ok(Number.isInteger(versions.android.version_code)&&versions.android.version_code>=28);
+  assert.doesNotMatch(JSON.stringify(versions),/7\.4\.0/);
   const shell=read('apps/desktop-shared/editor/shell-dictionary.js');
-  assert.match(shell,/const NM_PRODUCT_VERSION='1\.0\.4'/);
+  assert.ok(shell.includes(`const NM_PRODUCT_VERSION='${desktopVer}'`));
   assert.doesNotMatch(shell,/7\.4\.0/);
   assert.doesNotMatch(read('apps/desktop-shared/src/desktop_files.go'),/xmindCreatorVersion = "7\.4\.0/);
   assert.doesNotMatch(read('apps/windows/installer/install_ui.ps1'),/7\.4\.0/);
+  assert.deepEqual(fs.readdirSync(path.join(root,'.github/workflows')),['build-macos-6151.yml']);
 });
 
 test('panel headers, the layout grip and the AI bar cannot fall apart again',()=>{

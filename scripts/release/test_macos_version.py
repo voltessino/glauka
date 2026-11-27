@@ -16,13 +16,13 @@ from macos_version import macos_bundle_build
 class MacOSVersionTests(unittest.TestCase):
     def test_prereleases_and_final_increase_monotonically(self):
         releases = [
-            "7.4.0-alpha.1", "7.4.0-beta.1", "7.4.0-rc.1",
-            "7.4.0-rc.2", "7.4.0", "7.4.1-alpha.1", "7.4.1",
-            "7.5.0-rc.1", "7.5.0", "8.0.0",
+            "1.0.4-alpha.1", "1.0.4-beta.1", "1.0.4-rc.1",
+            "1.0.4-rc.2", "1.0.4", "1.0.5-alpha.1", "1.0.5",
+            "1.1.0-rc.1", "1.1.0", "2.0.0",
         ]
         build_numbers = [int(macos_bundle_build(v)) for v in releases]
         self.assertEqual(build_numbers, sorted(set(build_numbers)))
-        self.assertEqual(macos_bundle_build("7.4.0-rc.1"), "704003001")
+        self.assertEqual(macos_bundle_build("1.0.4-rc.1"), "100043001")
 
     def test_staging_preserves_public_identity_and_isolates_developer(self):
         original = ROOT / "apps/macos/native/Info.plist"
@@ -44,8 +44,8 @@ class MacOSVersionTests(unittest.TestCase):
                          PUBLIC_BUNDLE_ID)
 
     def test_malformed_and_colliding_versions_are_rejected(self):
-        for version in ("7.4", "7.4.0-developer", "7.4.0-rc.1000",
-                        "7.4.0-rc.0", "7.100.0", "7.4.100", "7.4.0/evil"):
+        for version in ("1.0", "1.0.4-developer", "1.0.4-rc.1000",
+                        "1.0.4-rc.0", "1.100.0", "1.0.100", "1.0.4/evil"):
             with self.subTest(version=version), self.assertRaises(ValueError):
                 macos_bundle_build(version)
 

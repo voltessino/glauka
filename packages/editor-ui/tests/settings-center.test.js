@@ -218,7 +218,8 @@ test("saving, new-map sliders, privacy and about use the real controls", async (
   globalThis.neuromapDesktop = { productStatus: async () => ({ plan: "free" }) };
   globalThis.NeuroMapAppSettings = require("../settings-center-core.js");
   require("../settings-center.js");
-  document.documentElement.dataset.neuromapVersion = "1.0.4";
+  const versions = JSON.parse(fs.readFileSync(path.join(__dirname, "../../../versions.json"), "utf8"));
+  document.documentElement.dataset.neuromapVersion = versions.windows.version;
   globalThis.NeuroMapSettingsCenter.install();
   globalThis.NeuroMapSettingsCenter.close();
   document.getElementById("gl-settings-quick").listeners.click[0]();
@@ -257,7 +258,7 @@ test("saving, new-map sliders, privacy and about use the real controls", async (
   assert.equal(data.has("glauka.app.zoom.v1"), false);
   document.getElementById("gl-settings-nav").querySelector('[data-category="about"]').listeners.click[0]();
   await Promise.resolve();
-  assert.equal(document.getElementById("gl-settings-edition").textContent, "1.0.4");
+  assert.equal(document.getElementById("gl-settings-edition").textContent, versions.windows.version);
   assert.equal(document.getElementById("gl-settings-plan").textContent, "Free");
   const details = [];
   const readDetails = (node) => {
@@ -265,6 +266,6 @@ test("saving, new-map sliders, privacy and about use the real controls", async (
     for (const child of node.children || []) readDetails(child);
   };
   readDetails(document.getElementById("gl-settings-body"));
-  assert.equal(details.includes("7.4.0-rc.1 (SingleTab-v6)"), true);
+  assert.equal(details.includes(`${versions.editor} (SingleTab-v6)`), true);
   assert.equal(details.includes("glauka.it"), true);
 });

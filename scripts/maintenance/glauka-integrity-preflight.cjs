@@ -16,21 +16,29 @@ function staticProblems(){
   let versions;
   try{versions=JSON.parse(read('versions.json'));}
   catch(error){return ['versions.json non si legge. '+error.message];}
-  if(versions.windows?.version!=='1.0.4'||versions.macos?.version!=='1.0.4'){
-    problems.push('La versione visibile di Windows e Mac deve restare 1.0.4. Controlla versions.json. Il numero 7.4.0-rc.1 è solo l\'identificativo interno dei moduli, non va mostrato.');
+  const desktopVer=versions.windows?.version;
+  if(!desktopVer||versions.macos?.version!==desktopVer||versions.editor!==desktopVer){
+    problems.push('versions.json deve usare la stessa versione visibile per editor, Windows e Mac (attualmente: editor='+versions.editor+', windows='+versions.windows?.version+', macos='+versions.macos?.version+').');
   }
-  if(versions.editor==='1.0.4'){
-    problems.push('versions.json editor non è la versione mostrata alle persone. Non copiare 1.0.4 nel numero interno dei moduli senza una decisione separata.');
+  if(/7\.4\.0/.test(JSON.stringify(versions))){
+    problems.push('versions.json contiene ancora 7.4.0. Il vecchio numero di versione va rimosso.');
   }
-  if(versions.android?.version!=='0.6.22'||versions.android?.version_code!==28){
-    problems.push('Il numero dell\'app per telefono è una linea diversa. Non cambiarlo solo per allinearlo a 1.0.4.');
+  if(!versions.android?.version||!Number.isInteger(versions.android?.version_code)||versions.android.version_code<28){
+    problems.push('versions.json android.version / version_code non validi.');
   }
   const shell=read('apps/desktop-shared/editor/shell-dictionary.js');
-  if(!shell.includes("const NM_PRODUCT_VERSION='1.0.4'")){
-    problems.push('Il numero mostrato nell\'app non è 1.0.4. Aggiorna apps/desktop-shared/editor/shell-dictionary.js.');
+  if(!shell.includes(`const NM_PRODUCT_VERSION='${desktopVer}'`)){
+    problems.push(`Il numero mostrato nell'app non corrisponde a versions.json (${desktopVer}). Esegui sync_versions.py.`);
   }
   if(shell.includes('7.4.0')){
     problems.push('shell-dictionary.js contiene ancora 7.4.0. Quel file è quello che vede chi usa l\'app.');
+  }
+  const workflowsDir=path.join(root,'.github/workflows');
+  if(fs.existsSync(workflowsDir)){
+    const workflows=fs.readdirSync(workflowsDir).filter(name=>!name.startsWith('.'));
+    if(workflows.length!==1||workflows[0]!=='build-macos-6151.yml'){
+      problems.push('.github/workflows deve contenere solo build-macos-6151.yml per Mac, trovato: '+workflows.join(', '));
+    }
   }
   const pkg=JSON.parse(read('package.json'));
   if(!String(pkg.scripts?.['test:structure']||'').includes('glauka-integrity-preflight.test.cjs')){
@@ -76,11 +84,12 @@ function staticProblems(){
     if(!fs.existsSync(path.join(root,file)))problems.push('Manca '+file+'. Serve per preparare Windows, Mac e Android.');
   }
   const site=read('apps/website/release-config.js');
-  if((site.match(/version:\s*"1\.0\.4"/g)||[]).length<2||/1\.0\.0/.test(site)){
-    problems.push('Il sito pubblico non mostra 1.0.4 per Windows e Mac. Aggiorna apps/website/release-config.js. Il numero del telefono resta una linea diversa.');
+  const expectedVerPattern=new RegExp(`version:\\s*"${desktopVer.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}"`,'g');
+  if((site.match(expectedVerPattern)||[]).length<2||/1\.0\.0/.test(site)){
+    problems.push(`Il sito pubblico non mostra ${desktopVer} per Windows e Mac. Aggiorna apps/website/release-config.js.`);
   }
   for(const page of ['apps/website/index.html','apps/website/home-review/index.html','apps/website/home-review/home-en.html','apps/website/home-review/home.js','apps/website/home-review/release-status.js']){
-    if(/1\.0\.0/.test(read(page)))problems.push(page+' mostra ancora 1.0.0. La versione visibile di Windows e Mac è 1.0.4.');
+    if(/1\.0\.0/.test(read(page)))problems.push(page+` mostra ancora 1.0.0. La versione visibile di Windows e Mac è ${desktopVer}.`);
   }
   for(const rel of [
     'apps/desktop-shared/editor/app.js','apps/desktop-shared/editor/state.js',

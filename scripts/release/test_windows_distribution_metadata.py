@@ -22,7 +22,7 @@ class WindowsDistributionMetadataTests(unittest.TestCase):
         shutil.copyfile(installer / 'install_ui.ps1', target / 'setup/install_ui.ps1')
         shutil.copyfile(installer / 'main.go', target / 'setup/main.go')
         (target / 'resources/index.html').write_text(
-            "<script>const NM_PRODUCT_VERSION='7.4.0-rc.1 Developer';</script>",
+            "<script>const NM_PRODUCT_VERSION='1.0.4-rc.1 Developer';</script>",
             encoding='utf-8')
         return target
 
@@ -30,31 +30,31 @@ class WindowsDistributionMetadataTests(unittest.TestCase):
         for developer in (False, True):
             with self.subTest(developer=developer), tempfile.TemporaryDirectory() as tmp:
                 dest = self.stage(tmp)
-                stage_windows_distribution_metadata(dest, '7.5.2-rc.4', developer)
+                stage_windows_distribution_metadata(dest, '1.0.5-rc.4', developer)
                 for rel in ('versioninfo.json', 'setup/versioninfo.json'):
                     details = json.loads((dest / rel).read_text())
                     self.assertEqual(details['FixedFileInfo']['FileVersion'],
-                                     dict(Major=7, Minor=5, Patch=2, Build=4))
+                                     dict(Major=1, Minor=0, Patch=5, Build=4))
                     self.assertEqual(details['FixedFileInfo']['ProductVersion'],
-                                     dict(Major=7, Minor=5, Patch=2, Build=4))
-                    self.assertEqual(details['StringFileInfo']['FileVersion'], '7.5.2-rc.4')
+                                     dict(Major=1, Minor=0, Patch=5, Build=4))
+                    self.assertEqual(details['StringFileInfo']['FileVersion'], '1.0.5-rc.4')
                     self.assertEqual(details['StringFileInfo']['ProductName'],
                                      'Glauka Developer' if developer else 'Glauka')
                     self.assertEqual('Developer' in details['StringFileInfo']['FileDescription'],
                                      developer)
                 ui = (dest / 'setup/install_ui.ps1').read_text(encoding='utf-8-sig')
-                self.assertIn("$script:installerVersion='7.5.2-rc.4'", ui)
-                self.assertIn('Text="7.5.2-rc.4"', ui)
-                self.assertNotIn('7.4.0-rc.1', ui)
-                self.assertIn('Glauka-Installer-7.5.2-rc.4.log',
+                self.assertIn("$script:installerVersion='1.0.5-rc.4'", ui)
+                self.assertIn('Text="1.0.5-rc.4"', ui)
+                self.assertNotIn('1.0.4-rc.1', ui)
+                self.assertIn('Glauka-Installer-1.0.5-rc.4.log',
                               (dest / 'setup/main.go').read_text())
                 product = (dest / 'resources/index.html').read_text()
-                expected = "NM_PRODUCT_VERSION='7.5.2-rc.4" + (
+                expected = "NM_PRODUCT_VERSION='1.0.5-rc.4" + (
                     " Developer" if developer else "") + "'"
                 self.assertIn(expected, product)
 
     def test_invalid_versions_fail_before_stamping(self):
-        for version in ('7.4', '7.4.0/../', '65536.0.1', '1.2.3-rc.65536'):
+        for version in ('1.0', '1.0.4/../', '65536.0.1', '1.2.3-rc.65536'):
             with self.subTest(version=version), tempfile.TemporaryDirectory() as tmp:
                 staged = self.stage(tmp)
                 with self.assertRaises(ValueError):

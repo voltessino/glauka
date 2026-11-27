@@ -493,14 +493,12 @@ class VersionTests(unittest.TestCase):
         import json,plistlib
         v=json.loads((ROOT/'versions.json').read_text(encoding='utf-8'))
         desktop=v['windows']['version']
-        self.assertEqual(desktop,'1.0.4')
-        self.assertNotIn('7.4.0',desktop)
-        # The npm package and the shared editor id stay on the module line.
-        # They are not the version shown to the user.
-        self.assertNotEqual(v['editor'],desktop)
+        self.assertRegex(desktop,r'^\d+\.\d+\.\d+')
+        self.assertNotIn('7.4.0',json.dumps(v))
+        # versions.json is the single source of truth across package, desktop and macOS.
+        self.assertEqual(v['editor'],desktop)
         self.assertEqual(json.loads((ROOT/'package.json').read_text())['version'],v['editor'])
-        # Android intentionally retains an independently versioned feature baseline.
-        self.assertEqual(v['android']['version'],'0.6.22')
+        self.assertRegex(v['android']['version'],r'^\d+\.\d+\.\d+$')
         major,minor,patch=map(int,desktop.split('-')[0].split('.'))
         build=int(desktop.rsplit('.',1)[-1]) if '-' in desktop else 0
         expected_fixed={'Major':major,'Minor':minor,'Patch':patch,'Build':build}
@@ -509,6 +507,7 @@ class VersionTests(unittest.TestCase):
         self.assertIn('window.title = version.isEmpty ? editionTitle : editionTitle + " — " + version',(ROOT/'apps/macos/native/main.swift').read_text())
         self.assertEqual(v['macos']['version'],desktop)
         self.assertIn("NM_PRODUCT_VERSION='"+desktop+"'",editor_sources('desktop'))
+        self.assertIn("NM_PRODUCT_VERSION='"+v['android']['version']+"'",editor_sources('android'))
         self.assertNotIn('7.4.0',editor_sources('desktop').split('const NM_I18N',1)[0])
         self.assertEqual(plistlib.loads((ROOT/'apps/macos/native/Info.plist').read_bytes())['CFBundleShortVersionString'],desktop.split('-')[0])
         for path in ['apps/desktop-shared/src/versioninfo.json','apps/windows/installer/versioninfo.json']:

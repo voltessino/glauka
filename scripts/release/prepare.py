@@ -98,6 +98,16 @@ def editor_sources(platform):
             source, share_marker,
             read(ROOT / 'packages/map-sharing/core.js') + '\n' +
             read(ROOT / 'packages/map-sharing/transfer.js') + '\n')
+    versions = json.loads(read(ROOT / 'versions.json'))
+    product_ver = (versions['android']['version'] if platform == 'android'
+                   else versions['macos']['version'] if platform == 'macos'
+                   else versions['windows']['version'])
+    source = re.sub(
+        r"const NM_PRODUCT_VERSION='[^']*';",
+        f"const NM_PRODUCT_VERSION='{product_ver}';",
+        source,
+        count=1,
+    )
     return source
 
 

@@ -1,9 +1,10 @@
 {
   "name": "glauka-workspace",
-  "version": "7.4.0-rc.1",
+  "version": "1.0.4",
   "private": true,
-  "description": "Glauka — Android Free and Windows/macOS Developer workspace",
+  "description": "Glauka — Android Free and Windows/macOS workspace",
   "scripts": {
+    "sync:versions": "python3 scripts/release/sync_versions.py",
     "test": "node --test packages/map-core/tests/*.test.js packages/editor-ui/tests/*.test.js packages/cloud-sync/tests/*.test.js packages/map-sharing/tests/*.test.js apps/android/tests/*.test.js apps/macos/tests/*.test.js scripts/maintenance/where-to-edit.test.cjs scripts/maintenance/qa-evidence-audit.test.cjs scripts/maintenance/glauka-integrity-preflight.test.cjs",
     "test:structure": "node --test packages/editor-ui/tests/repository-structure-navigation.test.js packages/editor-ui/tests/editor-bundle-assembly-contract-20261031.test.js packages/editor-ui/tests/editor-shared-slices-parity.test.js packages/editor-ui/tests/view-workspace-persistence.test.js packages/editor-ui/tests/layout-feature-slices-20261031.test.js packages/editor-ui/tests/shell-dictionary-structure-20261031.test.js packages/editor-ui/tests/shell-product-locale-structure-20261031.test.js scripts/maintenance/where-to-edit.test.cjs scripts/maintenance/qa-evidence-audit.test.cjs scripts/maintenance/glauka-integrity-preflight.test.cjs packages/editor-ui/tests/saving-version-history-split-20261031.test.js packages/editor-ui/tests/layout-navigation-modules-20261031.test.js packages/editor-ui/tests/opml-platform-deep-parity-20261031.test.js packages/editor-ui/tests/opml-export-compatibility-20261101.test.js",
     "test:browser": "playwright test",

@@ -23,7 +23,7 @@ test('the separated desktop translations remain available with the expected vers
  const version=JSON.parse(fs.readFileSync(path.join(__dirname,'../../../versions.json'),'utf8'));
  assert.equal(dict.version,version.windows.version);
  assert.equal(dict.version,version.macos.version);
- assert.notEqual(dict.version,version.editor);
+ assert.equal(dict.version,version.editor);
  assert.equal(dict.translations.File,'File');
  assert.equal(dict.translations['Nuova Scheda'],'New map');
  assert.ok(Object.keys(dict.translations).length>150);

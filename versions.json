@@ -1,5 +1,5 @@
 {
-  "editor": "7.4.0-rc.1",
+  "editor": "1.0.4",
   "windows": {
     "edition": "Release",
     "version": "1.0.4"
@@ -15,9 +15,9 @@
     "version_code": 28,
     "editor_features": "6.16.0",
     "minimum_api": 26,
-    "mobile_tools": "7.4.0-rc.1 offline preview",
+    "mobile_tools": "1.0.4 offline preview",
     "editor_features_scope": "legacy_android_baseline",
-    "shared_modules_version": "7.4.0-rc.1",
+    "shared_modules_version": "1.0.4",
     "shared_modules": [
       "ocr",
       "document",

@@ -218,29 +218,30 @@
       const all=Array.isArray(this.tabs)?this.tabs.filter(t=>t?.state?.root):[];
       const active=all.find(t=>t.id===this.activeTabId)||all[0];
       if(!active)return [];
-      if(scopeValue==='all')return all.slice(0,8);
+      if(scopeValue==='all')return all;
       if(scopeValue==='selectedTabs'){
         const picked=new Set(Array.isArray(this._v5SelectedTabIds)?this._v5SelectedTabIds:[]);
-        const filtered=all.filter(t=>picked.has(t.id)).slice(0,8);
+        const filtered=all.filter(t=>picked.has(t.id));
         return filtered.length?filtered:[active];
       }
       return [active];
     };
-    NeuroMapApp.prototype.v5BuildMarkdownOutline=function(tab,startNode,onlyNode=false,maxChars=11000){
+    NeuroMapApp.prototype.v5BuildMarkdownOutline=function(tab,startNode,onlyNode=false,maxChars=Infinity){
       if(!startNode)return '';
-      const title=v5SafeText(tab?.title||startNode.text||'Mappa').slice(0,80);
+      const capped=Number.isFinite(maxChars)&&maxChars>0;
+      const title=v5SafeText(tab?.title||startNode.text||'Mappa');
       if(onlyNode){
-        const note=v5SafeText(startNode.notes).slice(0,220);
-        return `# ${title}\n- ${v5SafeText(startNode.text).slice(0,120)}${note?` — ${note}`:''}`;
+        const note=v5SafeText(startNode.notes);
+        return `# ${title}\n- ${v5SafeText(startNode.text)}${note?` — ${note}`:''}`;
       }
       const sections=[];
       const rootChildren=Array.isArray(startNode.children)?startNode.children:[];
       const walkBranch=(node,depth,out,limit)=>{
         if(!node||out.length>=limit)return;
-        const txt=v5SafeText(node.text).slice(0,110);
-        const note=v5SafeText(node.notes).slice(0,160);
+        const txt=v5SafeText(node.text);
+        const note=v5SafeText(node.notes);
         if(txt){
-          const indent='  '.repeat(Math.max(0,Math.min(depth,5)));
+          const indent='  '.repeat(Math.max(0,Math.min(depth,12)));
           out.push(note?`${indent}- ${txt} — _${note}_`:`${indent}- ${txt}`);
         }
         for(const ch of node.children||[]){
@@ -249,24 +250,24 @@
         }
       };
       if(!rootChildren.length){
-        const rootNote=v5SafeText(startNode.notes).slice(0,220);
+        const rootNote=v5SafeText(startNode.notes);
         return `# ${title}${rootNote?`\n- ${rootNote}`:''}`;
       }
-      const perBranchLimit=Math.max(12,Math.floor(240/Math.max(1,rootChildren.length)));
-      const header=`# ${v5SafeText(startNode.text||title).slice(0,90)}`;
-      const rootNotes=v5SafeText(startNode.notes).slice(0,220);
+      const perBranchLimit=capped?Math.max(12,Math.floor(240/Math.max(1,rootChildren.length))):Infinity;
+      const header=`# ${v5SafeText(startNode.text||title)}`;
+      const rootNotes=v5SafeText(startNode.notes);
       if(rootNotes)sections.push(`${header}\n> ${rootNotes}`);
       else sections.push(header);
       rootChildren.forEach((branch,idx)=>{
-        const rawTitle=v5SafeText(branch.text).slice(0,90).replace(/^\d+[.)]\s+/,'');
+        const rawTitle=v5SafeText(branch.text).replace(/^\d+[.)]\s+/,'');
         const branchTitle=rawTitle||`Ramo ${idx+1}`;
-        const branchNote=v5SafeText(branch.notes).slice(0,160);
+        const branchNote=v5SafeText(branch.notes);
         const lines=[`## ${idx+1}. ${branchTitle}${branchNote?` — _${branchNote}_`:''}`];
         for(const ch of branch.children||[])walkBranch(ch,0,lines,perBranchLimit);
         sections.push(lines.join('\n'));
       });
       let md=sections.join('\n\n');
-      if(md.length>maxChars){
+      if(capped&&md.length>maxChars){
         const cap=Math.max(240,Math.floor((maxChars-header.length-80)/Math.max(1,rootChildren.length)));
         const balanced=[sections[0]];
         for(let i=1;i<sections.length;i++)balanced.push(sections[i].slice(0,cap));
@@ -283,13 +284,12 @@
       if(!['balanced','detailed','core'].includes(style))style='balanced';
       const en=document.documentElement?.lang==='en';
       let firstStart=null;
-      const budgetEach=Math.max(2200,Math.floor(12500/Math.max(1,targetTabs.length)));
       const mdSections=[];
       for(const tab of targetTabs){
         const selected=tab.state.findNode(tab.state.selectedNodeId);
         const startNode=targetTabs.length===1&&(scopeValue==='node'||scopeValue==='selected')?(selected||tab.state.root):tab.state.root;
         if(!firstStart)firstStart=startNode;
-        mdSections.push(this.v5BuildMarkdownOutline(tab,startNode,targetTabs.length===1&&scopeValue==='node',budgetEach));
+        mdSections.push(this.v5BuildMarkdownOutline(tab,startNode,targetTabs.length===1&&scopeValue==='node',Infinity));
       }
       const body=mdSections.join('\n\n');
       const titles=targetTabs.map(t=>t.title||'Map').join(', ').slice(0,120);

@@ -7123,5 +7123,10 @@
   "mfea53559eb72": "Multiple files output",
   "mff266efa7cae": "Dedicated subfolder (Recommended)",
   "ma71b0775e6d1": "Archive .zip",
-  "m8eb0e481a9ed": "Use .zip archive on this device"
+  "m8eb0e481a9ed": "Use .zip archive on this device",
+  "m760819140373": "Paste the AI result into “Text to listen to” below.",
+  "m7b6fc5585d68": "Google AI Mode opened & prompt copied: copy the reply and press “Paste result”.",
+  "m4a712ddf2a53": "Paste result",
+  "mbdf29aef76dd": "Prompt copied: paste the result from Google AI Mode or your AI here",
+  "m8cfa7d6934d2": "Paste text from clipboard"
 }

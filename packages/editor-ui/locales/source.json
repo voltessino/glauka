@@ -24702,12 +24702,13 @@
     },
     "mc0d46d45b7d1": {
       "it": "Incolla",
-      "en": "Incolla",
-      "known": false,
+      "en": "Paste",
+      "known": true,
       "origins": [
         "apps/desktop-shared/editor/shell.js",
         "packages/editor-ui/menu-ux.js",
-        "packages/editor-ui/orbit-core.js"
+        "packages/editor-ui/orbit-core.js",
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
       ]
     },
     "mb7bba139e1bb": {
@@ -60338,6 +60339,46 @@
       "origins": [
         "packages\\editor-ui\\export-hub-ui.js"
       ]
+    },
+    "m760819140373": {
+      "it": "Incolla il risultato nella casella «Testo da ascoltare» qui sotto.",
+      "en": "Paste the AI result into “Text to listen to” below.",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
+      ]
+    },
+    "m7b6fc5585d68": {
+      "it": "Google AI Mode aperto e prompt copiato: copia la risposta e premi «Incolla risultato».",
+      "en": "Google AI Mode opened & prompt copied: copy the reply and press “Paste result”.",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
+      ]
+    },
+    "m4a712ddf2a53": {
+      "it": "Incolla risultato",
+      "en": "Paste result",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
+      ]
+    },
+    "mbdf29aef76dd": {
+      "it": "Hai copiato il prompt: incolla qui il testo generato da Google AI Mode o dalla tua AI",
+      "en": "Prompt copied: paste the result from Google AI Mode or your AI here",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
+      ]
+    },
+    "m8cfa7d6934d2": {
+      "it": "Incolla un testo dagli appunti",
+      "en": "Paste text from clipboard",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
+      ]
     }
   },
   "aliases": {
@@ -65179,7 +65220,7 @@
     "glauka-font-row nm6-skiptranslate": "m81ef4f13a77e",
     "Auto": "m0286249762f7",
     "Copy": "me21f935f11d7",
-    "Paste": "mf3380f7b44bd",
+    "Paste": "mc0d46d45b7d1",
     "Aggiungi ramo": "m2c2da73f043a",
     "Add sibling": "m02bd4d4839e4",
     "Aggiungi immagine": "m486020cc7141",
@@ -71228,6 +71269,16 @@
     "Archivio .zip": "ma71b0775e6d1",
     "Archive .zip": "ma71b0775e6d1",
     "Su questo dispositivo usa Archivio .zip": "m8eb0e481a9ed",
-    "Use .zip archive on this device": "m8eb0e481a9ed"
+    "Use .zip archive on this device": "m8eb0e481a9ed",
+    "Incolla il risultato nella casella «Testo da ascoltare» qui sotto.": "m760819140373",
+    "Paste the AI result into “Text to listen to” below.": "m760819140373",
+    "Google AI Mode aperto e prompt copiato: copia la risposta e premi «Incolla risultato».": "m7b6fc5585d68",
+    "Google AI Mode opened & prompt copied: copy the reply and press “Paste result”.": "m7b6fc5585d68",
+    "Incolla risultato": "m4a712ddf2a53",
+    "Paste result": "m4a712ddf2a53",
+    "Hai copiato il prompt: incolla qui il testo generato da Google AI Mode o dalla tua AI": "mbdf29aef76dd",
+    "Prompt copied: paste the result from Google AI Mode or your AI here": "mbdf29aef76dd",
+    "Incolla un testo dagli appunti": "m8cfa7d6934d2",
+    "Paste text from clipboard": "m8cfa7d6934d2"
   }
 }

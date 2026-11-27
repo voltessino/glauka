@@ -76,14 +76,14 @@ function nm67PDFWriter(){
     write('trailer\n<< /Size '+(max+1)+' /Root 1 0 R >>\nstartxref\n'+xref+'\n%%EOF');
     return new Blob(chunks,{type:'application/pdf'});}};
 }
-MindMapIOManager.prototype.exportPDF=async function(options={}){
+MindMapIOManager.prototype.renderGraphicalPDFPages=async function(options={}){
   await this.app.renderer.prepareExportImages();
   const app=this.app,plan=NeuroMapGraphics.exportPlan(NeuroMapGraphics.bounds(app),options);
   const {pageW,pageH,margin,innerW,innerH,worldPerPt,cols,rows}=plan,total=cols*rows;
-  const PDF=nm67PDFWriter(),pages=[],fontId=3;let id=4;
   // Preserve detail when zooming the fitted page, within the same pixel budget as PNG.
   const jpgPixelScale=Math.min(Math.max(2,worldPerPt*2),10000/innerW,10000/innerH,Math.sqrt(32000000/(innerW*innerH)));
-  app.showToast('PDF · '+total+'…','PDF');
+  if(!options?.silent)app.showToast('PDF · '+total+'…','PDF');
+  const rendered=[];
   for(let row=0;row<rows;row++)for(let col=0;col<cols;col++){
     const off=document.createElement('canvas');off.width=Math.ceil(innerW*jpgPixelScale);off.height=Math.ceil(innerH*jpgPixelScale);
     const ctx=off.getContext('2d',{alpha:false});if(!ctx)throw Error('Memoria grafica insufficiente per generare il PDF.');
@@ -93,22 +93,39 @@ MindMapIOManager.prototype.exportPDF=async function(options={}){
     const image=await new Promise(resolve=>off.toBlob(resolve,'image/jpeg',.87));
     if(!image)throw Error('Impossibile codificare una pagina JPEG per il PDF.');
     const data=new Uint8Array(await image.arrayBuffer());
-    const imageId=id++,contentId=id++,pageId=id++;
-    PDF.stream(imageId,'<< /Type /XObject /Subtype /Image /Width '+off.width+' /Height '+off.height+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+data.length+' >>',data);
-    const draw='q\n'+innerW.toFixed(2)+' 0 0 '+innerH.toFixed(2)+' '+margin+' '+margin+' cm\n/Im0 Do\nQ\n';
-    const content=new TextEncoder().encode(draw);PDF.obj(contentId,'<< /Length '+content.length+' >>\nstream\n'+draw+'endstream');
+    rendered.push({data,width:off.width,height:off.height,pageW,pageH,margin,innerW,innerH});
+    off.width=1;off.height=1;
     const pageNumber=row*cols+col+1;
-    PDF.obj(pageId,'<< /Type /Page /Parent 2 0 R /MediaBox [0 0 '+pageW+' '+pageH+'] /Resources << /XObject << /Im0 '+imageId+' 0 R >> /Font << /F1 '+fontId+' 0 R >> >> /Contents '+contentId+' 0 R >>');
-    pages.push(pageId);off.width=1;off.height=1;
     if(pageNumber%4===0)await new Promise(requestAnimationFrame); // keep UI interactive
+  }
+  return rendered;
+};
+MindMapIOManager.prototype.buildGraphicalPDFBlob=function(renderedPages){
+  const PDF=nm67PDFWriter(),pages=[],fontId=3;let id=4;
+  for(const pg of renderedPages){
+    const pageW=pg.pageW||841.89,pageH=pg.pageH||595.28,margin=Number.isFinite(pg.margin)?pg.margin:28;
+    const innerW=pg.innerW||(pageW-margin*2),innerH=pg.innerH||(pageH-margin*2);
+    const imageId=id++,contentId=id++,pageId=id++;
+    PDF.stream(imageId,'<< /Type /XObject /Subtype /Image /Width '+pg.width+' /Height '+pg.height+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+pg.data.length+' >>',pg.data);
+    const draw='q\n'+innerW.toFixed(2)+' 0 0 '+innerH.toFixed(2)+' '+margin+' '+margin+' cm\n/Im0 Do\nQ\n';
+    const content=new TextEncoder().encode(draw);
+    PDF.obj(contentId,'<< /Length '+content.length+' >>\nstream\n'+draw+'endstream');
+    PDF.obj(pageId,'<< /Type /Page /Parent 2 0 R /MediaBox [0 0 '+pageW+' '+pageH+'] /Resources << /XObject << /Im0 '+imageId+' 0 R >> /Font << /F1 '+fontId+' 0 R >> >> /Contents '+contentId+' 0 R >>');
+    pages.push(pageId);
   }
   PDF.obj(3,'<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>');
   PDF.obj(2,'<< /Type /Pages /Kids ['+pages.map(n=>n+' 0 R').join(' ')+'] /Count '+pages.length+' >>');
   PDF.obj(1,'<< /Type /Catalog /Pages 2 0 R >>');
+  return PDF.finish(id-1);
+};
+MindMapIOManager.prototype.exportPDF=async function(options={}){
+  const app=this.app,rendered=await this.renderGraphicalPDFPages(options);
   // PDF xref offsets are based on actual bytes, including binary JPEG data.
-  const blob=PDF.finish(id-1);
-  const saved=await this.triggerDownload(blob,this.sanitizeFilename(app.state.root.text)+'.pdf');if(saved===false)return false;
-  app.showToast('PDF · '+pages.length+' · '+(options.paper==='a4'?'A4':'A3'),'EXPORT PDF');return true;
+  const blob=this.buildGraphicalPDFBlob(rendered);
+  const fname=this.sanitizeFilename(app.state.root.text)+'.pdf';
+  if(options?.captureOnly)return {data:new Uint8Array(await blob.arrayBuffer()),blob,name:fname,pages:rendered};
+  const saved=await this.triggerDownload(blob,fname);if(saved===false)return false;
+  app.showToast('PDF · '+rendered.length+' · '+(options.paper==='a4'?'A4':'A3'),'EXPORT PDF');return true;
 };
 const nm67UIbind=NeuroMapApp.prototype.bindUI;
 NeuroMapApp.prototype.bindUI=function(...args){

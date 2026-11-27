@@ -188,12 +188,14 @@ func showWindowsPicker(config pickerConfig, save bool) ([]string, error) {
 			return nil, err
 		}
 	}
-	if err = pickerError("filtri", dialog.call(pickerSetTypes, uintptr(len(filters)), uintptr(unsafe.Pointer(&filters[0])))); err != nil {
-		return nil, err
-	}
-	runtime.KeepAlive(filters)
-	if err = pickerError("formato", dialog.call(pickerSetTypeIndex, uintptr(config.index))); err != nil {
-		return nil, err
+	if len(config.filters) > 0 {
+		if err = pickerError("filtri", dialog.call(pickerSetTypes, uintptr(len(filters)), uintptr(unsafe.Pointer(&filters[0])))); err != nil {
+			return nil, err
+		}
+		runtime.KeepAlive(filters)
+		if err = pickerError("formato", dialog.call(pickerSetTypeIndex, uintptr(config.index))); err != nil {
+			return nil, err
+		}
 	}
 	if err = pickerError("opzioni", dialog.call(pickerSetOptions, uintptr(config.options))); err != nil {
 		return nil, err
@@ -279,6 +281,15 @@ func desktopFileDialog(save bool, suggested string) (string, error) {
 func desktopMultiOpenDialog() ([]string, error) { return windowsPick(false, true, false, "") }
 func desktopExportDialog(suggested string) (string, error) {
 	paths, err := windowsPick(true, false, true, suggested)
+	if err != nil || len(paths) == 0 {
+		return "", err
+	}
+	return paths[0], nil
+}
+func desktopFolderDialog() (string, error) {
+	paths, err := showWindowsPicker(pickerConfig{
+		options: pickerPickFolders | pickerFilesystem | pickerNoChangeDir | pickerPathExists,
+	}, false)
 	if err != nil || len(paths) == 0 {
 		return "", err
 	}

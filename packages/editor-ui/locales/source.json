@@ -44852,7 +44852,8 @@
       "known": true,
       "origins": [
         "apps/desktop-shared/editor/import-backgrounds.js",
-        "apps\\desktop-shared\\editor\\import-backgrounds.js"
+        "apps\\desktop-shared\\editor\\import-backgrounds.js",
+        "packages\\editor-ui\\export-hub-ui.js"
       ]
     },
     "m8967e19ef595": {
@@ -60113,6 +60114,230 @@
       "origins": [
         "packages\\editor-ui\\settings-center.js"
       ]
+    },
+    "mf956b9470259": {
+      "it": "· Esportate come archivio ZIP",
+      "en": "· Exported as ZIP archive",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\export-hub-ui-panel-chrome.js"
+      ]
+    },
+    "mfc87824c148d": {
+      "it": "Esportazione multipla pronta (",
+      "en": "Multi-map export ready (",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\export-hub-ui-panel-preview.js"
+      ]
+    },
+    "m1a0205316359": {
+      "it": "schede · ZIP).",
+      "en": "maps · ZIP).",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\export-hub-ui-panel-preview.js"
+      ]
+    },
+    "m31711c58f4bd": {
+      "it": "schede · PDF unico).",
+      "en": "maps · single PDF).",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\export-hub-ui-panel-preview.js"
+      ]
+    },
+    "m4f5bc2d91ec0": {
+      "it": "Vista collegata attiva: esportazione fedele della vista.",
+      "en": "Linked view active: exports the exact view layout.",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\export-hub-ui-panel-preview.js"
+      ]
+    },
+    "m772609c1ac86": {
+      "it": "Scheda selezionata pronta per l’esportazione grafica.",
+      "en": "Selected map ready for graphical export.",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\export-hub-ui-panel-preview.js"
+      ]
+    },
+    "m0f8c90b06a29": {
+      "it": "Mappa o viste grafiche in una o più pagine PDF (anche multi-scheda o ZIP).",
+      "en": "Mind map or views in one or more PDF pages (supports multi-map or ZIP).",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\export-hub-ui-panel-preview.js"
+      ]
+    },
+    "m91f25b8764b3": {
+      "it": "Disegno vettoriale nitido (una scheda in SVG, più schede in archivio ZIP).",
+      "en": "Crisp vector drawing (single SVG or ZIP archive for multiple maps).",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\export-hub-ui-panel-preview.js"
+      ]
+    },
+    "m490c8cb50152": {
+      "it": "Immagine ad alta risoluzione (una scheda in PNG, più schede in archivio ZIP).",
+      "en": "High-resolution image (single PNG or ZIP archive for multiple maps).",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\export-hub-ui-panel-preview.js"
+      ]
+    },
+    "m29417a453fe8": {
+      "it": "Impossibile generare l’esportazione grafica.",
+      "en": "Unable to generate graphical export.",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\export-hub-ui-panel.js"
+      ]
+    },
+    "m1355d5246c16": {
+      "it": "La suddivisione in blocchi di parole si applica ai formati documentali (.md, .txt, .html, .docx, .pdf).",
+      "en": "Word-based splitting applies to document formats (.md, .txt, .html, .docx, .pdf).",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\export-hub-ui-panel-chrome.js"
+      ]
+    },
+    "m5110d9c6d0dc": {
+      "it": "La numerazione gerarchica dei titoli è disponibile per i formati documentali.",
+      "en": "Hierarchical heading numbering is available for document formats.",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\export-hub-ui-panel-chrome.js"
+      ]
+    },
+    "mdc1461476d04": {
+      "it": "Mappa compatta: verrà esportato 1 solo file",
+      "en": "Compact map: 1 single file will be exported",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\export-hub-ui-panel-chrome.js"
+      ]
+    },
+    "m7746d445367c": {
+      "it": "Output stimato:",
+      "en": "Estimated output:",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\export-hub-ui-panel-chrome.js"
+      ]
+    },
+    "m099d3bf0596c": {
+      "it": "file (~",
+      "en": "files (~",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\export-hub-ui-panel-chrome.js"
+      ]
+    },
+    "m0e6491d6ab75": {
+      "it": "parole medie/file)",
+      "en": "avg words/file)",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\export-hub-ui-panel-chrome.js"
+      ]
+    },
+    "m3b9c358f36f0": {
+      "it": "file",
+      "en": "files",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\export-hub-ui-panel-chrome.js"
+      ]
+    },
+    "mc79559e69385": {
+      "it": "parole)",
+      "en": "words)",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\export-hub-ui-panel-chrome.js"
+      ]
+    },
+    "m29d015f0686f": {
+      "it": "Suddivisione e Struttura",
+      "en": "Splitting & Structure",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\export-hub-ui.js"
+      ]
+    },
+    "mb3537eb8217a": {
+      "it": "File unico",
+      "en": "Single file",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\export-hub-ui.js"
+      ]
+    },
+    "mf4bdf501749c": {
+      "it": "Dividi per schede",
+      "en": "Split by map",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\export-hub-ui.js"
+      ]
+    },
+    "m0ff8a7c27c87": {
+      "it": "Moduli bilanciati (Consigliato per studio e AI)",
+      "en": "Balanced modules (Recommended for study and AI)",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\export-hub-ui.js"
+      ]
+    },
+    "me6dc932ef84d": {
+      "it": "Densità moduli",
+      "en": "Module density",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\export-hub-ui.js"
+      ]
+    },
+    "m1d443a64c479": {
+      "it": "Numera gerarchicamente le sezioni (1., 1.1, ...)",
+      "en": "Number sections hierarchically (1., 1.1, ...)",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\export-hub-ui.js"
+      ]
+    },
+    "mfea53559eb72": {
+      "it": "Destinazione file multipli",
+      "en": "Multiple files output",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\export-hub-ui.js"
+      ]
+    },
+    "mff266efa7cae": {
+      "it": "Sottocartella dedicata (Consigliato)",
+      "en": "Dedicated subfolder (Recommended)",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\export-hub-ui.js"
+      ]
+    },
+    "ma71b0775e6d1": {
+      "it": "Archivio .zip",
+      "en": "Archive .zip",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\export-hub-ui.js"
+      ]
+    },
+    "m8eb0e481a9ed": {
+      "it": "Su questo dispositivo usa Archivio .zip",
+      "en": "Use .zip archive on this device",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\export-hub-ui.js"
+      ]
     }
   },
   "aliases": {
@@ -70947,6 +71172,62 @@
     "Voce preferita": "m47d40aa469b8",
     "Preferred voice": "m47d40aa469b8",
     "Scegli quale voce usare quando premi Ascolta su una card o spiegazione.": "m699a11144a80",
-    "Choose which voice plays when pressing Listen on a card or explanation.": "m699a11144a80"
+    "Choose which voice plays when pressing Listen on a card or explanation.": "m699a11144a80",
+    "· Esportate come archivio ZIP": "mf956b9470259",
+    "· Exported as ZIP archive": "mf956b9470259",
+    "Esportazione multipla pronta (": "mfc87824c148d",
+    "Multi-map export ready (": "mfc87824c148d",
+    "schede · ZIP).": "m1a0205316359",
+    "maps · ZIP).": "m1a0205316359",
+    "schede · PDF unico).": "m31711c58f4bd",
+    "maps · single PDF).": "m31711c58f4bd",
+    "Vista collegata attiva: esportazione fedele della vista.": "m4f5bc2d91ec0",
+    "Linked view active: exports the exact view layout.": "m4f5bc2d91ec0",
+    "Scheda selezionata pronta per l’esportazione grafica.": "m772609c1ac86",
+    "Selected map ready for graphical export.": "m772609c1ac86",
+    "Mappa o viste grafiche in una o più pagine PDF (anche multi-scheda o ZIP).": "m0f8c90b06a29",
+    "Mind map or views in one or more PDF pages (supports multi-map or ZIP).": "m0f8c90b06a29",
+    "Disegno vettoriale nitido (una scheda in SVG, più schede in archivio ZIP).": "m91f25b8764b3",
+    "Crisp vector drawing (single SVG or ZIP archive for multiple maps).": "m91f25b8764b3",
+    "Immagine ad alta risoluzione (una scheda in PNG, più schede in archivio ZIP).": "m490c8cb50152",
+    "High-resolution image (single PNG or ZIP archive for multiple maps).": "m490c8cb50152",
+    "Impossibile generare l’esportazione grafica.": "m29417a453fe8",
+    "Unable to generate graphical export.": "m29417a453fe8",
+    "La suddivisione in blocchi di parole si applica ai formati documentali (.md, .txt, .html, .docx, .pdf).": "m1355d5246c16",
+    "Word-based splitting applies to document formats (.md, .txt, .html, .docx, .pdf).": "m1355d5246c16",
+    "La numerazione gerarchica dei titoli è disponibile per i formati documentali.": "m5110d9c6d0dc",
+    "Hierarchical heading numbering is available for document formats.": "m5110d9c6d0dc",
+    "Mappa compatta: verrà esportato 1 solo file": "mdc1461476d04",
+    "Compact map: 1 single file will be exported": "mdc1461476d04",
+    "Output stimato:": "m7746d445367c",
+    "Estimated output:": "m7746d445367c",
+    "file (~": "m099d3bf0596c",
+    "files (~": "m099d3bf0596c",
+    "parole medie/file)": "m0e6491d6ab75",
+    "avg words/file)": "m0e6491d6ab75",
+    "file": "m3b9c358f36f0",
+    "files": "m3b9c358f36f0",
+    "parole)": "mc79559e69385",
+    "words)": "mc79559e69385",
+    "Suddivisione e Struttura": "m29d015f0686f",
+    "Splitting & Structure": "m29d015f0686f",
+    "File unico": "mb3537eb8217a",
+    "Single file": "mb3537eb8217a",
+    "Dividi per schede": "mf4bdf501749c",
+    "Split by map": "mf4bdf501749c",
+    "Moduli bilanciati (Consigliato per studio e AI)": "m0ff8a7c27c87",
+    "Balanced modules (Recommended for study and AI)": "m0ff8a7c27c87",
+    "Densità moduli": "me6dc932ef84d",
+    "Module density": "me6dc932ef84d",
+    "Numera gerarchicamente le sezioni (1., 1.1, ...)": "m1d443a64c479",
+    "Number sections hierarchically (1., 1.1, ...)": "m1d443a64c479",
+    "Destinazione file multipli": "mfea53559eb72",
+    "Multiple files output": "mfea53559eb72",
+    "Sottocartella dedicata (Consigliato)": "mff266efa7cae",
+    "Dedicated subfolder (Recommended)": "mff266efa7cae",
+    "Archivio .zip": "ma71b0775e6d1",
+    "Archive .zip": "ma71b0775e6d1",
+    "Su questo dispositivo usa Archivio .zip": "m8eb0e481a9ed",
+    "Use .zip archive on this device": "m8eb0e481a9ed"
   }
 }

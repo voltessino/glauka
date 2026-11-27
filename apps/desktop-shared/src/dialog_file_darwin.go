@@ -75,3 +75,9 @@ end run`, nativeInterfaceText("Apri mappa"))
 	// unambiguous separator even for unusual user-created document names.
 	return parseMacSelection(out)
 }
+func desktopFolderDialog() (string, error) {
+	return scriptRun(`on run argv
+set f to choose folder with prompt (item 1 of argv)
+return POSIX path of f
+end run`, nativeInterfaceText("Scegli cartella di esportazione"))
+}

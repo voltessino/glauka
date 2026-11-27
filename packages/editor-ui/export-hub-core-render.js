@@ -1,7 +1,15 @@
   function render(
     tabs,
     fmt,
-    { separate = false, serializeMarkdown, serializeJSON } = {},
+    {
+      separate = false,
+      splitMode,
+      preset = "balanced",
+      hierarchicalNumbering,
+      chunks: providedChunks,
+      serializeMarkdown,
+      serializeJSON,
+    } = {},
   ) {
     const summary = inspect(tabs),
       roots = tabs.map((t) => t.state?.root || t.root),
@@ -28,6 +36,113 @@
         throw Error("Serializer JSON mancante.");
       return serializeJSON(t);
     };
+    const isModularFormat = MODULAR_FORMATS.includes(format);
+    const effectiveMode = splitMode || (separate ? "tabs" : "single");
+    const useChunkPipeline =
+      isModularFormat &&
+      (effectiveMode === "modular" ||
+        !!providedChunks ||
+        (!!hierarchicalNumbering && effectiveMode === "single") ||
+        (!!hierarchicalNumbering && effectiveMode === "tabs"));
+
+    if (useChunkPipeline) {
+      const numbered =
+        typeof hierarchicalNumbering === "boolean"
+          ? hierarchicalNumbering
+          : effectiveMode === "modular";
+      const chunks =
+        Array.isArray(providedChunks) && providedChunks.length
+          ? providedChunks
+          : TreeChunker.chunkTabs(tabs, {
+              preset,
+              hierarchicalNumbering: numbered,
+              includeHeader: effectiveMode === "modular",
+              extension: ext,
+              numberOnly: effectiveMode !== "modular",
+            });
+      const renderChunkContent = (chunk) => {
+        if (format === "md") return markdownChunk(chunk);
+        if (format === "txt") return txtChunk(chunk);
+        if (format === "html")
+          return html([chunk.nodes_tree], {
+            structuredHeadings: true,
+            chunks: [chunk],
+          });
+        if (format === "docx")
+          return docx([chunk.nodes_tree], {
+            structuredHeadings: true,
+            chunks: [chunk],
+          });
+        return txtChunk(chunk);
+      };
+      const mimeMap = {
+        md: "text/markdown;charset=utf-8",
+        txt: "text/plain;charset=utf-8",
+        html: "text/html;charset=utf-8",
+        docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      };
+      const renderedFiles = chunks.map((chunk) => ({
+        name: chunk.suggested_filename,
+        data: renderChunkContent(chunk),
+        mime: mimeMap[format],
+        chunk,
+      }));
+      if (effectiveMode === "modular" && renderedFiles.length > 1) {
+        return {
+          name: "neuromap_" + format + "_moduli_" + renderedFiles.length + ".zip",
+          data: zip(renderedFiles),
+          mime: "application/zip",
+          summary,
+          separate: true,
+          modular: true,
+          files: renderedFiles,
+          chunks,
+        };
+      }
+      if (effectiveMode === "tabs" && tabs.length > 1 && renderedFiles.length > 1) {
+        return {
+          name: "neuromap_" + format + "_" + renderedFiles.length + "_schede.zip",
+          data: zip(renderedFiles),
+          mime: "application/zip",
+          summary,
+          separate: true,
+          modular: false,
+          files: renderedFiles,
+          chunks,
+        };
+      }
+      // Single file (either compact map <= maxWords OR hierarchicalNumbering in File unico)
+      let combined;
+      if (renderedFiles.length === 1) combined = renderedFiles[0].data;
+      else if (format === "md")
+        combined = renderedFiles.map((f) => f.data).join("\n\n---\n\n");
+      else if (format === "txt")
+        combined = renderedFiles.map((f) => f.data).join("\n=== NEUROMAP TAB ===\n");
+      else if (format === "html")
+        combined = html(
+          chunks.map((c) => c.nodes_tree),
+          { structuredHeadings: true, chunks },
+        );
+      else
+        combined = docx(
+          chunks.map((c) => c.nodes_tree),
+          { structuredHeadings: true, chunks },
+        );
+      return {
+        name:
+          chunks.length === 1
+            ? renderedFiles[0].name
+            : "neuromap_" + tabs.length + "_schede." + ext,
+        data: combined,
+        mime: mimeMap[format],
+        summary,
+        separate: false,
+        modular: effectiveMode === "modular",
+        files: renderedFiles,
+        chunks,
+      };
+    }
+
     const single = (root, i) => {
       if (format === "md") return md(root);
       if (format === "txt") return "NEUROMAP-TXT-2\n" + txt(root);
@@ -96,7 +211,16 @@
           {
             schema: "NeuroMapArchitect-WorkspaceBatch-v6",
             exportedAt: new Date().toISOString(),
-            tabs: tabs.map(json),
+            tabs: tabs.map((t, i) => {
+              const payload = json(t);
+              return payload && typeof payload === "object"
+                ? {
+                    ...(t.id ? { id: t.id } : {}),
+                    title: payload.root?.text || roots[i]?.text || t.title || "Mappa",
+                    ...payload,
+                  }
+                : payload;
+            }),
           },
           null,
           2,

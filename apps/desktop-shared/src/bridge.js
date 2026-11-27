@@ -164,6 +164,9 @@
     saveExport:async({filename,bytes})=>
       api('file/export',{filename:filename||'Glauka-export.json',
        base64:encodeExportBytes(bytes)}),
+    saveExportFolder:async({subdir,files})=>
+      api('file/export-folder',{subdir:subdir||'Glauka_Export',
+       files:(files||[]).map(f=>({name:f.name,base64:encodeExportBytes(f.bytes)}))}),
     onExternalFile:callback=>{
       if(typeof callback!=='function')return()=>{};
       let stopped=false,busy=false,pendingAck=null,snoozeUntil=0;

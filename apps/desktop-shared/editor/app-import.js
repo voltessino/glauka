@@ -96,8 +96,14 @@
           if (doc.querySelector('parsererror')) throw Error('XML/OPML non valido.');
           const outlines = [...doc.querySelectorAll('body > outline')];
           if (!outlines.length) throw Error('Nessuna mappa OPML trovata.');
-          const convert = el => ({ text:el.getAttribute('text') || el.getAttribute('title') || 'Nodo',
-            children:[...el.children].filter(c => c.localName === 'outline').map(convert) });
+          const convert = el => {
+            const note = el.getAttribute('_note');
+            return {
+              text:el.getAttribute('text') || el.getAttribute('title') || 'Nodo',
+              ...(note ? { notes: note } : {}),
+              children:[...el.children].filter(c => c.localName === 'outline').map(convert)
+            };
+          };
           return {root:outlines.length===1?convert(outlines[0]):{text:(globalThis.GlaukaI18n?.translate('Mappa importata')||'Mappa importata'),children:outlines.map(convert)}};
         }
         // Markdown batch exports contain independent map documents separated by ---.

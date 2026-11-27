@@ -14,3 +14,6 @@ func desktopLinkFileDialog() (string, error) {
 func desktopMultiOpenDialog() ([]string, error) {
 	return nil, errors.New("Il selettore multi-file è disponibile su Windows")
 }
+func desktopFolderDialog() (string, error) {
+	return "", errors.New("Il selettore cartella è disponibile su Windows e macOS")
+}

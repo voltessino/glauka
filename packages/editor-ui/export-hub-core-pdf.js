@@ -1,53 +1,81 @@
-  async function pdf(tabs, { separate = false } = {}) {
+  async function pdf(
+    tabs,
+    {
+      separate = false,
+      splitMode,
+      preset = "balanced",
+      hierarchicalNumbering,
+      chunks: providedChunks,
+    } = {},
+  ) {
     const summary = inspect(tabs);
     if (typeof document === "undefined")
       throw Error("PDF requires a browser canvas.");
-    const pages = [],
-      roots = tabs.map((t) => t.state?.root || t.root);
+    const effectiveMode = splitMode || (separate ? "tabs" : "single");
+    const structured =
+      effectiveMode === "modular" ||
+      !!providedChunks ||
+      !!hierarchicalNumbering;
+    const chunks = structured
+      ? Array.isArray(providedChunks) && providedChunks.length
+        ? providedChunks
+        : TreeChunker.chunkTabs(tabs, {
+            preset,
+            hierarchicalNumbering:
+              typeof hierarchicalNumbering === "boolean"
+                ? hierarchicalNumbering
+                : effectiveMode === "modular",
+            includeHeader: effectiveMode === "modular",
+            extension: "pdf",
+            numberOnly: effectiveMode !== "modular",
+          })
+      : null;
+    const roots = chunks
+      ? chunks.map((c) => c.nodes_tree)
+      : tabs.map((t) => t.state?.root || t.root);
     const W = 960,
       H = 1358,
       M = 66,
       leading = 28;
     const lineWrap = (ctx, text, width) => {
-      const words = String(text || "")
-          .replace(/\r\n?/g, "\n")
-          .split(/(\s+)/),
-        lines = [];
-      let line = "";
-      for (const word of words) {
-        if (word.includes("\n")) {
-          for (const chunk of word.split("\n")) {
+      const paragraphs = String(text || "")
+        .replace(/\r\n?/g, "\n")
+        .split("\n");
+      const lines = [];
+      for (const para of paragraphs) {
+        if (!para.trim()) {
+          lines.push("");
+          continue;
+        }
+        const words = para.split(/(\s+)/);
+        let line = "";
+        for (const word of words) {
+          if (!word) continue;
+          if (!line && /^\s+$/.test(word)) continue;
+          if (ctx.measureText(word).width > width) {
             if (line) {
-              lines.push(line);
+              lines.push(line.trimEnd());
               line = "";
             }
-            if (chunk) line = chunk;
+            for (const char of word) {
+              if (line && ctx.measureText(line + char).width > width) {
+                lines.push(line);
+                line = "";
+              }
+              line += char;
+            }
+            continue;
           }
-          continue;
-        }
-        if (ctx.measureText(word).width > width) {
-          if (line) {
+          if (ctx.measureText(line + word).width > width && line) {
             lines.push(line.trimEnd());
-            line = "";
-          }
-          for (const char of word) {
-            if (line && ctx.measureText(line + char).width > width) {
-              lines.push(line);
-              line = "";
-            }
-            line += char;
-          }
-          continue;
+            line = word.trimStart();
+          } else line += word;
         }
-        if (ctx.measureText(line + word).width > width && line) {
-          lines.push(line.trimEnd());
-          line = word.trimStart();
-        } else line += word;
+        if (line) lines.push(line.trimEnd());
       }
-      if (line) lines.push(line.trimEnd());
       return lines.length ? lines : [""];
     };
-    async function pagesFor(roots) {
+    async function pagesFor(targetRoots, targetChunks = null) {
       const images = [];
       let canvas = null,
         ctx = null,
@@ -61,15 +89,15 @@
         if (!ctx) throw Error("Canvas PDF non disponibile.");
         ctx.fillStyle = "#ffffff";
         ctx.fillRect(0, 0, W, H);
-        ctx.fillStyle = "#1e293b";
-        ctx.font = "16px system-ui,sans-serif";
-        ctx.fillText("NeuroMap · Export", M, H - 40);
-        y = M + 16;
         page++;
         if (page > 120)
           throw Error(
             "PDF oltre 120 pagine: scegli file separati o meno schede.",
           );
+        ctx.fillStyle = "#475569";
+        ctx.font = "16px system-ui,sans-serif";
+        ctx.fillText("Glauka · Export · Pag. " + page, M, H - 40);
+        y = M + 16;
       }
       async function close() {
         if (!canvas) return;
@@ -87,11 +115,32 @@
         canvas = null;
         ctx = null;
       }
-      for (const root of roots) {
+      for (let rIdx = 0; rIdx < targetRoots.length; rIdx++) {
+        const root = targetRoots[rIdx];
+        const chunk = targetChunks ? targetChunks[rIdx] : null;
+        if (rIdx > 0 && ctx) {
+          await close();
+          open();
+        }
         if (!ctx) open();
         if (y > H - M - 110) {
           await close();
           open();
+        }
+        const h = chunk?.context_header;
+        if (h && (h.total_parts || 1) > 1) {
+          ctx.fillStyle = "#eef2ff";
+          ctx.fillRect(M, y - 16, W - 2 * M, 68);
+          ctx.fillStyle = "#312e81";
+          ctx.font = "bold 14px system-ui,sans-serif";
+          ctx.fillText(String(h.title || "Mappa") + " — " + h.partLabel, M + 10, y + 2);
+          ctx.fillStyle = "#475569";
+          ctx.font = "13px system-ui,sans-serif";
+          const secLine = lineWrap(ctx, "Sezioni: " + (h.sections || []).join(" · "), W - 2 * M - 20)[0] || "";
+          ctx.fillText(secLine, M + 10, y + 22);
+          if (h.previousLastSection)
+            ctx.fillText("Continua da: " + h.previousLastSection, M + 10, y + 40);
+          y += 76;
         }
         ctx.fillStyle = "#4f46e5";
         ctx.font = "bold 27px system-ui,sans-serif";
@@ -113,36 +162,53 @@
             : []),
           ...collect(root).slice(1),
         ]) {
-          const indent = Math.min(260, Math.max(0, level - 1) * 17),
-            x = M + indent;
+          const isH2 = structured && level === 1 && node.text;
+          const isH3 = structured && level === 2 && node.text;
+          const indent = structured
+            ? isH2
+              ? 0
+              : isH3
+                ? 8
+                : Math.min(260, Math.max(0, level - 2) * 17)
+            : Math.min(260, Math.max(0, level - 1) * 17);
+          const x = M + indent;
           const parts = [
-            { text: node.text, bold: true },
-            ...(node.notes ? [{ text: node.notes, bold: false }] : []),
+            { text: node.text, bold: true, heading: isH2 ? 2 : isH3 ? 3 : 0 },
+            ...(node.notes ? [{ text: node.notes, bold: false, heading: 0 }] : []),
           ].filter((part) => part.text);
           for (const part of parts) {
             if (!ctx) open();
-            ctx.font =
-              (part.bold ? "600 17px" : "14px") + " system-ui,sans-serif";
-            ctx.fillStyle = part.bold ? "#1f2937" : "#64748b";
+            const fontSpec =
+              part.heading === 2
+                ? "bold 21px system-ui,sans-serif"
+                : part.heading === 3
+                  ? "bold 17px system-ui,sans-serif"
+                  : (part.bold ? "600 17px" : "14px") + " system-ui,sans-serif";
+            const fillColor =
+              part.heading === 2
+                ? "#1e1b4b"
+                : part.heading === 3
+                  ? "#334155"
+                  : part.bold
+                    ? "#1f2937"
+                    : "#64748b";
+            ctx.font = fontSpec;
+            ctx.fillStyle = fillColor;
+            const prefix = part.bold && !part.heading ? "• " : "";
             const lineWidth = W - M - x - 6,
-              lines = lineWrap(
-                ctx,
-                (part.bold ? "• " : "") + part.text,
-                lineWidth,
-              );
+              lines = lineWrap(ctx, prefix + part.text, lineWidth);
             for (const text of lines) {
               if (y > H - M - 45) {
                 await close();
                 open();
-                ctx.fillStyle = part.bold ? "#1f2937" : "#64748b";
-                ctx.font =
-                  (part.bold ? "600 17px" : "14px") + " system-ui,sans-serif";
+                ctx.fillStyle = fillColor;
+                ctx.font = fontSpec;
               }
               ctx.fillText(text, x, y);
-              y += part.bold ? leading : 23;
+              y += part.heading === 2 ? 30 : part.bold ? leading : 23;
             }
           }
-          y += 3;
+          y += isH2 ? 6 : 3;
         }
         y += 34;
       }
@@ -236,6 +302,26 @@
       );
       return concat(parts);
     }
+    if (effectiveMode === "modular" && chunks && chunks.length > 1) {
+      const files = [];
+      for (let i = 0; i < chunks.length; i++)
+        files.push({
+          name: chunks[i].suggested_filename,
+          data: build(await pagesFor([chunks[i].nodes_tree], [chunks[i]])),
+          mime: "application/pdf",
+          chunk: chunks[i],
+        });
+      return {
+        name: "neuromap_pdf_moduli_" + chunks.length + ".zip",
+        data: zip(files),
+        mime: "application/zip",
+        summary,
+        separate: true,
+        modular: true,
+        files,
+        chunks,
+      };
+    }
     if (separate && roots.length > 1) {
       const names = dedup(
           roots.map((r) => r.text),
@@ -243,23 +329,34 @@
         ),
         files = [];
       for (let i = 0; i < roots.length; i++)
-        files.push({ name: names[i], data: build(await pagesFor([roots[i]])) });
+        files.push({
+          name: chunks ? chunks[i].suggested_filename : names[i],
+          data: build(await pagesFor([roots[i]], chunks ? [chunks[i]] : null)),
+          mime: "application/pdf",
+          ...(chunks ? { chunk: chunks[i] } : {}),
+        });
       return {
         name: "neuromap_pdf_" + roots.length + "_schede.zip",
         data: zip(files),
         mime: "application/zip",
         summary,
         separate: true,
+        files,
+        ...(chunks ? { chunks } : {}),
       };
     }
     return {
       name:
-        roots.length === 1
-          ? safe(roots[0].text) + ".pdf"
-          : "neuromap_" + roots.length + "_schede.pdf",
-      data: build(await pagesFor(roots)),
+        chunks && chunks.length === 1
+          ? chunks[0].suggested_filename
+          : roots.length === 1
+            ? safe(roots[0].text) + ".pdf"
+            : "neuromap_" + roots.length + "_schede.pdf",
+      data: build(await pagesFor(roots, chunks)),
       mime: "application/pdf",
       summary,
       separate: false,
+      modular: effectiveMode === "modular",
+      ...(chunks ? { chunks } : {}),
     };
   }

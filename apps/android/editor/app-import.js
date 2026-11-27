@@ -93,9 +93,29 @@
           if (doc.querySelector('parsererror')) throw Error('XML/OPML non valido.');
           const outlines = [...doc.querySelectorAll('body > outline')];
           if (!outlines.length) throw Error('Nessuna mappa OPML trovata.');
-          const convert = el => ({ text:el.getAttribute('text') || el.getAttribute('title') || 'Nodo',
-            children:[...el.children].filter(c => c.localName === 'outline').map(convert) });
+          const convert = el => {
+            const note = el.getAttribute('_note');
+            return {
+              text:el.getAttribute('text') || el.getAttribute('title') || 'Nodo',
+              ...(note ? { notes: note } : {}),
+              children:[...el.children].filter(c => c.localName === 'outline').map(convert)
+            };
+          };
           return {root:outlines.length===1?convert(outlines[0]):{text:'Mappa importata',children:outlines.map(convert)}};
+        }
+        if (ext === 'md' || ext === 'markdown') {
+          const parsedMd = globalThis.NeuroMapCore?.parseMarkdownExport?.(text);
+          if (parsedMd) {
+            return parsedMd.length > 1
+              ? { workspace: parsedMd.map(root => ({ root })) }
+              : { root: parsedMd[0] };
+          }
+          const docs = String(text || '').replace(/\r\n?/g, '\n').split(/^\s*---\s*$/m)
+            .map(t => t.trimEnd()).filter(t => t.trim());
+          if (docs.length > 1 && globalThis.NeuroMapCore?.parseMarkdownDocuments) {
+            const roots = globalThis.NeuroMapCore.parseMarkdownDocuments(text);
+            return { workspace: roots.map(root => ({ root })) };
+          }
         }
         const rows = text.replace(/\r/g,'').split('\n').filter(x => x.trim() && !/^\s*---\s*$/.test(x));
         if (!rows.length) throw Error('Il file è vuoto.');

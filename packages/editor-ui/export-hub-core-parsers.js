@@ -37,7 +37,12 @@
       const n = { text: el.getAttribute("TEXT") || "Nodo", children: [] };
       if (["left", "right"].includes(el.getAttribute("POSITION")))
         n.sidePinned = el.getAttribute("POSITION");
-      if (notes) n.notes = notes.textContent || "";
+      if (notes) {
+        const paras = [...notes.querySelectorAll("p")];
+        n.notes = paras.length
+          ? paras.map((p) => p.textContent || "").join("\n")
+          : notes.textContent || "";
+      }
       for (const child of el.children)
         if (child.localName === "node")
           n.children.push(parseNode(child, depth + 1));

@@ -7,6 +7,70 @@
         .join("\n") + "\n"
     );
   }
+  function formatChunkHeaderLines(header) {
+    if (!header || (header.total_parts || 1) <= 1) return [];
+    const lines = [
+      String(header.title || "Mappa") + " — " + header.partLabel,
+      "Sezioni principali: " +
+        ((header.sections && header.sections.length
+          ? header.sections.join(" · ")
+          : "—")),
+    ];
+    if (header.previousLastSection)
+      lines.push("Continua da: " + header.previousLastSection);
+    return lines;
+  }
+  function txtChunk(chunk) {
+    const out = [];
+    const headerLines = formatChunkHeaderLines(chunk?.context_header);
+    if (headerLines.length) {
+      out.push("=== " + headerLines[0] + " ===");
+      for (let i = 1; i < headerLines.length; i++) out.push(headerLines[i]);
+      out.push("");
+    }
+    const root = chunk?.nodes_tree || chunk;
+    for (const { node, level } of collect(root)) {
+      out.push("  ".repeat(level) + String(node.text ?? ""));
+      if (node.notes) {
+        const pad = "  ".repeat(level + 1);
+        for (const nl of String(node.notes).replace(/\r\n?/g, "\n").split("\n"))
+          if (nl.trim()) out.push(pad + nl.trimEnd());
+      }
+    }
+    return out.join("\n") + "\n";
+  }
+  function markdownChunk(chunk) {
+    const lines = [];
+    const header = chunk?.context_header;
+    if (header && (header.total_parts || 1) > 1) {
+      lines.push("> **" + String(header.title || "Mappa") + " — " + header.partLabel + "**");
+      lines.push(
+        "> Sezioni principali: " +
+          ((header.sections && header.sections.length
+            ? header.sections.join(" · ")
+            : "—")),
+      );
+      if (header.previousLastSection)
+        lines.push("> Continua da: " + header.previousLastSection);
+      lines.push("");
+    }
+    const root = chunk?.nodes_tree || chunk;
+    for (const { node, level } of collect(root)) {
+      let label = String(node.text ?? "").replace(/\r\n?/g, " ").trim() || "Nodo";
+      const href = safeHref(node?.linkUrl);
+      if (href) label += " (" + href + ")";
+      if (level === 0) lines.push("# " + label);
+      else if (level === 1) lines.push("", "## " + label);
+      else if (level === 2) lines.push("", "### " + label);
+      else lines.push("  ".repeat(level - 3) + "- " + label);
+      if (node.notes) {
+        const noteIndent = level >= 3 ? "  ".repeat(level - 2) : "";
+        for (const nl of String(node.notes).replace(/\r\n?/g, "\n").split("\n"))
+          lines.push(noteIndent + nl);
+      }
+    }
+    return lines.join("\n") + "\n";
+  }
   function opml(roots) {
     let out =
       '<?xml version="1.0" encoding="UTF-8"?>\n<opml version="2.0">\n<head><title>NeuroMap export</title></head>\n<body>\n';
@@ -66,47 +130,152 @@
         todo.push({ node, close: true, level });
         for (let i = kids.length - 1; i >= 0; i--)
           todo.push({ node: kids[i], close: false, level: level + 1 });
-        if (node.notes)
+        if (node.notes) {
+          const noteLines = String(node.notes).replace(/\r\n?/g, "\n").split("\n");
           out +=
             pad +
-            '  <richcontent TYPE="NOTE"><html><body><p>' +
-            esc(node.notes) +
-            "</p></body></html></richcontent>\n";
+            '  <richcontent TYPE="NOTE"><html><body>' +
+            noteLines.map((line) => "<p>" + esc(line) + "</p>").join("") +
+            "</body></html></richcontent>\n";
+        }
       }
     }
     return out + "</map>\n";
   }
-  function html(roots) {
+  function safeHref(raw) {
+    const value = String(raw || "").trim();
+    return /^(?:https?:|mailto:)/i.test(value) ? value : "";
+  }
+  function html(roots, options = {}) {
+    const chunks = Array.isArray(options?.chunks) ? options.chunks : null;
+    const renderRoots = chunks ? chunks.map((c) => c.nodes_tree) : roots;
+    const countLabel =
+      renderRoots.length === 1 ? "1 mappa" : renderRoots.length + " mappe";
+    const docTitle =
+      renderRoots.length === 1
+        ? esc(renderRoots[0]?.text || "Glauka") + " · Glauka"
+        : "Glauka · Mappe esportate";
+    const toc =
+      renderRoots.length > 1 && !chunks
+        ? '<nav class="toc" aria-label="Indice delle mappe"><strong>Indice</strong><ul>' +
+          renderRoots
+            .map(
+              (r, i) =>
+                '<li><a href="#map-' +
+                i +
+                '">' +
+                esc(r?.text || "Mappa " + (i + 1)) +
+                "</a></li>",
+            )
+            .join("") +
+          "</ul></nav>"
+        : "";
+    const body = chunks
+      ? chunks.map((ch, i) => renderStructuredHtmlChunk(ch, i)).join("\n")
+      : renderRoots.map((r, i) => renderOutline(r, i)).join("\n");
     return (
-      '<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NeuroMap · Mappe esportate</title><style>' +
-      ":root{color-scheme:light dark;font-family:system-ui,-apple-system,sans-serif}body{max-width:920px;margin:auto;padding:clamp(16px,4vw,42px);background:Canvas;color:CanvasText}header{padding:20px 0;border-bottom:1px solid #8885}h1{font-size:clamp(24px,4vw,42px);margin:0}small{opacity:.75}.map{margin:26px 0;padding:14px 22px;border:1px solid #8886;border-radius:16px;background:color-mix(in srgb,Canvas 96%,#7c8eff)}li{margin:8px 0}summary{cursor:pointer;font-weight:550;line-height:1.5}ul{margin:4px 0 0 4px;padding-left:22px;border-left:1px solid #8885}.notes{white-space:pre-wrap;opacity:.8;margin:4px 0 8px}summary:focus-visible{outline:2px solid #818cf8}" +
-      "</style></head><body><header><h1>Le mie mappe</h1><small>NeuroMap · documento offline · " +
-      roots.length +
-      " mappe · sola lettura</small></header>" +
-      roots.map(renderOutline).join("\n") +
+      '<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' +
+      docTitle +
+      "</title><style>" +
+      ":root{color-scheme:light dark;font-family:system-ui,-apple-system,sans-serif}body{max-width:920px;margin:auto;padding:clamp(16px,4vw,42px);background:Canvas;color:CanvasText}header{padding:20px 0;border-bottom:1px solid #8885}h1{font-size:clamp(24px,4vw,42px);margin:0}small{opacity:.75}.toc,.chunk-context{margin:16px 0;padding:12px 16px;border:1px solid #8884;border-radius:12px;background:color-mix(in srgb,Canvas 94%,#6366f1)}.chunk-context p{margin:4px 0;font-size:.92em}.toc ul{margin:8px 0 0;padding-left:20px;border-left:none}.map{margin:26px 0;padding:14px 22px;border:1px solid #8886;border-radius:16px;background:color-mix(in srgb,Canvas 96%,#7c8eff)}.map h2{font-size:1.45em;margin:14px 0 6px}.map h3{font-size:1.18em;margin:10px 0 4px}li{margin:6px 0}summary{cursor:pointer;font-weight:550;line-height:1.5}ul{margin:4px 0 0 4px;padding-left:22px;border-left:1px solid #8885}.notes{white-space:pre-wrap;opacity:.82;margin:4px 0 8px}.node-link{margin-left:8px;font-size:.86em;word-break:break-word}summary:focus-visible{outline:2px solid #818cf8}" +
+      "</style></head><body><header><h1>" +
+      (renderRoots.length === 1
+        ? esc(renderRoots[0]?.text || "Mappa")
+        : "Le mie mappe") +
+      "</h1><small>Glauka · documento offline · " +
+      (chunks && chunks[0]?.context_header
+        ? esc(chunks[0].context_header.partLabel)
+        : countLabel) +
+      " · sola lettura</small></header>" +
+      toc +
+      body +
       "<footer><small>Esportazione statica: immagini, posizioni e collegamenti grafici non inclusi.</small></footer></body></html>"
     );
   }
-  function renderOutline(root) {
+  function renderStructuredHtmlChunk(chunk, index = 0) {
+    const root = chunk?.nodes_tree || chunk;
+    const h = chunk?.context_header;
+    const headerHtml =
+      h && (h.total_parts || 1) > 1
+        ? '<aside class="chunk-context" aria-label="Contesto della parte"><p><strong>' +
+          esc(h.title || "Mappa") +
+          " — " +
+          esc(h.partLabel) +
+          "</strong></p><p>Sezioni principali: " +
+          esc((h.sections || []).join(" · ")) +
+          "</p>" +
+          (h.previousLastSection
+            ? "<p>Continua da: " + esc(h.previousLastSection) + "</p>"
+            : "") +
+          "</aside>"
+        : "";
+    function walkList(node, level) {
+      if (level > 100) throw Error("Albero troppo profondo.");
+      let out = "<li>" + formatHtmlLabel(node);
+      if (node.notes) out += '<p class="notes">' + esc(node.notes) + "</p>";
+      const kids = Array.isArray(node.children) ? node.children : [];
+      if (kids.length) {
+        out += "<ul>";
+        for (const ch of kids) out += walkList(ch, level + 1);
+        out += "</ul>";
+      }
+      return out + "</li>";
+    }
+    let body = "<h1>" + formatHtmlLabel(root) + "</h1>";
+    if (root?.notes) body += '<p class="notes">' + esc(root.notes) + "</p>";
+    for (const l1 of Array.isArray(root?.children) ? root.children : []) {
+      body += "<h2>" + formatHtmlLabel(l1) + "</h2>";
+      if (l1.notes) body += '<p class="notes">' + esc(l1.notes) + "</p>";
+      for (const l2 of Array.isArray(l1.children) ? l1.children : []) {
+        body += "<h3>" + formatHtmlLabel(l2) + "</h3>";
+        if (l2.notes) body += '<p class="notes">' + esc(l2.notes) + "</p>";
+        const l3 = Array.isArray(l2.children) ? l2.children : [];
+        if (l3.length)
+          body += "<ul>" + l3.map((n) => walkList(n, 3)).join("") + "</ul>";
+      }
+    }
+    return '<section class="map" id="map-' + index + '">' + headerHtml + body + "</section>";
+  }
+  function formatHtmlLabel(node) {
+    let label = esc(node?.text ?? "");
+    if (node?.fontUnderline) label = "<u>" + label + "</u>";
+    if (node?.fontStrike) label = "<s>" + label + "</s>";
+    if (node?.fontItalic) label = "<em>" + label + "</em>";
+    if ((node?.fontWeight || 0) >= 600) label = "<strong>" + label + "</strong>";
+    const href = safeHref(node?.linkUrl);
+    if (href)
+      label +=
+        ' <a class="node-link" href="' +
+        esc(href) +
+        '" target="_blank" rel="noopener noreferrer">[' +
+        esc(href) +
+        "]</a>";
+    return label;
+  }
+  function renderOutline(root, index = 0) {
+    const kids = Array.isArray(root?.children) ? root.children : [];
     function walk(node, level) {
       if (level > 100) throw Error("Albero troppo profondo.");
-      let out = "<li><details open><summary>" + esc(node.text) + "</summary>";
+      let out =
+        "<li><details open><summary>" + formatHtmlLabel(node) + "</summary>";
       if (node.notes) out += '<p class="notes">' + esc(node.notes) + "</p>";
-      if (node.children?.length) {
+      const children = Array.isArray(node.children) ? node.children : [];
+      if (children.length) {
         out += "<ul>";
-        for (const ch of node.children) out += walk(ch, level + 1);
+        for (const ch of children) out += walk(ch, level + 1);
         out += "</ul>";
       }
       return out + "</details></li>";
     }
     return (
-      '<section class="map"><h2>' +
-      esc(root.text) +
+      '<section class="map" id="map-' +
+      index +
+      '"><h2>' +
+      formatHtmlLabel(root) +
       "</h2>" +
-      (root.notes ? '<p class="notes">' + esc(root.notes) + "</p>" : "") +
-      "<ul>" +
-      root.children.map((n) => walk(n, 1)).join("") +
-      "</ul></section>"
+      (root?.notes ? '<p class="notes">' + esc(root.notes) + "</p>" : "") +
+      (kids.length ? "<ul>" + kids.map((n) => walk(n, 1)).join("") + "</ul>" : "") +
+      "</section>"
     );
   }
   const crcTable = new Uint32Array(256);
@@ -230,20 +399,46 @@
     ]);
     return concat([...locals, ...dirs, end]);
   }
-  function docx(roots) {
-    const wordRun = (text, bold = false, italic = false, underline = false, style = null) => {
-      const format =
-        bold || italic || underline || style?.fontFamily || style?.fontColor || style?.fontStrike || style?.fontSize
-          ? "<w:rPr>" +
-            (bold ? "<w:b/>" : "") +
-            (italic ? "<w:i/>" : "") +
-            (underline ? '<w:u w:val="single"/>' : "") +
-            (style?.fontStrike ? '<w:strike/>' : '') +
-            (['Inter','Arial','Verdana','Georgia','Times New Roman','Courier New'].includes(style?.fontFamily) ? '<w:rFonts w:ascii="'+esc(style.fontFamily)+'" w:hAnsi="'+esc(style.fontFamily)+'"/>' : '') +
-            (/^#[0-9a-f]{6}$/i.test(style?.fontColor||'') ? '<w:color w:val="'+style.fontColor.slice(1)+'"/>' : '') +
-            (Number.isFinite(style?.fontSize) && style.fontSize>=9 && style.fontSize<=48 ? '<w:sz w:val="'+Math.round(style.fontSize*2)+'"/>' : '') +
-            "</w:rPr>"
-          : "";
+  function docxInkColor(raw, allowLight = false) {
+    if (!/^#[0-9a-f]{6}$/i.test(raw || "")) return "";
+    const hex = raw.slice(1).toLowerCase();
+    const r = parseInt(hex.slice(0, 2), 16),
+      g = parseInt(hex.slice(2, 4), 16),
+      b = parseInt(hex.slice(4, 6), 16);
+    const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    if (lum <= 185) return hex;
+    if (!allowLight) return "";
+    // Darken light canvas ink so nodes exported from dark mode remain readable on white pages.
+    const factor = 96 / Math.max(lum, 1);
+    const dr = Math.max(15, Math.min(180, Math.round(r * factor)));
+    const dg = Math.max(23, Math.min(180, Math.round(g * factor)));
+    const db = Math.max(42, Math.min(180, Math.round(b * factor)));
+    return [dr, dg, db].map((v) => v.toString(16).padStart(2, "0")).join("");
+  }
+  function docx(roots, options = {}) {
+    const chunks = Array.isArray(options?.chunks) ? options.chunks : null;
+    const renderRoots = chunks ? chunks.map((c) => c.nodes_tree) : roots;
+    const structured = !!(chunks || options?.structuredHeadings);
+    const wordRun = (text, bold = false, italic = false, underline = false, style = null, opts = {}) => {
+      const fontFamily = ["Inter", "Arial", "Verdana", "Georgia", "Times New Roman", "Courier New"].includes(style?.fontFamily)
+        ? style.fontFamily
+        : "";
+      const ink = opts.color || docxInkColor(style?.fontColor, opts.allowLight !== false);
+      const size = opts.sz || (Number.isFinite(style?.fontSize) && style.fontSize >= 9 && style.fontSize <= 48 ? Math.round(style.fontSize * 2) : 0);
+      const hasRPr =
+        fontFamily || bold || italic || style?.fontStrike || ink || size || underline;
+      // ECMA-376 CT_RPr requires rFonts -> b -> i -> strike -> color -> sz -> u order.
+      const format = hasRPr
+        ? "<w:rPr>" +
+          (fontFamily ? '<w:rFonts w:ascii="' + esc(fontFamily) + '" w:hAnsi="' + esc(fontFamily) + '"/>' : "") +
+          (bold ? "<w:b/>" : "") +
+          (italic ? "<w:i/>" : "") +
+          (style?.fontStrike ? "<w:strike/>" : "") +
+          (ink ? '<w:color w:val="' + ink + '"/>' : "") +
+          (size ? '<w:sz w:val="' + size + '"/>' : "") +
+          (underline ? '<w:u w:val="single"/>' : "") +
+          "</w:rPr>"
+        : "";
       const chunks = String(text ?? "")
         .replace(/\r\n?/g, "\n")
         .split("\n");
@@ -263,17 +458,35 @@
       );
     };
     const blocks = [];
-    for (const root of roots) {
+    renderRoots.forEach((root, mapIndex) => {
+      if (mapIndex > 0) blocks.push('<w:p><w:r><w:br w:type="page"/></w:r></w:p>');
+      const chHeader = chunks ? chunks[mapIndex]?.context_header : options?.contextHeader;
+      if (chHeader && (chHeader.total_parts || 1) > 1) {
+        const headerLines = formatChunkHeaderLines(chHeader);
+        for (const hl of headerLines) {
+          blocks.push(
+            '<w:p><w:pPr><w:shd w:val="clear" w:color="auto" w:fill="EEF2FF"/><w:spacing w:after="60"/></w:pPr>' +
+              wordRun(hl, hl === headerLines[0], false, false, null, { color: "312E81", sz: 20 }) +
+              "</w:p>",
+          );
+        }
+      }
       blocks.push(
         '<w:p><w:pPr><w:pStyle w:val="Heading1"/></w:pPr>' +
-          wordRun(root.text, true, !!root.fontItalic, !!root.fontUnderline, root) +
+          wordRun(root.text, true, !!root.fontItalic, !!root.fontUnderline, root, { allowLight: false }) +
           "</w:p>",
       );
-      if (root.notes) blocks.push("<w:p>" + wordRun(root.notes) + "</w:p>");
+      if (root.notes)
+        blocks.push(
+          '<w:p><w:pPr><w:spacing w:after="100"/></w:pPr>' +
+            wordRun(root.notes, false, false, false, null, { color: "475569", sz: 20 }) +
+            "</w:p>",
+        );
       for (const { node, level } of collect(root).slice(1)) {
         const indent = Math.min(12000, Math.max(0, level - 1) * 400);
         const heading =
           level === 1 ? "Heading2" : level === 2 ? "Heading3" : null;
+        const label = structured && level >= 3 ? "• " + String(node.text ?? "") : node.text;
         blocks.push(
           "<w:p><w:pPr>" +
             (heading ? '<w:pStyle w:val="' + heading + '"/>' : "") +
@@ -281,7 +494,7 @@
             indent +
             '"/></w:pPr>' +
             wordRun(
-              node.text,
+              label,
               (node.fontWeight || 0) >= 600,
               !!node.fontItalic,
               !!node.fontUnderline,
@@ -294,11 +507,11 @@
             '<w:p><w:pPr><w:ind w:left="' +
               (indent + 400) +
               '"/></w:pPr>' +
-              wordRun(node.notes) +
+              wordRun(node.notes, false, false, false, null, { color: "475569", sz: 20 }) +
               "</w:p>",
           );
       }
-    }
+    });
     const document =
       '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
       '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>' +

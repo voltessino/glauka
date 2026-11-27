@@ -58,6 +58,16 @@
     const scopes = new Map();
     let scope = "current",
       separate = false,
+      userSeparate = false,
+      splitMode = "single",
+      densityPreset = "balanced",
+      numberingEnabled = false,
+      numberingTouched = false,
+      deliveryMode =
+        host.neuromapDesktop?.saveExportFolder ||
+        typeof host.showDirectoryPicker === "function"
+          ? "folder"
+          : "zip",
       selectedIds = new Set(),
       busy = false,
       oldFocus = null,
@@ -126,6 +136,109 @@
     one.type = zip.type = "button";
     layout.append(one, zip);
     filesGroup.append(filesLabel, layout);
+    const structure = el("details", "nm-export-structure");
+    structure.open = true;
+    const structureSummary = el(
+        "summary",
+        null,
+        t("Suddivisione e Struttura", "Splitting & Structure"),
+      ),
+      structureBody = el("div", "nm-export-structure-body"),
+      modeRow = el("label", "nm-export-structure-row"),
+      modeLabel = el("span", null, t("Modalità", "Mode")),
+      splitSelect = el("select", "nm-export-select");
+    splitSelect.id = "nm-export-split-mode";
+    modeLabel.htmlFor = splitSelect.id;
+    const optSingle = el("option", null, t("File unico", "Single file"));
+    optSingle.value = "single";
+    const optTabs = el("option", null, t("Dividi per schede", "Split by map"));
+    optTabs.value = "tabs";
+    const optModular = el(
+      "option",
+      null,
+      t(
+        "Moduli bilanciati (Consigliato per studio e AI)",
+        "Balanced modules (Recommended for study and AI)",
+      ),
+    );
+    optModular.value = "modular";
+    splitSelect.append(optSingle, optTabs, optModular);
+    modeRow.append(modeLabel, splitSelect);
+
+    const densityRow = el("label", "nm-export-structure-row"),
+      densityLabel = el("span", null, t("Densità moduli", "Module density")),
+      densitySelect = el("select", "nm-export-select");
+    densitySelect.id = "nm-export-density";
+    densityLabel.htmlFor = densitySelect.id;
+    for (const [val, it, en] of [
+      ["compact", "Compatto (~1.000 parole)", "Compact (~1,000 words)"],
+      ["balanced", "Bilanciato (~1.800 parole)", "Balanced (~1,800 words)"],
+      ["extended", "Esteso (~3.000 parole)", "Extended (~3,000 words)"],
+    ]) {
+      const o = el("option", null, t(it, en));
+      o.value = val;
+      densitySelect.append(o);
+    }
+    densitySelect.value = "balanced";
+    densityRow.hidden = true;
+    densityRow.append(densityLabel, densitySelect);
+
+    const numberingWrap = el("label", "nm-export-checkbox"),
+      numberingCheck = el("input");
+    numberingCheck.type = "checkbox";
+    numberingCheck.id = "nm-export-numbering";
+    const numberingText = el(
+      "span",
+      null,
+      t(
+        "Numera gerarchicamente le sezioni (1., 1.1, ...)",
+        "Number sections hierarchically (1., 1.1, ...)",
+      ),
+    );
+    numberingWrap.append(numberingCheck, numberingText);
+
+    const deliveryRow = el("label", "nm-export-structure-row"),
+      deliveryLabel = el(
+        "span",
+        null,
+        t("Destinazione file multipli", "Multiple files output"),
+      ),
+      deliverySelect = el("select", "nm-export-select");
+    deliverySelect.id = "nm-export-delivery";
+    deliveryLabel.htmlFor = deliverySelect.id;
+    const optFolder = el(
+      "option",
+      null,
+      t("Sottocartella dedicata (Consigliato)", "Dedicated subfolder (Recommended)"),
+    );
+    optFolder.value = "folder";
+    const optZip = el("option", null, t("Archivio .zip", "Archive .zip"));
+    optZip.value = "zip";
+    const canSaveFolder =
+      typeof host.neuromapDesktop?.saveExportFolder === "function" ||
+      typeof host.showDirectoryPicker === "function";
+    if (!canSaveFolder) {
+      optFolder.disabled = true;
+      optFolder.title = t(
+        "Su questo dispositivo usa Archivio .zip",
+        "Use .zip archive on this device",
+      );
+    }
+    deliverySelect.append(optFolder, optZip);
+    deliverySelect.value = canSaveFolder ? "folder" : "zip";
+    deliveryRow.hidden = true;
+    deliveryRow.append(deliveryLabel, deliverySelect);
+
+    const chunkEstimate = el("p", "nm-export-chunk-estimate");
+    chunkEstimate.id = "nm-export-chunk-estimate";
+    structureBody.append(
+      modeRow,
+      densityRow,
+      numberingWrap,
+      deliveryRow,
+      chunkEstimate,
+    );
+    structure.append(structureSummary, structureBody);
     const hint = el("p", "nm-export-note"),
       actions = el("footer", "nm-export-actions"),
       status = el("span", "nm-export-status"),

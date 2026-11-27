@@ -286,3 +286,181 @@ test("export labels follow language changes and SVG follows the displayed linked
     .poll(() => page.evaluate(() => qaSVG?.name))
     .toMatch(/orgchart\.svg$/);
 });
+test("non-active selected tab and multi-tab visual exports (SVG ZIP, PNG ZIP, combined PDF-graphic, and linked-view PNG/PDF) work", async ({
+  page,
+}) => {
+  await page.goto("http://127.0.0.1:5174/index.html");
+  await page.waitForFunction(() => neuroMapApp?._nmExportHub);
+  await page.evaluate(() => {
+    document
+      .querySelectorAll(".nm6-shade")
+      .forEach((e) => e.classList.add("hidden"));
+    const a = neuroMapApp;
+    a.importHierarchy(
+      { text: "Alpha Map", children: [{ text: "Alpha Child", children: [] }] },
+      { newTab: true },
+    );
+    NeuroMapLinkedViews.setMode(a, "orgchart");
+    a.importHierarchy(
+      { text: "Beta Map", children: [{ text: "Beta Child", children: [] }] },
+      { newTab: true },
+    );
+    a.saveActiveTabSnapshot();
+    window.qaVisualDownloads = [];
+    a.io.triggerDownload = async (blob, name) => {
+      const buf = new Uint8Array(await blob.arrayBuffer());
+      window.qaVisualDownloads.push({
+        name,
+        head: Array.from(buf.slice(0, 8)),
+        text: name.endsWith(".pdf") ? new TextDecoder().decode(buf) : "",
+      });
+      return true;
+    };
+  });
+  const activeBefore = await page.evaluate(() => neuroMapApp.activeTabId);
+
+  // 1) Multi-tab SVG -> ZIP archive
+  await page.evaluate(() => neuroMapApp._nmExportHub.open());
+  await page
+    .locator(".nm-export-dialog .nm-export-segments button")
+    .filter({ hasText: /Tutte|All/ })
+    .first()
+    .click();
+  await page.locator("#nm-export-format").selectOption("svg");
+  await page.locator(".nm-export-two button").nth(1).click();
+  await expect(page.locator(".nm-export-run")).toBeEnabled();
+  await page.locator(".nm-export-run").click();
+  await expect(page.locator(".nm-export-shade")).toBeHidden();
+  await expect
+    .poll(() => page.evaluate(() => qaVisualDownloads.length))
+    .toBe(1);
+
+  // 2) Multi-tab PNG -> ZIP archive
+  await page.evaluate(() => neuroMapApp._nmExportHub.open());
+  await page
+    .locator(".nm-export-dialog .nm-export-segments button")
+    .filter({ hasText: /Tutte|All/ })
+    .first()
+    .click();
+  await page.locator("#nm-export-format").selectOption("png");
+  await page.locator(".nm-export-two button").nth(1).click();
+  await expect(page.locator(".nm-export-run")).toBeEnabled();
+  await page.locator(".nm-export-run").click();
+  await expect(page.locator(".nm-export-shade")).toBeHidden();
+  await expect
+    .poll(() => page.evaluate(() => qaVisualDownloads.length))
+    .toBe(2);
+
+  // 3) Multi-tab graphical PDF (One file -> combined multi-page PDF)
+  await page.evaluate(() => neuroMapApp._nmExportHub.open());
+  await page
+    .locator(".nm-export-dialog .nm-export-segments button")
+    .filter({ hasText: /Tutte|All/ })
+    .first()
+    .click();
+  await page.locator("#nm-export-format").selectOption("pdf-graphic");
+  await page.locator(".nm-export-two button").first().click();
+  await expect(page.locator(".nm-export-run")).toBeEnabled();
+  await page.locator(".nm-export-run").click();
+  await expect(page.locator(".nm-export-shade")).toBeHidden();
+  await expect
+    .poll(() => page.evaluate(() => qaVisualDownloads.length))
+    .toBe(3);
+
+  const summary = await page.evaluate(() => ({
+    activeAfter: neuroMapApp.activeTabId,
+    files: qaVisualDownloads.map((d) => ({
+      name: d.name,
+      isZip: d.head.slice(0, 4).join(",") === "80,75,3,4",
+      isPdf: d.text.startsWith("%PDF-1.4"),
+      pdfPages: (d.text.match(/\/Type \/Page\b/g) || []).length,
+    })),
+    tabCount: neuroMapApp.tabs.length,
+  }));
+  expect(summary.activeAfter).toBe(activeBefore);
+  expect(summary.files[0].name).toMatch(/\.zip$/);
+  expect(summary.files[0].isZip).toBe(true);
+  expect(summary.files[1].name).toMatch(/\.zip$/);
+  expect(summary.files[1].isZip).toBe(true);
+  expect(summary.files[2].name).toMatch(/\.pdf$/);
+  expect(summary.files[2].isPdf).toBe(true);
+  expect(summary.files[2].pdfPages).toBeGreaterThanOrEqual(summary.tabCount);
+});
+test("Suddivisione e Struttura UI supports modular balanced export, density estimate, numbering toggle, and disables modular for JSON/SVG", async ({
+  page,
+}) => {
+  await page.goto("http://127.0.0.1:5174/index.html");
+  await page.waitForFunction(() => neuroMapApp?._nmExportHub);
+  await page.evaluate(() => {
+    document
+      .querySelectorAll(".nm6-shade")
+      .forEach((e) => e.classList.add("hidden"));
+    const a = neuroMapApp;
+    const filler = Array.from({ length: 1200 }, (_, i) => "parola" + i).join(
+      " ",
+    );
+    a.importHierarchy(
+      {
+        text: "Studio Modulare",
+        children: [
+          { text: "Sezione Alfa", notes: filler, children: [] },
+          { text: "Sezione Beta", notes: filler, children: [] },
+          { text: "Sezione Gamma", notes: filler, children: [] },
+        ],
+      },
+      { newTab: true },
+    );
+    window.qaModularDownloads = [];
+    a.io.triggerDownload = async (blob, name) => {
+      window.qaModularDownloads.push({
+        name,
+        bytes: new Uint8Array(await blob.arrayBuffer()),
+      });
+      return true;
+    };
+    a._nmExportHub.open();
+  });
+
+  await page.locator("#nm-export-format").selectOption("md");
+  await expect(page.locator("#nm-export-chunk-estimate")).toContainText(
+    /1 solo file|single file/,
+  );
+
+  await page.locator("#nm-export-split-mode").selectOption("modular");
+  await expect(page.locator("#nm-export-density")).toBeVisible();
+  await expect(page.locator("#nm-export-numbering")).toBeChecked();
+  await expect(page.locator("#nm-export-chunk-estimate")).toContainText(
+    /Output stimato|Estimated output/,
+  );
+
+  // Switch delivery to ZIP and export -> verifies deterministic multi-part modular output
+  if (
+    await page
+      .locator('#nm-export-delivery option[value="zip"]')
+      .isEnabled()
+  ) {
+    await page.locator("#nm-export-delivery").selectOption("zip");
+  }
+  await page.locator(".nm-export-run").click();
+  await expect(page.locator(".nm-export-shade")).toBeHidden();
+  await expect
+    .poll(() => page.evaluate(() => qaModularDownloads.length))
+    .toBe(1);
+  const res = await page.evaluate(() => ({
+    name: qaModularDownloads[0].name,
+    head: Array.from(qaModularDownloads[0].bytes.slice(0, 4)),
+  }));
+  expect(res.name).toMatch(/\.zip$/);
+  expect(res.head).toEqual([80, 75, 3, 4]);
+
+  // Structural format disables modular option with helpful tooltip
+  await page.evaluate(() => neuroMapApp._nmExportHub.open());
+  await page.locator("#nm-export-format").selectOption("json");
+  await expect(
+    page.locator('#nm-export-split-mode option[value="modular"]'),
+  ).toHaveAttribute("disabled", "");
+  await expect(
+    page.locator('#nm-export-split-mode option[value="modular"]'),
+  ).toHaveAttribute("title", /formati documentali|document formats/);
+  await expect(page.locator("#nm-export-numbering")).toBeDisabled();
+});

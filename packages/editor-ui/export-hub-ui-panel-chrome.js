@@ -23,32 +23,122 @@
       for (const [id, b] of scopes)
         b.setAttribute("aria-pressed", String(scope === id));
       tabs.hidden = scope !== "selected";
-      const n =
+      const fmt = format.value,
+        isDocModular = Core.MODULAR_FORMATS?.includes(fmt),
+        targets = (() => {
+          try {
+            return chosen();
+          } catch {
+            return [];
+          }
+        })(),
+        n =
           scope === "current"
             ? 1
             : scope === "all"
               ? all().length
               : selectedIds.size,
-        graphics = ["svg", "png", "pdf-graphic"].includes(format.value);
-      const only = graphics && scope !== "current";
-      if (format.value === "mm" && n > 1) separate = true;
-      if (n <= 1) separate = false;
-      filesGroup.hidden = n <= 1 || graphics;
-      one.disabled = format.value === "mm" && n > 1;
+        zipOnly = ["mm", "svg", "png"].includes(fmt) && n > 1;
+
+      optModular.disabled = !isDocModular;
+      optModular.title = isDocModular
+        ? ""
+        : t(
+            "La suddivisione in blocchi di parole si applica ai formati documentali (.md, .txt, .html, .docx, .pdf).",
+            "Word-based splitting applies to document formats (.md, .txt, .html, .docx, .pdf).",
+          );
+      optTabs.disabled = n <= 1;
+      optSingle.disabled = zipOnly;
+
+      if (!isDocModular && splitMode === "modular") {
+        splitMode = zipOnly ? "tabs" : userSeparate && n > 1 ? "tabs" : "single";
+      }
+      if (zipOnly) {
+        splitMode = "tabs";
+        separate = true;
+      } else if (splitMode === "tabs" && n <= 1) {
+        splitMode = "single";
+        separate = false;
+      } else if (splitMode === "modular") {
+        separate = false;
+      } else if (n <= 1) {
+        separate = false;
+      } else {
+        separate = splitMode === "tabs" || userSeparate;
+        if (separate) splitMode = "tabs";
+      }
+
+      if (splitSelect.value !== splitMode) splitSelect.value = splitMode;
+      densityRow.hidden = splitMode !== "modular" || !isDocModular;
+      densitySelect.disabled = !isDocModular || splitMode !== "modular";
+      numberingCheck.disabled = !isDocModular;
+      numberingWrap.title = isDocModular
+        ? ""
+        : t(
+            "La numerazione gerarchica dei titoli è disponibile per i formati documentali.",
+            "Hierarchical heading numbering is available for document formats.",
+          );
+      numberingCheck.checked = isDocModular && numberingEnabled;
+
+      const est = isDocModular
+        ? Core.TreeChunker.estimate(targets, {
+            splitMode,
+            preset: densityPreset,
+            hierarchicalNumbering: numberingEnabled,
+          })
+        : { files: zipOnly || (separate && n > 1) ? n : targets.length ? 1 : 0, totalWords: 0, avgWords: 0 };
+
+      const showMultiDelivery =
+        n > 0 && ((splitMode === "modular" && est.files > 1) || (splitMode === "tabs" && n > 1));
+      deliveryRow.hidden = !showMultiDelivery;
+      if (deliverySelect.value !== deliveryMode) deliverySelect.value = deliveryMode;
+
+      filesGroup.hidden = n <= 1 || splitMode === "modular";
+      one.disabled = zipOnly;
       one.setAttribute("aria-pressed", String(!separate));
       zip.setAttribute("aria-pressed", String(separate));
+
+      if (!targets.length) {
+        chunkEstimate.textContent = "";
+      } else if (isDocModular && splitMode === "modular") {
+        chunkEstimate.textContent =
+          est.files <= 1
+            ? t(
+                "Mappa compatta: verrà esportato 1 solo file",
+                "Compact map: 1 single file will be exported",
+              )
+            : t("Output stimato: ", "Estimated output: ") +
+              est.files +
+              t(" file (~", " files (~") +
+              est.avgWords +
+              t(" parole medie/file)", " avg words/file)");
+      } else if (est.files > 1) {
+        chunkEstimate.textContent =
+          t("Output stimato: ", "Estimated output: ") +
+          est.files +
+          t(" file", " files") +
+          (est.avgWords ? " (~" + est.avgWords + t(" parole medie/file)", " avg words/file)") : "");
+      } else {
+        chunkEstimate.textContent = isDocModular
+          ? t(
+              "Mappa compatta: verrà esportato 1 solo file",
+              "Compact map: 1 single file will be exported",
+            ) + (est.totalWords ? " (~" + est.totalWords + t(" parole)", " words)") : "")
+          : "";
+      }
+
       hint.textContent =
-        translated(descriptions[format.value]) +
+        translated(descriptions[fmt]) +
         " · " +
         t("Schede: ", "Maps: ") +
         n +
         "/" +
         all().length +
-        (only
-          ? t(" · Disponibile solo per la scheda attiva", " · Active map only")
+        (zipOnly
+          ? t(" · Esportate come archivio ZIP", " · Exported as ZIP archive")
           : "");
       renderPreview();
-      run.disabled = busy || n === 0 || only;
+      run.disabled = busy || n === 0;
       status.setAttribute("role", lastError ? "alert" : "status");
       status.textContent =
         lastError ||
@@ -56,12 +146,43 @@
           ? t("Seleziona almeno una scheda.", "Choose at least one map.")
           : "");
     }
+    splitSelect.addEventListener("change", () => {
+      splitMode = splitSelect.value;
+      if (splitMode === "modular") {
+        userSeparate = false;
+        if (!numberingTouched) numberingEnabled = true;
+      } else if (splitMode === "tabs") {
+        userSeparate = true;
+      } else {
+        userSeparate = false;
+        if (!numberingTouched) numberingEnabled = false;
+      }
+      update();
+    });
+    densitySelect.addEventListener("change", () => {
+      densityPreset = densitySelect.value;
+      update();
+    });
+    numberingCheck.addEventListener("change", () => {
+      numberingTouched = true;
+      numberingEnabled = numberingCheck.checked;
+      update();
+    });
+    deliverySelect.addEventListener("change", () => {
+      deliveryMode = deliverySelect.value;
+      update();
+    });
     one.addEventListener("click", () => {
+      userSeparate = false;
       separate = false;
+      splitMode = "single";
       update();
     });
     zip.addEventListener("click", () => {
+      userSeparate = true;
       separate = true;
+      splitMode = "tabs";
+      deliveryMode = "zip";
       update();
     });
     format.addEventListener("change", update);

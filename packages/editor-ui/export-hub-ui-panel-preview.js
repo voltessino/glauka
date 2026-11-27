@@ -77,13 +77,50 @@
     async function renderPreview() {
       const version = ++previewVersion,
         type = format.value,
-        isPDF = type === "pdf-graphic";
-      visual.hidden =
-        !["png", "pdf-graphic"].includes(type) || scope !== "current";
+        isPDF = type === "pdf-graphic",
+        targets = (() => {
+          try {
+            return chosen();
+          } catch {
+            return [];
+          }
+        })();
+      visual.hidden = !["png", "pdf-graphic"].includes(type) || !targets.length;
       for (const control of [pagination, paper, orientation])
         control.parentElement.hidden = !isPDF;
       resolution.parentElement.hidden = isPDF;
       if (visual.hidden) return;
+      const singleActive =
+        targets.length === 1 && targets[0].id === app.activeTabId;
+      const targetMode =
+        host.NeuroMapViewCore?.mode(targets[0]?.state?.root?.viewMode) ||
+        "mindmap";
+      if (!singleActive || targetMode !== "mindmap") {
+        previewTitle.hidden = true;
+        preview.hidden = true;
+        delete preview.dataset.pages;
+        previewInfo.textContent =
+          targets.length > 1
+            ? t("Esportazione multipla pronta (", "Multi-map export ready (") +
+              targets.length +
+              (isPDF
+                ? separate
+                  ? t(" schede · ZIP).", " maps · ZIP).")
+                  : t(" schede · PDF unico).", " maps · single PDF).")
+                : t(" schede · ZIP).", " maps · ZIP)."))
+            : targetMode !== "mindmap"
+              ? t(
+                  "Vista collegata attiva: esportazione fedele della vista.",
+                  "Linked view active: exports the exact view layout.",
+                )
+              : t(
+                  "Scheda selezionata pronta per l’esportazione grafica.",
+                  "Selected map ready for graphical export.",
+                );
+        return;
+      }
+      previewTitle.hidden = false;
+      preview.hidden = false;
       previewInfo.textContent = t(
         "Preparazione anteprima…",
         "Preparing preview…",
@@ -167,6 +204,7 @@
       head,
       scopeGroup,
       formatGroup,
+      structure,
       filesGroup,
       hint,
       visual,
@@ -204,8 +242,8 @@
         "PDF outline rendered as image pages: text is not selectable and it does not reproduce the map canvas.",
       ),
       "pdf-graphic": t(
-        "Tutta la mappa in una pagina. Puoi scegliere più fogli per stamparla in grande.",
-        "The whole map on one page. Choose multiple sheets for a larger print.",
+        "Mappa o viste grafiche in una o più pagine PDF (anche multi-scheda o ZIP).",
+        "Mind map or views in one or more PDF pages (supports multi-map or ZIP).",
       ),
       json: t(
         "Backup NeuroMap con immagini, relazioni e impostazioni disponibili.",
@@ -216,12 +254,12 @@
         "Native project. Multiple maps yield workspace JSON or a ZIP of projects.",
       ),
       svg: t(
-        "Disegno vettoriale della sola scheda attiva.",
-        "Vector drawing of the active map only.",
+        "Disegno vettoriale nitido (una scheda in SVG, più schede in archivio ZIP).",
+        "Crisp vector drawing (single SVG or ZIP archive for multiple maps).",
       ),
       png: t(
-        "Immagine della sola scheda attiva.",
-        "Image of the active map only.",
+        "Immagine ad alta risoluzione (una scheda in PNG, più schede in archivio ZIP).",
+        "High-resolution image (single PNG or ZIP archive for multiple maps).",
       ),
     };
     const all = () => app.tabs || [];

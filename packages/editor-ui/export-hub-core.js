@@ -140,6 +140,7 @@
     }
     return out;
   }
+/* @neuromap-export-hub-core-chunker */
 /* @neuromap-export-hub-core-writers */
 /* @neuromap-export-hub-core-parsers */
 /* @neuromap-export-hub-core-render */
@@ -148,6 +149,9 @@
     selected,
     inspect,
     collect,
+    TreeChunker,
+    MODULAR_PRESETS,
+    MODULAR_FORMATS,
     txt,
     opml,
     freemind,

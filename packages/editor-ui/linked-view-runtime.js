@@ -56,9 +56,11 @@
       if(app)queue(app);
     });
   }
-  root.NeuroMapLinkedViews=Object.freeze({setMode,setFocus,refresh:queue,exportSVG:exportView,
-    exportPNG:(app,scale=2)=>exportView(app,'png',scale),
-    exportPDF:app=>exportView(app,'pdf',2),
+  root.NeuroMapLinkedViews=Object.freeze({setMode,setFocus,refresh:queue,
+    exportSVG:(app,options)=>exportView(app,'svg',2,options),
+    exportPNG:(app,scale=2,options)=>exportView(app,'png',scale,options),
+    exportPDF:(app,options)=>exportView(app,'pdf',2,options),
+    exportPDFPage:(app,options)=>exportView(app,'pdf-jpg',2,{captureOnly:true,...options}),
     restoreFromTab(app,fromFile=false){
       if(!app?.state)return;
       if(fromFile)reopenedFromDisk.add(app.state);

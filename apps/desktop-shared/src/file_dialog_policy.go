@@ -11,6 +11,7 @@ const (
 	pickerOverwrite    = 0x2
 	pickerStrictTypes  = 0x4
 	pickerNoChangeDir  = 0x8
+	pickerPickFolders  = 0x20
 	pickerFilesystem   = 0x40
 	pickerMultiple     = 0x200
 	pickerPathExists   = 0x800

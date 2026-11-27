@@ -1,11 +1,11 @@
-  function exportView(app,format='svg',scale=2){
+  function exportView(app,format='svg',scale=2,options={}){
     const field=document.querySelector('#nm-view-stage .nm-view-edit');
     if(field)field.blur(); // commit any active inline rename first
     const rootNode=app.state?.root,mode=displayMode(app.state);
     if(!rootNode||mode==='mindmap')return false;
     let graph;
     try{graph=projected(app.state,mode)}
-    catch(error){app.showToast?.(error.message,'ERRORE');return false}
+    catch(error){if(options?.captureOnly||options?.awaitResult)throw error;app.showToast?.(error.message,'ERRORE');return false}
     const sceneStyle=viewStyle(app.state,mode);
     const modeElements=appearance?.clean(app.state.root.viewAppearance).modes[mode]?.elements||null;
     const NS='http://www.w3.org/2000/svg';
@@ -224,9 +224,18 @@
     }
     const name=String(exportRoot.text||'NeuroMap').replace(/[^\w\u00C0-\u024F -]/g,'').slice(0,65).trim()||'NeuroMap';
     const stem=name+(scoped?'-branch':'')+'-'+mode;
-    if(format==='png'||format==='pdf')return rasterizeViewRaster(app,svg,graph.width,graph.height,stem,scale,format);
-    const blob=new Blob([new XMLSerializer().serializeToString(svg)],{type:'image/svg+xml;charset=utf-8'});
+    if(format==='png'||format==='pdf'||format==='pdf-jpg'){
+      if(options?.captureOnly||options?.awaitResult)
+        return rasterizeViewPromise(app,svg,graph.width,graph.height,stem,scale,format,options);
+      return rasterizeViewRaster(app,svg,graph.width,graph.height,stem,scale,format);
+    }
+    const serialized=new XMLSerializer().serializeToString(svg);
+    if(options?.captureOnly){
+      const bytes=new TextEncoder().encode(serialized);
+      return {data:bytes,blob:new Blob([bytes],{type:'image/svg+xml;charset=utf-8'}),name:stem+'.svg'};
+    }
+    const blob=new Blob([serialized],{type:'image/svg+xml;charset=utf-8'});
     const result=app.io.triggerDownload(blob,stem+'.svg');
-    if(!root.neuromapDesktop)app.showToast?.(tr('Vista SVG esportata','SVG view exported'),'SVG');
-    return result;
+    const notify=saved=>{if(saved!==false&&!root.neuromapDesktop)app.showToast?.(tr('Vista SVG esportata','SVG view exported'),'SVG');return saved;};
+    return result&&typeof result.then==='function'?result.then(notify):notify(result);
   }

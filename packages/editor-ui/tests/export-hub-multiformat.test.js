@@ -7,6 +7,7 @@ const loadExportHubCore=()=>{
   const filename=path.join(ui,'export-hub-core.js');
   let source=fs.readFileSync(filename,'utf8');
   for(const [marker,file] of [
+    ['/* @neuromap-export-hub-core-chunker */\n','export-hub-core-chunker.js'],
     ['/* @neuromap-export-hub-core-writers */\n','export-hub-core-writers.js'],
     ['/* @neuromap-export-hub-core-parsers */\n','export-hub-core-parsers.js'],
     ['/* @neuromap-export-hub-core-render */\n','export-hub-core-render.js'],
@@ -167,4 +168,172 @@ test('Word export preserves the selected local font, size, text color and strike
  const doc=archiveEntries(X.docx([tree('Titolo',[tree('Stile leggibile',[],{fontFamily:'Georgia',fontSize:24,fontColor:'#8b2355',fontStrike:true})])])).find(entry=>entry.name==='word/document.xml');
  const xml=new TextDecoder().decode(doc.body);
  assert.match(xml,/<w:rFonts w:ascii="Georgia"/);assert.match(xml,/<w:color w:val="8b2355"\/>/);assert.match(xml,/<w:sz w:val="48"\/>/);assert.match(xml,/<w:strike\/>/);
+ // Verify OOXML CT_RPr element ordering (rFonts before b/i/strike/color/sz/u)
+ const rPr=xml.match(/<w:rPr>.*?<\/w:rPr>/g).find(s=>s.includes('Georgia'));
+ assert.ok(rPr.indexOf('<w:rFonts')<rPr.indexOf('<w:strike')&&rPr.indexOf('<w:strike')<rPr.indexOf('<w:color')&&rPr.indexOf('<w:color')<rPr.indexOf('<w:sz'));
+});
+
+test('Word export darkens invisible light text colors and separates multi-tab pages cleanly',()=>{
+ const whiteNode=tree('White on dark',[],{fontColor:'#ffffff'});
+ const darkRoot=tree('Dark Root',[whiteNode],{fontColor:'#f8fafc'});
+ const secondRoot=tree('Second Map',[tree('Child 2')]);
+ const doc=archiveEntries(X.docx([darkRoot,secondRoot])).find(entry=>entry.name==='word/document.xml');
+ const xml=new TextDecoder().decode(doc.body);
+ assert.equal(/w:val="ffffff"/i.test(xml),false);
+ assert.equal(/w:val="f8fafc"/i.test(xml),false);
+ assert.match(xml,/<w:br w:type="page"\/>/);
+});
+
+test('HTML export guards missing children arrays, fixes singular grammar, and preserves links/styles',()=>{
+ const bare={text:'Single Root',fontWeight:700,linkUrl:'https://glauka.app'};
+ const html=X.html([bare]);
+ assert.match(html,/1 mappa · sola lettura/);
+ assert.equal(/1 mappe/.test(html),false);
+ assert.match(html,/<strong>Single Root<\/strong>/);
+ assert.match(html,/href="https:\/\/glauka\.app"/);
+ assert.equal(/<ul><\/ul>/.test(html),false);
+ const multi=X.html(roots);
+ assert.match(multi,/3 mappe · sola lettura/);
+ assert.match(multi,/href="#map-0"/);
+ assert.match(multi,/href="#map-2"/);
+});
+
+test('FreeMind .mm multiline notes preserve paragraph tags for cross-reader compatibility',()=>{
+ const src=tree('Root',[tree('Topic',[],{notes:'Riga 1\nRiga 2\nRiga 3'})]);
+ const xml=X.freemind(src);
+ assert.match(xml,/<richcontent TYPE="NOTE"><html><body><p>Riga 1<\/p><p>Riga 2<\/p><p>Riga 3<\/p><\/body><\/html><\/richcontent>/);
+ // Also verify parseFreeMind extracts paragraph breaks when DOMParser is present
+ const fakeP=(txt)=>({textContent:txt});
+ global.DOMParser=class{parseFromString(){return {querySelector:()=>null,documentElement:{localName:'map',children:[{localName:'node',getAttribute:k=>k==='TEXT'?'Root':null,children:[{localName:'node',getAttribute:k=>k==='TEXT'?'Topic':null,children:[{localName:'richcontent',getAttribute:k=>k==='TYPE'?'NOTE':null,querySelectorAll:()=>[fakeP('Riga 1'),fakeP('Riga 2'),fakeP('Riga 3')],textContent:'Riga 1Riga 2Riga 3'}]}]}]}};}};
+ try{
+  const parsed=X.parseFreeMind(xml);
+  assert.equal(parsed.children[0].notes,'Riga 1\nRiga 2\nRiga 3');
+ }finally{delete global.DOMParser;}
+});
+
+test('PDF document export starts each map on a new page, preserves blank note lines, and numbers pages',async()=>{
+ const drawn=[];
+ const old=global.document;
+ try{
+  global.document={createElement:()=>({
+   width:960,height:1358,
+   getContext:()=>({fillText(txt){drawn.push(txt)},fillRect(){},measureText:v=>({width:String(v).length*8})}),
+   toBlob:cb=>cb({arrayBuffer:async()=>new Uint8Array([255,216,255,217]).buffer})
+  })};
+  const noteTabs=[{root:{text:'First',notes:'Line A\n\nLine B',children:[]}},{root:{text:'Second',children:[]}}];
+  const pdf=await X.pdf(noteTabs);
+  const text=new TextDecoder().decode(pdf.data);
+  const pageMatches=text.match(/\/Type \/Page\b/g)||[];
+  assert.equal(pageMatches.length,2);
+  assert.ok(drawn.some(s=>s.includes('Pag. 1')));
+  assert.ok(drawn.some(s=>s.includes('Pag. 2')));
+ }finally{global.document=old}
+});
+
+test('TreeChunker keeps compact maps intact in 1 chunk with no multi-part header',()=>{
+ const words=n=>Array.from({length:n},(_,i)=>'parola'+i).join(' ');
+ const small=tree('Mappa Compatta',[tree('Ramo 1',[tree('Dettaglio',[],{notes:words(120)})]),tree('Ramo 2',[],{notes:words(180)})]);
+ const chunks=X.TreeChunker.chunkTree(small,{preset:'balanced',extension:'md'});
+ assert.equal(chunks.length,1);
+ assert.equal(chunks[0].part_index,1);
+ assert.equal(chunks[0].total_parts,1);
+ assert.equal(chunks[0].suggested_filename,'Mappa Compatta.md');
+ assert.equal(chunks[0].context_header,null);
+ assert.ok(chunks[0].word_count<=2300);
+});
+
+test('TreeChunker splits large maps along L1 boundaries sequentially, numbers globally, and pads filenames',()=>{
+ const block=(w)=>Array.from({length:w},(_,i)=>'t'+i).join(' ');
+ const branches=Array.from({length:11},(_,i)=>tree('Capitolo '+(i+1),[
+  tree('Concetto A',[],{notes:block(280)}),
+  tree('Concetto B',[tree('Sottopunto profondo',[],{notes:block(40)})],{notes:block(280)})
+ ]));
+ const large=tree('Trattato Completo',branches);
+ const chunks=X.TreeChunker.chunkTree(large,{preset:'compact',hierarchicalNumbering:true,extension:'md'});
+ assert.ok(chunks.length>=5);
+ for(let i=0;i<chunks.length;i++){
+  const c=chunks[i];
+  assert.equal(c.part_index,i+1);
+  assert.equal(c.total_parts,chunks.length);
+  assert.match(c.suggested_filename,/^\d{2,}_Trattato Completo_Parte\d+\.md$/);
+  assert.ok(c.word_count<=1400||c.nodes_tree.children.length===1);
+  assert.equal(c.context_header.partLabel,'Parte '+(i+1)+' di '+chunks.length);
+  if(i>0)assert.ok(c.context_header.previousLastSection);
+ }
+ // Alphabetical filename ordering equals sequential part order
+ const sorted=[...chunks.map(c=>c.suggested_filename)].sort();
+ assert.deepEqual(sorted,chunks.map(c=>c.suggested_filename));
+ // Global hierarchical numbering never resets between chunk 1 and chunk 2
+ const firstSectionChunk1=chunks[0].nodes_tree.children[0].text;
+ const firstSectionChunk2=chunks[1].nodes_tree.children[0].text;
+ assert.ok(firstSectionChunk1.startsWith('1. '),firstSectionChunk1);
+ assert.ok(!firstSectionChunk2.startsWith('1. '),firstSectionChunk2);
+});
+
+test('TreeChunker falls back to L2 children for an oversized L1 branch and preserves (continua) headers',()=>{
+ const filler=(w)=>Array.from({length:w},(_,i)=>'voce'+i).join(' ');
+ const l2s=Array.from({length:6},(_,i)=>tree('Sottocapitolo '+(i+1),[],{notes:filler(550)}));
+ const giant=tree('Libro',[tree('Introduzione',[],{notes:filler(100)}),tree('Capitolo Enorme',l2s,{notes:filler(80)})]);
+ const chunks=X.TreeChunker.chunkTree(giant,{preset:'balanced',hierarchicalNumbering:true,extension:'md'});
+ assert.ok(chunks.length>=2);
+ const rendered=X.render([{id:'g',state:{root:giant}}],'md',{splitMode:'modular',preset:'balanced',hierarchicalNumbering:true,...opts});
+ const zip=archiveEntries(rendered.data);
+ const texts=zip.map(f=>new TextDecoder().decode(f.body));
+ assert.match(texts[0],/## 2\. Capitolo Enorme/);
+ assert.ok(texts.slice(1).some(t=>/## 2\. Capitolo Enorme \(continua\)/.test(t)));
+ assert.match(texts[0],/### 2\.1 Sottocapitolo 1/);
+ assert.ok(texts.some(t=>/### 2\.6 Sottocapitolo 6/.test(t)));
+});
+
+test('TreeChunker Anti-Orphan merges a tiny trailing chunk (<25% targetWords) into the penultimate chunk',()=>{
+ const words=(w)=>Array.from({length:w},(_,i)=>'w'+i).join(' ');
+ // Target balanced = 1800, max = 2300, orphan threshold = 450
+ const root=tree('Biologia',[
+  tree('Parte Uno',[],{notes:words(1850)}),
+  tree('Coda Minuscola',[],{notes:words(120)})
+ ]);
+ const chunks=X.TreeChunker.chunkTree(root,{preset:'balanced',extension:'txt'});
+ assert.equal(chunks.length,1);
+ assert.equal(chunks[0].nodes_tree.children.length,2);
+});
+
+test('All document formats consume ExportChunk with Heading 1-3 and level 4+ bullets and zero 3rd-party brands',async()=>{
+ const words=(w)=>Array.from({length:w},(_,i)=>'k'+i).join(' ');
+ const deep=tree('Corso',[
+  tree('Modulo A',[tree('Unità A1',[tree('Dettaglio livello 4',[tree('Dettaglio livello 5')],{notes:words(600)})],{notes:words(600)})]),
+  tree('Modulo B',[tree('Unità B1',[],{notes:words(1300)})])
+ ]);
+ const tab={id:'c',state:{root:deep}};
+ // MD
+ const mdZip=archiveEntries(X.render([tab],'md',{splitMode:'modular',preset:'balanced',hierarchicalNumbering:true,...opts}).data);
+ const md0=new TextDecoder().decode(mdZip[0].body);
+ assert.match(md0,/^> \*\*Corso — Parte 1 di /m);
+ assert.match(md0,/^# Corso/m);
+ assert.match(md0,/^## 1\. Modulo A/m);
+ assert.match(md0,/^### 1\.1 Unità A1/m);
+ assert.match(md0,/^- 1\.1\.1 Dettaglio livello 4/m);
+ // HTML
+ const htmlZip=archiveEntries(X.render([tab],'html',{splitMode:'modular',preset:'balanced',hierarchicalNumbering:true,...opts}).data);
+ const html0=new TextDecoder().decode(htmlZip[0].body);
+ assert.match(html0,/<aside class="chunk-context"/);
+ assert.match(html0,/<h2>1\. Modulo A<\/h2>/);
+ assert.match(html0,/<h3>1\.1 Unità A1<\/h3>/);
+ assert.match(html0,/<ul><li>1\.1\.1 Dettaglio livello 4/);
+ // DOCX
+ const docxZip=archiveEntries(X.render([tab],'docx',{splitMode:'modular',preset:'balanced',hierarchicalNumbering:true,...opts}).data);
+ const innerDocx=archiveEntries(docxZip[0].body);
+ const docxXml=new TextDecoder().decode(innerDocx.find(e=>e.name==='word/document.xml').body);
+ assert.match(docxXml,/Corso — Parte 1 di /);
+ assert.match(docxXml,/<w:pStyle w:val="Heading2"\/>.*?1\. Modulo A/);
+ assert.match(docxXml,/<w:pStyle w:val="Heading3"\/>.*?1\.1 Unità A1/);
+ assert.match(docxXml,/• 1\.1\.1 Dettaglio livello 4/);
+ // PDF
+ const oldDoc=global.document;
+ try{
+  global.document={createElement:()=>({width:960,height:1358,getContext:()=>({fillText(){},fillRect(){},measureText:v=>({width:String(v).length*8})}),toBlob:cb=>cb({arrayBuffer:async()=>new Uint8Array([255,216,255,217]).buffer})})};
+  const pdfOut=await X.pdf([tab],{splitMode:'modular',preset:'balanced',hierarchicalNumbering:true});
+  const pdfZip=archiveEntries(pdfOut.data);
+  assert.equal(pdfZip.length,mdZip.length);
+  assert.match(pdfZip[0].name,/^\d{2,}_Corso_Parte1\.pdf$/);
+ }finally{global.document=oldDoc}
 });

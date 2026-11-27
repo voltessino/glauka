@@ -54,11 +54,12 @@
         const blob=await new Promise(resolve=>offCanvas.toBlob(resolve,'image/png'));
         if(!blob)throw new Error('Impossibile creare il PNG');
         const fname=this.sanitizeFilename(this.app.state.root.text)+'.png';
+        if(options?.captureOnly)return {data:new Uint8Array(await blob.arrayBuffer()),blob,name:fname,width:plan.width,height:plan.height};
         const saved=await this.triggerDownload(blob,fname);if(saved===false)return false;
         this.app.showToast(`PNG · ${plan.width}×${plan.height}px`,'EXPORT PNG');return true;
       }
 
-      exportSVG() {
+      exportSVG(options={}) {
         const bbox = NeuroMapGraphics.bounds(this.app);
         const pad = 60;
         const width = Math.max(600, Math.ceil(bbox.width + pad * 2));
@@ -325,9 +326,11 @@
           `</svg>`
         ].join('\n');
 
+        const fname = `${this.sanitizeFilename(rootNode.text)}.svg`;
         const blob = new Blob([svgContent], { type: 'image/svg+xml;charset=utf-8' });
+        if (options?.captureOnly) return { data: new TextEncoder().encode(svgContent), blob, name: fname };
         const done=saved=>{if(saved===false)return false;this.app.showToast('Esportato file vettoriale SVG', 'EXPORT SVG');return true;};
-        const result=this.triggerDownload(blob, `${this.sanitizeFilename(rootNode.text)}.svg`);
+        const result=this.triggerDownload(blob, fname);
         return result&&typeof result.then==='function'?result.then(done,error=>{this.app.showToast('Esportazione non riuscita: '+error.message,'ESPORTAZIONE');return false;}):done(result);
       }
 

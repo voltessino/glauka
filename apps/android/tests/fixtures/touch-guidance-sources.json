@@ -190,6 +190,7 @@
     "packages/editor-ui/editor-shared/qr-graphic.js",
     "packages/editor-ui/editor-shared/state-node-style.js",
     "packages/editor-ui/editor-shared/state-relationships-summary.js",
+    "packages/editor-ui/export-hub-core-chunker.js",
     "packages/editor-ui/export-hub-core-parsers.js",
     "packages/editor-ui/export-hub-core-pdf.js",
     "packages/editor-ui/export-hub-core-render.js",
@@ -394,7 +395,7 @@
   ],
   "closure_input_sha256": {
     "apps/desktop-shared/editor/sources.json": "fb1ea6514583c3beebe072f0ab7b308b21a498bd87f7d32dfe14551e6b6c2e15",
-    "scripts/release/prepare.py": "61f8db0f7e6d445cfc7af9e96083bbc4c4ada71ca93c66af861e5ef4fced39fd",
+    "scripts/release/prepare.py": "411759bbec26fd99459fab26f9e49edab2bcfbc45811602d7e937388f6146c88",
     "apps/android/editor/sources.json": "5e136cb6faeff809aa268d1ac601c08189a97597675d19d9397dd89eb484d360",
     "scripts/release/pdfjs_vendor.py": "e49edd825a3ee4b0bc909fc458324ec7a3425bbb180f5da69c4e8f85621001af",
     "scripts/release/ocr_vendor.py": "fa270f0c19830d7cee395e8ab1720ea6cc7b7b708fc3d373e4f79aca22c333df",

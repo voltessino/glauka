@@ -263,6 +263,7 @@ def bundles():
     art += '\n' + read(UI / 'object-gallery-healthicons.js')
     export_hub_core = read(UI / 'export-hub-core.js')
     for export_marker, export_file in (
+        ('export-hub-core-chunker', 'export-hub-core-chunker.js'),
         ('export-hub-core-writers', 'export-hub-core-writers.js'),
         ('export-hub-core-parsers', 'export-hub-core-parsers.js'),
         ('export-hub-core-render', 'export-hub-core-render.js'),

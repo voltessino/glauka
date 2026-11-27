@@ -784,6 +784,94 @@ func (s *service) routes() *http.ServeMux {
 		}
 		responseJSON(w, 200, map[string]any{"cancelled": false, "name": filepath.Base(dest)})
 	})
+	mux.HandleFunc("/__desktop/file/export-folder", func(w http.ResponseWriter, r *http.Request) {
+		if !s.secure(w, r) {
+			return
+		}
+		var q struct {
+			Subdir string `json:"subdir"`
+			Files  []struct {
+				Name   string `json:"name"`
+				Base64 string `json:"base64"`
+			} `json:"files"`
+		}
+		if !readJSON(w, r, &q, maxWorkspace+maxWorkspace/3) {
+			return
+		}
+		if len(q.Files) == 0 || len(q.Files) > 200 {
+			responseJSON(w, 400, response{Message: "Numero di file non valido"})
+			return
+		}
+		allowed := map[string]bool{".png": true, ".svg": true, ".md": true, ".json": true, ".opml": true, ".xml": true, ".txt": true, ".html": true, ".ics": true, ".pdf": true, ".docx": true, ".zip": true, ".mm": true, ".neuromap": true, ".gk": true, ".glk": true}
+		decoded := make([]struct {
+			name string
+			data []byte
+		}, 0, len(q.Files))
+		seen := map[string]bool{}
+		var totalBytes int64
+		for _, item := range q.Files {
+			name := filepath.Base(strings.TrimSpace(item.Name))
+			if name == "" || name == "." || name == ".." || len(name) > 200 || strings.ContainsAny(name, `/\:*?"<>|`) {
+				responseJSON(w, 400, response{Message: "Nome file non consentito"})
+				return
+			}
+			ext := strings.ToLower(filepath.Ext(name))
+			if !allowed[ext] || seen[strings.ToLower(name)] {
+				responseJSON(w, 400, response{Message: "Formato o nome duplicato non consentito"})
+				return
+			}
+			seen[strings.ToLower(name)] = true
+			raw, err := base64.StdEncoding.DecodeString(item.Base64)
+			if err != nil || int64(len(raw)) > maxWorkspace {
+				responseJSON(w, 400, response{Message: "Contenuto export non valido"})
+				return
+			}
+			totalBytes += int64(len(raw))
+			if totalBytes > maxWorkspace {
+				responseJSON(w, 400, response{Message: "Dimensione totale oltre il limite consentito"})
+				return
+			}
+			decoded = append(decoded, struct {
+				name string
+				data []byte
+			}{name: name, data: raw})
+		}
+		sub := strings.TrimSpace(filepath.Base(q.Subdir))
+		sub = strings.Map(func(r rune) rune {
+			if strings.ContainsRune(`/\:*?"<>|`, r) || r < 32 {
+				return '_'
+			}
+			return r
+		}, sub)
+		sub = strings.Trim(sub, ". ")
+		if sub == "" || sub == "." || sub == ".." {
+			sub = "Glauka_Export"
+		}
+		if len(sub) > 85 {
+			sub = sub[:85]
+		}
+		parent, err := desktopFolderDialog()
+		if err != nil {
+			responseJSON(w, 500, response{Message: err.Error()})
+			return
+		}
+		if parent == "" {
+			responseJSON(w, 200, map[string]any{"cancelled": true})
+			return
+		}
+		targetDir := filepath.Join(parent, sub)
+		if err = os.MkdirAll(targetDir, 0o755); err != nil {
+			responseJSON(w, 500, response{Message: err.Error()})
+			return
+		}
+		for _, item := range decoded {
+			if err = atomicFile(filepath.Join(targetDir, item.name), item.data); err != nil {
+				responseJSON(w, 500, response{Message: err.Error()})
+				return
+			}
+		}
+		responseJSON(w, 200, map[string]any{"cancelled": false, "name": sub, "folder": targetDir, "count": len(decoded)})
+	})
 	mux.HandleFunc("/__desktop/file/save", func(w http.ResponseWriter, r *http.Request) {
 		if !s.secure(w, r) {
 			return

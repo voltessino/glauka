@@ -228,15 +228,23 @@ test('Flashcard Studio clearly identifies Flashcards, builds structured Markdown
   });
 
   await expect(page.locator('#flash-modal .v4-modal-head strong')).toContainText(/Flashcard/i);
+  await expect(page.locator('#glauka-flash-new-quick')).toHaveCount(0);
+  await expect(page.locator('#glauka-empty-actions button')).toHaveCount(1);
+  await expect(page.locator('#flash-reveal')).toBeHidden();
 
-  // Verify Markdown AI Mode prompt divides whole map by branch and respects prompt style options.
+  // Verify Markdown AI Mode prompt divides whole map by branch, opens clean udm=50 URL, and highlights Paste button.
   await page.locator('#glauka-study-tools > summary').click();
   await expect(page.locator('#v5-study-prompt-style')).toBeVisible();
-  const balancedPrompt = await page.evaluate(() => window.neuroMapApp.v5BuildGoogleCardsPrompt('active', 10, 'balanced').fullPrompt);
+  const builtBalanced = await page.evaluate(() => window.neuroMapApp.v5BuildGoogleCardsPrompt('active', 10, 'balanced'));
+  expect(builtBalanced.url).toBe('https://www.google.com/search?udm=50');
+  const balancedPrompt = builtBalanced.fullPrompt;
   expect(balancedPrompt).toContain('BILANCIATO');
   expect(balancedPrompt).toContain('# Neuroanatomia');
   expect(balancedPrompt).toContain('## 1. Ipotalamo');
   expect(balancedPrompt).toContain('## 2. Talamo');
+
+  await page.locator('#glauka-flash-google-copy').click();
+  await expect(page.locator('#glauka-flash-google-paste')).toHaveClass(/is-paste-ready/);
 
   await page.locator('#v5-study-prompt-style').selectOption('detailed');
   const detailedPrompt = await page.evaluate(() => window.neuroMapApp.v5BuildGoogleCardsPrompt('active', 12, 'detailed').fullPrompt);

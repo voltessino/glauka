@@ -7128,5 +7128,20 @@
   "m7b6fc5585d68": "Google AI Mode opened & prompt copied: copy the reply and press “Paste result”.",
   "m4a712ddf2a53": "Paste result",
   "mbdf29aef76dd": "Prompt copied: paste the result from Google AI Mode or your AI here",
-  "m8cfa7d6934d2": "Paste text from clipboard"
+  "m8cfa7d6934d2": "Paste text from clipboard",
+  "m471e0234d428": "✎ Edit flashcard",
+  "mf51f36e1540b": "Your deck is empty. Create your first flashcard or generate a set below using AI or Google AI Mode.",
+  "mec66c8e1dcb0": "Google AI Mode · or other AI",
+  "m8ebbb765f882": "📋 Paste result",
+  "mab759af380ce": "📋 Paste",
+  "m3ae6359ce982": "Result pasted: press “Import” to add the flashcards.",
+  "mc6417b708fb4": "Paste the AI result in the box beside this button.",
+  "m1e97e1525574": "All maps:",
+  "mb0f4a40187ce": "Selected maps:",
+  "mbc9485589b56": ", active ?",
+  "m691a441ff7c6": "+ (checked ?",
+  "ma581de1d0129": "), (checked ?",
+  "me73091c6d7db": ") + (t.title || tr(",
+  "m7d59c0ae4d3d": ", checked ?",
+  "m7494fe6a9963": "+ value.stale +"
 }

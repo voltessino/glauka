@@ -7128,5 +7128,20 @@
   "m7b6fc5585d68": "Google AI-Modus geöffnet und Eingabeaufforderung kopiert: Kopieren Sie die Antwort und klicken Sie auf „Ergebnis einfügen“.",
   "m4a712ddf2a53": "Ergebnis einfügen",
   "mbdf29aef76dd": "Eingabeaufforderung kopiert: Fügen Sie das Ergebnis aus dem Google AI-Modus oder Ihrer KI hier ein",
-  "m8cfa7d6934d2": "Text aus der Zwischenablage einfügen"
+  "m8cfa7d6934d2": "Text aus der Zwischenablage einfügen",
+  "m471e0234d428": "✎ Karteikarte bearbeiten",
+  "mf51f36e1540b": "Dein Deck ist leer. Erstellen Sie Ihre erste Karteikarte oder generieren Sie unten einen Satz mit AI oder Google AI Mode.",
+  "mec66c8e1dcb0": "Google AI-Modus · oder andere KI",
+  "m8ebbb765f882": "📋 Ergebnis einfügen",
+  "mab759af380ce": "📋 Einfügen",
+  "m3ae6359ce982": "Ergebnis eingefügt: Klicken Sie auf „Importieren“, um die Karteikarten hinzuzufügen.",
+  "mc6417b708fb4": "Fügen Sie das KI-Ergebnis in das Feld neben dieser Schaltfläche ein.",
+  "m1e97e1525574": "Alle Karten:",
+  "mb0f4a40187ce": "Ausgewählte Karten:",
+  "mbc9485589b56": ", aktiv ?",
+  "m691a441ff7c6": "+ (geprüft ?",
+  "ma581de1d0129": "), (geprüft ?",
+  "me73091c6d7db": ") + (t.title || tr(",
+  "m7d59c0ae4d3d": ", überprüft ?",
+  "m7494fe6a9963": "+ value.stale +"
 }

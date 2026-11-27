@@ -50,20 +50,31 @@ test('three selection scopes retain original tab order and never edit selection'
  assert.throws(()=>X.selected(tabs,'selected',[],'tab0'),/Seleziona/);
  assert.throws(()=>X.selected(tabs,'unexpected',[],'tab0'),/sconosciuta/);
 });
-test('Markdown roundtrips three tabs with notes, multiline labels and styling',()=>{
- const out=X.render(tabs,'md',opts),parsed=Map.parseMarkdownExport(out.data);
- assert.equal(out.name,'neuromap_3_schede.md');assert.equal(parsed.length,3);
+test('Markdown exports cleanly without NeuroMap-Markdown-v2 or NM JSON comments and roundtrips three tabs with notes & styling',()=>{
+ const out=X.render(tabs,'md',opts);
+ assert.equal(out.name,'neuromap_3_schede.md');
+ assert.equal(/<!--\s*NeuroMap-Markdown-v/i.test(out.data),false,'Clean Markdown must never contain legacy v1/v2 markers');
+ assert.equal(/<!--\s*NM:/i.test(out.data),false,'Clean Markdown must never dump URL-encoded NM metadata JSON');
+ assert.match(out.data,/^# Ghiandole α & <epiteli>/m);
+ assert.match(out.data,/^## \*\*Semplici\*\*/m);
+ assert.match(out.data,/^> Esocrine/m);
+ assert.match(out.data,/^> Apocrine/m);
+ const parsed=Map.parseMarkdownDocuments(out.data);
+ assert.equal(parsed.length,3);
  assert.equal(parsed[0].children[0].notes,roots[0].children[0].notes);
  assert.equal(parsed[0].children[0].fontWeight,700);
- assert.equal(parsed[0].children[0].children[0].text,'a) tubolari\nb) alveolari');
+ assert.match(parsed[0].children[0].children[0].text,/a\) tubolari.*b\) alveolari/);
+ assert.equal(parsed[2].children[0].fontItalic,true);
 });
-test('single-map and multi-map TXT have deterministic tree structure',()=>{
+test('single-map and multi-map TXT produce clean readable plain text without debug headers',()=>{
  const single=X.render([tabs[0]],'txt',opts);
  assert.match(single.data,/Ghiandole α & <epiteli>/);
+ assert.equal(/^NEUROMAP-TXT/.test(single.data),false);
  const batch=X.render(tabs,'txt',opts);
- assert.match(batch.data,/^NEUROMAP-TXT-MULTI-2/);
- assert.deepEqual(X.parseTxtBatch(batch.data).map(t=>t.text),roots.map(t=>t.text));
+ assert.equal(/^NEUROMAP-TXT/.test(batch.data),false);
+ assert.match(batch.data,/\n---\n/);
  assert.equal(X.parseTxtBatch('Ordinary text\n  Child'),null);
+ assert.deepEqual(X.parseTxtBatch('NEUROMAP-TXT-MULTI-2\nOne\n=== NEUROMAP TAB ===\nTwo').map(t=>t.text),['One','Two']);
 });
 test('OPML exports one root per sheet and XML-escapes markup/newlines',()=>{
  const out=X.render(tabs,'opml',opts);
@@ -154,9 +165,22 @@ test('bundle preparation installs core and UI in common Windows/macOS/Android as
   assert.match(fs.readFileSync(path.join(rootPath,p),'utf8'),/\.neuromap,(?:\.glk,)?\.mm/);
  }
 });
-test('TXT reimport keeps multiline labels, literal escapes, leading spaces and separator-like titles',()=>{
- const roots=[{text:'=== NEUROMAP TAB ===',children:[{text:'  A\nB\\nC\tα',children:[]}]},{text:'Second',children:[]}],tabs=roots.map(root=>({root}));
- for(const selection of [tabs.slice(0,1),tabs])assert.deepEqual(X.parseTxtBatch(X.render(selection,'txt',opts).data),selection.map(t=>t.root));
+test('Legacy NEUROMAP-TXT parser retains multiline labels & separator-like titles; clean Markdown modular banners & blockquotes roundtrip',()=>{
+ const roots=[{text:'=== NEUROMAP TAB ===',children:[{text:'  A\nB\\nC\tα',children:[]}]},{text:'Second',children:[]}];
+ const single='NEUROMAP-TXT-2\n\\=== NEUROMAP TAB ===\n  \\s\\sA\\nB\\\\nC\\tα\n';
+ const multi='NEUROMAP-TXT-MULTI-2\n\\=== NEUROMAP TAB ===\n  \\s\\sA\\nB\\\\nC\\tα\n\n=== NEUROMAP TAB ===\nSecond\n';
+ assert.deepEqual(X.parseTxtBatch(single),[roots[0]]);
+ assert.deepEqual(X.parseTxtBatch(multi),roots);
+ // Clean modular Markdown with chunk banner + notes blockquotes re-imports cleanly without phantom banner root:
+ const modularMd='> **Corso — Parte 1 di 2**\n> Sezioni principali: 1. Modulo A\n\n# Corso\n\n## 1. Modulo A\n> Nota ramo\n\n### 1.1 Unità A1\n- Dettaglio L4\n  > Nota foglia\n';
+ const parsed=Map.parseMarkdownDocuments(modularMd);
+ assert.equal(parsed.length,1);
+ assert.equal(parsed[0].text,'Corso');
+ assert.equal(parsed[0].children[0].text,'1. Modulo A');
+ assert.equal(parsed[0].children[0].notes,'Nota ramo');
+ assert.equal(parsed[0].children[0].children[0].text,'1.1 Unità A1');
+ assert.equal(parsed[0].children[0].children[0].children[0].text,'Dettaglio L4');
+ assert.equal(parsed[0].children[0].children[0].children[0].notes,'Nota foglia');
 });
 test('document exports retain the central topic notes and underlining',()=>{
  const root={text:'Title',notes:'Root note α <important>',fontUnderline:true,children:[]};

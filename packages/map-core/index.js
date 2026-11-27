@@ -279,7 +279,7 @@
       if(/^(\*\*\*|___)([\s\S]+)\1$/.test(text)){text=text.slice(3,-3);fontWeight=700;fontItalic=true;}
       else if(/^(\*\*|__)([\s\S]+)\1$/.test(text)){text=text.slice(2,-2);fontWeight=700;}
       else if(/^(\*|_)([^\n]+)\1$/.test(text)){text=text.slice(1,-1);fontItalic=true;}
-      return {text,...(fontWeight?{fontWeight}:{}),...(fontItalic?{fontItalic:true}:{}),...(text!==raw.trim()?{notes:raw.trim()}:{}),children:[]};
+      return {text,...(fontWeight?{fontWeight}:{}),...(fontItalic?{fontItalic:true}:{}),children:[]};
     };
     for(const line of source.split('\n')){
       const f=line.match(/^\s*(`{3,}|~{3,})(.*)$/);
@@ -287,6 +287,18 @@
       if(fence){code.push(line);continue;}
       if(!line.trim()||/^\s*---\s*$/.test(line)){separated=true;continue;}
       const m=line.match(/^([ \t]*)(.*?)\s*$/),column=[...m[1]].reduce((n,c)=>n+(c==='\t'?4-n%4:1),0),raw=m[2];
+      const bq=raw.match(/^>\s?(.*)$/);
+      if(bq){
+        if(!records.length && /^(?:\*\*.*—\s*(?:Parte|Part)\s+\d+\s+(?:di|of)\s+\d+\*\*|Sezioni principali:|Main sections:|Continua da:|Continues from:)/i.test(bq[1].trim())){
+          separated=true;continue;
+        }
+        const prevNode=records.at(-1)?.node;
+        if(prevNode){
+          prevNode.notes=prevNode.notes?(prevNode.notes+'\n'+bq[1]):bq[1];
+          separated=false;
+          continue;
+        }
+      }
       const h=raw.match(/^(#{1,6})\s+(.+)$/),b=!h&&raw.match(/^(?:[-*+]\s+|\d+[.)]\s+)(.*)$/);
       const node=format(h?h[2].replace(/\s+#+\s*$/,''):b?b[1]:raw),kind=h?'heading':b?'bullet':'paragraph';
       if(b&&/^\d+[.)]\s/.test(raw))node.notes=raw;

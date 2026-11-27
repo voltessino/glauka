@@ -38,9 +38,23 @@
     };
     const isModularFormat = MODULAR_FORMATS.includes(format);
     const effectiveMode = splitMode || (separate ? "tabs" : "single");
+    const isCleanTextFormat = format === "md" || format === "txt";
+    if (
+      tabs.length > 1 &&
+      !separate &&
+      effectiveMode === "single" &&
+      ["md", "txt", "opml", "json", "neuromap"].includes(format) &&
+      summary.nodes > 3500
+    ) {
+      throw Error(
+        format.toUpperCase() +
+          " unico oltre 3500 nodi reimportabili: usa ZIP separato o Moduli bilanciati.",
+      );
+    }
     const useChunkPipeline =
       isModularFormat &&
-      (effectiveMode === "modular" ||
+      (isCleanTextFormat ||
+        effectiveMode === "modular" ||
         !!providedChunks ||
         (!!hierarchicalNumbering && effectiveMode === "single") ||
         (!!hierarchicalNumbering && effectiveMode === "tabs"));
@@ -99,7 +113,7 @@
           chunks,
         };
       }
-      if (effectiveMode === "tabs" && tabs.length > 1 && renderedFiles.length > 1) {
+      if ((effectiveMode === "tabs" || separate) && tabs.length > 1 && renderedFiles.length > 1) {
         return {
           name: "neuromap_" + format + "_" + renderedFiles.length + "_schede.zip",
           data: zip(renderedFiles),
@@ -111,13 +125,11 @@
           chunks,
         };
       }
-      // Single file (either compact map <= maxWords OR hierarchicalNumbering in File unico)
+      // Single file (either compact map <= maxWords OR File unico)
       let combined;
       if (renderedFiles.length === 1) combined = renderedFiles[0].data;
-      else if (format === "md")
+      else if (format === "md" || format === "txt")
         combined = renderedFiles.map((f) => f.data).join("\n\n---\n\n");
-      else if (format === "txt")
-        combined = renderedFiles.map((f) => f.data).join("\n=== NEUROMAP TAB ===\n");
       else if (format === "html")
         combined = html(
           chunks.map((c) => c.nodes_tree),

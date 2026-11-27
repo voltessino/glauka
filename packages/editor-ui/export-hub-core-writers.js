@@ -56,7 +56,10 @@
     }
     const root = chunk?.nodes_tree || chunk;
     for (const { node, level } of collect(root)) {
-      let label = String(node.text ?? "").replace(/\r\n?/g, " ").trim() || "Nodo";
+      let label = String(node.text ?? "").replace(/[\r\n]+/g, " ").trim() || "Nodo";
+      if ((node.fontWeight || 0) >= 600 && node.fontItalic) label = "***" + label + "***";
+      else if ((node.fontWeight || 0) >= 600) label = "**" + label + "**";
+      else if (node.fontItalic) label = "*" + label + "*";
       const href = safeHref(node?.linkUrl);
       if (href) label += " (" + href + ")";
       if (level === 0) lines.push("# " + label);
@@ -66,7 +69,7 @@
       if (node.notes) {
         const noteIndent = level >= 3 ? "  ".repeat(level - 2) : "";
         for (const nl of String(node.notes).replace(/\r\n?/g, "\n").split("\n"))
-          lines.push(noteIndent + nl);
+          lines.push(noteIndent + "> " + nl);
       }
     }
     return lines.join("\n") + "\n";

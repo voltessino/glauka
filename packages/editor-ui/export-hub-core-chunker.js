@@ -300,8 +300,9 @@
         const baseRaw =
           chunk.nodes_tree?._rawText || chunk.nodes_tree?.text || "Mappa";
         const stem = safe(baseRaw);
+        const keepSimpleTabName = !!options.numberOnly && (chunk.total_parts || 1) === 1;
         let name =
-          total === 1
+          total === 1 || keepSimpleTabName
             ? stem + "." + ext
             : String(globalIndex).padStart(pad, "0") +
               "_" +

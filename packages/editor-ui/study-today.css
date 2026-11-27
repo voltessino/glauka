@@ -639,29 +639,45 @@ body[data-nm-skin="graphite"] .glauka-google-pill {
   color: var(--nm-skin-muted, #475569);
 }
 .glauka-gen-actions {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 5px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
   align-items: center;
 }
 #flash-modal .glauka-gen-card .v4-primary,
 #flash-modal .glauka-gen-card .v4-secondary {
-  width: auto;
-  min-height: 27px;
-  padding: 4px 9px;
-  border-radius: 7px;
+  width: 100%;
+  min-width: 0;
+  min-height: 29px;
+  padding: 5px 9px;
+  border-radius: 8px;
   font-size: 11px;
   font-weight: 650;
   line-height: 1.2;
   white-space: nowrap;
-  flex: 0 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .glauka-google-paste {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr);
   gap: 6px;
-  align-items: end;
   margin-top: auto;
+}
+.glauka-google-paste-btns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+#flash-modal #glauka-flash-google-paste.is-paste-ready {
+  background: var(--nm-theme-action, #6441df);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--nm-theme-action, #6441df) 25%, transparent);
+}
+#flash-modal .v4-flash-actions[hidden],
+#flash-modal .glauka-today-start[hidden] {
+  display: none !important;
 }
 .glauka-google-paste textarea {
   width: 100%;

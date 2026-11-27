@@ -309,17 +309,7 @@
         ?`Create ${nCards} high-quality active-recall flashcards based ONLY on the Markdown mind map below (${titles}).\n\nInstructions:\n1. ${styleDirectives[style]}\n2. Respect the branch sequence of the map from first branch to last.\n3. Output in clean structured Markdown grouped by branch headings (\`## Branch Name\`), and put every flashcard on a single bullet line as \`- Clear question? | Concise, accurate answer\` (no extra intro or outro).\n\nMarkdown Mind Map:\n\n`
         :`Crea ${nCards} flashcard efficaci di richiamo attivo basate ESCLUSIVAMENTE sulla mappa concettuale Markdown seguente (${titles}).\n\nIndicazioni:\n1. ${styleDirectives[style]}\n2. Mantieni sempre l’ordine dei rami della mappa dal primo all’ultimo.\n3. Rispondi in Markdown pulito diviso per rami (\`## Nome ramo\`), scrivendo ogni flashcard su una riga puntata nel formato \`- Domanda chiara? | Risposta completa e sintetica\` (senza preamboli o commenti finali).\n\nMappa completa in Markdown:\n\n`;
       const fullPrompt=header+body;
-      // Google search URL length is bounded (~1800 chars); when the full Markdown map is larger,
-      // preserve instructions + branch overview in URL while copying the complete prompt to clipboard.
-      const compactOutline=body.split('\n').filter(l=>/^#{1,2}\s/.test(l)||l.startsWith('- ')).join('\n');
-      const maxUrlChars=1650;
-      let urlQuery=fullPrompt;
-      if(urlQuery.length>maxUrlChars){
-        const avail=Math.max(280,maxUrlChars-header.length-60);
-        urlQuery=header+(compactOutline.length>avail?compactOutline.slice(0,avail)+'\n…':compactOutline);
-        if(urlQuery.length>maxUrlChars)urlQuery=urlQuery.slice(0,maxUrlChars);
-      }
-      return {tab:targetTabs[0],tabs:targetTabs,startNode:firstStart,style,fullPrompt,url:'https://www.google.com/search?udm=50&q='+encodeURIComponent(urlQuery)};
+      return {tab:targetTabs[0],tabs:targetTabs,startNode:firstStart,style,fullPrompt,url:'https://www.google.com/search?udm=50'};
     };
     NeuroMapApp.prototype.v5OpenGoogleAIModeFlashcards=function(){
       const scope=$v5('v5-study-scope')?.value||'active';
@@ -327,12 +317,25 @@
       const style=$v5('v5-study-prompt-style')?.value||'balanced';
       const built=this.v5BuildGoogleCardsPrompt(scope,count,style);
       if(!built)return null;
+      try{
+        const ta=document.createElement('textarea');
+        ta.value=built.fullPrompt;
+        ta.setAttribute('readonly','');
+        ta.style.cssText='position:fixed;left:-9999px;top:0;opacity:0';
+        document.body?.appendChild(ta);
+        ta.select();
+        document.execCommand?.('copy');
+        ta.remove();
+      }catch{}
       try{globalThis.navigator?.clipboard?.writeText?.(built.fullPrompt)?.catch?.(()=>{});}catch{}
+      this._v5AwaitingGooglePaste=true;
       window.open?.(built.url,'_blank','noopener,noreferrer');
-      const large=built.fullPrompt.length>1650;
-      this.v5CardStatus(large
-        ?globalThis.GlaukaI18n?.pair(`Google AI Mode aperto · mappa ampia: il prompt Markdown completo (${built.fullPrompt.length} caratteri) è negli appunti: incollalo in Google AI Mode, poi incolla le flashcard qui sotto.`,`Google AI Mode opened · large map: full Markdown prompt (${built.fullPrompt.length} chars) copied to clipboard: paste it in Google AI Mode, then paste the flashcards below.`)
-        :globalThis.GlaukaI18n?.pair('Google AI Mode aperto: copia le righe generate e incollale qui sotto (prompt Markdown completo copiato negli appunti).','Google AI Mode opened: copy generated lines and paste them below (full Markdown prompt copied to clipboard).'));
+      this.v5CardStatus(
+        globalThis.GlaukaI18n?.pair(
+          `Google AI Mode aperto · prompt Markdown completo copiato (${built.fullPrompt.length} caratteri): incollalo nella barra di Google AI Mode, poi premi «Incolla risultato» qui sotto.`,
+          `Google AI Mode opened · full Markdown prompt copied (${built.fullPrompt.length} chars): paste it into Google AI Mode, then press “Paste result” below.`
+        )
+      );
       return built;
     };
     NeuroMapApp.prototype.v5ImportTextCards=function(rawText,scopeValue){

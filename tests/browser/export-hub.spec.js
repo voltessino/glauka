@@ -98,10 +98,12 @@ for (const target of ["desktop", "android"])
         workspace: JSON.stringify(neuroMapApp.tabs.map((t) => t.state.root)),
       }));
       expect(result.name).toMatch(/\.md$/);
-      const count = (
-        result.text.match(/<!-- NeuroMap-Markdown-v[12] -->/g) || []
-      ).length;
-      expect(count).toBe(2);
+      expect(result.text).not.toMatch(/<!--\s*NeuroMap-Markdown-v|<!--\s*NM:/i);
+      expect(result.text).toContain('# Mappa Centrale');
+      expect(result.text).toContain('# Capillari β');
+      expect(result.text).toContain('> Nota importante');
+      const docs = result.text.split(/^\s*---\s*$/m).filter((s) => s.trim());
+      expect(docs.length).toBe(2);
       expect(result.workspace).toBe(before);
     });
     test("all tabs as ZIP and form factor contrast", async ({ page }) => {
@@ -162,14 +164,25 @@ for (const target of ["desktop", "android"])
           new File([plain.data], "qa-multiple.txt", { type: "text/plain" }),
           { newTab: true },
         );
+        const mdStart = a.tabs.length,
+          markdown = X.render(chosen, "md");
+        await a.importFile(
+          new File([markdown.data], "qa-multiple.md", { type: "text/markdown" }),
+          { newTab: true },
+        );
+        const importedMdNotes = a.tabs.slice(mdStart).map((t) => t.state.root.children?.[0]?.notes || "");
         return {
           names,
           opml,
-          txt: a.tabs.slice(intermediate).map((t) => t.state.root.text),
+          txt: a.tabs.slice(intermediate, mdStart).map((t) => t.state.root.text),
+          md: a.tabs.slice(mdStart).map((t) => t.state.root.text),
+          importedMdNotes,
         };
       });
       expect(result.opml).toEqual(result.names);
       expect(result.txt).toEqual(result.names);
+      expect(result.md).toEqual(result.names);
+      expect(result.importedMdNotes).toEqual(["Nota importante", "Nota importante"]);
     });
     test("FreeMind map imports after export without losing node order", async ({
       page,

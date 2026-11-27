@@ -110,11 +110,11 @@
               ? { workspace: parsedMd.map(root => ({ root })) }
               : { root: parsedMd[0] };
           }
-          const docs = String(text || '').replace(/\r\n?/g, '\n').split(/^\s*---\s*$/m)
-            .map(t => t.trimEnd()).filter(t => t.trim());
-          if (docs.length > 1 && globalThis.NeuroMapCore?.parseMarkdownDocuments) {
+          if (globalThis.NeuroMapCore?.parseMarkdownDocuments) {
             const roots = globalThis.NeuroMapCore.parseMarkdownDocuments(text);
-            return { workspace: roots.map(root => ({ root })) };
+            return roots.length > 1
+              ? { workspace: roots.map(root => ({ root })) }
+              : { root: roots[0] };
           }
         }
         const rows = text.replace(/\r/g,'').split('\n').filter(x => x.trim() && !/^\s*---\s*$/.test(x));

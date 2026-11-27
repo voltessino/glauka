@@ -272,7 +272,13 @@ NeuroMapApp.prototype.importFile=async function(file,options={}){
   if(!['md','markdown','txt','text'].includes(ext))return nm611OldImportFile.call(this,file,options);
   if(file.size>100*1024*1024)throw Error('Documento oltre il limite di 100 MB');
   const parsed=this.parseTextHierarchy(await file.text(),ext);
-  if(parsed.workspace)return this.nm611ImportDocuments(parsed.workspace.map(part=>part.root),{newTab:true,label:file.name});
+  if(parsed.workspace){
+    const cap=globalThis.NM613?.capacity?.()||125;
+    if(parsed.workspace.length<=20 && parsed.workspace.every(part=>NM611.count(part.root)<=cap)){
+      return nm611OldImportFile.call(this,file,{...options,preparedHierarchy:parsed});
+    }
+    return this.nm611ImportDocuments(parsed.workspace.map(part=>part.root),{newTab:true,label:file.name});
+  }
   return this.nm611ImportRoot(parsed.root,{...options,label:file.name});
 };
 

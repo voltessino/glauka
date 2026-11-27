@@ -335,7 +335,32 @@
       }
 
       serializeNodeToMarkdown(rootNode) {
-        return NeuroMapCore.serializeMarkdown(rootNode);
+        if (globalThis.NeuroMapExportCore?.render && rootNode) {
+          return globalThis.NeuroMapExportCore.render(
+            [{ title: rootNode.text || 'Mappa', state: { root: rootNode } }],
+            'md',
+            { splitMode: 'single', hierarchicalNumbering: false },
+          ).data;
+        }
+        const lines = [];
+        const walk = (n, lvl) => {
+          if (!n || lvl > 100) return;
+          let lbl = String(n.text ?? '').replace(/[\r\n]+/g, ' ').trim() || 'Nodo';
+          if ((n.fontWeight || 0) >= 600 && n.fontItalic) lbl = '***' + lbl + '***';
+          else if ((n.fontWeight || 0) >= 600) lbl = '**' + lbl + '**';
+          else if (n.fontItalic) lbl = '*' + lbl + '*';
+          if (lvl === 0) lines.push('# ' + lbl);
+          else if (lvl === 1) lines.push('', '## ' + lbl);
+          else if (lvl === 2) lines.push('', '### ' + lbl);
+          else lines.push('  '.repeat(lvl - 3) + '- ' + lbl);
+          if (n.notes) {
+            const pad = lvl >= 3 ? '  '.repeat(lvl - 2) : '';
+            for (const nl of String(n.notes).replace(/\r\n?/g, '\n').split('\n')) lines.push(pad + '> ' + nl);
+          }
+          for (const ch of n.children || []) walk(ch, lvl + 1);
+        };
+        walk(rootNode, 0);
+        return lines.join('\n') + '\n';
       }
 
       exportMarkdown() {

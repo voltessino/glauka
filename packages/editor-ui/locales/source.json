@@ -3000,6 +3000,7 @@
       "known": true,
       "origins": [
         "packages/editor-ui/desktop-workflows.js",
+        "packages\\editor-ui\\ai-studio-methods-audio.js",
         "packages\\editor-ui\\desktop-workflows.js"
       ]
     },
@@ -60379,6 +60380,126 @@
       "origins": [
         "packages\\editor-ui\\ai-studio-methods-audio.js"
       ]
+    },
+    "m471e0234d428": {
+      "it": "✎ Modifica flashcard",
+      "en": "✎ Edit flashcard",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mf51f36e1540b": {
+      "it": "Il mazzo è vuoto. Crea la tua prima flashcard oppure genera un set qui sotto con l'AI o Google AI Mode.",
+      "en": "Your deck is empty. Create your first flashcard or generate a set below using AI or Google AI Mode.",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mec66c8e1dcb0": {
+      "it": "Google AI Mode · o altra AI",
+      "en": "Google AI Mode · or other AI",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m8ebbb765f882": {
+      "it": "📋 Incolla risultato",
+      "en": "📋 Paste result",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mab759af380ce": {
+      "it": "📋 Incolla",
+      "en": "📋 Paste",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m3ae6359ce982": {
+      "it": "Risultato incollato: premi «Importa» per aggiungere le flashcard.",
+      "en": "Result pasted: press “Import” to add the flashcards.",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mc6417b708fb4": {
+      "it": "Incolla il risultato AI nella casella qui accanto.",
+      "en": "Paste the AI result in the box beside this button.",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "mbc9485589b56": {
+      "it": ", active ?",
+      "en": ", active ?",
+      "known": false,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m691a441ff7c6": {
+      "it": "+ (checked ?",
+      "en": "+ (checked ?",
+      "known": false,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "ma581de1d0129": {
+      "it": "), (checked ?",
+      "en": "), (checked ?",
+      "known": false,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "me73091c6d7db": {
+      "it": ") + (t.title || tr(",
+      "en": ") + (t.title || tr(",
+      "known": false,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m7d59c0ae4d3d": {
+      "it": ", checked ?",
+      "en": ", checked ?",
+      "known": false,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m7494fe6a9963": {
+      "it": "+ value.stale +",
+      "en": "+ value.stale +",
+      "known": false,
+      "origins": [
+        "packages\\editor-ui\\study-today.js"
+      ]
+    },
+    "m1e97e1525574": {
+      "it": "Tutte le schede:",
+      "en": "All maps:",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
+      ]
+    },
+    "mb0f4a40187ce": {
+      "it": "Schede scelte:",
+      "en": "Selected maps:",
+      "known": true,
+      "origins": [
+        "packages\\editor-ui\\ai-studio-methods-audio.js"
+      ]
     }
   },
   "aliases": {
@@ -71279,6 +71400,30 @@
     "Hai copiato il prompt: incolla qui il testo generato da Google AI Mode o dalla tua AI": "mbdf29aef76dd",
     "Prompt copied: paste the result from Google AI Mode or your AI here": "mbdf29aef76dd",
     "Incolla un testo dagli appunti": "m8cfa7d6934d2",
-    "Paste text from clipboard": "m8cfa7d6934d2"
+    "Paste text from clipboard": "m8cfa7d6934d2",
+    "✎ Modifica flashcard": "m471e0234d428",
+    "✎ Edit flashcard": "m471e0234d428",
+    "Il mazzo è vuoto. Crea la tua prima flashcard oppure genera un set qui sotto con l'AI o Google AI Mode.": "mf51f36e1540b",
+    "Your deck is empty. Create your first flashcard or generate a set below using AI or Google AI Mode.": "mf51f36e1540b",
+    "Google AI Mode · o altra AI": "mec66c8e1dcb0",
+    "Google AI Mode · or other AI": "mec66c8e1dcb0",
+    "📋 Incolla risultato": "m8ebbb765f882",
+    "📋 Paste result": "m8ebbb765f882",
+    "📋 Incolla": "mab759af380ce",
+    "📋 Paste": "mab759af380ce",
+    "Risultato incollato: premi «Importa» per aggiungere le flashcard.": "m3ae6359ce982",
+    "Result pasted: press “Import” to add the flashcards.": "m3ae6359ce982",
+    "Incolla il risultato AI nella casella qui accanto.": "mc6417b708fb4",
+    "Paste the AI result in the box beside this button.": "mc6417b708fb4",
+    ", active ?": "mbc9485589b56",
+    "+ (checked ?": "m691a441ff7c6",
+    "), (checked ?": "ma581de1d0129",
+    ") + (t.title || tr(": "me73091c6d7db",
+    ", checked ?": "m7d59c0ae4d3d",
+    "+ value.stale +": "m7494fe6a9963",
+    "Tutte le schede:": "m1e97e1525574",
+    "All maps:": "m1e97e1525574",
+    "Schede scelte:": "mb0f4a40187ce",
+    "Selected maps:": "mb0f4a40187ce"
   }
 }

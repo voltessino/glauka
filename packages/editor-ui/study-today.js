@@ -77,10 +77,7 @@
       const action = el("button", "glauka-today-start");
       action.type = "button";
       action.id = "glauka-study-start";
-      const quickAdd = el("button", "glauka-today-add");
-      quickAdd.type = "button";
-      quickAdd.id = "glauka-flash-new-quick";
-      ctaWrap.append(action, quickAdd);
+      ctaWrap.append(action);
       box.append(infoWrap, ctaWrap);
       modal.querySelector(".v4-modal-head").after(box);
 
@@ -152,16 +149,13 @@
         cardTools.append(removeCardBtn);
       }
 
-      // Empty-state quick actions shown when deck has 0 cards.
+      // Empty-state quick action shown when deck has 0 cards (no duplicate AI/Google buttons).
       const emptyCtas = el("div", "glauka-empty-ctas");
       emptyCtas.id = "glauka-empty-actions";
       const emptyCreateBtn = el("button", "v4-primary");
       emptyCreateBtn.type = "button";
-      const emptyGoogleBtn = el("button", "v4-secondary");
-      emptyGoogleBtn.type = "button";
-      const emptyAiBtn = el("button", "v4-secondary");
-      emptyAiBtn.type = "button";
-      emptyCtas.append(emptyCreateBtn, emptyGoogleBtn, emptyAiBtn);
+      emptyCreateBtn.id = "glauka-empty-create-btn";
+      emptyCtas.append(emptyCreateBtn);
 
       // Clean 2-column AI + Google AI Mode generator with preset quantity pills inside #glauka-study-tools.
       const toolsBody = el("div", "glauka-tools-body");
@@ -257,10 +251,15 @@
       const googleTextarea = el("textarea");
       googleTextarea.id = "glauka-google-paste-text";
       googleTextarea.rows = 2;
+      const googlePasteBtns = el("div", "glauka-google-paste-btns");
+      const googlePasteClipBtn = el("button", "v4-secondary");
+      googlePasteClipBtn.type = "button";
+      googlePasteClipBtn.id = "glauka-flash-google-paste";
       const googleImportBtn = el("button", "v4-primary");
       googleImportBtn.type = "button";
       googleImportBtn.id = "glauka-google-paste-import";
-      googlePasteArea.append(googleTextarea, googleImportBtn);
+      googlePasteBtns.append(googlePasteClipBtn, googleImportBtn);
+      googlePasteArea.append(googleTextarea, googlePasteBtns);
       googleSection.append(googleHead, googleHint, googleBtns, googlePasteArea);
 
       genGrid.append(apiCard, googleSection);
@@ -749,10 +748,11 @@
         tabLib.textContent =
           tr("🗂 Archivio & Passato", "🗂 Archive & Past") + ` (${value.total})`;
         tabCompose.textContent = editingCardId
-          ? tr("✎ Modifica card", "✎ Edit card")
-          : tr("＋ Nuova card", "＋ New card");
+          ? tr("✎ Modifica flashcard", "✎ Edit flashcard")
+          : tr("＋ Nuova flashcard", "＋ New flashcard");
 
         title.textContent = tr("Ripasso di oggi", "Today’s review");
+        if (revealRow) revealRow.hidden = !current;
         const reveal = document.getElementById("flash-reveal");
         if (reveal)
           reveal.textContent = a._flashShowAnswer
@@ -799,14 +799,17 @@
 
         emptyCtas.hidden = Boolean(current || value.total > 0);
         emptyCreateBtn.textContent = tr("＋ Crea la prima flashcard", "＋ Create first flashcard");
-        emptyGoogleBtn.textContent = tr("🔍 Gratis con Google AI Mode", "🔍 Free with Google AI Mode");
-        emptyAiBtn.textContent = tr("✨ Genera con API AI", "✨ Generate with AI API");
 
         const empty = modal.querySelector(".flash-empty");
         if (empty && a._nmBriefStudy)
           empty.textContent = tr(
             "Sessione completata! Ottimo lavoro: fai una pausa o cambia filtro per ripassare altre carte.",
             "Session complete! Great work: take a break or change filter to review more cards.",
+          );
+        else if (empty && !current && value.total === 0)
+          empty.textContent = tr(
+            "Il mazzo è vuoto. Crea la tua prima flashcard oppure genera un set qui sotto con l'AI o Google AI Mode.",
+            "Your deck is empty. Create your first flashcard or generate a set below using AI or Google AI Mode.",
           );
 
         const wantedCount = Math.min(30, Math.max(3, Number(countInput?.value) || 10));
@@ -901,25 +904,30 @@
           );
         }
         if (regenBtn) regenBtn.textContent = tr("↻ Aggiorna obsolete", "↻ Refresh outdated");
-        googleTitle.textContent = tr("Google AI Mode", "Google AI Mode");
+        googleTitle.textContent = tr("Google AI Mode · o altra AI", "Google AI Mode · or other AI");
         googleBadge.textContent = tr("0 crediti API", "0 API credits");
         googleHint.textContent = targetCount > 1
           ? tr(
-              `Apri Google con prompt per ${wantedCount} flashcard su ${targetCount} schede.`,
-              `Open Google with a ${wantedCount}-card prompt across ${targetCount} maps.`,
+              `Prompt pronto per ${wantedCount} flashcard su ${targetCount} schede (Google, Gemini o altra AI).`,
+              `Prompt ready for ${wantedCount} flashcards across ${targetCount} maps (Google, Gemini or other AI).`,
             )
           : tr(
-              `Apri Google con prompt per ${wantedCount} flashcard, poi incolla sotto.`,
-              `Open Google with a ${wantedCount}-card prompt, then paste below.`,
+              `Copia il prompt per ${wantedCount} flashcard o apri Google AI Mode, poi incolla qui sotto.`,
+              `Copy the ${wantedCount}-card prompt or open Google AI Mode, then paste below.`,
             );
         googleOpenBtn.textContent = tr(
           `🔍 Apri Google (${wantedCount})`,
           `🔍 Open Google (${wantedCount})`,
         );
         googleCopyBtn.textContent = tr("📋 Copia prompt", "📋 Copy prompt");
+        const pasteReady = !!a._v5AwaitingGooglePaste;
+        googlePasteClipBtn.textContent = pasteReady
+          ? tr("📋 Incolla risultato", "📋 Paste result")
+          : tr("📋 Incolla", "📋 Paste");
+        googlePasteClipBtn.classList.toggle("is-paste-ready", pasteReady);
         googleTextarea.placeholder = tr(
-          "Incolla le flashcard (D | R o D:/R:)…",
-          "Paste flashcards (Q | A or Q:/A:)…",
+          "Incolla le flashcard (Domanda | Risposta o D:/R:)…",
+          "Paste flashcards (Question | Answer or Q:/A:)…",
         );
         googleImportBtn.textContent = tr("✓ Importa", "✓ Import");
         archiveLabel.textContent = tr("Archivio locale:", "Local deck:");
@@ -944,16 +952,13 @@
             ? " · " + value.stale + " " + tr("da aggiornare", "need updating")
             : "");
 
+        action.hidden = value.total === 0;
         action.disabled = false;
         if (value.due > 0) {
           action.textContent = tr("▶ Studia 10 scadenze", "▶ Study 10 due");
         } else if (value.total > 0) {
           action.textContent = tr("▶ Ripassa mazzo", "▶ Review deck") + ` (${value.total})`;
-        } else {
-          action.textContent = tr("＋ Nuova flashcard", "＋ New flashcard");
         }
-        quickAdd.hidden = value.total === 0;
-        quickAdd.textContent = tr("＋ Crea card", "＋ Add card");
 
         progress.textContent = a._nmBriefStudy
           ? tr("Ripassate", "Reviewed") +
@@ -968,7 +973,7 @@
           "Cerca domanda, risposta, mappa o ramo…",
           "Search question, answer, map or branch…",
         );
-        libAddBtn.textContent = tr("＋ Aggiungi card", "＋ Add card");
+        libAddBtn.textContent = tr("＋ Nuova flashcard", "＋ New flashcard");
         composeHead.textContent = editingCardId
           ? tr("Modifica questa flashcard", "Edit this flashcard")
           : tr("Nuova flashcard manuale (offline)", "New manual flashcard (offline)");
@@ -1008,18 +1013,8 @@
         setView("library");
       });
       tabCompose.addEventListener("click", () => openComposer(null));
-      quickAdd.addEventListener("click", () => openComposer(null));
       libAddBtn.addEventListener("click", () => openComposer(null));
       emptyCreateBtn.addEventListener("click", () => openComposer(null));
-      emptyGoogleBtn.addEventListener("click", () => {
-        tools.open = true;
-        a.v5OpenGoogleAIModeFlashcards?.();
-        googleSection.scrollIntoView?.({ block: "nearest" });
-      });
-      emptyAiBtn.addEventListener("click", () => {
-        tools.open = true;
-        tools.scrollIntoView?.({ block: "nearest" });
-      });
       scopeEl?.addEventListener("change", () => refresh());
       styleEl.addEventListener("change", () => {
         try { localStorage.setItem("glauka.study.promptStyle.v1", styleEl.value); } catch {}
@@ -1050,6 +1045,7 @@
       googleOpenBtn.addEventListener("click", () => {
         tools.open = true;
         a.v5OpenGoogleAIModeFlashcards?.();
+        refresh();
       });
       googleCopyBtn.addEventListener("click", () => {
         const scope = document.getElementById("v5-study-scope")?.value || "active";
@@ -1058,15 +1054,55 @@
         const built = a.v5BuildGoogleCardsPrompt?.(scope, count, style);
         if (!built) return;
         try {
+          const ta = document.createElement("textarea");
+          ta.value = built.fullPrompt;
+          ta.setAttribute("readonly", "");
+          ta.style.cssText = "position:fixed;left:-9999px;top:0;opacity:0";
+          document.body?.append(ta);
+          ta.select();
+          document.execCommand?.("copy");
+          ta.remove();
+        } catch {}
+        try {
           navigator.clipboard?.writeText?.(built.fullPrompt)?.catch?.(() => {});
         } catch {}
+        a._v5AwaitingGooglePaste = true;
+        refresh();
         a.showToast?.(
           tr(
-            `Prompt Markdown copiato (${built.fullPrompt.length} caratteri): incollalo in Google AI Mode o nel tuo assistente`,
-            `Markdown prompt copied (${built.fullPrompt.length} chars): paste it into Google AI Mode or your assistant`,
+            `Prompt Markdown copiato (${built.fullPrompt.length} caratteri): incollalo in Google AI Mode, Gemini o nel tuo assistente`,
+            `Markdown prompt copied (${built.fullPrompt.length} chars): paste it into Google AI Mode, Gemini or your assistant`,
           ),
           "FLASHCARD",
         );
+      });
+      googlePasteClipBtn.addEventListener("click", async () => {
+        let clipText = "";
+        try {
+          if (root.neuromapDesktop?.clipboard?.readText) {
+            clipText = String((await root.neuromapDesktop.clipboard.readText()) || "");
+          } else if (navigator.clipboard?.readText) {
+            clipText = String((await navigator.clipboard.readText()) || "");
+          }
+        } catch {
+          clipText = "";
+        }
+        if (clipText.trim()) {
+          googleTextarea.value = clipText.trim();
+          a._v5AwaitingGooglePaste = false;
+          refresh();
+          googleTextarea.focus?.();
+          a.showToast?.(
+            tr("Risultato incollato: premi «Importa» per aggiungere le flashcard.", "Result pasted: press “Import” to add the flashcards."),
+            "FLASHCARD",
+          );
+        } else {
+          googleTextarea.focus?.();
+          a.showToast?.(
+            tr("Incolla il risultato AI nella casella qui accanto.", "Paste the AI result in the box beside this button."),
+            "FLASHCARD",
+          );
+        }
       });
       googleImportBtn.addEventListener("click", () => {
         const scope = document.getElementById("v5-study-scope")?.value || "active";
@@ -1081,6 +1117,7 @@
           );
           return;
         }
+        a._v5AwaitingGooglePaste = false;
         googleTextarea.value = "";
         const filterEl = document.getElementById("flash-filter");
         if (filterEl) filterEl.value = "due";

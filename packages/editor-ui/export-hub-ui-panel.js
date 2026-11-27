@@ -257,6 +257,7 @@
               : Core.render(maps, type, options);
           let saved;
           if (
+            result.separate &&
             result.files &&
             result.files.length > 1 &&
             deliveryMode === "folder" &&
@@ -392,6 +393,27 @@
             }),
             options,
           );
+        }
+        const docs = String(source || "")
+          .replace(/^\uFEFF/, "")
+          .replace(/\r\n?/g, "\n")
+          .split(/^\s*---\s*$/m)
+          .map((s) => s.trimEnd())
+          .filter((s) => s.trim());
+        if (docs.length > 1 && docs.length <= 20 && app.parseTextHierarchy) {
+          const parsedTabs = docs.map((d) => app.parseTextHierarchy(d, "txt")).filter((p) => p?.root);
+          if (parsedTabs.length > 1) {
+            const workspace = {
+              schema: "NeuroMapArchitect-WorkspaceBatch-v6",
+              tabs: parsedTabs.map((p) => ({ root: p.root })),
+            };
+            return originalImport(
+              new File([JSON.stringify(workspace)], "neuromap-text-batch.json", {
+                type: "application/json",
+              }),
+              options,
+            );
+          }
         }
       }
       if (ext === "opml" || ext === "xml") {

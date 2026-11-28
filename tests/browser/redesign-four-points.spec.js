@@ -4,9 +4,10 @@ const fs = require('node:fs');
 const { pdfFixture } = require('./pdfjs-fixture');
 
 const DESKTOP_URL = process.env.GLAUKA_DESKTOP_TEST_URL || 'http://127.0.0.1:5174/index.html';
-const SHOT_DIR = path.resolve(
-  'C:/Users/maxde/.gemini/antigravity/brain/38abd328-bd40-44a2-b035-46248c0083ae/ux_audit_screenshots/v8_verified'
-);
+const os = require('node:os');
+const SHOT_DIR = process.env.GLAUKA_UX_SHOT_DIR
+  ? path.resolve(process.env.GLAUKA_UX_SHOT_DIR)
+  : path.join(os.tmpdir(), 'glauka-ux-audit-screenshots');
 
 async function boot(page, theme = 'prisma') {
   fs.mkdirSync(SHOT_DIR, { recursive: true });

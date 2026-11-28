@@ -49,12 +49,7 @@ Dopo il checkout, esegui `npm run test:android:stress` e `python3 scripts/releas
 
 ## Build desktop storiche 6.16.0 (non aggiornate al main corrente)
 
-Le build **private Developer 6.16.0** già prodotte dal commit applicativo [`15c2dcd`](https://github.com/voltessino/neuromap-android/commit/15c2dcd5a6f025aa78d3b95bd66ccd67fb2e43d3) si trovano sul ramo dedicato [`downloads/desktop-6.16.0-15c2dcd`](https://github.com/voltessino/neuromap-android/tree/downloads/desktop-6.16.0-15c2dcd), distinto dai sorgenti. Richiedono l'accesso GitHub al repository privato.
+Le build **private Developer 6.16.0** restano solo nel repository privato (ramo `downloads/desktop-6.16.0-15c2dcd`, commit applicativo `15c2dcd`). Non pubblicare URL di download, EXE/DMG/ZIP Developer o link raw sul repository Open Source.
 
-| Sistema | File già compilato | Alternativa |
-| --- | --- | --- |
-| Windows | [**Installer EXE 6.16.0**](https://github.com/voltessino/neuromap-android/blob/downloads/desktop-6.16.0-15c2dcd/NeuroMap-Architect-Setup-6.16.0-Developer.exe) | [ZIP con EXE portatile + installer](https://github.com/voltessino/neuromap-android/blob/downloads/desktop-6.16.0-15c2dcd/NeuroMap-Windows-6.16.0-Developer.zip) |
-| macOS | [**DMG universale 6.16.0**](https://github.com/voltessino/neuromap-android/blob/downloads/desktop-6.16.0-15c2dcd/NeuroMap-Architect-Mac-6.16.0-Developer.dmg) | [ZIP app macOS](https://github.com/voltessino/neuromap-android/blob/downloads/desktop-6.16.0-15c2dcd/NeuroMap-Architect-Mac-6.16.0-Developer.zip) |
-
-La verifica dei checksum SHA-256 e del codice sorgente è documentata nei manifest sullo stesso ramo. **Questi file non si aggiornano da soli** quando `main` riceve modifiche: una nuova compilazione deve pubblicare nuovi artefatti con l'esatto commit sorgente. EXE attualmente senza firma Authenticode, Mac con firma ad hoc senza notarizzazione; test di avvio sui sistemi nativi ancora necessari. Per nuove build usare la procedura locale in [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md), **senza avviare GitHub Actions**.
+La verifica dei checksum e dei manifest resta sul ramo privato. **Questi file non si aggiornano da soli** quando `main` riceve modifiche. Per nuove build usare la procedura locale in [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md), **senza avviare GitHub Actions**.
 

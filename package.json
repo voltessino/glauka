@@ -2,7 +2,7 @@
   "name": "glauka-workspace",
   "version": "1.0.4",
   "private": true,
-  "description": "Glauka — Android Free and Windows/macOS workspace",
+  "description": "Glauka \u2014 Android Free and Windows/macOS workspace",
   "scripts": {
     "sync:versions": "python3 scripts/release/sync_versions.py",
     "test": "node --test packages/map-core/tests/*.test.js packages/editor-ui/tests/*.test.js packages/cloud-sync/tests/*.test.js packages/map-sharing/tests/*.test.js apps/android/tests/*.test.js apps/macos/tests/*.test.js scripts/maintenance/where-to-edit.test.cjs scripts/maintenance/qa-evidence-audit.test.cjs scripts/maintenance/glauka-integrity-preflight.test.cjs",
@@ -18,7 +18,9 @@
     "test:universal:browser": "playwright test tests/browser/universal-workspace.spec.js",
     "dev:website": "node scripts/dev/serve-website.cjs",
     "test:website": "echo Open Source core repository does not include commercial website.",
-    "record:tour": "node scripts/dev/record-product-tour.cjs"
+    "record:tour": "node scripts/dev/record-product-tour.cjs",
+    "scan:privacy": "python3 scripts/qa/scan_public_leakage.py --mode private",
+    "scan:public-leakage": "python3 scripts/qa/scan_public_leakage.py --mode public"
   },
   "engines": {
     "node": ">=20"

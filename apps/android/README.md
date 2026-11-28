@@ -8,45 +8,9 @@ La vecchia copia compressa dei sorgenti Android è stata ritirata dal `main`, ma
 
 ## Archivio delle preview precedenti
 
-# Glauka Android 0.6.6 RC — main aggiornato e barra del testo
+Le anteprime Android 0.6.1–0.6.6 RC restano solo nel **repository privato** (rami `downloads/`), con note QA in `docs/qa/`. **Non pubblicare** URL di download privati, ZIP/APK «private» o link raw su GitHub pubblico.
 
-[Scarica APK nello ZIP](https://github.com/voltessino/neuromap-android/blob/downloads/glauka-android-20261028-b93ad40/Glauka-Android-0.6.6-rc.1-private.zip?raw=true) · [Verifiche e istruzioni](../../docs/qa/2026-10-28-android-recovered-main-and-text-controls.md).
-
-**Firma debug diversa: esportare e verificare il backup di tutti i progetti PRIMA di disinstallare la vecchia app. Android rifiuta l’aggiornamento diretto con firma diversa.** Non disinstallare senza un backup verificato.
-
-Integra main fino alla PR #158, correzioni mobile #152–154, carattere/dimensione/colore/elenchi/allineamento, spessore unico e importazione strutturale chiarita. Android 8+, versionCode 12, preview privata. Compilazione e test automatici completati; nessun collaudo su dispositivo fisico o emulatore.
-
-# Glauka Android — strumenti per attività e pannelli compatti, 0.6.5 RC
-
-[**Scarica APK nello ZIP**](https://github.com/voltessino/neuromap-android/blob/downloads/glauka-tools-symbols-20261027/Glauka-Android-0.6.5-rc.1-private.zip?raw=true) · [Schermate, verifiche e limiti](../../docs/qa/2026-10-27-mobile-organized-tools-and-symbols.md).
-
-Simboli al posto di Marcatori, finestra contenuta nel viewport con tastiera, ambito del pannello Stile richiudibile e strumenti divisi per attività con descrizioni. Stessa firma debug e application ID, versionCode 11: aggiornamento senza disinstallazione. Anteprima privata; collaudo fisico Android ancora da eseguire.
-
-# Glauka Android — menu coerenti e strumenti chiari, 0.6.4 RC
-
-[**Scarica APK nello ZIP**](https://github.com/voltessino/neuromap-android/blob/downloads/glauka-android-surfaces-20261027/Glauka-Android-0.6.4-rc.1-private.zip?raw=true) · [Verifiche e schermate](../../docs/qa/2026-10-27-android-consistent-surfaces.md).
-
-Disposizione dei rami verticale e leggibile, menu bianco/viola uniformi, selezioni visibili e nomi esplicativi: Cerca nelle mappe, Tag e proprietà, Riepilogo mappe. Estrai lo ZIP e aggiorna l’app senza disinstallarla. Stessa firma debug e application ID, versionCode 10. Preview privata, non eseguita qui su hardware Android.
-
-# Glauka Android — build integrata 0.6.3 RC
-
-[**Scarica APK nello ZIP**](https://github.com/voltessino/neuromap-android/blob/downloads/glauka-integrated-20261027/Glauka-Android-0.6.3-rc.1-private.zip?raw=true) · [Verifiche e limiti](../../docs/qa/2026-10-27-integrated-main-release.md).
-
-Include main fino alla PR #151 e le PR lingue/interfaccia telefono #143–145. Estrai lo ZIP e aggiorna l’app senza disinstallarla. Preview privata debug; firma invariata, versionCode 9.
-
-# Glauka Android — interfaccia mobile 0.6.2 RC
-
-[**Scarica lo ZIP**](https://github.com/voltessino/neuromap-android/blob/downloads/glauka-android-mobile-20261027/Glauka-Android-0.6.2-rc.1-private.zip?raw=true) · [Verifiche e limiti](../../docs/qa/2026-10-27-android-phone-workspace.md).
-
-Navigazione da app, pannelli dal basso, avvisi compatti e gesti mappa verificati. Estrai lo ZIP e installa l’APK come aggiornamento: identificativo e chiave locale di firma di test restano invariati. Preview debug privata, compilata e verificata; non eseguita qui su un dispositivo/emulatore Android. Le sezioni successive conservano la storia e le istruzioni precedenti.
-
-# Glauka Android — anteprima 0.6.1 RC
-
-[**Scarica APK Android**](https://github.com/voltessino/neuromap-android/blob/downloads/glauka-android-20261027/Glauka-Android-0.6.1-rc.1-private.apk?raw=true) · [Risultati e limiti delle verifiche](../../docs/qa/2026-10-27-android-languages.md).
-
-Otto lingue offline, scelta al primo avvio e in Studio e strumenti, logo Glauka e identità conservata per l’aggiornamento. APK privato con firma debug, Android 8+, compilato e verificato; non ancora eseguito su un dispositivo/emulatore in questa sessione. La base mobile resta distinta dalle funzionalità esclusive desktop.
-
-Le sezioni successive conservano le istruzioni e la storia della base Android.
+Prima di passare da una preview debug a un’altra firma: esportare e verificare il backup di tutti i progetti. Android rifiuta l’aggiornamento diretto con firma diversa.
 
 # Android Free 0.6.0-rc.1 — Interfaccia touch e strumenti portabili 7.4
 

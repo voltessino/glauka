@@ -42,9 +42,11 @@ Il messaggio storico sui commit pubblici usa già questa forma (`sync: update Gl
 
 ## Gate di sicurezza
 
-- L’export fallisce se trova token Pro/AI vietati nella cartella esportata.
+- L’export fallisce se trova token Pro/AI vietati **oppure** percorsi personali / URL download privati / artefatti Developer nella cartella esportata (`scan_public_leakage` in modalità `public`).
+- Prima di un push sulla **privata**: `npm run scan:privacy` (blocca percorsi tipo percorsi home personali e segreti tipici).
+- Prima di un push sulla **pubblica** (o dopo export): `npm run scan:public-leakage` dalla clone `glauka`, oppure sullo `--root` dell’export.
 - Non avviare workflow automatici: aggiornamento **manuale** dopo revisione.
-- Non spingere segreti, chiavi, firme o asset Developer.
+- Non spingere segreti, chiavi, firme, asset Developer, né link `neuromap-android/.../downloads/`.
 
 ## Dopo la PR di revisione Zona A (#343)
 
